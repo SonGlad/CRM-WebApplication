@@ -1,9 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-// import { authReducer } from './Auth/auth-slice';
-// import { dataReducer } from './Data/data-slice';
+import { authReducer } from './Auth/auth-slice';
+import { userReducer } from './User/user-slice';
+import { leadReducer } from './Lead/lead-slice';
 import { 
   persistStore, 
-//   persistReducer, 
+  persistReducer, 
   FLUSH, 
   REHYDRATE, 
   PAUSE, 
@@ -11,25 +12,34 @@ import {
   PURGE, 
   REGISTER 
 } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage';
+import storage from 'redux-persist/lib/storage';
 
 
-// const authPersistConfig = {
-//   key: "auth",
-//   storage,
-//   whitelist: [],
-// };
+const authPersistConfig = {
+  key: "auth",
+  storage,
+  whitelist: [],
+};
 
 
-// const dataPersistConfig = {
-//   key: 'data',
-//   storage,
-//   whitelist: [],
-// };
+const userPersistConfig = {
+  key: 'user',
+  storage,
+  whitelist: [],
+};
+
+
+const leadPersistConfig = {
+  key: 'lead',
+  storage,
+  whitelist: [],
+};
 
 const rootReducer = combineReducers({
-//   auth: persistReducer(authPersistConfig, authReducer),
-//   data: persistReducer(dataPersistConfig, dataReducer),
+  auth: persistReducer(authPersistConfig, authReducer),
+  user: persistReducer(userPersistConfig, userReducer),
+  lead: persistReducer(leadPersistConfig, leadReducer),
+
 })
 
 
