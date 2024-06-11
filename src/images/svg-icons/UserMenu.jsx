@@ -4,27 +4,27 @@ import { ReactComponent as SettingIcon2 } from '../../../images/svg-icons/settin
 import { ReactComponent as LogoutIcon } from '../../../images/svg-icons/logout.svg';
 import DefaltAvatar from "../../../images/images/profile-circle.png";
 import {useCallback, useEffect, useRef, useState} from 'react';
+import { useDispatch } from "react-redux";
+import { logOut } from "../../../redux/Auth/auth-operation";
 import { useAuth } from "../../../hooks/useAuth";
-// import { useDispatch } from "react-redux";
-// import { logOut } from "../../../redux/Auth/auth-operation";
+import { openModalSettings } from "../../../redux/Modal/modal-slice"
 
 
 export const UserMenu = () => {
     const userInfoBlock = useRef(null);
     const [isMenuBox, setMenuBox] = useState(false);
     const { userName, userRole, userAvatarURL } = useAuth();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
 
     const toggleUserMenuDrop = () => {
         setMenuBox(prevState => !prevState);
     };
 
-
     const LogOut = () => {
         setMenuBox(false);
         setTimeout(() => {
-        //   dispatch(logOut());
+          dispatch(logOut());
         },250)
     };
 
@@ -54,6 +54,7 @@ export const UserMenu = () => {
     },[handleBackgroundClick, handleKeyPress]);
 
 
+
     const toggleUserMenuDropCont = () => {
         return isMenuBox ? 'show-info-container' : '';
     };
@@ -64,11 +65,11 @@ export const UserMenu = () => {
 
     const openSettingsModal = () => {
         toggleUserMenuDrop();
-        // dispatch(openModalSettings());
+        dispatch(openModalSettings());
     };
 
-
-    return (
+    
+    return(
         <StyledUserMenu>
             <div className="user-cont" ref={userInfoBlock}>
                 <div className="user-name-cont">
@@ -99,5 +100,5 @@ export const UserMenu = () => {
                 </div>
             </div>
         </StyledUserMenu>
-    );
+    )
 };

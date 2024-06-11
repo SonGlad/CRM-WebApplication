@@ -4,13 +4,13 @@ import { NavLink } from "react-router-dom";
 import { SignupSchema } from "../../utils/validationSchemas";
 import { ShowRules } from "../../utils/showRules";
 import { useState, useEffect } from "react";
-// import { useDispatch } from "react-redux";
-// import { register } from "../../redux/Auth/auth-operation";
+import { useDispatch } from "react-redux";
+import { register } from "../../redux/Auth/auth-operation";
 
 
 export const Register = () => {
     const [formChanged, setFormChanged] = useState(false);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const {
     values,
     errors,
@@ -30,14 +30,11 @@ export const Register = () => {
         validationSchema: SignupSchema,
 
         onSubmit: (values) => {
-            // dispatch(register({
-            //     username: values.name,
-            //     email: values.email,
-            //     password: values.password
-            // }))
-            console.log("UserName:", values.name);
-            console.log("UserEmail:", values.email);
-            console.log("UserPassword:", values.password);
+            dispatch(register({
+                username: values.name,
+                email: values.email,
+                password: values.password
+            }))
             resetForm();
         },
     });

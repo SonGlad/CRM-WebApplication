@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 
 export const StyledHeader = styled.header `
-    background-color: ${p => p.theme.color.primary_black_2};
+    background-color: ${props => props.$isloggedin ? props.theme.color.primary_black_2 : 'transparent'};
     position: ${props => props.$isloggedin ? 'relative' : 'initial'};
     z-index: ${props => props.$isloggedin ? '1' : '0'};
 `

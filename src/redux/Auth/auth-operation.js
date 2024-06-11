@@ -1,21 +1,37 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../api/axiosSettings';
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import axios, { token } from "../../api/axiosSettings";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const register = createAsyncThunk(
-    'users/register',
+    'auth/exregister',
     async (credentials, thunkApi) => {
         try{
-            const response = await axios.post('users/register', credentials);
-            // token.set(response.data.token);
-            // toast.success(`Please check your email for verification`);
+            const response = await axios.post('auth/exregister', credentials);
+            toast.success(`Please check your email for verification`);
             return response.data;
         }
         catch(error) {
-            // toast.error('Oops. Something went wrong. Please try again.');
-            return thunkApi.rejectWithValue(error.message);
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const logIn = createAsyncThunk(
+    'auth/login',
+    async (credentials, thunkApi) => {
+        try{
+            const response = await axios.post('auth/login', credentials);
+            token.set(response.data.token);
+            toast.success(`Welcome!`);
+            return response.data;
+        }
+        catch(error){
+            toast.error(`Oops. Your ${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
         }
     }
 );
