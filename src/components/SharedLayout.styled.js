@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 
 export const StyledContainer = styled.div`
-    min-height: 100dvh;
+    height: 97dvh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
