@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const StyledUserMenu = styled.div `
     color: ${p => p.theme.color.primary_white};
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 400;
     display: flex;
     align-items: center;
@@ -11,11 +11,11 @@ export const StyledUserMenu = styled.div `
 
 
     @media screen and (min-width: 834px) {
-        font-size: 15px;
+        font-size: 1rem;
     }
 
     @media screen and (min-width: 1440px) {
-        font-size: 18px;
+        font-size: 1.25rem;
     }
 
 
@@ -52,24 +52,24 @@ export const StyledUserMenu = styled.div `
         justify-content: center;
         background-color: transparent;
         padding: 0;
-        margin-left: 10px;
+        margin-left: 0.625rem;
         transition: stroke 250ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .for-user-avater {
-        width: 24px;
-        height: 24px;
+        width: 1.5rem;
+        height: 1.5rem;
         border-radius: 50%;
         overflow: hidden;
-        margin-right: 4px;
+        margin-right: 0.25rem;
 
         @media screen and (min-width: 834px) {
-            width: 32px;
-            height: 32px;
+            width: 2rem;
+            height: 2rem;
         }
         @media screen and (min-width: 1440px) {
-            width: 40px;
-            height: 40px;
+            width: 2.5rem;
+            height: 2.5rem;
         }
     }
 
@@ -81,8 +81,8 @@ export const StyledUserMenu = styled.div `
     }
 
     .arrow-svg {
-        width: 14px;
-        height: 14px;
+        width: 0.875rem;
+        height: 0.875rem;
         stroke: ${props => props.theme.color.primary_green_lite};
         transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -99,10 +99,10 @@ export const StyledUserMenu = styled.div `
 
     .user-info-cont{
         position: absolute;
-        width: 158px;
+        width: 9.875rem;
         height: auto;
         background-color: red;
-        top: 54px;
+        top: 3.375rem;
         right: 0px;
         opacity: 0;
         visibility: hidden;
@@ -111,12 +111,12 @@ export const StyledUserMenu = styled.div `
         transition: opacity 0.5s ease,
             transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), visibility 0.5s ease;
 
-        border-radius: 12px;
+        border-radius: 0.75rem;
         box-shadow: 0px 4px 14px 0px rgba(227, 255, 168, 0.2);
         flex-direction: column;
 
         @media screen and (min-width: 834px) {
-            top: 80px;
+            top: 5rem;
         }
 
         &.show-info-container {
@@ -129,17 +129,17 @@ export const StyledUserMenu = styled.div `
     .list-user-menu {
         display: flex;
         flex-direction: column;
-        border-radius: 12px;
-        padding: 24px;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
         width: 100%;
-        gap: 24px;
+        gap: 1.5rem;
         background-color: ${props => props.theme.color.primary_black_2};
         box-shadow: 0px 4px 14px 0px rgba(227, 255, 168, 0.2);
 
         .item-user-menu {
             display: flex;
             align-items: center;
-            font-size: 14px;
+            font-size: 0.875rem;
             font-weight: 500;
             line-height: 1.4;
             transition: color 0.3s ease;

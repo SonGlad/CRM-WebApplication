@@ -5,15 +5,16 @@ import { ReactComponent as LogoutIcon } from '../../../images/svg-icons/logout.s
 import DefaltAvatar from "../../../images/images/profile-circle.png";
 import {useCallback, useEffect, useRef, useState} from 'react';
 import { useAuth } from "../../../hooks/useAuth";
-// import { useDispatch } from "react-redux";
-// import { logOut } from "../../../redux/Auth/auth-operation";
+import { useDispatch } from "react-redux";
+import { openModalSettings } from "../../../redux/Modal/modal-slice";
+import { logOut } from "../../../redux/Auth/auth-operation";
 
 
 export const UserMenu = () => {
     const userInfoBlock = useRef(null);
     const [isMenuBox, setMenuBox] = useState(false);
     const { userName, userRole, userAvatarURL } = useAuth();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
 
     const toggleUserMenuDrop = () => {
@@ -24,7 +25,7 @@ export const UserMenu = () => {
     const LogOut = () => {
         setMenuBox(false);
         setTimeout(() => {
-        //   dispatch(logOut());
+          dispatch(logOut());
         },250)
     };
 
@@ -64,7 +65,7 @@ export const UserMenu = () => {
 
     const openSettingsModal = () => {
         toggleUserMenuDrop();
-        // dispatch(openModalSettings());
+        dispatch(openModalSettings());
     };
 
 

@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { 
     register, 
-    logIn, 
+    logIn,
+    logOut,
+    refreshCurrentUser,
+    updateUserAvatar, 
+    updateUserInfo,
 } from "./auth-operation";
 
 
@@ -86,6 +90,88 @@ const authSlice = createSlice({
         .addCase(logIn.rejected, (state, {payload}) => {
             state.isLoading = false;
             state.isLoggedIn = false;
+            state.error = payload;
+        })
+
+        // LOGOUT////////
+        .addCase(logOut.pending, state =>{
+            state.isLoading = true;
+            state.isRefreshing = false;
+            state.isLoggedIn = false;
+            state.error = null;
+        })
+        .addCase(logOut.fulfilled, (state, { payload }) => {
+            state.user = {
+                name: null,
+                email: null,
+                role: null,
+                branch: null,
+                password: null,
+            };
+            state.avatarURL = null;
+            state.token = null;
+            state.isLoading = false;
+            state.isLoggedIn = false;
+            state.error = null;
+            state.currentLocation = null;
+        })
+        .addCase(logOut.rejected, (state, {payload}) => {
+            state.isLoggedIn = false;
+            state.isLoading = false;
+            state.error = payload;
+        })
+
+
+        // REFRESH CURRENT USER////////
+        .addCase(refreshCurrentUser.pending, state => {
+            state.isRefreshing = true;
+        })
+        .addCase(refreshCurrentUser.fulfilled, (state, { payload }) => {
+            state.user = {
+                name: payload.username,
+                branch: payload.branch,
+                role: payload.role,
+            };
+            state.avatarURL = payload.avatarURL;
+            state.isLoggedIn = true;
+            state.isRefreshing = false;
+            state.error = null;
+        })
+        .addCase(refreshCurrentUser.rejected, (state, { payload }) => {
+            state.isRefreshing = false;
+            state.error = payload;
+        })
+
+
+        // UPDATE AVATAR/////
+        .addCase(updateUserAvatar.pending, state => {
+            state.error = null;
+            state.isSettingsUpdated = false;
+        })
+        .addCase(updateUserAvatar.fulfilled, (state, { payload }) => {
+            state.avatarURL = payload.avatarURL;
+            state.isSettingsUpdated = true;
+            state.isLoggedIn = true;
+            state.error = null;
+        })
+        .addCase(updateUserAvatar.rejected, (state, { payload }) => {
+            state.error = payload;
+            state.isSettingsUpdated = false;
+        })
+
+
+        // UPDATE USER INORMATION////////
+        .addCase(updateUserInfo.pending, state => {
+            state.error = null;
+            state.isSettingsUpdated = false;
+        })
+        .addCase(updateUserInfo.fulfilled, (state, { payload }) => {
+            state.isLoggedIn = true;
+            state.isSettingsUpdated = true;
+            state.error = null;
+        })
+        .addCase(updateUserInfo.rejected, (state, { payload }) => {
+            state.isSettingsUpdated = false;
             state.error = payload;
         })
     }

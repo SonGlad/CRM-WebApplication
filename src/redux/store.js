@@ -2,6 +2,8 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { authReducer } from './Auth/auth-slice';
 import { userReducer } from './User/user-slice';
 import { leadReducer } from './Lead/lead-slice';
+import { filterReducer } from './Filter/filter-slice';
+import { modalReducer } from './Modal/modal-slice';
 import { 
   persistStore, 
   persistReducer, 
@@ -18,7 +20,10 @@ import storage from 'redux-persist/lib/storage';
 const authPersistConfig = {
   key: "auth",
   storage,
-  whitelist: [],
+  whitelist: [
+    'token',
+    'currentLocation', 
+  ],
 };
 
 
@@ -35,11 +40,27 @@ const leadPersistConfig = {
   whitelist: [],
 };
 
+
+const filterPersistConfig = {
+  key: 'filter',
+  storage,
+  whitelist: [],
+};
+
+
+const modalPersistConfig = {
+  key: "modal",
+  storage,
+  whitelist: []
+};
+
+
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   user: persistReducer(userPersistConfig, userReducer),
   lead: persistReducer(leadPersistConfig, leadReducer),
-
+  filter: persistReducer(filterPersistConfig, filterReducer),
+  modal: persistReducer(modalPersistConfig, modalReducer),
 })
 
 
@@ -52,5 +73,6 @@ export const store = configureStore({
       },
     }),
 });
+
 
 export const persistor = persistStore(store);

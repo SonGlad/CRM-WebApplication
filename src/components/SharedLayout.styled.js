@@ -7,6 +7,10 @@ export const StyledContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
+    .main{
+        display: flex;
+    }
+
     main{
         flex: 1 1 auto;
     }
