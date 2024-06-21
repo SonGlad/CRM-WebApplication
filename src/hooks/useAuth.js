@@ -1,8 +1,6 @@
 import { useSelector } from 'react-redux';
 import {
     selectUserName,
-    selectUserEmail,
-    selectUserPassword,
     selectUserRole,
     selectUserBranch, 
     selectUserAvatarURL,
@@ -12,6 +10,17 @@ import {
     selectSettingsUpdate,
     selectUserLocation,
     selectAuthError,
+    selectNewUserName,
+    selectNewUserEmail,
+    selectNewUserPassword,
+    selectNewUserRole,
+    selectNewUserBranch,
+    selectAdmin,
+    selectManager,
+    selectRetention,
+    selectConversion,
+    selectRetentionManager,
+    selectConversionManager,
 } from "../redux/Auth/auth-selectors";
 
 
@@ -21,13 +30,22 @@ export const useAuth = () => {
     const isRefreshing = useSelector(selectRefreshing);
     const isSettingsUpdated = useSelector(selectSettingsUpdate);
     const userName = useSelector(selectUserName);
-    const userEmail = useSelector(selectUserEmail);
-    const userPassword = useSelector(selectUserPassword);
     const userRole = useSelector(selectUserRole);
     const userBranch = useSelector(selectUserBranch );
     const userAvatarURL = useSelector(selectUserAvatarURL);
     const userLocation = useSelector(selectUserLocation);
-    const authError = useSelector(selectAuthError); 
+    const authError = useSelector(selectAuthError);
+    const authNewUserName = useSelector(selectNewUserName);
+    const authNewUserEmail = useSelector(selectNewUserEmail);
+    const authNewUserPassword = useSelector(selectNewUserPassword);
+    const authNewUserRole = useSelector(selectNewUserRole);
+    const authNewUserBranch = useSelector(selectNewUserBranch);
+    const isAdmin = useSelector(selectAdmin);
+    const isManager =  useSelector(selectManager);
+    const isConversion = useSelector(selectConversion);
+    const isRetention = useSelector(selectRetention);
+    const isConversionManager = useSelector(selectConversionManager);
+    const isRetentionManager = useSelector(selectRetentionManager);
 
 
     return {
@@ -36,12 +54,21 @@ export const useAuth = () => {
         isRefreshing,
         isSettingsUpdated,
         userName,
-        userEmail,
-        userPassword,
         userRole,
         userBranch,
         userAvatarURL,
         userLocation,
         authError,
+        authNewUserName,
+        authNewUserEmail,
+        authNewUserPassword,
+        authNewUserRole,
+        authNewUserBranch,
+        isAdmin,
+        isManager,
+        isConversion,
+        isRetention,
+        isConversionManager,
+        isRetentionManager,
     };
 };

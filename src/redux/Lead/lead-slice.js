@@ -1,16 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { 
-    register, 
+    // register, 
 } from "./lead-operation";
+import { logOut } from "../Auth/auth-operation";
 
 
 const initialState = {
-    user: {
-        name: null,
-        email: null,
-        password: null,
-        role: null,
-    },
+    officeState: '',
+    isLeadError: null,
+    isLeadLoading: false,
 };
 
 
@@ -20,8 +18,11 @@ const leadSlice = createSlice({
 
 
     reducers: {
-        isSettingsUpdatedtoFalse:(state) => {
-            state.isSettingsUpdated = false
+        isOfficeState:(state, action) => {
+            state.officeState = action.payload;
+        },
+        resetOfficeState:(state) => {
+            state.officeState = '';
         },
     },
 
@@ -29,25 +30,19 @@ const leadSlice = createSlice({
         builder
 
         
-        // REGISTER///////////
-        .addCase(register.pending, state =>{
-            state.isLoading = true;
-            state.error = null;
+        //LOGOUT///////////
+        .addCase(logOut.pending, state =>{
+            state.isLeadLoading = true;
+            state.isLeadError = null;
         })
-        .addCase(register.fulfilled, (state, { payload }) => {
-            state.user = {
-                name: payload.username,
-                email: payload.email,
-                password: payload.password,
-                role: payload.role,
-            };
-            state.isLoading = false;
-            state.error = null;
+        .addCase(logOut.fulfilled, (state, { payload }) => {
+            state.officeState = ''
+            state.isLeadLoading = false;
+            state.isLeadError = null;
         })
-        .addCase(register.rejected, (state, {payload}) => {
-            state.isLoading = false;
-            state.token = null;
-            state.error = payload;
+        .addCase(logOut.rejected, (state, {payload}) => {
+            state.isLeadLoading = false;
+            state.isLeadError = payload;
         })
     }
 });
@@ -57,5 +52,6 @@ export const leadReducer = leadSlice.reducer;
 
 
 export const {
-    isSettingsUpdatedtoFalse, 
+    isOfficeState,
+    resetOfficeState, 
 } = leadSlice.actions;

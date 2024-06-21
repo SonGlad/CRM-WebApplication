@@ -84,18 +84,18 @@ export const UserMenu = () => {
                 </button>
                 <div className={`user-info-cont ${toggleUserMenuDropCont()}`}>
                     <ul className="list-user-menu">
-                    <li className="item-user-menu">
-                        <button className="button-setting" type="button" onClick={openSettingsModal}>
-                            <SettingIcon2 className="setting-icon" />
-                            Setting
-                        </button>
-                    </li>
-                    <li className="item-user-menu">
-                        <button className="button-link-logout" type="button" onClick={LogOut}>
-                            <LogoutIcon className="logout-icon" />
-                            Log out
-                        </button>
-                    </li>
+                        <li className="item-user-menu">
+                            <button className="button-setting" type="button" onClick={openSettingsModal}>
+                                <SettingIcon2 className="setting-icon" />
+                                Setting
+                            </button>
+                        </li>
+                        <li className="item-user-menu">
+                            <button className="button-link-logout" type="button" onClick={LogOut}>
+                                <LogoutIcon className="logout-icon" />
+                                Log out
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>

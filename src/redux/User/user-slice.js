@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { 
-    register, 
+    getOfficeList,
+    getRoleList, 
 } from "./user-operation";
+import { logOut } from "../Auth/auth-operation";
 
 
 const initialState = {
-    user: {
-        name: null,
-        email: null,
-        password: null,
-        role: null,
-    },
+    officeList: [],
+    roleList: [],
+    officeState: '',
+    isUserLoading: false,
+    isUserError: null,
 };
 
 
@@ -20,8 +21,11 @@ const userSlice = createSlice({
 
 
     reducers: {
-        isSettingsUpdatedtoFalse:(state) => {
-            state.isSettingsUpdated = false
+        isOfficeState:(state, action) => {
+            state.officeState = action.payload;
+        },
+        resetOfficeState:(state) => {
+            state.officeState = '';
         },
     },
 
@@ -29,25 +33,52 @@ const userSlice = createSlice({
         builder
 
         
-        // REGISTER///////////
-        .addCase(register.pending, state =>{
-            state.isLoading = true;
-            state.error = null;
+        //OFFICE LIST///////////
+        .addCase(getOfficeList.pending, state =>{
+            state.isUserLoading = true;
+            state.isUserError = null;
         })
-        .addCase(register.fulfilled, (state, { payload }) => {
-            state.user = {
-                name: payload.username,
-                email: payload.email,
-                password: payload.password,
-                role: payload.role,
-            };
-            state.isLoading = false;
-            state.error = null;
+        .addCase(getOfficeList.fulfilled, (state, { payload }) => {
+            state.officeList = payload;
+            state.isUserLoading = false;
+            state.isUserError = null;
         })
-        .addCase(register.rejected, (state, {payload}) => {
-            state.isLoading = false;
-            state.token = null;
-            state.error = payload;
+        .addCase(getOfficeList.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        //ROLE LIST///////////
+        .addCase(getRoleList.pending, state =>{
+            state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getRoleList.fulfilled, (state, { payload }) => {
+            state.roleList = payload;
+            state.isUserLoading = false;
+            state.isUserError = null;
+        })
+        .addCase(getRoleList.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+        
+        // LOGOUT//////
+        .addCase(logOut.pending, state =>{
+            state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(logOut.fulfilled, (state, { payload }) => {
+            state.officeList = [];
+            state.roleList = [];
+            state.isUserLoading = false;
+            state.isUserError = null;
+        })
+        .addCase(logOut.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
         })
     }
 });
@@ -57,5 +88,6 @@ export const userReducer = userSlice.reducer;
 
 
 export const {
-    isSettingsUpdatedtoFalse, 
+    isOfficeState,
+    resetOfficeState, 
 } = userSlice.actions;

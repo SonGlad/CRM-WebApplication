@@ -105,3 +105,19 @@ export const updateUserInfo = createAsyncThunk(
         }
     }
 );
+
+
+export const inregister = createAsyncThunk(
+    'auth/inregister',
+    async (credentials, thunkApi) => {
+        try{
+            const response = await axios.post('auth/inregister', credentials);
+            toast.success(`The new user has been registered`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

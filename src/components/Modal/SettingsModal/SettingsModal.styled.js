@@ -16,7 +16,7 @@ export const SettingsModalStyled = styled.div`
     padding-right: 1rem;
     padding-bottom: 2.5rem;
     border-radius: 0.75rem;
-    background: ${(props) => props.theme.color.primary_black_2};
+    background: ${(props) => props.theme.color.for_modal_color};
     position: relative;
 
     @media only screen and (min-width: 834px) {

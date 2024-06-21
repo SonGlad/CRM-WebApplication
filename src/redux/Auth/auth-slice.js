@@ -6,17 +6,29 @@ import {
     refreshCurrentUser,
     updateUserAvatar, 
     updateUserInfo,
+    inregister,
 } from "./auth-operation";
 
 
 const initialState = {
     user: {
         name: null,
+        role: null,
+        branch: null,
+    },
+    newUser: {
+        name: null,
         email: null,
         password: null,
         role: null,
         branch: null,
     },
+    isAdmin: false,
+    isManager: false,
+    isRetention: false,
+    isConversion: false,
+    isRetentionManager: false,
+    isConversionManager: false,
     isSettingsUpdated: false,
     token: null,
     avatarURL: null,
@@ -37,10 +49,27 @@ const authSlice = createSlice({
         isSettingsUpdatedtoFalse:(state) => {
             state.isSettingsUpdated = false
         },
-
         saveUserCurrentLocation:(state, action) => {
             state.currentLocation = action.payload
-        }
+        },
+        updatingAdmin: (state) => {
+            state.isAdmin = true
+        },
+        updatingManager: (state) => {
+            state.isManager = true
+        },
+        updatingConversion: (state) => {
+            state.isConversion = true
+        },
+        updatingRetention: (state) => {
+            state.isRetention = true
+        },
+        updatingConversionManager: (state) => {
+            state.isConversionManager = true
+        },
+        updatingRetentionManager: (state) => {
+            state.isRetentionManager = true
+        },
     },
 
     extraReducers: builder => {
@@ -56,7 +85,6 @@ const authSlice = createSlice({
         .addCase(register.fulfilled, (state, { payload }) => {
             state.user = {
                 name: payload.username,
-                email: payload.email,
                 role: payload.role,
             };
             state.isLoading = false;
@@ -103,11 +131,22 @@ const authSlice = createSlice({
         .addCase(logOut.fulfilled, (state, { payload }) => {
             state.user = {
                 name: null,
-                email: null,
                 role: null,
                 branch: null,
-                password: null,
             };
+            state.newUser = {
+                name: null,
+                email: null,
+                password: null,
+                role: null,
+                branch: null,
+            };
+            state.isAdmin = false;
+            state.isManager = false;
+            state.isRetention = false;
+            state.isConversion = false;
+            state.isRetentionManager = false;
+            state.isConversionManager = false;
             state.avatarURL = null;
             state.token = null;
             state.isLoading = false;
@@ -174,6 +213,29 @@ const authSlice = createSlice({
             state.isSettingsUpdated = false;
             state.error = payload;
         })
+
+
+        // INREGISTER///////////
+        .addCase(inregister.pending, state =>{
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(inregister.fulfilled, (state, { payload }) => {
+            state.newUser = {
+                name: payload.username,
+                email: payload.email,
+                password: payload.password,
+                role: payload.role,
+                branch: payload.branch,
+            };
+            state.isLoading = false;
+            state.error = null;
+        })
+        .addCase(inregister.rejected, (state, {payload}) => {
+            state.isLoading = false;
+            state.token = null;
+            state.error = payload;
+        })
     }
 });
 
@@ -184,4 +246,10 @@ export const authReducer = authSlice.reducer;
 export const {
     isSettingsUpdatedtoFalse, 
     saveUserCurrentLocation,
+    updatingAdmin,
+    updatingManager,
+    updatingConversion,
+    updatingRetention,
+    updatingConversionManager,
+    updatingRetentionManager,
 } = authSlice.actions;

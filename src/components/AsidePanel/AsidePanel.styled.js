@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 
 export const StyledAsidePanel = styled.aside`
-    background-color: ${p => p.theme.color.primary_black_2};
+    background-image: linear-gradient(90deg, #7e7e7e, #b5b5b547);
     box-shadow: 0px 0px 14px 5px rgba(227, 255, 168, 0.2);
     max-width: 12.5rem;
     flex-grow: 1;
@@ -21,5 +21,11 @@ export const StyledAsidePanel = styled.aside`
         @media screen and (min-width: 1440px) {
             height: 87dvh;
         }
+    }
+
+    .side-panel-list{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 `

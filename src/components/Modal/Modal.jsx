@@ -3,10 +3,14 @@ import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useCallback} from "react";
 import { 
-    closeModalSettings, 
+    closeModalSettings,
+    closeModalNewUser,
+    closeModalNewLead, 
 } from "../../redux/Modal/modal-slice";
 import { useModal } from "../../hooks/useModal";
 import { SettingsModal } from "./SettingsModal/SettingsModal";
+import { NewUser } from "./NewUserModal/NewUser";
+import { NewLead } from "./NewLeadModal/NewLead";
 
 
 const modalRoot = document.querySelector("#modal-root");
@@ -15,7 +19,9 @@ const modalRoot = document.querySelector("#modal-root");
 export const Modal = () => {
     const dispatch = useDispatch();
     const {
-        isSettingsModal, 
+        isSettingsModal,
+        isNewUserModal,
+        isNewLeadModal, 
     } = useModal();
 
 
@@ -23,10 +29,13 @@ export const Modal = () => {
         if (isSettingsModal){
             dispatch(closeModalSettings());
         }
-    },[
-        dispatch, 
-        isSettingsModal, 
-    ]);
+        if (isNewUserModal){
+            dispatch(closeModalNewUser());
+        }
+        if (isNewLeadModal){
+            dispatch(closeModalNewLead());
+        }
+    },[dispatch, isNewLeadModal, isNewUserModal, isSettingsModal]);
 
 
     const handleBackdropClick = useCallback(event => {
@@ -56,10 +65,16 @@ export const Modal = () => {
 
     
     return createPortal(
-        (isSettingsModal) && (
+        (isSettingsModal || isNewUserModal || isNewLeadModal) && (
             <ModalStyled onClick={handleBackdropClick}>
                 {isSettingsModal && (
                     <SettingsModal handleClickClose={handleClickClose}/>
+                )}
+                {isNewUserModal && (
+                    <NewUser handleClickClose={handleClickClose}/>
+                )}
+                {isNewLeadModal && (
+                    <NewLead handleClickClose={handleClickClose}/>
                 )}
             </ModalStyled>
         ),

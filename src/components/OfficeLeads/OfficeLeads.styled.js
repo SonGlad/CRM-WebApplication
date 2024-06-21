@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StyledMainPage = styled.div`
+export const StyledOfficeLeads = styled.div`
     margin-top: 0.5rem;
     margin-left: 0.5rem;
     margin-right: 0.5rem;

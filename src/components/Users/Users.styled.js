@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StyledMainPage = styled.div`
+export const StyledUsersPage = styled.div`
     margin-top: 0.5rem;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
@@ -19,4 +19,5 @@ export const StyledMainPage = styled.div`
         padding: 0.75rem;
         height: 87.5dvh;
     }
+
 `

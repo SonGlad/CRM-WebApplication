@@ -11,7 +11,13 @@ export const theme = {
         secondary_color_pink: '#FFC4F7',
         secondary_color_yellow: '#FFF3B7',
         error_color: '#e74a3b',
-        success_color: '#3cbc81'
+        success_color: '#3cbc81',
+        gradient_color_1: '#e0e0e0',
+        gradient_color_2: '#3498db4f',
+        for_modal_color: '#00132069',
+        background: '#7e7e7e9c',
+        background2: '#001320',
+        background3: "#223f53",
     },
 
     transition: {

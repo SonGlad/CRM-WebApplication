@@ -100,8 +100,6 @@ export const StyledUserMenu = styled.div `
     .user-info-cont{
         position: absolute;
         width: 9.875rem;
-        height: auto;
-        background-color: red;
         top: 3.375rem;
         right: 0px;
         opacity: 0;
@@ -133,7 +131,7 @@ export const StyledUserMenu = styled.div `
         padding: 1.5rem;
         width: 100%;
         gap: 1.5rem;
-        background-color: ${props => props.theme.color.primary_black_2};
+        background-color: ${props => props.theme.color.background3};
         box-shadow: 0px 4px 14px 0px rgba(227, 255, 168, 0.2);
 
         .item-user-menu {
