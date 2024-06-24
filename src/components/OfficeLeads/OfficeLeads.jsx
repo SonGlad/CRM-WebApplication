@@ -3,10 +3,12 @@ import { NavLink } from "react-router-dom";
 import { resetOfficeState } from "../../redux/Lead/lead-slice";
 import { useDispatch } from "react-redux";
 import { useLead } from "../../hooks/useLead";
+import { useAuth } from "../../hooks/useAuth";
 
 
 
 export const OfficeLeads = () => {
+    const { isAdmin } = useAuth();
     const { leadOffice } = useLead(); 
     const dispatch = useDispatch();
     console.log(leadOffice);
@@ -20,9 +22,11 @@ export const OfficeLeads = () => {
     return(
         <StyledOfficeLeads>
             <div className="wraper">
-                <NavLink to='/' onClick={resetStateForOffice}>
-                    <h1>Back</h1>
-                </NavLink>
+                {isAdmin && (
+                    <NavLink to='/' onClick={resetStateForOffice}>
+                        <h1>Back</h1>
+                    </NavLink>
+                )}
                 <h1>LEADS PAGE</h1>
             </div>
         </StyledOfficeLeads>

@@ -1,11 +1,13 @@
 import styled from "styled-components";
+import error from '../../../images/svg-icons/error.svg';
+import correct from '../../../images/svg-icons/correct.svg';
 
 
 export const NewUserStyled = styled.div`
     display: flex;
     flex-direction: column;
     width: 95%;
-    max-width: 31.25rem;
+    max-width: 34rem;
     height: auto;
     padding-top: 1rem;
     padding-left: 1rem;
@@ -71,13 +73,101 @@ export const NewUserStyled = styled.div`
         margin-bottom: 1.25rem;
     }
 
-    .user-form{
-        width: 100%;
-        padding: 1.25rem;
+    .password-button{
+        margin-top: -30px;
+        margin-left: auto;
+        color: ${(props) => props.theme.color.primary_black};
+        background-color: ${(p) => p.theme.color.primary_green_lite};
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+        width: 40%;
+        border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+        border-radius: 0.75rem;
+        padding: 0.25rem;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover {
+            color: ${(props) => props.theme.color.primary_grey};
+        }
+    }
+
+    .button-block {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 0.75rem;
+        margin-top: 3.25rem;
+        align-items: center;
+        justify-content: space-between;
+
+        @media screen and (min-width: 834px) {
+            flex-direction: row;
+        }
     }
+
+    .submit-button {
+        color: ${(props) => props.theme.color.primary_black};
+        background-color: ${(p) => p.theme.color.primary_green_lite};
+        font-family: Poppins;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+        width: 50%;
+        border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+        border-radius: 0.75rem;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover {
+            color: ${(props) => props.theme.color.primary_grey};
+        }
+
+        &:disabled {
+            color: ${(props) => props.theme.color.primary_grey};
+            pointer-events: none;
+        }
+
+        @media screen and (max-width: 834px) {
+            max-width: 45%;
+        }
+    }
+
+    .reset-button {
+        background-color: ${(props) => props.theme.color.primary_black_2};
+        color: ${(props) => props.theme.color.primary_grey};
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.25rem;
+        width: 50%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid transparent;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover {
+            color: ${(props) => props.theme.color.primary_green_lite};
+        }
+
+        @media screen and (min-width: 834px) {
+            max-width: 45%;
+        }
+    } 
+`
+
+
+
+
+
+
+
+export const StyledUserForm = styled.form`
+    width: 100%;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 
     .input-label{
         position: relative;
@@ -86,6 +176,7 @@ export const NewUserStyled = styled.div`
             position: relative;
             width: 100%;
             padding: 0.5rem 0.625rem;
+            padding-right: 1.75rem;
             border-radius: 0.75rem;
             border: 1px solid ${props => props.theme.color.primary_green_lite};
             background: ${props => props.theme.color.primary_black_2};
@@ -103,34 +194,67 @@ export const NewUserStyled = styled.div`
                 color: ${props => props.theme.color.primary_grey}
             }
         }
-    }
 
-    .userPassword{
-        margin-bottom: 0.5rem;
-    }
-
-    .for-password{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .password-button{
-        margin-left: auto;
-        color: ${(props) => props.theme.color.primary_black};
-        background-color: ${(p) => p.theme.color.primary_green_lite};
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1.25rem;
-        width: 40%;
-        border: 1px solid ${(p) => p.theme.color.primary_green_lite};
-        border-radius: 0.75rem;
-        padding: 0.25rem;
-        transition: color ${p => p.theme.transition.main_transition};
-
-        &:hover {
-            color: ${(props) => props.theme.color.primary_grey};
+        .ErrorInput {
+            border: 1px solid ${p => p.theme.color.error_color};
+        }
+    
+        .SuccessInput {
+            border: 1px solid ${p => p.theme.color.success_color};
         }
     }
+    
+    
+    .ImgError {
+        position: absolute;
+        right: 0.625rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1rem;
+        height: 1rem;
+        background-image: url(${error});
+    }
+
+    .ImgCorrect {
+        position: absolute;
+        right: 0.625rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1rem;
+        height: 1rem;
+        background-image: url(${correct});
+    }
+
+
+    .ErrorText {
+        position: absolute;
+        margin-top: 0.25rem;
+        margin-left: 0.625rem;
+        color: ${p => p.theme.color.error_color};
+        font-size: 0.75rem;
+        font-weight: 400;
+        line-height: 0.875rem;
+
+        @media only screen and (min-width: 1440px) {
+            max-width: 12.5rem;
+        }
+    }
+
+    .SuccessText {
+        position: absolute;
+        margin-top: 0.25rem;
+        margin-left: 0.625rem;
+        color: ${p => p.theme.color.success_color};
+        font-size: 0.75rem;
+        font-weight: 400;
+        line-height: 0.875rem;
+
+        @media only screen and (min-width: 1440px) {
+            max-width: 12.5rem;
+        }
+    }
+
+
 
     .select-block{
         display: flex;
@@ -229,7 +353,7 @@ export const NewUserStyled = styled.div`
             }
         }
 
-        & .role-item:last-child,
+        &.role-item:last-child,
         .office-item:last-child{
             margin-bottom: 0;
         }
@@ -241,6 +365,7 @@ export const NewUserStyled = styled.div`
         visibility: visible;
         opacity: 1;
     }
+`
 
 
 
@@ -254,79 +379,87 @@ export const NewUserStyled = styled.div`
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    .button-block {
+export const StyledUserResponce = styled.div`
+    .content-cont{
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        margin-top: 3.25rem;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: flex-start;
 
-        @media screen and (min-width: 834px) {
-            flex-direction: row;
-        }
-    }
-
-    .submit-button {
-        color: ${(props) => props.theme.color.primary_black};
-        background-color: ${(p) => p.theme.color.primary_green_lite};
-        font-family: Poppins;
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1.25rem;
-        width: 50%;
-        border: 1px solid ${(p) => p.theme.color.primary_green_lite};
-        border-radius: 0.75rem;
-        padding: 0.5rem;
-        cursor: pointer;
-        transition: color ${p => p.theme.transition.main_transition};
-
-        &:hover {
-            color: ${(props) => props.theme.color.primary_grey};
-        }
-
-        &:disabled {
-            color: ${(props) => props.theme.color.primary_grey};
-            pointer-events: none;
-        }
-
-        @media screen and (max-width: 834px) {
-            max-width: 45%;
-        }
-    }
-
-    .reset-button {
-        background-color: ${(props) => props.theme.color.primary_black_2};
-        color: ${(props) => props.theme.color.primary_grey};
-        font-family: Poppins;
-        font-size: 0.875rem;
-        font-weight: 400;
-        line-height: 1.25rem;
-        width: 50%;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid transparent;
-        border-radius: 0.75rem;
-        cursor: pointer;
-        transition: color ${p => p.theme.transition.main_transition};
-
-        &:hover {
+        & span{
+            font-weight: 800;
             color: ${(props) => props.theme.color.primary_green_lite};
         }
 
-        @media screen and (min-width: 834px) {
-            max-width: 45%;
+        & button{
+            margin-left: auto;
+            margin-top: -1rem;
         }
     }
+
+    .content-text-item{
+        margin-bottom: 1rem;
+    }
+
+    .content{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        @media screen and (min-width: 834px){
+            margin-bottom: 1.5rem;
+        }
+        @media screen and (min-width: 1440px){
+            margin-bottom: 3rem;
+        }
+    }
+
+    .modal-icon{
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .contact-modal-text{
+        text-align: center;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: calc(24 / 16);
+        letter-spacing: 0.04em;
+        color: ${p => p.theme.color.close_black};
+
+        @media screen and (min-width: 834px){
+            font-weight: 600;
+            font-size: 1.5rem;
+            line-height: calc(24 / 16);
+        }
+        
+        @media screen and (min-width: 14400px){
+            font-weight: 700;
+            font-size: 1.75rem;
+            line-height: calc(24 / 16);
+        }
+    }
+    .modal-text-notification{
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 500;
+        line-height: calc(24 / 16);
+        letter-spacing: 0.04em;
+    }
+    .sucsess{
+        color: ${p => p.theme.color.green2};
+        text-shadow: 0px -1px 3px ${p => p.theme.color.primary_white};
+    }
+    .error{
+        color: ${p => p.theme.color.red};
+        text-shadow: 0px -1px 3px ${p => p.theme.color.primary_white};
+    }
+
+    .content-text{
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
 `

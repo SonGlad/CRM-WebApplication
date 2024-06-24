@@ -14,6 +14,8 @@ export const selectRefreshing = state => state.auth.isRefreshing;
 
 export const selectSettingsUpdate = state => state.auth.isSettingsUpdated;
 
+export const selectNewUserResponceData = state => state.auth.isNewUserDataResponce;
+
 export const selectUserLocation = state => state.auth.currentLocation;
 
 export const selectAuthError = state => state.auth.error;

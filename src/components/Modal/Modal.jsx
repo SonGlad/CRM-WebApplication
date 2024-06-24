@@ -7,10 +7,13 @@ import {
     closeModalNewUser,
     closeModalNewLead, 
 } from "../../redux/Modal/modal-slice";
+import { updatingNewUserResponceData } from "../../redux/Auth/auth-slice";
 import { useModal } from "../../hooks/useModal";
 import { SettingsModal } from "./SettingsModal/SettingsModal";
 import { NewUser } from "./NewUserModal/NewUser";
 import { NewLead } from "./NewLeadModal/NewLead";
+import { RefreshLoading } from "../../components/CustomLoaders/CustomLoaders";
+
 
 
 const modalRoot = document.querySelector("#modal-root");
@@ -21,7 +24,8 @@ export const Modal = () => {
     const {
         isSettingsModal,
         isNewUserModal,
-        isNewLeadModal, 
+        isNewLeadModal,
+        isLoading, 
     } = useModal();
 
 
@@ -31,6 +35,7 @@ export const Modal = () => {
         }
         if (isNewUserModal){
             dispatch(closeModalNewUser());
+            dispatch(updatingNewUserResponceData());
         }
         if (isNewLeadModal){
             dispatch(closeModalNewLead());
@@ -65,19 +70,25 @@ export const Modal = () => {
 
     
     return createPortal(
-        (isSettingsModal || isNewUserModal || isNewLeadModal) && (
-            <ModalStyled onClick={handleBackdropClick}>
-                {isSettingsModal && (
-                    <SettingsModal handleClickClose={handleClickClose}/>
-                )}
-                {isNewUserModal && (
-                    <NewUser handleClickClose={handleClickClose}/>
-                )}
-                {isNewLeadModal && (
-                    <NewLead handleClickClose={handleClickClose}/>
-                )}
-            </ModalStyled>
-        ),
+        <>
+            {isLoading ? (
+                <RefreshLoading/>
+            ) : (
+                (isSettingsModal || isNewUserModal || isNewLeadModal) && (
+                    <ModalStyled onClick={handleBackdropClick}>
+                        {isSettingsModal && (
+                            <SettingsModal handleClickClose={handleClickClose}/>
+                        )}
+                        {isNewUserModal && (
+                            <NewUser handleClickClose={handleClickClose}/>
+                        )}
+                        {isNewLeadModal && (
+                            <NewLead handleClickClose={handleClickClose}/>
+                        )}
+                    </ModalStyled>
+                )
+            )}
+        </>,
         modalRoot
     )
 };

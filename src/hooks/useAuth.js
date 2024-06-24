@@ -21,6 +21,7 @@ import {
     selectConversion,
     selectRetentionManager,
     selectConversionManager,
+    selectNewUserResponceData,
 } from "../redux/Auth/auth-selectors";
 
 
@@ -46,6 +47,7 @@ export const useAuth = () => {
     const isRetention = useSelector(selectRetention);
     const isConversionManager = useSelector(selectConversionManager);
     const isRetentionManager = useSelector(selectRetentionManager);
+    const isNewUserResponceData = useSelector(selectNewUserResponceData);
 
 
     return {
@@ -70,5 +72,6 @@ export const useAuth = () => {
         isRetention,
         isConversionManager,
         isRetentionManager,
+        isNewUserResponceData,
     };
 };

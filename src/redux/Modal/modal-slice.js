@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { inregister } from "../Auth/auth-operation";
 
 
 const modalSlice = createSlice({
@@ -6,7 +7,9 @@ const modalSlice = createSlice({
     initialState: {
         isSettingsModal: false,
         isNewUserModal: false,
+        isNewUserSuccess: true,
         isNewLeadModal: false,
+        isLoading: false,
     },
 
     reducers: {
@@ -31,11 +34,22 @@ const modalSlice = createSlice({
     },
 
 
-    // extraReducers: builder => {
-    //     builder
+    extraReducers: builder => {
+        builder
 
-
-    // }
+        .addCase(inregister.pending, state =>{
+            state.isLoading = true;
+            state.isNewUserSuccess = true;
+        })
+        .addCase(inregister.fulfilled, (state, { payload }) => {
+            state.isLoading = false;
+            state.isNewUserSuccess = true;
+        })
+        .addCase(inregister.rejected, (state, {payload}) => {
+            state.isLoading = false;
+            state.isNewUserSuccess = false;
+        })
+    }
 });
 
 

@@ -1,22 +1,42 @@
 import { NewUserStyled } from "./NewUser.styled";
 import {ReactComponent as CloseIcon} from "../../../images/svg-icons/close.svg";
-import {ReactComponent as ArrowIcon} from "../../../images/svg-icons/arrow-down.svg";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useUser } from "../../../hooks/useUser";
+import { useModal } from "../../../hooks/useModal";
+import { NewUserSchema } from "../../../utils/validationSchemas";
+import { ShowRules } from "../../../utils/showRules";
+import { useFormik } from "formik";
+import { inregister } from "../../../redux/Auth/auth-operation";
+import { useDispatch } from "react-redux";
+import { updatingNewUserResponceData } from "../../../redux/Auth/auth-slice";
+import { UserForm } from "./UserForm";
+import { UserResponce } from "./UserResponce";
 
 
 
 export const NewUser = ({handleClickClose}) => {
+    const dispatch = useDispatch();
+    const [isCopied, setIsCopied] = useState(false);
     const [isOfficeOpen, setOfficeOpen] = useState(false);
     const [isRoleOpen, setRoleOpen] = useState(false);
+    const [isFormChanged, setFormChanged] = useState(false);
     const [isSelectOffice, setSelectOffice] = useState('Select');
     const [isSelectRole, setSelectRole] = useState('Select');
-    const [isPassword, setPassword] = useState('')
     const selectedOffice = useRef(null);
     const selectedRole = useRef(null);
-    const { isAdmin } = useAuth();
-    const {userSelectOffice, userSelectRole} = useUser();
+    const { userSelectOffice, userSelectRole } = useUser();
+    const { isNewUserSuccess } = useModal();
+    const { 
+        isAdmin, 
+        authNewUserName, 
+        authNewUserEmail, 
+        authNewUserPassword, 
+        authNewUserRole, 
+        authNewUserBranch, 
+        isNewUserResponceData, 
+        authError
+    } = useAuth();
 
 
     const toggleOfficeSelectDrop = () => {
@@ -72,11 +92,13 @@ export const NewUser = ({handleClickClose}) => {
     },[handleBackgroundClick, handleKeyPress]);
 
 
-
     const formatOfficeName = (office) => {
         return office.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
     };
-    const formatdRoles = userSelectRole.filter(({ role }) => 
+    const formatOfficeNameToShow = (isSelectOffice) => {
+        return isSelectOffice.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    };
+    const formatedRoles = userSelectRole.filter(({ role }) => 
         role !== 'Manager' && role !== 'Administrator' && role !== 'Developer'
     );
     const showInputForOfficeSelect = (office) => {
@@ -99,10 +121,100 @@ export const NewUser = ({handleClickClose}) => {
           password += charset[randomIndex];
         }
 
-        setPassword(password);
+        setFieldValue('userPassword', password);
     };
-    
 
+
+    const {
+        values,
+        errors,
+        touched,
+        isValid,
+        handleBlur,
+        handleChange,
+        handleSubmit,
+        resetForm,
+        setFieldValue,
+    } = useFormik({
+        initialValues: {
+            userName: "",
+            userEmail: "",
+            userPassword: "",
+        },
+    
+        validationSchema: NewUserSchema,
+    
+        onSubmit: (values) => {
+            dispatch(inregister({
+                username: values.userName,
+                email: values.userEmail,
+                password: values.userPassword,
+                role: isSelectRole,
+                branch: isSelectOffice
+            }))
+            resetForm();
+            setSelectOffice('Select');
+            setSelectRole('Select');
+        },
+    });
+
+    
+    const {
+        getInputClass,
+        getInputAlert,
+    } = ShowRules(values, touched, errors);
+
+
+    useEffect(() => {
+        const areCommonFieldsFilled = 
+            values.userName !== '' &&
+            values.userPassword !== '' &&
+            values.userEmail !== '' &&
+            isSelectRole !== 'Select';
+    
+        const areAdminFieldsFilled = areCommonFieldsFilled && isSelectOffice !== 'Select';
+    
+        setFormChanged(isAdmin ? areAdminFieldsFilled : areCommonFieldsFilled);
+    }, [isAdmin, isSelectOffice, isSelectRole, values.userEmail, values.userName, values.userPassword]);
+
+
+    const handleCancel = () => {
+        resetForm();
+        setFormChanged(false);
+        setSelectOffice('Select');
+        setSelectRole('Select');
+    };
+
+
+    const handleCopy = () => {
+        const userData = `
+            Name: ${authNewUserName}
+            Email: ${authNewUserEmail}
+            Password: ${authNewUserPassword}
+        `.trim();
+        
+        navigator.clipboard.writeText(userData).then(() => {
+            setIsCopied(true);
+        });
+    };
+
+
+    const forDoneButton = () => {
+        setIsCopied(false);
+        handleClickClose();
+        dispatch(updatingNewUserResponceData());
+    };
+
+
+    const forContinueButton = () => {
+        dispatch(updatingNewUserResponceData());
+    };
+
+
+    const formatOfficeNameResponce = () => {
+        return authNewUserBranch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    }; 
+    
 
     return(
         <NewUserStyled>
@@ -110,83 +222,53 @@ export const NewUser = ({handleClickClose}) => {
                 <CloseIcon className="close-icon" width={12} height={12}/>
             </button>
             <h1 className="form-title">Create New User</h1>
-            <form className="user-form">
-                <label className="input-label" id='userName'>
-                    <input 
-                        type="text" 
-                        className="userName"
-                        id="userName"
-                        name="userName"
-                        placeholder="User Name"
-                    />
-                </label>
-                <label className="input-label" id='userEmail'>
-                    <input 
-                        type="email" 
-                        className="userEmail"
-                        id="userEmail"
-                        name="userEmail"
-                        placeholder="User Email"
-                    />
-                </label>
-                <label className="input-label for-password">
-                    <input 
-                        type="text" 
-                        className="userPassword"
-                        id="userPassword"
-                        name="userPassword"
-                        placeholder="User Password"
-                        value={isPassword}
-                    />
-                    <button type="button" className="password-button" onClick={generatePassword}>
-                        Generate Password
-                    </button>
-                </label>
-                <div className="select-block">
-                    {isAdmin && (
-                        <div className="select-cont" ref={selectedOffice} onClick={toggleOfficeSelectDrop}>
-                            <p>Select Office</p>
-                            <div className="office-block">
-                                <span className="office-value">{isSelectOffice}</span>
-                                <ArrowIcon className={`arrow-svg ${toggleOfficeDropArrow ()}`}/>
-                                <ul className={`office-list ${toggleOfficeDropCont()}`}>
-                                    {userSelectOffice.map(({office}, index) => (
-                                        <li key={index} className="office-item" 
-                                            onClick={() => showInputForOfficeSelect(office)}
-                                        >
-                                            <p>{formatOfficeName(office)}</p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    )}
-                    <div className="select-cont" ref={selectedRole} onClick={toggleLeadSelectDrop}>
-                        <p>Select Role</p>
-                        <div className="role-block">
-                            <span className="role-value">{isSelectRole}</span>
-                            <ArrowIcon className={`arrow-svg ${toggleRoleDropArrow()}`}/>
-                            <ul className={`role-list ${toggleRoleDropCont()}`}>
-                                {formatdRoles.map(({role}, index) => (
-                                    <li key={index} className="role-item"
-                                        onClick={() => showInputForRoleSelect(role)}
-                                    >
-                                        <p>{role}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div className="button-block">
-                    <button className="submit-button" type="submit">
-                        Create User
-                    </button>
-                    <button className="reset-button" type="button">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+            {!isNewUserResponceData ? (
+                <UserForm
+                    handleSubmit={handleSubmit}
+                    getInputClass={getInputClass}
+                    getInputAlert={getInputAlert}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    generatePassword={generatePassword}
+                    toggleOfficeSelectDrop={toggleOfficeSelectDrop}
+                    formatOfficeNameToShow={formatOfficeNameToShow}
+                    isAdmin={isAdmin}
+                    isSelectOffice={isSelectOffice}
+                    toggleOfficeDropArrow={toggleOfficeDropArrow}
+                    toggleOfficeDropCont={toggleOfficeDropCont}
+                    userSelectOffice={userSelectOffice}
+                    showInputForOfficeSelect={showInputForOfficeSelect}
+                    formatOfficeName={formatOfficeName}
+                    toggleLeadSelectDrop={toggleLeadSelectDrop}
+                    isSelectRole={isSelectRole}
+                    toggleRoleDropArrow={toggleRoleDropArrow}
+                    toggleRoleDropCont={toggleRoleDropCont}
+                    formatedRoles={formatedRoles}
+                    showInputForRoleSelect={showInputForRoleSelect}
+                    isValid={isValid}
+                    isFormChanged={isFormChanged}
+                    handleCancel={handleCancel}
+                    selectedOffice={selectedOffice}
+                    selectedRole={selectedRole}
+                    userName={values.userName}
+                    userEmail={values.userEmail.trim()}
+                    userPassword={values.userPassword.trim()}
+                />
+            ) : (
+                <UserResponce
+                    isNewUserSuccess={isNewUserSuccess}
+                    authNewUserName={authNewUserName}
+                    authNewUserPassword={authNewUserPassword}
+                    authNewUserRole={authNewUserRole}
+                    isAdmin={isAdmin}
+                    formatOfficeNameResponce={formatOfficeNameResponce}
+                    isCopied={isCopied}
+                    authError={authError}
+                    handleCopy={handleCopy}
+                    forContinueButton={forContinueButton}
+                    forDoneButton={forDoneButton}
+                />
+            )}
         </NewUserStyled>
     );
 };

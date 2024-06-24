@@ -1,5 +1,5 @@
 import { SharedLayout } from "./SharedLayout";
-import { Route, Routes, Navigate} from "react-router-dom";
+import { Route, Routes, Navigate, useLocation, useNavigate} from "react-router-dom";
 import { lazy, useEffect} from "react";
 import { Toaster } from "./ToastContainer/ToastContainer";
 import { Modal } from "./Modal/Modal";
@@ -18,6 +18,7 @@ import { useDispatch} from "react-redux";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
 import { RestrictedRoute } from "../routes/RestrictedRoute";
 import { PrivateRoute } from "../routes/PrivateRoute";
+import { saveUserCurrentLocation } from "../redux/Auth/auth-slice";
 
 
 const HomePage = lazy(() => import('../pages/Home'));
@@ -29,35 +30,56 @@ const OfficeLeadsPage = lazy(() => import('../pages/OfficeLeads'))
 
 export const App= () => {
   const dispatch = useDispatch();
-  const {isLoadingAuth, isRefreshing, userRole} = useAuth();
-  const {isSettingsModal, isNewUserModal, isNewLeadModal} = useModal();
+  const navigate = useNavigate();
+  const {isLoadingAuth, isRefreshing, userRole, userLocation, isLoggedIn} = useAuth();
+  const {isSettingsModal, isNewUserModal, isNewLeadModal,} = useModal();
+  const currentPath = useLocation().pathname;
+
+
+  useEffect(() => {
+    if(isLoggedIn){
+      if (userRole === 'Developer' || userRole === 'Administrator' || userRole === 'Manager') {
+        dispatch(updatingAdmin())
+      }
+      if(userRole === 'CRM Manager'){
+        dispatch(updatingManager())
+      }
+      if(userRole === 'Conversion Manager' || userRole === 'Conversion Agent'){
+        dispatch(updatingConversion())
+      }
+      if(userRole === 'Retention Manager' || userRole === 'Retention Agent'){
+        dispatch(updatingRetention())
+      }
+      if(userRole === 'Conversion Manager'){
+        dispatch(updatingConversionManager())
+      }
+      if(userRole === 'Retention Manager'){
+        dispatch(updatingRetentionManager())
+      }
+    }
+  },[dispatch, isLoggedIn, userRole]);
+
+
+  useEffect(() => {
+    if(isLoggedIn){
+      if (userRole === 'CRM Manager' || userRole === 'Conversion Manager' || userRole === 'Conversion Agent') {
+        navigate('/leads');
+      }
+    }
+  }, [isLoggedIn, navigate, userRole]);
 
 
   useEffect(() => {
     dispatch(refreshCurrentUser());
-  },[dispatch]);
+    if (userLocation) {
+      navigate(userLocation);
+    }
+  },[dispatch, navigate, userLocation]);
 
-
-  useEffect(() => {
-    if (userRole === 'Developer' || userRole === 'Administrator' || userRole === 'Manager') {
-      dispatch(updatingAdmin())
-    }
-    if(userRole === 'CRM Manager'){
-      dispatch(updatingManager())
-    }
-    if(userRole === 'Conversion Manager' || userRole === 'Conversion Agent'){
-      dispatch(updatingConversion())
-    }
-    if(userRole === 'Retention Manager' || userRole === 'Retention Agent'){
-      dispatch(updatingRetention())
-    }
-    if(userRole === 'Conversion Manager'){
-      dispatch(updatingConversionManager())
-    }
-    if(userRole === 'Retention Manager'){
-      dispatch(updatingRetentionManager())
-    }
-  },[dispatch, userRole])
+  
+  useEffect(() =>{
+    dispatch(saveUserCurrentLocation(currentPath))
+  },[currentPath, dispatch]);
 
 
   return isRefreshing ? (

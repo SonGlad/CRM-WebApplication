@@ -30,6 +30,7 @@ const initialState = {
     isRetentionManager: false,
     isConversionManager: false,
     isSettingsUpdated: false,
+    isNewUserDataResponce: false,
     token: null,
     avatarURL: null,
     isLoggedIn: false,
@@ -70,6 +71,9 @@ const authSlice = createSlice({
         updatingRetentionManager: (state) => {
             state.isRetentionManager = true
         },
+        updatingNewUserResponceData: (state) => {
+            state.isNewUserDataResponce = false;
+        }
     },
 
     extraReducers: builder => {
@@ -217,8 +221,8 @@ const authSlice = createSlice({
 
         // INREGISTER///////////
         .addCase(inregister.pending, state =>{
-            state.isLoading = true;
             state.error = null;
+            state.isNewUserDataResponce = false;
         })
         .addCase(inregister.fulfilled, (state, { payload }) => {
             state.newUser = {
@@ -228,13 +232,13 @@ const authSlice = createSlice({
                 role: payload.role,
                 branch: payload.branch,
             };
-            state.isLoading = false;
             state.error = null;
+            state.isNewUserDataResponce = true;
         })
         .addCase(inregister.rejected, (state, {payload}) => {
-            state.isLoading = false;
             state.token = null;
             state.error = payload;
+            state.isNewUserDataResponce = true;
         })
     }
 });
@@ -252,4 +256,5 @@ export const {
     updatingRetention,
     updatingConversionManager,
     updatingRetentionManager,
+    updatingNewUserResponceData,
 } = authSlice.actions;

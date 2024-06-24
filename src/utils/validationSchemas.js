@@ -50,6 +50,25 @@ const SettingsSchema = Yup.object({
 });
 
 
+const NewUserSchema = Yup.object().shape({
+  userName: Yup.string()
+    .trim()
+    .min(2, "Too Short!")
+    .max(30, "Too Long!")
+    .required("Required"),
+  userEmail: Yup.string()
+    .trim()
+    .email("Invalid email")
+    .required("Required"),
+  userPassword: Yup.string()
+    .trim()
+    .min(8, "Must be at least 8 characters")
+    .max(50, "Too Long!")
+    .matches(passwordRules, "Must be A-z, 1-9")
+    .required("Required"),
+});
+
+
 const ContactFormSchema = Yup.object().shape({
   name: Yup.string()
     .trim()
@@ -102,6 +121,7 @@ export {
   SignupSchema,
   SigninSchema,
   SettingsSchema,
+  NewUserSchema,
   ContactFormSchema,
   UpdateContactFormSchema,
 };
