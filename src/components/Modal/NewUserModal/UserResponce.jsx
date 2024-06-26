@@ -9,13 +9,18 @@ export const UserResponce = ({
     authNewUserPassword, 
     authNewUserRole,
     isAdmin,
-    formatOfficeNameResponce,
+    authNewUserBranch,
     handleCopy,
     isCopied,
     authError,
     forContinueButton,
     forDoneButton,
 }) => {
+
+
+    const formatOfficeNameResponce = (authNewUserBranch) => {
+        return authNewUserBranch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    }; 
 
 
     return(
@@ -35,7 +40,7 @@ export const UserResponce = ({
                         <p className="content-text-item"><span>Password:</span> {authNewUserPassword}</p>
                         <p className="content-text-item"><span>Role:</span> {authNewUserRole}</p>
                         {isAdmin && (
-                            <p className="content-text-item"><span>Branch:</span> {formatOfficeNameResponce}</p>
+                            <p className="content-text-item"><span>Branch:</span> {formatOfficeNameResponce(authNewUserBranch)}</p>
                         )}
                         <button className="password-button" type='button' onClick={handleCopy}>
                             {isCopied ? "Copied!" : "Copy"}

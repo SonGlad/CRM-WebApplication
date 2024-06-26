@@ -36,6 +36,8 @@ const initialState = {
     isLoggedIn: false,
     isLoading: false,
     isRefreshing: false,
+    isInitial: false,
+    forNoneAdminLogin: false,
     error: null,
     currentLocation: null,
 };
@@ -73,7 +75,10 @@ const authSlice = createSlice({
         },
         updatingNewUserResponceData: (state) => {
             state.isNewUserDataResponce = false;
-        }
+        },
+        updatingForNoneAdminLogin: (state) => {
+            state.forNoneAdminLogin = false;
+        },
     },
 
     extraReducers: builder => {
@@ -106,6 +111,8 @@ const authSlice = createSlice({
             state.isLoading = true;
             state.error = null;
             state.isLoggedIn = false;
+            state.isInitial = true;
+            state.forNoneAdminLogin = true;
         })
         .addCase(logIn.fulfilled, (state, {payload}) => {
             state.user = {
@@ -117,11 +124,15 @@ const authSlice = createSlice({
             state.token = payload.token;
             state.isLoading = false;
             state.isLoggedIn = true;
+            state.isInitial = true;
+            state.forNoneAdminLogin = true;
             state.error = null;
         })
         .addCase(logIn.rejected, (state, {payload}) => {
             state.isLoading = false;
             state.isLoggedIn = false;
+            state.isInitial = false;
+            state.forNoneAdminLogin = false;
             state.error = payload;
         })
 
@@ -130,6 +141,8 @@ const authSlice = createSlice({
             state.isLoading = true;
             state.isRefreshing = false;
             state.isLoggedIn = false;
+            state.isInitial = true;
+            state.forNoneAdminLogin = false;
             state.error = null;
         })
         .addCase(logOut.fulfilled, (state, { payload }) => {
@@ -155,12 +168,17 @@ const authSlice = createSlice({
             state.token = null;
             state.isLoading = false;
             state.isLoggedIn = false;
+            state.isInitial = false;
+            state.isRefreshing = false;
+            state.forNoneAdminLogin = false;
             state.error = null;
             state.currentLocation = null;
         })
         .addCase(logOut.rejected, (state, {payload}) => {
+            state.isInitial = false;
             state.isLoggedIn = false;
             state.isLoading = false;
+            state.forNoneAdminLogin = false;
             state.error = payload;
         })
 
@@ -168,6 +186,8 @@ const authSlice = createSlice({
         // REFRESH CURRENT USER////////
         .addCase(refreshCurrentUser.pending, state => {
             state.isRefreshing = true;
+            state.isInitial = false;
+            state.isLoading = true;
         })
         .addCase(refreshCurrentUser.fulfilled, (state, { payload }) => {
             state.user = {
@@ -176,12 +196,16 @@ const authSlice = createSlice({
                 role: payload.role,
             };
             state.avatarURL = payload.avatarURL;
+            state.isLoading = false;
             state.isLoggedIn = true;
             state.isRefreshing = false;
+            state.isInitial = true;
             state.error = null;
         })
         .addCase(refreshCurrentUser.rejected, (state, { payload }) => {
+            state.isLoading = false;
             state.isRefreshing = false;
+            state.isInitial = false;
             state.error = payload;
         })
 
@@ -257,4 +281,5 @@ export const {
     updatingConversionManager,
     updatingRetentionManager,
     updatingNewUserResponceData,
+    updatingForNoneAdminLogin,
 } = authSlice.actions;

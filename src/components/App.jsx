@@ -18,7 +18,7 @@ import { useDispatch} from "react-redux";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
 import { RestrictedRoute } from "../routes/RestrictedRoute";
 import { PrivateRoute } from "../routes/PrivateRoute";
-import { saveUserCurrentLocation } from "../redux/Auth/auth-slice";
+import { saveUserCurrentLocation, updatingForNoneAdminLogin } from "../redux/Auth/auth-slice";
 
 
 const HomePage = lazy(() => import('../pages/Home'));
@@ -31,7 +31,16 @@ const OfficeLeadsPage = lazy(() => import('../pages/OfficeLeads'))
 export const App= () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {isLoadingAuth, isRefreshing, userRole, userLocation, isLoggedIn} = useAuth();
+  const {
+    isLoadingAuth, 
+    isRefreshing, 
+    userRole, 
+    userLocation, 
+    isLoggedIn, 
+    isInitial, 
+    isAdmin,
+    forNoneAdminLogin,
+  } = useAuth();
   const {isSettingsModal, isNewUserModal, isNewLeadModal,} = useModal();
   const currentPath = useLocation().pathname;
 
@@ -61,20 +70,25 @@ export const App= () => {
 
 
   useEffect(() => {
-    if(isLoggedIn){
+    if(isLoggedIn && !isAdmin && forNoneAdminLogin){
       if (userRole === 'CRM Manager' || userRole === 'Conversion Manager' || userRole === 'Conversion Agent') {
         navigate('/leads');
+        setTimeout(() => {
+          dispatch(updatingForNoneAdminLogin())
+        }, 1000)
       }
     }
-  }, [isLoggedIn, navigate, userRole]);
+  }, [dispatch, forNoneAdminLogin, isAdmin, isLoggedIn, navigate, userRole]);
 
 
   useEffect(() => {
-    dispatch(refreshCurrentUser());
-    if (userLocation) {
-      navigate(userLocation);
+    if(!isInitial){
+      dispatch(refreshCurrentUser());
+      if (userLocation) {
+        navigate(userLocation);
+      }
     }
-  },[dispatch, navigate, userLocation]);
+  },[dispatch, isInitial, navigate, userLocation]);
 
   
   useEffect(() =>{

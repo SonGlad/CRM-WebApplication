@@ -209,12 +209,7 @@ export const NewUser = ({handleClickClose}) => {
     const forContinueButton = () => {
         dispatch(updatingNewUserResponceData());
     };
-
-
-    const formatOfficeNameResponce = () => {
-        return authNewUserBranch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    }; 
-    
+  
 
     return(
         <NewUserStyled>
@@ -261,7 +256,7 @@ export const NewUser = ({handleClickClose}) => {
                     authNewUserPassword={authNewUserPassword}
                     authNewUserRole={authNewUserRole}
                     isAdmin={isAdmin}
-                    formatOfficeNameResponce={formatOfficeNameResponce}
+                    authNewUserBranch={authNewUserBranch}
                     isCopied={isCopied}
                     authError={authError}
                     handleCopy={handleCopy}

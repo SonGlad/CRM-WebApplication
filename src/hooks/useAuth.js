@@ -7,6 +7,8 @@ import {
     selectLoggedUser,
     selectLoading,
     selectRefreshing,
+    selectInitial,
+    selectNoneAdminLogin,
     selectSettingsUpdate,
     selectUserLocation,
     selectAuthError,
@@ -29,6 +31,8 @@ export const useAuth = () => {
     const isLoadingAuth = useSelector(selectLoading);
     const isLoggedIn = useSelector(selectLoggedUser);
     const isRefreshing = useSelector(selectRefreshing);
+    const isInitial = useSelector(selectInitial);
+    const forNoneAdminLogin = useSelector(selectNoneAdminLogin);
     const isSettingsUpdated = useSelector(selectSettingsUpdate);
     const userName = useSelector(selectUserName);
     const userRole = useSelector(selectUserRole);
@@ -54,6 +58,8 @@ export const useAuth = () => {
         isLoadingAuth,
         isLoggedIn,
         isRefreshing,
+        isInitial,
+        forNoneAdminLogin,
         isSettingsUpdated,
         userName,
         userRole,

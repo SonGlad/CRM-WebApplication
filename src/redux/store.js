@@ -22,7 +22,7 @@ const authPersistConfig = {
   storage,
   whitelist: [
     'token',
-    'currentLocation', 
+    'currentLocation',
   ],
 };
 
