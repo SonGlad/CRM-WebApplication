@@ -79,6 +79,15 @@ const authSlice = createSlice({
         updatingForNoneAdminLogin: (state) => {
             state.forNoneAdminLogin = false;
         },
+        updatingNewUser: (state) => {
+            state.newUser = {
+                name: null,
+                email: null,
+                password: null,
+                role: null,
+                branch: null,
+            }
+        },
     },
 
     extraReducers: builder => {
@@ -282,4 +291,5 @@ export const {
     updatingRetentionManager,
     updatingNewUserResponceData,
     updatingForNoneAdminLogin,
+    updatingNewUser
 } = authSlice.actions;

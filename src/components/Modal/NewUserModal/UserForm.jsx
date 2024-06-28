@@ -37,7 +37,7 @@ export const UserForm = forwardRef(({
 
     return(
         <StyledUserForm onSubmit={handleSubmit}>
-            <label className="input-label">
+            <label className="input-label" htmlFor="userName">
                 <input 
                     type="text"
                     className={getInputClass("userName")}
@@ -50,7 +50,7 @@ export const UserForm = forwardRef(({
                 />
                 {getInputAlert("userName")}
             </label>
-            <label className="input-label">
+            <label className="input-label" htmlFor="userEmail">
                 <input 
                     type="email" 
                     className={getInputClass("userEmail")}
@@ -63,7 +63,7 @@ export const UserForm = forwardRef(({
                 />
                 {getInputAlert("userEmail")}
             </label>
-            <label className="input-label">
+            <label className="input-label" htmlFor="userPassword">
                 <input 
                     type="text" 
                     className={getInputClass("userPassword")}

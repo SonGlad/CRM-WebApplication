@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { inregister } from "../Auth/auth-operation";
+import { createNewLead } from "../Lead/lead-operation";
 
 
 const modalSlice = createSlice({
@@ -9,6 +10,7 @@ const modalSlice = createSlice({
         isNewUserModal: false,
         isNewUserSuccess: true,
         isNewLeadModal: false,
+        isNewLeadSuccess: true,
         isLoading: false,
     },
 
@@ -37,6 +39,7 @@ const modalSlice = createSlice({
     extraReducers: builder => {
         builder
 
+        // NEW USER SWITCHER
         .addCase(inregister.pending, state =>{
             state.isLoading = true;
             state.isNewUserSuccess = true;
@@ -48,6 +51,21 @@ const modalSlice = createSlice({
         .addCase(inregister.rejected, (state, {payload}) => {
             state.isLoading = false;
             state.isNewUserSuccess = false;
+        })
+
+
+        // NEW LEAD SWITCHER
+        .addCase(createNewLead.pending, state =>{
+            state.isLoading = true;
+            state.isNewLeadSuccess = true;
+        })
+        .addCase(createNewLead.fulfilled, (state, { payload }) => {
+            state.isLoading = false;
+            state.isNewLeadSuccess = true;
+        })
+        .addCase(createNewLead.rejected, (state, {payload}) => {
+            state.isLoading = false;
+            state.isNewLeadSuccess = false;
         })
     }
 });

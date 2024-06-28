@@ -9,7 +9,7 @@ import { ShowRules } from "../../../utils/showRules";
 import { useFormik } from "formik";
 import { inregister } from "../../../redux/Auth/auth-operation";
 import { useDispatch } from "react-redux";
-import { updatingNewUserResponceData } from "../../../redux/Auth/auth-slice";
+import { updatingNewUserResponceData, updatingNewUser } from "../../../redux/Auth/auth-slice";
 import { UserForm } from "./UserForm";
 import { UserResponce } from "./UserResponce";
 
@@ -203,11 +203,13 @@ export const NewUser = ({handleClickClose}) => {
         setIsCopied(false);
         handleClickClose();
         dispatch(updatingNewUserResponceData());
+        dispatch(updatingNewUser());
     };
 
 
     const forContinueButton = () => {
         dispatch(updatingNewUserResponceData());
+        dispatch(updatingNewUser());
     };
   
 

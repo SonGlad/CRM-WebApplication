@@ -254,8 +254,6 @@ export const StyledUserForm = styled.form`
         }
     }
 
-
-
     .select-block{
         display: flex;
         align-items: center;

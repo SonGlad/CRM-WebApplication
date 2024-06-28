@@ -8,6 +8,9 @@ export const selectLoading = state => state.modal.isLoading;
 
 export const selectNewUserSuccess = state => state.modal.isNewUserSuccess;
 
+export const selectNewLeadSuccess = state => state.modal.isNewLeadSuccess;
+
+
 
 
 
