@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { 
     getOfficeList,
-    getRoleList, 
+    getRoleList,
+    getAllUsers, 
 } from "./user-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -10,6 +11,7 @@ const initialState = {
     officeList: [],
     roleList: [],
     officeState: '',
+    users: [],
     isUserLoading: false,
     isUserError: null,
 };
@@ -34,7 +36,7 @@ const userSlice = createSlice({
 
         
         //OFFICE LIST///////////
-        .addCase(getOfficeList.pending, state =>{
+        .addCase(getOfficeList.pending, state => {
             state.isUserLoading = true;
             state.isUserError = null;
         })
@@ -50,7 +52,7 @@ const userSlice = createSlice({
 
 
         //ROLE LIST///////////
-        .addCase(getRoleList.pending, state =>{
+        .addCase(getRoleList.pending, state => {
             state.isUserLoading = true;
             state.isUserError = null;
         })
@@ -64,15 +66,32 @@ const userSlice = createSlice({
             state.isUserError = payload;
         })
 
+
+        // GET ALL USERS//
+        .addCase(getAllUsers.pending, state => {
+            state.isUserLoading = true;
+            state.isUserError = false;
+        })
+        .addCase(getAllUsers.fulfilled, (state, {payload} ) => {
+            state.users = payload;
+            state.isUserLoading = false;
+            state.isUserError = false;
+        })
+        .addCase(getAllUsers.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
         
         // LOGOUT//////
-        .addCase(logOut.pending, state =>{
+        .addCase(logOut.pending, state => {
             state.isUserLoading = true;
             state.isUserError = null;
         })
         .addCase(logOut.fulfilled, (state, { payload }) => {
             state.officeList = [];
             state.roleList = [];
+            state.users = [];
             state.isUserLoading = false;
             state.isUserError = null;
         })

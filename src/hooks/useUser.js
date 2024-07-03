@@ -5,6 +5,7 @@ import {
     selectActiveOffice,
     selectUserLoading, 
     selectUserError,
+    selectAllUsers,
 } from "../redux/User/user-selectors";
 
 
@@ -14,6 +15,7 @@ export const useUser = () => {
     const userLoading = useSelector(selectUserLoading);
     const userError = useSelector(selectUserError);
     const userOffice = useSelector(selectActiveOffice);
+    const allUsers = useSelector(selectAllUsers);
 
 
     return {
@@ -22,5 +24,6 @@ export const useUser = () => {
         userLoading,
         userError,
         userOffice,
+        allUsers,
     };
 };

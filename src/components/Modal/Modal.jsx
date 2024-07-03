@@ -5,13 +5,15 @@ import { useEffect, useCallback} from "react";
 import { 
     closeModalSettings,
     closeModalNewUser,
-    closeModalNewLead, 
+    closeModalNewLead,
+    closeModaUserDetail, 
 } from "../../redux/Modal/modal-slice";
 import { updatingNewUserResponceData } from "../../redux/Auth/auth-slice";
 import { useModal } from "../../hooks/useModal";
 import { SettingsModal } from "./SettingsModal/SettingsModal";
 import { NewUser } from "./NewUserModal/NewUser";
 import { NewLead } from "./NewLeadModal/NewLead";
+import { UserDetails } from "./UserDetailsModal/UserDetail";
 import { RefreshLoading } from "../../components/CustomLoaders/CustomLoaders";
 
 
@@ -25,6 +27,7 @@ export const Modal = () => {
         isSettingsModal,
         isNewUserModal,
         isNewLeadModal,
+        isUserDetails,
         isLoading, 
     } = useModal();
 
@@ -40,7 +43,10 @@ export const Modal = () => {
         if (isNewLeadModal){
             dispatch(closeModalNewLead());
         }
-    },[dispatch, isNewLeadModal, isNewUserModal, isSettingsModal]);
+        if (isUserDetails){
+            dispatch(closeModaUserDetail());
+        }
+    },[dispatch, isNewLeadModal, isNewUserModal, isSettingsModal, isUserDetails]);
 
 
     const handleBackdropClick = useCallback(event => {
@@ -74,7 +80,7 @@ export const Modal = () => {
             {isLoading ? (
                 <RefreshLoading/>
             ) : (
-                (isSettingsModal || isNewUserModal || isNewLeadModal) && (
+                (isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails) && (
                     <ModalStyled onClick={handleBackdropClick}>
                         {isSettingsModal && (
                             <SettingsModal handleClickClose={handleClickClose}/>
@@ -84,6 +90,9 @@ export const Modal = () => {
                         )}
                         {isNewLeadModal && (
                             <NewLead handleClickClose={handleClickClose}/>
+                        )}
+                        {isUserDetails && (
+                            <UserDetails handleClickClose={handleClickClose}/>
                         )}
                     </ModalStyled>
                 )

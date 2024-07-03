@@ -11,6 +11,7 @@ const modalSlice = createSlice({
         isNewUserSuccess: true,
         isNewLeadModal: false,
         isNewLeadSuccess: true,
+        isUserDetails: false,
         isLoading: false,
     },
 
@@ -32,6 +33,12 @@ const modalSlice = createSlice({
         },
         closeModalNewLead: (state) => {
             state.isNewLeadModal = false;
+        },
+        openModalUserDetail: (state) => {
+            state.isUserDetails = true;
+        },
+        closeModaUserDetail: (state) => {
+            state.isUserDetails = false;
         },
     },
 
@@ -81,4 +88,6 @@ export const {
     closeModalNewUser,
     openModalNewLead,
     closeModalNewLead,
+    openModalUserDetail,
+    closeModaUserDetail,
 } = modalSlice.actions;

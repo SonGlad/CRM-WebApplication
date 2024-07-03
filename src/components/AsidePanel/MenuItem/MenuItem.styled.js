@@ -138,5 +138,9 @@ export const MenuItemStyled = styled.li`
     .office-item:hover .nav-link{
         color: ${props => props.theme.color.primary_green_lite};
     }
+
+    .none-admin-drop-item:hover .nav-link{
+        color: ${props => props.theme.color.primary_green_lite};
+    }
     
 `

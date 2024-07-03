@@ -30,14 +30,18 @@ const authPersistConfig = {
 const userPersistConfig = {
   key: 'user',
   storage,
-  whitelist: [],
+  whitelist: [
+    'officeState',
+  ],
 };
 
 
 const leadPersistConfig = {
   key: 'lead',
   storage,
-  whitelist: [],
+  whitelist: [
+    'officeState'
+  ],
 };
 
 

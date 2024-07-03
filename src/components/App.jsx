@@ -41,7 +41,7 @@ export const App= () => {
     isAdmin,
     forNoneAdminLogin,
   } = useAuth();
-  const {isSettingsModal, isNewUserModal, isNewLeadModal,} = useModal();
+  const {isSettingsModal, isNewUserModal, isNewLeadModal, isUserDetails} = useModal();
   const currentPath = useLocation().pathname;
 
 
@@ -120,7 +120,7 @@ export const App= () => {
           }/>
         </Route>    
       </Routes>
-      {(isSettingsModal || isNewUserModal || isNewLeadModal) && <Modal/>}
+      {(isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails) && <Modal/>}
     </>
   );
 };

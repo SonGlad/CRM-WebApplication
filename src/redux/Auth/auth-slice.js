@@ -149,7 +149,6 @@ const authSlice = createSlice({
         .addCase(logOut.pending, state =>{
             state.isLoading = true;
             state.isRefreshing = false;
-            state.isLoggedIn = false;
             state.isInitial = true;
             state.forNoneAdminLogin = false;
             state.error = null;

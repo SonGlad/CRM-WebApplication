@@ -10,6 +10,8 @@ export const selectNewUserSuccess = state => state.modal.isNewUserSuccess;
 
 export const selectNewLeadSuccess = state => state.modal.isNewLeadSuccess;
 
+export const selectUserDetail = state => state.modal.isUserDetails;
+
 
 
 

@@ -111,7 +111,7 @@ export const UserItem = forwardRef(({
                     </li>
 
                 ) : (
-                    <li className="users-drop-item" onClick={() => linkCloseMenu()}>
+                    <li className="users-drop-item none-admin-drop-item" onClick={() => linkCloseMenu()}>
                         <NavLink className='nav-link' to='/users'>
                             <p>Check Users</p>
                         </NavLink>
