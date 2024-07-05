@@ -42,9 +42,9 @@ export const DataLoading = () => {
     return (
         <DataLoaderStyled>
             <PulseLoader 
-                color={"#36d7b7"}
+                color={"#E3FFA8"}
                 loading = {true} 
-                size={30}
+                size={20}
                 speedMultiplier={1}
                 aria-label="Loading Spinner"
                 data-testid="loader" 

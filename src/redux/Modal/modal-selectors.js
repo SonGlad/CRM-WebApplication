@@ -4,13 +4,12 @@ export const selectNewUserModal = state => state.modal.isNewUserModal;
 
 export const selectNewLeadModal = state => state.modal.isNewLeadModal;
 
+export const selectUserDetail = state => state.modal.isUserDetails;
+
 export const selectLoading = state => state.modal.isLoading;
 
-export const selectNewUserSuccess = state => state.modal.isNewUserSuccess;
+export const selectIsSuccess = state => state.modal.isSuccess;
 
-export const selectNewLeadSuccess = state => state.modal.isNewLeadSuccess;
-
-export const selectUserDetail = state => state.modal.isUserDetails;
 
 
 

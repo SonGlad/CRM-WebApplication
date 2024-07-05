@@ -4,7 +4,7 @@ import {ReactComponent as ErrorIcon} from "../../../images/svg-icons/error-logo.
 
 
 export const UserResponce = ({
-    isNewUserSuccess, 
+    isSuccess, 
     authNewUserName, 
     authNewUserPassword, 
     authNewUserRole,
@@ -25,7 +25,7 @@ export const UserResponce = ({
 
     return(
         <StyledUserResponce>
-            {isNewUserSuccess ? (
+            {isSuccess ? (
                 <div>
                     <div className="content">
                         <SuccsessIcon className="modal-icon" width={24} height={24}/>

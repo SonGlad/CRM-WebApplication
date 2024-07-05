@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { 
     getOfficeList,
     getRoleList,
-    getAllUsers, 
+    getAllUsers,
+    getUserById, 
+    resendVerifyEmail,
 } from "./user-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -12,6 +14,25 @@ const initialState = {
     roleList: [],
     officeState: '',
     users: [],
+    user: {
+        id: null,
+        name: null,
+        email: null,
+        role: null,
+        branch: null,
+        created: null,
+        createdBy: {
+            userName: null,
+            userRole: null,
+            userBranch: null
+        },
+        leads: {
+            selfCreated: null,
+            assigned: null,
+        }
+    },
+    isVerificationRespose: false,
+    isMessage: '',
     isUserLoading: false,
     isUserError: null,
 };
@@ -28,6 +49,29 @@ const userSlice = createSlice({
         },
         resetOfficeState:(state) => {
             state.officeState = '';
+        },
+        resetUsereState:(state) => {
+            state.user = {
+                id: null,
+                name: null,
+                email: null,
+                role: null,
+                branch: null,
+                created: null,
+                createdBy: {
+                    userName: null,
+                    userRole: null,
+                    userBranch: null
+                },
+                leads: {
+                    selfCreated: null,
+                    assigned: null,
+                }
+            };
+            state.isMessage = '';
+        },
+        updatingVerificationEmailResponse: (state) => {
+            state.isVerificationRespose = false;
         },
     },
 
@@ -70,16 +114,67 @@ const userSlice = createSlice({
         // GET ALL USERS//
         .addCase(getAllUsers.pending, state => {
             state.isUserLoading = true;
-            state.isUserError = false;
+            state.isUserError = null;
         })
         .addCase(getAllUsers.fulfilled, (state, {payload} ) => {
             state.users = payload;
             state.isUserLoading = false;
-            state.isUserError = false;
+            state.isUserError = null;
         })
         .addCase(getAllUsers.rejected, (state, {payload}) => {
             state.isUserLoading = false;
             state.isUserError = payload;
+        })
+
+
+        // GET USER BY ID///
+        .addCase(getUserById.pending, state => {
+            state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getUserById.fulfilled, (state, { payload }) => {
+            state.isUserLoading = false;
+            state.isUserError = null;
+            state.user = {
+                id: payload._id,
+                name: payload.username,
+                email: payload.email,
+                role: payload.role,
+                branch: payload.branch,
+                created: payload.createdAt,
+                createdBy: {
+                    userName: payload.createdBy.userName,
+                    userRole: payload.createdBy.userRole,
+                    userBranch: payload.createdBy.userBranch,
+                },
+                leads: {
+                    selfCreated: payload.leads.selfCreated,
+                    assigned: payload.leads.assigned,
+                }
+            } 
+        })
+        .addCase(getUserById.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        //RESEND VERIFICATION EMAIL//
+        .addCase(resendVerifyEmail.pending, state => {
+            state.isUserLoading = true;
+            state.isUserError = null;
+            state.isVerificationRespose = false;
+        })
+        .addCase(resendVerifyEmail.fulfilled, (state, {payload} ) => {
+            state.isMessage = payload.message;
+            state.isUserLoading = false;
+            state.isUserError = null;
+            state.isVerificationRespose = true;
+        })
+        .addCase(resendVerifyEmail.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+            state.isVerificationRespose = true;
         })
 
         
@@ -92,6 +187,25 @@ const userSlice = createSlice({
             state.officeList = [];
             state.roleList = [];
             state.users = [];
+            state.user = {
+                id: null,
+                name: null,
+                email: null,
+                role: null,
+                branch: null,
+                created: null,
+                createdBy: {
+                    userName: null,
+                    userRole: null,
+                    userBranch: null,
+                },
+                leads: {
+                    selfCreated: null,
+                    assigned: null,
+                }
+            };
+            state.isVerificationRespose = false;
+            state.isMessage = ''; 
             state.isUserLoading = false;
             state.isUserError = null;
         })
@@ -108,5 +222,7 @@ export const userReducer = userSlice.reducer;
 
 export const {
     isOfficeState,
-    resetOfficeState, 
+    resetOfficeState,
+    resetUsereState,
+    updatingVerificationEmailResponse, 
 } = userSlice.actions;

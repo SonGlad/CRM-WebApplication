@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
+import { getUserById } from "../../redux/User/user-operation";
 
 
 
@@ -114,7 +115,17 @@ export const Users = () => {
 
 
     const openUserDetail = (_id) => {
-        dispatch(openModalUserDetail())
+        if(isAdmin){
+            dispatch(getUserById({
+                userId: _id,
+                branch: userOffice,
+            }));
+        } else if(isManager || isConversionManager){
+            dispatch(getUserById({
+                userId: _id
+            }));
+        }
+        dispatch(openModalUserDetail());
     };
 
 

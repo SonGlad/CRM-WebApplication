@@ -26,7 +26,7 @@ export const NewUser = ({handleClickClose}) => {
     const selectedOffice = useRef(null);
     const selectedRole = useRef(null);
     const { userSelectOffice, userSelectRole } = useUser();
-    const { isNewUserSuccess } = useModal();
+    const { isSuccess } = useModal();
     const { 
         isAdmin, 
         authNewUserName, 
@@ -253,7 +253,7 @@ export const NewUser = ({handleClickClose}) => {
                 />
             ) : (
                 <UserResponce
-                    isNewUserSuccess={isNewUserSuccess}
+                    isSuccess={isSuccess}
                     authNewUserName={authNewUserName}
                     authNewUserPassword={authNewUserPassword}
                     authNewUserRole={authNewUserRole}

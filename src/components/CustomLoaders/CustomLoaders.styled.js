@@ -20,5 +20,5 @@ export const DataLoaderStyled = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1.875rem;
+    margin: 1.875rem 0;
 `

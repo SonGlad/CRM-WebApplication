@@ -25,7 +25,7 @@ export const NewLead = ({handleClickClose}) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const { isAdmin, userRole } = useAuth();
     const { userSelectOffice } = useUser();
-    const { isNewLeadSuccess } = useModal();
+    const { isSuccess } = useModal();
     const { isNewLeadDataResponce, isLeadsError, newLead } = useLead();
 
 
@@ -196,7 +196,7 @@ export const NewLead = ({handleClickClose}) => {
                 />
             ) : (
                 <LeadResponce
-                    isNewLeadSuccess={isNewLeadSuccess}
+                    isSuccess={isSuccess}
                     isAdmin={isAdmin}
                     isLeadsError={isLeadsError}
                     newLead={newLead}

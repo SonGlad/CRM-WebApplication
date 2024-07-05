@@ -8,6 +8,7 @@ import {
     closeModalNewLead,
     closeModaUserDetail, 
 } from "../../redux/Modal/modal-slice";
+import { resetUsereState } from "../../redux/User/user-slice";
 import { updatingNewUserResponceData } from "../../redux/Auth/auth-slice";
 import { useModal } from "../../hooks/useModal";
 import { SettingsModal } from "./SettingsModal/SettingsModal";
@@ -44,6 +45,7 @@ export const Modal = () => {
             dispatch(closeModalNewLead());
         }
         if (isUserDetails){
+            dispatch(resetUsereState());
             dispatch(closeModaUserDetail());
         }
     },[dispatch, isNewLeadModal, isNewUserModal, isSettingsModal, isUserDetails]);

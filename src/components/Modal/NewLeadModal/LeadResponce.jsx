@@ -4,7 +4,7 @@ import {ReactComponent as ErrorIcon} from "../../../images/svg-icons/error-logo.
 
 
 export const LeadResponce = ({
-    isNewLeadSuccess,
+    isSuccess,
     isAdmin,
     newLead,
     isLeadsError,
@@ -20,7 +20,7 @@ export const LeadResponce = ({
 
     return(
         <StyledLeadResponce>
-            {isNewLeadSuccess ? (
+            {isSuccess ? (
                 <div>
                     <div className="content">
                         <SuccsessIcon className="modal-icon" width={24} height={24}/>

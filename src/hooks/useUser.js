@@ -6,6 +6,19 @@ import {
     selectUserLoading, 
     selectUserError,
     selectAllUsers,
+    selectUserId,
+    selectUserName,
+    selectUserEmail,
+    selectUserRole,
+    selectUserBranch,
+    selectUserCreatedDate,
+    selectUserCreatedByName,
+    selectUserCreatedByRole,
+    selectUserCreatedByBranch,
+    selectUserSelfCreatedLeads,
+    selectUserAssignedLeads,
+    selectUserMessage,
+    selectVerificationResponse,
 } from "../redux/User/user-selectors";
 
 
@@ -16,6 +29,19 @@ export const useUser = () => {
     const userError = useSelector(selectUserError);
     const userOffice = useSelector(selectActiveOffice);
     const allUsers = useSelector(selectAllUsers);
+    const userId = useSelector(selectUserId);
+    const userName = useSelector(selectUserName);
+    const userEmail = useSelector(selectUserEmail);
+    const userRole = useSelector(selectUserRole);
+    const userBranch = useSelector(selectUserBranch);
+    const userCreatedDate = useSelector(selectUserCreatedDate);
+    const userCreatorName = useSelector(selectUserCreatedByName);
+    const userCreatorRole = useSelector(selectUserCreatedByRole);
+    const userCreatorBranch = useSelector(selectUserCreatedByBranch);
+    const userSelfCreateLeads = useSelector(selectUserSelfCreatedLeads);
+    const userAssignedLeads = useSelector(selectUserAssignedLeads);
+    const verifyMessage = useSelector(selectUserMessage);
+    const isVerificationResponse = useSelector(selectVerificationResponse);
 
 
     return {
@@ -25,5 +51,18 @@ export const useUser = () => {
         userError,
         userOffice,
         allUsers,
+        userId,
+        userName,
+        userEmail,
+        userRole,
+        userBranch,
+        userCreatedDate,
+        userCreatorName,
+        userCreatorRole,
+        userCreatorBranch,
+        userSelfCreateLeads,
+        userAssignedLeads,
+        verifyMessage,
+        isVerificationResponse,
     };
 };

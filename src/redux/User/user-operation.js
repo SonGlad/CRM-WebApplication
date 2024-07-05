@@ -58,7 +58,25 @@ export const getUserById = createAsyncThunk(
     async({userId, branch}, thunkApi) => {
         const params = branch ? `?branch=${branch}` : '';
         try{
-            const response = await axios.get(`/api/users/${userId}${params}`);
+            const response = await axios.get(`users/${userId}${params}`);
+            toast.success(`All users list been received`);
+            return response.data
+        }
+        catch(error){
+            toast.error('Oops. Something went wrong. Please try again.');
+            console.log(error.message);
+            return thunkApi.rejectWithValue(error.message);
+        }
+    }
+);
+
+
+export const resendVerifyEmail = createAsyncThunk(
+    'users/verify/:userId/:branch',
+    async({userId, branch, email}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.post(`users/verify/${userId}${params}`, {email});
             toast.success(`All users list been received`);
             return response.data
         }

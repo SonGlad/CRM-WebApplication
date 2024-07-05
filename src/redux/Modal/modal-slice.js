@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { inregister } from "../Auth/auth-operation";
 import { createNewLead } from "../Lead/lead-operation";
+import { getUserById, resendVerifyEmail} from "../User/user-operation";
 
 
 const modalSlice = createSlice({
@@ -8,10 +9,9 @@ const modalSlice = createSlice({
     initialState: {
         isSettingsModal: false,
         isNewUserModal: false,
-        isNewUserSuccess: true,
         isNewLeadModal: false,
-        isNewLeadSuccess: true,
         isUserDetails: false,
+        isSuccess: true,
         isLoading: false,
     },
 
@@ -49,30 +49,57 @@ const modalSlice = createSlice({
         // NEW USER SWITCHER
         .addCase(inregister.pending, state =>{
             state.isLoading = true;
-            state.isNewUserSuccess = true;
+            state.isSuccess = true;
         })
         .addCase(inregister.fulfilled, (state, { payload }) => {
             state.isLoading = false;
-            state.isNewUserSuccess = true;
+            state.isSuccess = true;
         })
         .addCase(inregister.rejected, (state, {payload}) => {
             state.isLoading = false;
-            state.isNewUserSuccess = false;
+            state.isSuccess = false;
         })
 
 
         // NEW LEAD SWITCHER
         .addCase(createNewLead.pending, state =>{
             state.isLoading = true;
-            state.isNewLeadSuccess = true;
+            state.isSuccess = true;
         })
         .addCase(createNewLead.fulfilled, (state, { payload }) => {
             state.isLoading = false;
-            state.isNewLeadSuccess = true;
+            state.isSuccess = true;
         })
         .addCase(createNewLead.rejected, (state, {payload}) => {
             state.isLoading = false;
-            state.isNewLeadSuccess = false;
+            state.isSuccess = false;
+        })
+
+
+        // GET USER BY ID SWITCHER
+        .addCase(getUserById.pending, state =>{
+            state.isSuccess = true;
+        })
+        .addCase(getUserById.fulfilled, (state, { payload }) => {
+            state.isSuccess = true;
+        })
+        .addCase(getUserById.rejected, (state, {payload}) => {
+            state.isSuccess = false;
+        })
+
+
+        //VERIFY EMAIL SWITCHER
+        .addCase(resendVerifyEmail.pending, state =>{
+            state.isLoading = true;
+            state.isSuccess = true;
+        })
+        .addCase(resendVerifyEmail.fulfilled, (state, { payload }) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+        })
+        .addCase(resendVerifyEmail.rejected, (state, {payload}) => {
+            state.isLoading = false;
+            state.isSuccess = false;
         })
     }
 });
