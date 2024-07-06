@@ -34,7 +34,19 @@ export const selectUserAssignedLeads = state => state.user.user.leads.assigned;
 
 export const selectUserMessage = state => state.user.isMessage;
 
-export const selectVerificationResponse = state => state.user.isVerificationRespose;
+export const selectResponseForUserDetailsModal = state => state.user.isResposeForUserDetailsModal;
+
+export const selectVerificationEmail = state => state.user.isVerificationEmail;
+
+export const selectResetPassword = state => state.user.isResetPassword;
+
+export const selectLeadDetails = state => state.user.isLeadsDetails;
+
+export const selectResetPasswordResponse = state => state.user.resetPasswordResponse;
+
+
+
+
 
 
 

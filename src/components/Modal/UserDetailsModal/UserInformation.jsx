@@ -17,6 +17,7 @@ export const UserInformation = ({
     userAssignedLeads,
     userSelfCreateLeads,
     resendUserVerifyEmail,
+    resetPasswordForUser,
 }) => {
 
 
@@ -33,7 +34,7 @@ export const UserInformation = ({
         const zonedDate = toZonedTime(date, timeZone);
     
         const formattedDate = format(zonedDate, 'yyyy-MM-dd', { timeZone });
-        const formattedTime = format(zonedDate, 'HH:mm:ss', { timeZone });
+        const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
     
         return `${formattedDate} ${formattedTime}`;
     };
@@ -63,7 +64,7 @@ export const UserInformation = ({
                             <span>1</span>
                             <button type="button" onClick={resendUserVerifyEmail}>Resend Verification Email</button>
                             <span>1</span>
-                            <button type="button">Reset User Password</button>
+                            <button type="button" onClick={resetPasswordForUser}>Reset User Password</button>
                         </div>
                     </div>
                 )}

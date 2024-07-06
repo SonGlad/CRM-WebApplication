@@ -46,7 +46,6 @@ export const getAllUsers = createAsyncThunk(
         }
         catch(error){
             toast.error('Oops. Something went wrong. Please try again.');
-            console.log(error.message);
             return thunkApi.rejectWithValue(error.message);
         }
     }
@@ -64,7 +63,6 @@ export const getUserById = createAsyncThunk(
         }
         catch(error){
             toast.error('Oops. Something went wrong. Please try again.');
-            console.log(error.message);
             return thunkApi.rejectWithValue(error.message);
         }
     }
@@ -78,12 +76,28 @@ export const resendVerifyEmail = createAsyncThunk(
         try{
             const response = await axios.post(`users/verify/${userId}${params}`, {email});
             toast.success(`All users list been received`);
+            return response.data.message
+        }
+        catch(error){
+            toast.error('Oops. Something went wrong. Please try again.');
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const resetUserPassword = createAsyncThunk(
+    'users/resetPassword/:userId/:branch',
+    async({userId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.post(`users/resetPassword/${userId}${params}`);
+            toast.success(`All users list been received`);
             return response.data
         }
         catch(error){
             toast.error('Oops. Something went wrong. Please try again.');
-            console.log(error.message);
-            return thunkApi.rejectWithValue(error.message);
+            return thunkApi.rejectWithValue(error.response.data.message);
         }
     }
 );

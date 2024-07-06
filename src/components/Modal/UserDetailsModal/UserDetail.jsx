@@ -4,11 +4,12 @@ import { DataLoading } from "../../CustomLoaders/CustomLoaders";
 import { useUser } from "../../../hooks/useUser";
 import { useAuth } from "../../../hooks/useAuth";
 import { useModal } from "../../../hooks/useModal";
-import { resendVerifyEmail } from "../../../redux/User/user-operation";
+import { resendVerifyEmail, resetUserPassword } from "../../../redux/User/user-operation";
 import { useDispatch } from "react-redux";
-import { updatingVerificationEmailResponse } from "../../../redux/User/user-slice";
+import { updatingVerificationEmailResponse, updatingResetPasswordResponse } from "../../../redux/User/user-slice";
 import { UserInformation } from "./UserInformation";
-import { UserVerificationResponse } from "./UserVerification";
+import { UserDetailModalResponse } from "./UserDetailModalResponse";
+import { useEffect, useState } from "react";
 
 
 export const UserDetails = ({handleClickClose}) => {
@@ -27,11 +28,19 @@ export const UserDetails = ({handleClickClose}) => {
         userSelfCreateLeads,
         userAssignedLeads,
         verifyMessage,
-        isVerificationResponse,
-        isUserError,  
+        isResposeForUserDetailsModal,
+        userError,
+        isLeadsDetails,
+        isResetPassword,
+        isVerificationEmail,
+        resetPasswordResponse,  
     } = useUser();
     const { isAdmin, isManager } = useAuth();
     const { isSuccess } = useModal();
+    const [isCopied, setIsCopied] = useState(false);
+    const [password, setPassword] = useState('');
+    const [responseText, setResponseText] = useState('');
+    const [passwordText, setPasswordText] = useState('');
 
 
     const resendUserVerifyEmail = () => {
@@ -41,7 +50,8 @@ export const UserDetails = ({handleClickClose}) => {
                 branch: userBranch,
                 email: userEmail,
             }))
-        } else {
+        }
+        if(isManager){
             dispatch(resendVerifyEmail({
                 userId: userId,
                 email: userEmail,
@@ -50,19 +60,72 @@ export const UserDetails = ({handleClickClose}) => {
     };
 
 
+    const resetPasswordForUser = () => {
+        if (isAdmin){
+            dispatch(resetUserPassword({
+                userId: userId,
+                branch: userBranch,
+            }))
+        } 
+        if(isManager){
+            dispatch(resetUserPassword({
+                userId: userId,
+            }))
+        }
+    };
+
+
     const forDoneButton = () => {
+        if(isVerificationEmail){
+            dispatch(updatingVerificationEmailResponse());
+        }
+        if(isResetPassword){
+            dispatch(updatingResetPasswordResponse());
+            setIsCopied(false);
+        }
         handleClickClose();
-        dispatch(updatingVerificationEmailResponse());
     };
 
 
     const forContinueButton = () => {
-        dispatch(updatingVerificationEmailResponse());
+        if(isVerificationEmail){
+            dispatch(updatingVerificationEmailResponse());
+        }
+        if(isResetPassword){
+            dispatch(updatingResetPasswordResponse());
+            setIsCopied(false);
+        }
     };
- 
+
+
+    useEffect(() => {
+        if(resetPasswordResponse){
+            const text = resetPasswordResponse.message;
+            const [extractedResponseText, extractedPasswordText, extractedPassword] = text.match(/^(.*?\.)(.*?:)(.*)$/).slice(1);
+            setResponseText(extractedResponseText.trim());
+            setPasswordText(extractedPasswordText.trim());
+            setPassword(extractedPassword.trim());
+        }
+    },[resetPasswordResponse])
+    
+    
+    const handleCopy = () => {
+        const userData = `
+            Name: ${resetPasswordResponse.username}
+            Email: ${resetPasswordResponse.email}
+            Branch: ${resetPasswordResponse.branch}
+            Password: ${password}
+        `.trim();
+        
+        navigator.clipboard.writeText(userData).then(() => {
+            setIsCopied(true);
+        });
+    };
+    
+    
 
     return (
-        <UserDetailsStyled $isVerificationResponse={isVerificationResponse}>
+        <UserDetailsStyled $isResposeForUserDetailsModal={isResposeForUserDetailsModal}>
             <button className="close-btn" type="button" onClick={handleClickClose}>
                 <CloseIcon className="close-icon" width={12} height={12}/>
             </button>
@@ -70,7 +133,7 @@ export const UserDetails = ({handleClickClose}) => {
             {userLoading ? (
                 <DataLoading/>
             ) : ( 
-                !isVerificationResponse ? (
+                !isResposeForUserDetailsModal ? (
                     <UserInformation
                         userName={userName}
                         userEmail={userEmail}
@@ -85,14 +148,24 @@ export const UserDetails = ({handleClickClose}) => {
                         userAssignedLeads={userAssignedLeads}
                         userSelfCreateLeads={userSelfCreateLeads}
                         resendUserVerifyEmail={resendUserVerifyEmail}
+                        resetPasswordForUser={resetPasswordForUser}
                     />
                 ) : (
-                    <UserVerificationResponse
+                    <UserDetailModalResponse
                         isSuccess={isSuccess}
                         verifyMessage={verifyMessage}
-                        isUserError={isUserError}
+                        userError={userError}
+                        isVerificationEmail={isVerificationEmail}
+                        isResetPassword={isResetPassword}
+                        isLeadsDetails={isLeadsDetails}
+                        responseText={responseText}
+                        passwordText={passwordText}
+                        password={password}
+                        resetPasswordResponse={resetPasswordResponse}
+                        isCopied={isCopied}
                         forContinueButton={forContinueButton}
                         forDoneButton={forDoneButton}
+                        handleCopy={handleCopy}
                     />
                 )
             )}

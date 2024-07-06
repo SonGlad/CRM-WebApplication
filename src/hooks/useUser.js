@@ -18,7 +18,11 @@ import {
     selectUserSelfCreatedLeads,
     selectUserAssignedLeads,
     selectUserMessage,
-    selectVerificationResponse,
+    selectResponseForUserDetailsModal,
+    selectVerificationEmail,
+    selectResetPassword,
+    selectLeadDetails,
+    selectResetPasswordResponse,
 } from "../redux/User/user-selectors";
 
 
@@ -41,7 +45,11 @@ export const useUser = () => {
     const userSelfCreateLeads = useSelector(selectUserSelfCreatedLeads);
     const userAssignedLeads = useSelector(selectUserAssignedLeads);
     const verifyMessage = useSelector(selectUserMessage);
-    const isVerificationResponse = useSelector(selectVerificationResponse);
+    const isResposeForUserDetailsModal = useSelector(selectResponseForUserDetailsModal);
+    const isVerificationEmail = useSelector(selectVerificationEmail);
+    const isResetPassword = useSelector(selectResetPassword);
+    const isLeadsDetails = useSelector(selectLeadDetails);
+    const resetPasswordResponse = useSelector(selectResetPasswordResponse);
 
 
     return {
@@ -63,6 +71,10 @@ export const useUser = () => {
         userSelfCreateLeads,
         userAssignedLeads,
         verifyMessage,
-        isVerificationResponse,
+        isResposeForUserDetailsModal,
+        isVerificationEmail,
+        isResetPassword,
+        isLeadsDetails,
+        resetPasswordResponse
     };
 };

@@ -5,7 +5,7 @@ export const UserDetailsStyled = styled.div`
     display: flex;
     flex-direction: column;
     width: 95%;
-    max-width: ${props => props.$isVerificationResponse ? '31.25rem' : '48rem'};
+    max-width: ${props => props.$isResposeForUserDetailsModal ? '31.25rem' : '48rem'};
 
 
     height: auto;
@@ -77,7 +77,7 @@ export const UserDetailsStyled = styled.div`
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
-        margin-top: 2rem;
+        margin-top: 3rem;
         align-items: center;
         justify-content: space-between;
 
@@ -314,5 +314,39 @@ export const StyledUserVerification = styled.div`
     .content-text{
         margin-bottom: 1rem;
         text-align: center;
+    }
+
+    .reset-password-text{
+        color: ${p => p.theme.color.primary_green_lite};
+        margin-bottom: 1rem;
+
+        & span{
+        color: ${p => p.theme.color.primary_white};
+        }
+    }
+
+    .div-for-copy-btn{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .password-button{
+            margin-top: -1rem;
+            color: ${(props) => props.theme.color.primary_black};
+            background-color: ${(p) => p.theme.color.primary_green_lite};
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.25rem;
+            width: 45%;
+            border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+            border-radius: 0.75rem;
+            padding: 0.25rem;
+            transition: color ${p => p.theme.transition.main_transition};
+
+            &:hover {
+                color: ${(props) => props.theme.color.primary_grey};
+            }
+        }
     }
 `

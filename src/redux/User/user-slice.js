@@ -5,6 +5,7 @@ import {
     getAllUsers,
     getUserById, 
     resendVerifyEmail,
+    resetUserPassword,
 } from "./user-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -31,8 +32,12 @@ const initialState = {
             assigned: null,
         }
     },
-    isVerificationRespose: false,
+    isLeadsDetails: false,
+    isResposeForUserDetailsModal: false,
+    isVerificationEmail: false,
     isMessage: '',
+    isResetPassword: false,
+    resetPasswordResponse: null,
     isUserLoading: false,
     isUserError: null,
 };
@@ -50,7 +55,7 @@ const userSlice = createSlice({
         resetOfficeState:(state) => {
             state.officeState = '';
         },
-        resetUsereState:(state) => {
+        resetUserState:(state) => {
             state.user = {
                 id: null,
                 name: null,
@@ -69,9 +74,23 @@ const userSlice = createSlice({
                 }
             };
             state.isMessage = '';
+            state.isResposeForUserDetailsModal = false;
+            state.isVerificationEmail = false;
+            state.isResetPassword = false;
+            state.resetPasswordResponse = null;
+            state.isUserError = null;
         },
         updatingVerificationEmailResponse: (state) => {
-            state.isVerificationRespose = false;
+            state.isResposeForUserDetailsModal = false;
+            state.isVerificationEmail = false;
+            state.isMessage = '';
+            state.isUserError = null;
+        },
+        updatingResetPasswordResponse: (state) => {
+            state.isResposeForUserDetailsModal = false;
+            state.isResetPassword = false;
+            state.resetPasswordResponse = null;
+            state.isUserError = null;
         },
     },
 
@@ -163,18 +182,45 @@ const userSlice = createSlice({
         .addCase(resendVerifyEmail.pending, state => {
             state.isUserLoading = true;
             state.isUserError = null;
-            state.isVerificationRespose = false;
+            state.isResposeForUserDetailsModal = false;
+            state.isVerificationEmail = false;
         })
         .addCase(resendVerifyEmail.fulfilled, (state, {payload} ) => {
-            state.isMessage = payload.message;
             state.isUserLoading = false;
+            state.isResposeForUserDetailsModal = true;
+            state.isVerificationEmail = true;
+            state.isMessage = payload;
             state.isUserError = null;
-            state.isVerificationRespose = true;
+
         })
         .addCase(resendVerifyEmail.rejected, (state, {payload}) => {
             state.isUserLoading = false;
+            state.isResposeForUserDetailsModal = true;
+            state.isVerificationEmail = true;
             state.isUserError = payload;
-            state.isVerificationRespose = true;
+        })
+
+
+        //RESET USER PASSWORD//
+        .addCase(resetUserPassword.pending, state => {
+            state.isUserLoading = true;
+            state.isUserError = null;
+            state.isResposeForUserDetailsModal = false;
+            state.isResetPassword = false;
+        })
+        .addCase(resetUserPassword.fulfilled, (state, {payload} ) => {
+            state.isUserLoading = false;
+            state.isResposeForUserDetailsModal = true;
+            state.isResetPassword = true;
+            state.resetPasswordResponse = payload
+            state.isUserError = null;
+
+        })
+        .addCase(resetUserPassword.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isResposeForUserDetailsModal = true;
+            state.isResetPassword = true;
+            state.isUserError = payload;
         })
 
         
@@ -186,6 +232,7 @@ const userSlice = createSlice({
         .addCase(logOut.fulfilled, (state, { payload }) => {
             state.officeList = [];
             state.roleList = [];
+            state.officeState ='';
             state.users = [];
             state.user = {
                 id: null,
@@ -204,7 +251,11 @@ const userSlice = createSlice({
                     assigned: null,
                 }
             };
-            state.isVerificationRespose = false;
+            state.isResposeForUserDetailsModal = false;
+            state.isVerificationEmail = false;
+            state.isResetPassword = false;
+            state.resetPasswordResponse = null;
+            state.isLeadsDetails = false;
             state.isMessage = ''; 
             state.isUserLoading = false;
             state.isUserError = null;
@@ -223,6 +274,7 @@ export const userReducer = userSlice.reducer;
 export const {
     isOfficeState,
     resetOfficeState,
-    resetUsereState,
-    updatingVerificationEmailResponse, 
+    resetUserState,
+    updatingVerificationEmailResponse,
+    updatingResetPasswordResponse, 
 } = userSlice.actions;

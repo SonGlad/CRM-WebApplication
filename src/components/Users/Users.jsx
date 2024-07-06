@@ -70,7 +70,7 @@ export const Users = () => {
         const zonedDate = toZonedTime(date, timeZone);
     
         const formattedDate = format(zonedDate, 'yyyy-MM-dd', { timeZone });
-        const formattedTime = format(zonedDate, 'HH:mm:ss', { timeZone });
+        const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
     
         return `${formattedDate} ${formattedTime}`;
     };

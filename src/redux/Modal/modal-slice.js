@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { inregister } from "../Auth/auth-operation";
 import { createNewLead } from "../Lead/lead-operation";
-import { getUserById, resendVerifyEmail} from "../User/user-operation";
+import { getUserById, resendVerifyEmail, resetUserPassword} from "../User/user-operation";
 
 
 const modalSlice = createSlice({
@@ -90,15 +90,24 @@ const modalSlice = createSlice({
 
         //VERIFY EMAIL SWITCHER
         .addCase(resendVerifyEmail.pending, state =>{
-            state.isLoading = true;
             state.isSuccess = true;
         })
         .addCase(resendVerifyEmail.fulfilled, (state, { payload }) => {
-            state.isLoading = false;
             state.isSuccess = true;
         })
         .addCase(resendVerifyEmail.rejected, (state, {payload}) => {
-            state.isLoading = false;
+            state.isSuccess = false;
+        })
+
+
+        //RESET PASSWORD SWITCHER
+        .addCase(resetUserPassword.pending, state =>{
+            state.isSuccess = true;
+        })
+        .addCase(resetUserPassword.fulfilled, (state, { payload }) => {
+            state.isSuccess = true;
+        })
+        .addCase(resetUserPassword.rejected, (state, {payload}) => {
             state.isSuccess = false;
         })
     }
