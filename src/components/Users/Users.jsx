@@ -158,18 +158,20 @@ export const Users = () => {
                                 <th>User Name</th>
                                 <th>User Email</th>
                                 <th>User Branch</th>
+                                <th>Total Leads</th>
                                 <th>Created At</th>
                                 <th>Details</th>
                                 <th>Check</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredUsers.map(({_id, role, username, email, branch, createdAt}) => (
+                            {filteredUsers.map(({_id, role, username, email, branch, createdAt, totalLeads}) => (
                                 <tr key={_id}>
                                     <td>{role}</td>
                                     <td>{username}</td>
                                     <td>{email}</td>
                                     <td>{formatBranchName(branch)}</td>
+                                    <td>{totalLeads}</td>
                                     <td>{formatDateTime(createdAt)}</td>
                                     <td>
                                         <button className="check-btn" type='button'

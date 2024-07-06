@@ -1,7 +1,7 @@
 import { StyledUserVerification } from "./UserDetail.styled";
 import {ReactComponent as SuccsessIcon} from "../../../images/svg-icons/ok.svg";
-import {ReactComponent as ErrorIcon} from "../../../images/svg-icons/error-logo.svg";
 import { useState, useEffect } from "react";
+import { ErrorResponse } from "./UserErrorResponse";
 
 
 export const UserDetailModalResponse = ({
@@ -90,30 +90,20 @@ export const UserDetailModalResponse = ({
             ) : (
                 <>
                     {isResponse === "isVerificationEmail" && (
-                        <div>
-                            <div className="content">
-                                <ErrorIcon className="modal-icon" width={24} height={24}/>
-                                <p className="contact-modal-text error">Oops... Something went wrong.</p>
-                            </div>
-                            <p className="content-text">The following error occurred:</p>
-                            <p className="content-text">{userError}</p>
-                        </div>                 
+                        <ErrorResponse
+                            userError={userError}
+                        />             
                     )}
                     {isResponse === "isResetPassword" && (
-                        <div>
-                            <div className="content">
-                                <ErrorIcon className="modal-icon" width={24} height={24}/>
-                                <p className="contact-modal-text error">Oops... Something went wrong.</p>
-                            </div>
-                            <p className="content-text">User password reset failed!</p>
-                            <p className="content-text">The following error occurred:</p>
-                            <p className="content-text">{userError}</p>
-                        </div>                 
+                        <ErrorResponse
+                           userError={userError}
+                           isResponse={isResponse}
+                       />               
                     )}
                     {isResponse === "isLeadsDetails" && (
-                        <div>
-                            
-                        </div>
+                        <ErrorResponse
+                           userError={userError}
+                       />
                     )}
                 </>
             )}  
