@@ -1,5 +1,6 @@
 import { StyledMainPage } from "./Main.styled";
 import { useUser } from "../../../hooks/useUser";
+import { Table } from "../../table/table";
 
 
 export const Main = () => {
@@ -10,7 +11,7 @@ export const Main = () => {
     return(
         <StyledMainPage>
             <div className="wraper">
-                <h1>MAIN PAGE</h1>
+                <Table/>
             </div>
         </StyledMainPage>
     );

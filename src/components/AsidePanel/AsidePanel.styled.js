@@ -5,6 +5,7 @@ export const StyledAsidePanel = styled.aside`
     background-image: linear-gradient(90deg, #7e7e7e, #b5b5b547);
     box-shadow: 0px 0px 14px 5px rgba(227, 255, 168, 0.2);
     max-width: 12.5rem;
+    min-width: 12.5rem;
     flex-grow: 1;
     border-radius: 0.75rem;
     padding: 0.75rem;

@@ -1,0 +1,299 @@
+[
+  {
+    "_id": "6648df8a66add5c00902521a",
+    "name": "Test7",
+    "lastName": "Contact7",
+    "email": "testcontact7@gmail.com",
+    "phone": "+231321546221389",
+    "resource": "linkedin",
+    "branch": "Office1",
+    "role": "CRM Manager",
+    "managerId": "66471239045952a48bec09b9",
+    "conManagerId": "66576190f2629553dd2d829c",
+    "conAgentId": "663f7ac18d8e7d3766b8dc7b",
+    "externalLeadId": "664611f927318e9120e01402",
+    "assigned": true,
+    "selfCreated": false,
+    "clientId": 958460,
+    "status": "New",
+    "country": "England",
+    "region": "London",
+    "city": "London",
+    "timeZone": 0,
+    "KYC": {
+      "trading": false,
+      "experience": "beginner",
+      "investment": "0-500",
+      "time": "0-5",
+      "riskTolerance": "low",
+      "profitGoal": "conservative"
+    },
+    "latestComment": {
+      "createdBy": {
+        "username": "Conversion Manager2",
+        "email": "R1231AJHAH231234@gmail.com",
+        "branch": "Office1",
+        "role": "Conversion Manager",
+        "createdAt": "2024-05-29T18:06:16.311+00:00"
+      },
+      "comment": "Current lead was reassigned from agent Conversion Agent1 to Conversion Manager2",
+      "createdAt": "2024-05-17T15:31:24.538+00:00",
+      "updatedAt": "2024-05-29T18:06:16.312+00:00",
+      "nextCall": "2024-05-31T15:14:22.000+00:00"
+    }
+  },
+  {
+    "_id": "6657460f26999ad41b4cb8c2",
+    "name": "Test9",
+    "lastName": "Contact9",
+    "email": "testcontact9@gmail.com",
+    "phone": "+231321546221389",
+    "resource": "instagram",
+    "branch": "Office1",
+    "managerId": "66471239045952a48bec09b9",
+    "externalLeadId": "6643c580df3e2a308c799f62",
+    "assigned": false,
+    "selfCreated": false,
+    "clientId": 574491,
+    "status": "New",
+    "country": "",
+    "region": "",
+    "city": "",
+    "timeZone": 0,
+    "KYC": {
+      "trading": false,
+      "experience": "beginner",
+      "investment": "0-500",
+      "time": "0-5",
+      "riskTolerance": "low",
+      "profitGoal": "conservative"
+    },
+    "latestComment": {
+      "createdBy": {
+        "username": "Conversion Manager2",
+        "email": "R1231AJHAH231234@gmail.com",
+        "branch": "Office1",
+        "role": "Conversion Manager",
+        "createdAt": "2024-05-29T18:07:50.755+00:00"
+      },
+      "comment": "Current lead was reassigned from agent Conversion Agent1 to Conversion Manager2",
+      "createdAt": "2024-05-29T15:13:19.542+00:00",
+      "updatedAt": "2024-05-29T18:07:50.756+00:00",
+      "nextCall": "2024-05-31T15:14:22.000+00:00"
+    },
+    "conManagerId": "66576190f2629553dd2d829c"
+  },
+  {
+    "_id": "66574a1028e0ad808bee57f1",
+    "name": "Test10",
+    "lastName": "Contact10",
+    "email": "testcontact10@gmail.com",
+    "phone": "+231321546221389",
+    "resource": "Magazine",
+    "branch": "Office1",
+    "managerId": "66471239045952a48bec09b9",
+    "externalLeadId": "6643c580df3e2a308c799f62",
+    "assigned": true,
+    "selfCreated": false,
+    "clientId": 113670,
+    "status": "New",
+    "country": "",
+    "region": "",
+    "city": "",
+    "timeZone": 0,
+    "KYC": {
+      "trading": false,
+      "experience": "beginner",
+      "investment": "0-500",
+      "time": "0-5",
+      "riskTolerance": "low",
+      "profitGoal": "conservative"
+    },
+    "latestComment": {
+      "createdBy": {
+        "username": "Administrator",
+        "email": "bigfunnyguy@gmail.com",
+        "branch": "Main",
+        "role": "Administrator",
+        "createdAt": "2024-06-02T14:49:54.592+00:00"
+      },
+      "comment": "The lead next call was changed to Fri May 31 2024 17:14:22 by the user…",
+      "createdAt": "2024-05-29T15:30:24.043+00:00",
+      "updatedAt": "2024-06-02T14:49:54.594+00:00",
+      "nextCall": "2024-05-31T15:14:22.000+00:00"
+    },
+    "conAgentId": "663f7ac18d8e7d3766b8dc7b"
+  },
+  {
+    "_id": "6657735cf3b3c8370ae16d72",
+    "name": "Test",
+    "lastName": "Contact",
+    "email": "test0contact@gmail.com",
+    "phone": "+231321546221389",
+    "resource": "Gazeta",
+    "branch": "Office1",
+    "managerId": "66471239045952a48bec09b9",
+    "externalLeadId": "6643c55edf3e2a308c799f5f",
+    "assigned": true,
+    "selfCreated": false,
+    "clientId": 982656,
+    "status": "New",
+    "country": "",
+    "region": "",
+    "city": "",
+    "timeZone": 0,
+    "KYC": {
+      "trading": false,
+      "experience": "beginner",
+      "investment": "0-500",
+      "time": "0-5",
+      "riskTolerance": "low",
+      "profitGoal": "conservative"
+    },
+    "latestComment": {
+      "createdBy": {
+        "username": "Conversion Manager2",
+        "email": "R1231AJHAH231234@gmail.com",
+        "branch": "Office1",
+        "role": "Conversion Manager",
+        "createdAt": "2024-05-29T18:30:37.341+00:00"
+      },
+      "comment": "Current lead was reassigned from agent Conversion Agent1 to Conversion…",
+      "createdAt": "2024-05-29T18:26:36.477+00:00",
+      "updatedAt": "2024-05-29T18:30:37.341+00:00",
+      "nextCall": "2024-05-31T15:14:22.000+00:00"
+    },
+    "conAgentId": "663f7ac18d8e7d3766b8dc7b"
+  },
+  {
+    "_id": "66577413f3b3c8370ae16d7e",
+    "name": "Test11",
+    "lastName": "Contact11",
+    "email": "testcontact11@gmail.com",
+    "phone": "+231321546221389",
+    "resource": "tv",
+    "branch": "Office1",
+    "managerId": "66471239045952a48bec09b9",
+    "externalLeadId": "665773a2f3b3c8370ae16d78",
+    "assigned": true,
+    "selfCreated": true,
+    "clientId": 724921,
+    "status": "New",
+    "country": "United States",
+    "region": "Washington",
+    "city": "Washington",
+    "timeZone": 0,
+    "KYC": {
+      "trading": false,
+      "experience": "beginner",
+      "investment": "0-500",
+      "time": "0-5",
+      "riskTolerance": "low",
+      "profitGoal": "conservative"
+    },
+    "latestComment": {
+      "createdBy": {
+        "username": "Conversion Manager2",
+        "email": "R1231AJHAH231234@gmail.com",
+        "branch": "Office1",
+        "role": "Conversion Manager",
+        "createdAt": "2024-05-29T18:30:50.628+00:00"
+      },
+      "comment": "Current lead was reassigned from agent Conversion Agent1 to Conversion…",
+      "createdAt": "2024-05-29T18:29:39.667+00:00",
+      "updatedAt": "2024-05-29T18:30:50.629+00:00",
+      "nextCall": "2024-05-31T15:14:22.000+00:00"
+    },
+    "conAgentId": "663f7ac18d8e7d3766b8dc7b"
+  },
+  {
+    "_id": "66577e84eb9a310fc4b32044",
+    "name": "Test7",
+    "lastName": "Contact7",
+    "email": "test07contact@gmail.com",
+    "phone": "+1113217777777777",
+    "resource": "Conversion Agent1",
+    "branch": "Office1",
+    "managerId": "66471239045952a48bec09b9",
+    "owner": {
+      "username": "SonGlad",
+      "email": "Bunny@gmail.com",
+      "id": "663f72888d8e7d3766b8dc42",
+      "role": "Developer"
+    },
+    "assigned": false,
+    "selfCreated": true,
+    "clientId": 650228,
+    "status": "New",
+    "country": "Belgium",
+    "region": "Walonie",
+    "city": "Genappe",
+    "timeZone": 0,
+    "KYC": {
+      "trading": false,
+      "experience": "beginner",
+      "investment": "0-500",
+      "time": "0-5",
+      "riskTolerance": "low",
+      "profitGoal": "conservative"
+    },
+    "latestComment": {
+      "createdBy": {
+        "username": "SonGlad",
+        "email": "Bunny@gmail.com",
+        "role": "Developer",
+        "branch": "Main",
+        "createdAt": "2024-05-29T19:14:12.895+00:00"
+      },
+      "comment": "New Lead Was Created in Office 1 branch by user SonGlad",
+      "createdAt": "2024-05-29T19:14:12.915+00:00",
+      "updatedAt": "2024-05-29T19:14:12.915+00:00",
+      "nextCall": "2024-05-31T15:14:22.000+00:00"
+    }
+  },
+  {
+    "_id": "665783e3af0f9a87ac6b7e65",
+    "name": "Test12",
+    "lastName": "Contact12",
+    "email": "test012contact@gmail.com",
+    "phone": "+1113217777777777",
+    "resource": "Conversion Agent1",
+    "branch": "Office1",
+    "managerId": "66471239045952a48bec09b9",
+    "owner": {
+      "username": "Conversion Agent1",
+      "email": "Wolf@gmail.com",
+      "id": "663f7ac18d8e7d3766b8dc7b",
+      "role": "Conversion Agent"
+    },
+    "assigned": false,
+    "selfCreated": true,
+    "clientId": 117505,
+    "status": "New",
+    "country": "Ukraine",
+    "region": "kharkiv",
+    "city": "Kharkiv",
+    "timeZone": 0,
+    "KYC": {
+      "trading": false,
+      "experience": "beginner",
+      "investment": "0-500",
+      "time": "0-5",
+      "riskTolerance": "low",
+      "profitGoal": "conservative"
+    },
+    "latestComment": {
+      "createdBy": {
+        "username": "Conversion Agent1",
+        "email": "Wolf@gmail.com",
+        "role": "Conversion Agent",
+        "branch": "Office1",
+        "createdAt": "2024-05-29T19:37:07.859+00:00"
+      },
+      "comment": "New Lead Was Created in Office 1 branch by user Conversion Agent1",
+      "createdAt": "2024-05-29T19:37:07.876+00:00",
+      "updatedAt": "2024-05-29T19:37:07.876+00:00",
+      "nextCall": "2024-05-31T15:14:22.000+00:00"
+    }
+  }
+]
