@@ -89,7 +89,7 @@ export const LeadItem = forwardRef(({
             <ul className={`users-dropdown-list ${toggleLeadDropCont()}`}>
                 <li className="users-drop-item">
                     <button type='button' className="users-dropdowm-button"
-                    onClick={openNewLeadModal}>Create Lead
+                        onClick={openNewLeadModal}>Create Lead
                     </button>
                 </li>
                 {isAdmin ? (
@@ -109,7 +109,6 @@ export const LeadItem = forwardRef(({
                             ))}
                         </ul>
                     </li>
-
                 ) : (
                     <li className="users-drop-item none-admin-drop-item" onClick={() => linkCloseMenu()}>
                         <NavLink className='nav-link' to='/leads'>

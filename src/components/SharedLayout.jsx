@@ -8,15 +8,15 @@ import { useAuth } from "../hooks/useAuth";
 import { AsidePanel } from './AsidePanel/AsidePanel';
 
 
-export const SharedLayout = () => {
+export const SharedLayout = ({userLocation}) => {
   const {isLoggedIn} = useAuth();
 
   
   return(
-    <StyledContainer>
+    <StyledContainer $isloggedin={isLoggedIn}>
       <Header/>
       <div className='main'>
-        {isLoggedIn && <AsidePanel/>}
+        {isLoggedIn && <AsidePanel userLocation={userLocation}/>}
         <Suspense fallback={<Loading/>}>
           <main>
             <Outlet />

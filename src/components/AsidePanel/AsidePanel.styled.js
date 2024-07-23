@@ -15,6 +15,9 @@ export const StyledAsidePanel = styled.aside`
     .side-panel-cont{
         height: 87.5dvh;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         border: 1px solid ${p => p.theme.color.primary_green_lite};
         border-radius: 0.75rem;
         padding: 0.75rem;
@@ -28,5 +31,9 @@ export const StyledAsidePanel = styled.aside`
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .delete-list{
+        margin-top: auto;
     }
 `

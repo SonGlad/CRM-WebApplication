@@ -2,21 +2,51 @@ import { StyledAsidePanel } from "./AsidePanel.styled";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getOfficeList, getRoleList } from "../../redux/User/user-operation";
+import { toggleSelectAllCheckbox} from "../../redux/User/user-slice";
 import { useUser } from "../../hooks/useUser";
+import { useAuth } from "../../hooks/useAuth";
 import { UserItem } from "./MenuItem/UserItem";
 import { LeadItem } from "./MenuItem/LeadItem";
 import { StatisticItem } from "./MenuItem/StatisticItem";
+import { DeleteItem } from "./MenuItem/DeleteItem";
+import { openModalConfirm } from "../../redux/Modal/modal-slice"
 
 
-export const AsidePanel = () => {
+
+export const AsidePanel = ({userLocation}) => {
     const dispatch = useDispatch();
-    const {userSelectOffice} = useUser();
-    const [isUserBox, setUserBox] = useState(false);
-    const [isLeadBox, setLeadBox] = useState(false);
-    const [isStatisticBox, setStatisticBox] = useState(false);
+    const { isAdmin } = useAuth();
+    const { userSelectOffice, checkedCheckbox, filteredUsers} = useUser();
+    const [ isUserBox, setUserBox ] = useState(false);
+    const [ isLeadBox, setLeadBox ] = useState(false);
+    const [ isDeleteBox, setDeleteBox ] = useState(false)
+    const [ isLocation, setLocation ] = useState('');
+    const [ isStatisticBox, setStatisticBox ] = useState(false);
     const userBlock = useRef(null);
     const leadBlock = useRef(null);
     const statisticBlock = useRef(null);
+    const deleteBlock = useRef(null);
+
+
+    useEffect(() => {
+        let location;
+        switch(userLocation){
+            case '/':
+                location = 'MainPage'
+                break;
+            case '/users':
+                location = 'UsersPage'
+                break;
+            case '/leads':
+                location ='LeadsPage'
+                break;
+            default:
+                location = ''
+        }
+        if(isLocation !== location){
+            setLocation(location)
+        }
+    },[isLocation, userLocation]);
 
 
     useEffect(() => {
@@ -35,7 +65,18 @@ export const AsidePanel = () => {
     const toggleStatisticMenuDrop = () => {
         setStatisticBox(prevState => !prevState)
     };
+    const toggleDeleteMenuDrop = () => {
+        setDeleteBox(prevState => !prevState)
+    };
 
+
+    useEffect(() => {
+        if (checkedCheckbox.length > 0) {
+            setDeleteBox(true)
+        } else {
+            setDeleteBox(false)
+        }
+    },[checkedCheckbox.length])
 
 
     const toggleUserDropCont = () => {
@@ -56,15 +97,30 @@ export const AsidePanel = () => {
     const toggleStatisticDropArrow = () => {
         return isStatisticBox ? 'arrow-svg-close' : '';
     };
+    const toggleDeleteDropCont = () => {
+        return isDeleteBox ? 'delete-dropdown-list-visible' : '';
+    };
+    const toggleDeleteDropArrow = () => {
+        return isDeleteBox ? 'arrow-svg-close' : '';
+    };
 
 
     const handleKeyPress = useCallback(event => {
         if (event.key === 'Escape') {
-            setUserBox(false);
-            setLeadBox(false);
-            setStatisticBox(false);
+            if (isUserBox) {
+                setUserBox(false);
+            }
+            if (isLeadBox) {
+                setLeadBox(false);
+            }
+            if (isStatisticBox) {
+                setStatisticBox(false);
+            }
+            if (isDeleteBox) {
+                setDeleteBox(false);
+            }
         }
-    },[]);
+    },[isDeleteBox, isLeadBox, isStatisticBox, isUserBox]);
 
 
     const handleBackgroundClick = useCallback(event => {
@@ -77,6 +133,9 @@ export const AsidePanel = () => {
         if (statisticBlock.current && !statisticBlock.current.contains(event.target)) {
             setStatisticBox(false);
         }
+        // if (deleteBlock.current && !deleteBlock.current.contains(event.target)) {
+        //     setDeleteBox(false);
+        // }
     },[]);
 
 
@@ -115,6 +174,20 @@ export const AsidePanel = () => {
                         toggleStatisticDropCont={toggleStatisticDropCont}
                         toggleStatisticDropArrow={toggleStatisticDropArrow}
                         userSelectOffice={userSelectOffice}
+                    />
+                </ul>
+                <ul className="side-panel-list delete-list">
+                    <DeleteItem
+                        deleteBlock={deleteBlock}
+                        isLocation={isLocation}
+                        toggleDeleteMenuDrop={toggleDeleteMenuDrop}
+                        toggleDeleteDropCont={toggleDeleteDropCont}
+                        toggleDeleteDropArrow={toggleDeleteDropArrow}
+                        checkedCheckbox={checkedCheckbox}
+                        filteredUsers={filteredUsers}
+                        toggleSelectAllCheckbox={toggleSelectAllCheckbox}
+                        isAdmin={isAdmin}
+                        openModalConfirm={openModalConfirm}
                     />
                 </ul>
             </div>

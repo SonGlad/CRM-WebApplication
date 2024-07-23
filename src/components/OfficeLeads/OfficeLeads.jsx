@@ -4,6 +4,7 @@ import { resetOfficeState } from "../../redux/Lead/lead-slice";
 import { useDispatch } from "react-redux";
 import { useLead } from "../../hooks/useLead";
 import { useAuth } from "../../hooks/useAuth";
+import { Table } from "../table/table";
 
 
 
@@ -27,7 +28,7 @@ export const OfficeLeads = () => {
                         <h1>Back</h1>
                     </NavLink>
                 )}
-                <h1>LEADS PAGE</h1>
+                <Table/>
             </div>
         </StyledOfficeLeads>
     );

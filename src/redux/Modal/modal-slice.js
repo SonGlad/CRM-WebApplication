@@ -11,6 +11,8 @@ const modalSlice = createSlice({
         isNewUserModal: false,
         isNewLeadModal: false,
         isUserDetails: false,
+        isConfirmModal: false,
+        usersForDeleteId:[],
         isSuccess: true,
         isLoading: false,
     },
@@ -39,6 +41,13 @@ const modalSlice = createSlice({
         },
         closeModaUserDetail: (state) => {
             state.isUserDetails = false;
+        },
+        openModalConfirm: (state, {payload}) => {
+            state.isConfirmModal = true;
+            state.usersForDeleteId = payload;
+        },
+        closeModaConfirm: (state) => {
+            state.isConfirmModal = false;
         },
     },
 
@@ -126,4 +135,6 @@ export const {
     closeModalNewLead,
     openModalUserDetail,
     closeModaUserDetail,
+    openModalConfirm,
+    closeModaConfirm,
 } = modalSlice.actions;

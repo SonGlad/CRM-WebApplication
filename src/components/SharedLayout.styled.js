@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 
 export const StyledContainer = styled.div`
-    height: 97dvh;
+    height: ${props => props.$isloggedin ? '100dvh': '97dvh'};
     display: flex;
     flex-direction: column;
     justify-content: space-between;

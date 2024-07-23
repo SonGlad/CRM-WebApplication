@@ -32,6 +32,7 @@ const userPersistConfig = {
   storage,
   whitelist: [
     'officeState',
+    'selectedCheckedCheckbox',
   ],
 };
 

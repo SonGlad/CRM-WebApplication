@@ -109,7 +109,6 @@ export const UserItem = forwardRef(({
                             ))}
                         </ul>
                     </li>
-
                 ) : (
                     <li className="users-drop-item none-admin-drop-item" onClick={() => linkCloseMenu()}>
                         <NavLink className='nav-link' to='/users'>

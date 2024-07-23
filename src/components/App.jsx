@@ -41,7 +41,13 @@ export const App= () => {
     isAdmin,
     forNoneAdminLogin,
   } = useAuth();
-  const {isSettingsModal, isNewUserModal, isNewLeadModal, isUserDetails} = useModal();
+  const {
+    isSettingsModal, 
+    isNewUserModal, 
+    isNewLeadModal, 
+    isUserDetails, 
+    isConfirmModal,
+  } = useModal();
   const currentPath = useLocation().pathname;
 
 
@@ -103,7 +109,7 @@ export const App= () => {
       {isLoadingAuth && <RefreshLoading />}
       <Toaster/>
       <Routes>
-        <Route parth='/' element = {<SharedLayout/>}>
+        <Route parth='/' element = {<SharedLayout userLocation={userLocation}/>}>
           <Route index element={<HomePage/>}/>
           <Route path='*' element = {<Navigate to="/"/>}/>
           <Route path="/signup" element={
@@ -120,7 +126,7 @@ export const App= () => {
           }/>
         </Route>    
       </Routes>
-      {(isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails) && <Modal/>}
+      {(isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails || isConfirmModal) && <Modal/>}
     </>
   );
 };

@@ -70,7 +70,7 @@ export const getUserById = createAsyncThunk(
 
 
 export const resendVerifyEmail = createAsyncThunk(
-    'users/verify/:userId/:branch',
+    'users/verify/:userId?branch',
     async({userId, branch, email}, thunkApi) => {
         const params = branch ? `?branch=${branch}` : '';
         try{
@@ -87,7 +87,7 @@ export const resendVerifyEmail = createAsyncThunk(
 
 
 export const resetUserPassword = createAsyncThunk(
-    'users/resetPassword/:userId/:branch',
+    'users/resetPassword/:userId?branch',
     async({userId, branch}, thunkApi) => {
         const params = branch ? `?branch=${branch}` : '';
         try{
@@ -97,6 +97,23 @@ export const resetUserPassword = createAsyncThunk(
         }
         catch(error){
             toast.error('Oops. Something went wrong. Please try again.');
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const deleteUser = createAsyncThunk(
+    'users/:userId?branch=Office1',
+    async({userId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.delete(`users/${userId}${params}`);
+            toast.success(`User Deleted`);
+            return response.data
+        }
+        catch(error){
+            toast.error(error.response.data.message);
             return thunkApi.rejectWithValue(error.response.data.message);
         }
     }

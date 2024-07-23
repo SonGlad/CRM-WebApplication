@@ -6,8 +6,9 @@ import {
     getUserById, 
     resendVerifyEmail,
     resetUserPassword,
+    deleteUser,
 } from "./user-operation";
-import { logOut } from "../Auth/auth-operation";
+import { inregister, logOut } from "../Auth/auth-operation";
 
 
 const initialState = {
@@ -40,6 +41,9 @@ const initialState = {
     resetPasswordResponse: null,
     isUserLoading: false,
     isUserError: null,
+    selectedCheckedCheckbox: [],
+    filteredUsers: [],
+    isUserDeleteSuccess: false,
 };
 
 
@@ -92,6 +96,29 @@ const userSlice = createSlice({
             state.resetPasswordResponse = null;
             state.isUserError = null;
         },
+        setFilteredUsers: (state, {payload}) => {
+            state.filteredUsers = payload;
+        },
+        toggleCheckboxState: (state, action) => {
+            const {_id} = action.payload;
+            const isSelected = state.selectedCheckedCheckbox.includes(_id);
+            if (isSelected) {
+                state.selectedCheckedCheckbox = state.selectedCheckedCheckbox.filter(id => id !== _id);
+            } else {
+                state.selectedCheckedCheckbox.push(_id);
+            }
+        },
+        toggleSelectAllCheckbox: (state) => {
+            const filteredUserIds = state.filteredUsers.map(user => user._id);
+            if (state.selectedCheckedCheckbox.length === filteredUserIds.length) {
+                state.selectedCheckedCheckbox = [];
+            } else {
+                state.selectedCheckedCheckbox = [...filteredUserIds];
+            }
+        },
+        resetSelectedCheckbox: (state) => {
+            state.selectedCheckedCheckbox = [];
+        },
     },
 
     extraReducers: builder => {
@@ -142,6 +169,19 @@ const userSlice = createSlice({
         })
         .addCase(getAllUsers.rejected, (state, {payload}) => {
             state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        // CREATE NEW USER//////
+        .addCase(inregister.pending, state => {
+            state.isUserError = null;
+        })
+        .addCase(inregister.fulfilled, (state, {payload} ) => {
+            state.users.unshift(payload);
+            state.isUserError = null;
+        })
+        .addCase(inregister.rejected, (state, {payload}) => {
             state.isUserError = payload;
         })
 
@@ -223,6 +263,23 @@ const userSlice = createSlice({
             state.isUserError = payload;
         })
 
+
+        //DELETE USER//
+        .addCase(deleteUser.pending, state => {
+            state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(deleteUser.fulfilled, (state, {payload} ) => {
+            state.isUserLoading = false;
+            state.isUserError = null;
+            state.users = state.users.filter(user => user._id !== payload.id);
+            state.selectedCheckedCheckbox = state.selectedCheckedCheckbox.filter(id => id !== payload.id);
+        })
+        .addCase(deleteUser.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
         
         // LOGOUT//////
         .addCase(logOut.pending, state => {
@@ -259,6 +316,8 @@ const userSlice = createSlice({
             state.isMessage = ''; 
             state.isUserLoading = false;
             state.isUserError = null;
+            state.selectedCheckedCheckbox = [];
+            state.filteredUsers = [];
         })
         .addCase(logOut.rejected, (state, {payload}) => {
             state.isUserLoading = false;
@@ -276,5 +335,9 @@ export const {
     resetOfficeState,
     resetUserState,
     updatingVerificationEmailResponse,
-    updatingResetPasswordResponse, 
+    updatingResetPasswordResponse,
+    toggleCheckboxState,
+    setFilteredUsers, 
+    toggleSelectAllCheckbox,
+    resetSelectedCheckbox,
 } = userSlice.actions;

@@ -44,6 +44,12 @@ export const selectLeadDetails = state => state.user.isLeadsDetails;
 
 export const selectResetPasswordResponse = state => state.user.resetPasswordResponse;
 
+export const selectCheckedCheckbox = state => state.user.selectedCheckedCheckbox;
+
+export const selectFilteredUsers = state => state.user.filteredUsers;
+
+
+
 
 
 
