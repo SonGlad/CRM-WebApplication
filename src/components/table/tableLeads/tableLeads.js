@@ -1,16 +1,25 @@
-import { TableList } from "./table.styled";
-import { useEffect, useState, useRef } from "react";
+import { TableList } from "./tableLeads.styled";
+import { useEffect, useState, useRef, useCallback } from "react";
 import leadsData from "./leads.json";
 import statusData from "./status.json";
 import timeZoneData from "./timeZone.json";
-import { ReactComponent as ArrowDown } from "../../images/svg-icons/arrow-down.svg";
+import { ReactComponent as ArrowDown } from "../../../images/svg-icons/arrow-down.svg";
 
-export function Table() {
+export function TableLeads() {
   const [leads, setLeads] = useState(leadsData);
-  // const [dropdownVisible, setDropdownVisible] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const [isMenuBox, setMenuBox] = useState(false);
   const [inputVisible, setInputVisible] = useState({ row: null, cell: null });
   const inputRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleInputChange = (event, leadIndex, fieldName) => {
     const updatedLeads = [...leads];
@@ -40,19 +49,14 @@ export function Table() {
     });
   }, [leads]);
 
-  // const handleDropdownClick = (leadIndex) => {
-  //   setDropdownVisible(dropdownVisible === leadIndex ? null : leadIndex);
-  // };
-
   const handleDropdownItemClick = (leadIndex, status) => {
     const updatedLeads = [...leads];
     updatedLeads[leadIndex].status = status;
     setLeads(updatedLeads);
-    // setDropdownVisible(null); 
+    setInputVisible({ row: null, cell: null });
   };
 
   const calculateClientTime = (timeZoneOffset) => {
-    const currentTime = new Date();
     const clientTime = new Date(
       currentTime.getTime() + timeZoneOffset * 60 * 60 * 1000
     );
@@ -60,7 +64,7 @@ export function Table() {
   };
 
   const toggleInputVisibility = (row, cell) => {
-    setMenuBox(isMenuBox === row ? null : row);
+    setMenuBox(isMenuBox === false ? row : false);
     setInputVisible(
       inputVisible.row === row && inputVisible.cell === cell
         ? { row: null, cell: null }
@@ -80,16 +84,68 @@ export function Table() {
         `${inputVisible.cell}-${inputVisible.row}`
       );
       const inputContainer = inputRef.current;
-      if (inputElement && inputContainer) {
+      const dropdownContainer = dropdownRef.current;
+      if (inputElement && (inputContainer || dropdownContainer)) {
         const rect = inputElement.getBoundingClientRect();
-        inputContainer.style.top = `${
-          rect.top + window.scrollY + rect.height
-        }px`;
-        inputContainer.style.left = `${rect.left + window.scrollX}px`;
-        // inputContainer.style.width = `${rect.width}px`;
+        if (inputContainer) {
+          inputContainer.style.top = `${
+            rect.top + window.scrollY + rect.height
+          }px`;
+          inputContainer.style.left = `${rect.left + window.scrollX}px`;
+        }
+        if (dropdownContainer) {
+          dropdownContainer.style.top = `${
+            rect.top + window.scrollY + rect.height
+          }px`;
+          dropdownContainer.style.left = `${rect.left + window.scrollX}px`;
+        }
+
+        if (dropdownContainer && inputVisible.cell === "status") {
+          dropdownContainer.style.display = "grid";
+          dropdownContainer.style.top = `${
+            (rect.top + window.scrollY + rect.height) / 2
+          }px`;
+          dropdownContainer.style.left = `${rect.right + window.scrollX}px`;
+        }
+        if (dropdownContainer && inputVisible.cell === "timeZone") {
+          dropdownContainer.style.display = "flex";
+          dropdownContainer.style.left = `${
+            (rect.right + window.scrollX) / 1.36
+          }px`;
+        }
       }
     }
   }, [inputVisible]);
+
+  const handleKeyPress = useCallback((event) => {
+    if (event.key === "Escape") {
+      setMenuBox(false);
+      setInputVisible({ row: null, cell: null });
+    }
+  }, []);
+
+  const handleBackgroundClick = useCallback((event) => {
+    const target = event.target;
+    if (
+      !target.classList.contains("arrow-svg-close") &&
+      ((inputRef.current && !inputRef.current.contains(event.target)) ||
+        (dropdownRef.current && !dropdownRef.current.contains(event.target)))
+    ) {
+      setMenuBox(false);
+      setInputVisible({ row: null, cell: null });
+      return;
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+    document.addEventListener("click", handleBackgroundClick);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener("click", handleBackgroundClick);
+    };
+  }, [handleBackgroundClick, handleKeyPress]);
 
   return (
     <TableList>
@@ -151,37 +207,6 @@ export function Table() {
                     )}`}
                   />
                 </td>
-                {/* <td
-                  className="TableHeaderItem custom-input"
-                  onClick={() => handleDropdownClick(index)}
-                >
-                  <input
-                    id="statistics"
-                    name="statistics"
-                    className="Input"
-                    type="text"
-                    placeholder="Categories"
-                    value={lead.status}
-                    readOnly
-                  />
-                  <ul
-                    className="dropdown"
-                    style={{
-                      display: dropdownVisible === index ? "grid" : "none",
-                    }}
-                  >
-                    {statusData.map((statu, item) => (
-                      <li
-                        className="ListItem"
-                        key={item}
-                        value={statu}
-                        onClick={() => handleDropdownItemClick(index, statu)}
-                      >
-                        {statu}
-                      </li>
-                    ))}
-                  </ul>
-                </td> */}
                 <td className="TableHeaderItem" id={`status-${index}`}>
                   {lead.status}
                   <ArrowDown
@@ -192,26 +217,6 @@ export function Table() {
                     )}`}
                   />
                 </td>
-                    
-                   <ul
-                    className="dropdown"
-                    style={{
-                      display: inputVisible.cell === "status" ? "grid" : "none",
-                    }}
-                  >
-                  {inputVisible.row !== null && inputVisible.cell === "status" && 
-                    statusData.map((statu, item) => (
-                      <li
-                        className="ListItem"
-                        key={item}
-                        value={statu}
-                        onClick={() => handleDropdownItemClick(index, statu)}
-                      >
-                        {statu}
-                      </li>
-                    ))
-                  }
-                  </ul>
                 <td className="TableHeaderItem" id={`resource-${index}`}>
                   {lead.resource}
                   <ArrowDown
@@ -242,7 +247,7 @@ export function Table() {
                     )}`}
                   />
                 </td>
-                         <td className="TableHeaderItem" id={`city-${index}`}>
+                <td className="TableHeaderItem" id={`city-${index}`}>
                   {lead.city}
                   <ArrowDown
                     onClick={() => toggleInputVisibility(index, "city")}
@@ -252,18 +257,15 @@ export function Table() {
                     )}`}
                   />
                 </td>
-
-                <td className="TableHeaderItem">
-                  <select
-                    value={lead.timeZone}
-                    onChange={(e) => handleInputChange(e, index, "timeZone")}
-                  >
-                    {timeZoneData.map((time, item) => (
-                      <option key={item} value={time}>
-                        {time}
-                      </option>
-                    ))}
-                  </select>
+                <td className="TableHeaderItem" id={`timeZone-${index}`}>
+                  {lead.city}
+                  <ArrowDown
+                    onClick={() => toggleInputVisibility(index, "timeZone")}
+                    className={`arrow-svg ${toggleUserMenuDropArrow(
+                      index,
+                      "timeZone"
+                    )}`}
+                  />
                 </td>
                 <td className="TableHeaderItem">
                   {calculateClientTime(lead.timeZone)}
@@ -272,10 +274,10 @@ export function Table() {
                   {lead.selfCreated ? "Yes" : "No"}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.latestComment.updatedAt.slice(0, 19).replace("T", " ")}
+                  {lead.latestComment.updatedAt.slice(0, 16).replace("T", " ")}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.latestComment.createdAt.slice(0, 19).replace("T", " ")}
+                  {lead.latestComment.createdAt.slice(0, 16).replace("T", " ")}
                 </td>
                 <td
                   className="TableHeaderItem"
@@ -301,19 +303,50 @@ export function Table() {
             ))}
         </tbody>
       </table>
-      {inputVisible.row !== null && inputVisible.cell !== null &&  inputVisible.cell !== "status" && (
-        <form className="InputContainer" ref={inputRef}>
-          <input
-            value={leads[inputVisible.row][inputVisible.cell]}
-            onChange={(e) =>
-              handleInputChange(e, inputVisible.row, inputVisible.cell)
-            }
-            onInput={handleTextareaChange}
-          />
-          <button className="ButtonSave" type="submit">
-            Save
-          </button>
-        </form>
+      {inputVisible.row !== null &&
+        inputVisible.cell !== null &&
+        inputVisible.cell !== "status" &&
+        inputVisible.cell !== "timeZone" && (
+          <form className="InputContainer" ref={inputRef}>
+            <input
+              value={leads[inputVisible.row][inputVisible.cell]}
+              onChange={(e) =>
+                handleInputChange(e, inputVisible.row, inputVisible.cell)
+              }
+              onInput={handleTextareaChange}
+            />
+            <button className="ButtonSave" type="submit">
+              Save
+            </button>
+          </form>
+        )}
+      {inputVisible.row !== null && inputVisible.cell === "status" && (
+        <ul className="dropdown" ref={dropdownRef}>
+          {statusData.map((statu, item) => (
+            <li
+              className="ListItem"
+              key={item}
+              value={statu}
+              onClick={() => handleDropdownItemClick(inputVisible.row, statu)}
+            >
+              {statu}
+            </li>
+          ))}
+        </ul>
+      )}
+      {inputVisible.row !== null && inputVisible.cell === "timeZone" && (
+        <ul className="dropdown" ref={dropdownRef}>
+          {timeZoneData.map((zona, item) => (
+            <li
+              className="ListItem"
+              key={item}
+              value={zona}
+              onClick={() => handleDropdownItemClick(inputVisible.row, zona)}
+            >
+              {zona}
+            </li>
+          ))}
+        </ul>
       )}
     </TableList>
   );

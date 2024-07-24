@@ -1,18 +1,17 @@
 import { StyledMainPage } from "./Main.styled";
 import { useUser } from "../../../hooks/useUser";
-import { Table } from "../../table/table";
+import { TableExternalLeads } from "../../table/tableExternalLeads/tableExternalLeads";
 
 
 export const Main = () => {
-    const {userOffice} = useUser(); 
-    console.log(userOffice);
+  const { userOffice } = useUser();
+  console.log(userOffice);
 
-
-    return(
-        <StyledMainPage>
-            <div className="wraper">
-                <Table/>
-            </div>
-        </StyledMainPage>
-    );
+  return (
+    <StyledMainPage>
+      <div className="wraper">
+        <TableExternalLeads />
+      </div>
+    </StyledMainPage>
+  );
 };
