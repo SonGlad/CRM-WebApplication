@@ -6,6 +6,7 @@ export const TableList = styled.div`
   width: 100%;
 
   .Table {
+    width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
     border-radius: 0.5rem;
@@ -13,7 +14,7 @@ export const TableList = styled.div`
   }
 
   .TableHeader {
-    background: #e3ffa869;
+    background: #223f53;
   }
 
   .TableHeaderList th {
@@ -76,9 +77,9 @@ export const TableList = styled.div`
   .dropdown {
     z-index: 1000;
     position: absolute;
-    margin-top: 0.3125rem;
-    display: none;
-    gap: 0.5rem;
+        font-size: 0.5rem;
+    /* display: grid; */
+    gap: 0.25rem;
     border-radius: 1rem;
     padding: 0.75rem 0.5rem;
     box-shadow: 0 0.25rem 3rem 0 rgba(18, 20, 23, 0.08);
@@ -96,6 +97,7 @@ export const TableList = styled.div`
 
 
   .arrow-svg {
+    cursor: pointer;
     width: 0.875rem;
     height: 0.875rem;
     stroke: ${(props) => props.theme.color.primary_green_lite};
@@ -130,4 +132,5 @@ export const TableList = styled.div`
     color: white;
     border: none;
   }
+
 `;

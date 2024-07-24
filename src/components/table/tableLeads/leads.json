@@ -100,7 +100,7 @@
     "country": "",
     "region": "",
     "city": "",
-    "timeZone": 0,
+    "timeZone": 4,
     "KYC": {
       "trading": false,
       "experience": "beginner",
@@ -228,7 +228,7 @@
     "country": "Belgium",
     "region": "Walonie",
     "city": "Genappe",
-    "timeZone": 0,
+    "timeZone": 1,
     "KYC": {
       "trading": false,
       "experience": "beginner",

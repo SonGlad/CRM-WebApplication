@@ -18,3 +18,19 @@ export const createNewLead = createAsyncThunk(
         }
     }
 );
+
+export const getAllLeads = createAsyncThunk(
+    'leads/all/',
+   
+    async (credentials, thunkApi) => {
+        try{
+            const response = await axios.get(`leads/all/`);
+            toast.success(`External Leads successful`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
