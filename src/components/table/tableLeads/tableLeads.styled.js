@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TableList = styled.div`
+export const TableListStyled = styled.div`
   border: 1px solid ${(p) => p.theme.color.primary_green_lite};
   border-radius: 0.625rem;
   width: 100%;

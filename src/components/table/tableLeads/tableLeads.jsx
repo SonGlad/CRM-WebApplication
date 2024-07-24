@@ -1,17 +1,20 @@
-import { TableList } from "./tableLeads.styled";
+import { TableListStyled } from "./tableLeads.styled";
 import { useEffect, useState, useRef, useCallback } from "react";
 import leadsData from "./leads.json";
 import statusData from "./status.json";
 import timeZoneData from "./timeZone.json";
 import { ReactComponent as ArrowDown } from "../../../images/svg-icons/arrow-down.svg";
 
-export function TableLeads() {
+
+
+export const TableLeads = () => {
   const [leads, setLeads] = useState(leadsData);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isMenuBox, setMenuBox] = useState(false);
   const [inputVisible, setInputVisible] = useState({ row: null, cell: null });
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -20,6 +23,7 @@ export function TableLeads() {
 
     return () => clearInterval(interval);
   }, []);
+
 
   const handleInputChange = (event, leadIndex, fieldName) => {
     const updatedLeads = [...leads];
@@ -33,14 +37,17 @@ export function TableLeads() {
     setLeads(updatedLeads);
   };
 
+
   const adjustTextareaHeight = (textarea) => {
     textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
+
   const handleTextareaChange = (event) => {
     adjustTextareaHeight(event.target);
   };
+
 
   useEffect(() => {
     const textareas = document.querySelectorAll("textarea");
@@ -49,6 +56,7 @@ export function TableLeads() {
     });
   }, [leads]);
 
+
   const handleDropdownItemClick = (leadIndex, status) => {
     const updatedLeads = [...leads];
     updatedLeads[leadIndex].status = status;
@@ -56,12 +64,14 @@ export function TableLeads() {
     setInputVisible({ row: null, cell: null });
   };
 
+
   const calculateClientTime = (timeZoneOffset) => {
     const clientTime = new Date(
       currentTime.getTime() + timeZoneOffset * 60 * 60 * 1000
     );
     return clientTime.toLocaleString();
   };
+
 
   const toggleInputVisibility = (row, cell) => {
     setMenuBox(isMenuBox === false ? row : false);
@@ -72,11 +82,13 @@ export function TableLeads() {
     );
   };
 
+
   const toggleUserMenuDropArrow = (row, cell) => {
     return inputVisible.row === row && inputVisible.cell === cell
       ? "arrow-svg-close"
       : "";
   };
+
 
   useEffect(() => {
     if (inputVisible.row !== null && inputVisible.cell !== null) {
@@ -117,12 +129,14 @@ export function TableLeads() {
     }
   }, [inputVisible]);
 
+
   const handleKeyPress = useCallback((event) => {
     if (event.key === "Escape") {
       setMenuBox(false);
       setInputVisible({ row: null, cell: null });
     }
   }, []);
+
 
   const handleBackgroundClick = useCallback((event) => {
     const target = event.target;
@@ -137,6 +151,7 @@ export function TableLeads() {
     }
   }, []);
 
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyPress);
     document.addEventListener("click", handleBackgroundClick);
@@ -147,8 +162,9 @@ export function TableLeads() {
     };
   }, [handleBackgroundClick, handleKeyPress]);
 
+
   return (
-    <TableList>
+    <TableListStyled>
       <table className="Table">
         <thead className="TableHeader">
           <tr className="TableHeaderList">
@@ -348,6 +364,6 @@ export function TableLeads() {
           ))}
         </ul>
       )}
-    </TableList>
+    </TableListStyled>
   );
 }
