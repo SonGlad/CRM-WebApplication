@@ -13,7 +13,8 @@ import {
   updatingRetention,
   updatingConversionManager,
   updatingRetentionManager,
- } from "../redux/Auth/auth-slice";
+} from "../redux/Auth/auth-slice";
+import { getAllLeads } from "../redux/Lead/lead-operation";
 import { useDispatch} from "react-redux";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
 import { RestrictedRoute } from "../routes/RestrictedRoute";
@@ -100,6 +101,16 @@ export const App= () => {
   useEffect(() =>{
     dispatch(saveUserCurrentLocation(currentPath))
   },[currentPath, dispatch]);
+  console.log(userLocation);
+
+
+  useEffect(() => {
+    if(isLoggedIn && isAdmin && userLocation === '/'){
+        dispatch(getAllLeads())
+    } else if (isLoggedIn && userLocation === '/leads'){
+        dispatch(getAllLeads())
+    }
+  },[dispatch, isAdmin, isLoggedIn, userLocation]);
 
 
   return isRefreshing ? (

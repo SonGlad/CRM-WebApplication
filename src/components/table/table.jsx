@@ -1,9 +1,10 @@
 import { TableList } from "./table.styled";
 import { useEffect, useState, useRef } from "react";
-import leadsData from "./leads.json";
-import statusData from "./status.json";
-import timeZoneData from "./timeZone.json";
+import leadsData from "./tableLeads/leads.json";
+import statusData from "./tableLeads/status.json";
+import timeZoneData from "./tableLeads/timeZone.json";
 import { ReactComponent as ArrowDown } from "../../images/svg-icons/arrow-down.svg";
+
 
 export function Table() {
   const [leads, setLeads] = useState(leadsData);

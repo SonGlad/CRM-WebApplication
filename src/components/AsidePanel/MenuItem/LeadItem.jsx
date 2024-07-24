@@ -8,18 +8,18 @@ import { isOfficeState } from "../../../redux/Lead/lead-slice";
 import { useAuth } from "../../../hooks/useAuth";
 
 
-
 export const LeadItem = forwardRef(({
     leadBlock, 
     toggleLeadMenuDrop, 
     toggleLeadDropArrow, 
     toggleLeadDropCont, 
     userSelectOffice,
+    getAllLeads,
     }, ref) => {
     const dispatch = useDispatch();
     const [isVisible, setVisible] = useState(false);
     const officeBlock = useRef(null);
-    const {isAdmin} = useAuth();
+    const { isAdmin } = useAuth();
 
 
     const openNewLeadModal = () => {
@@ -75,6 +75,9 @@ export const LeadItem = forwardRef(({
         toggleLeadMenuDrop();
         openOfficeMenu();
         if (isAdmin) {
+            dispatch(getAllLeads({
+                branch: office
+            }))
             dispatch(isOfficeState(office));
         }
     };

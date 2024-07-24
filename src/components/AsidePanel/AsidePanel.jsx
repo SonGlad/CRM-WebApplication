@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getOfficeList, getRoleList } from "../../redux/User/user-operation";
 import { toggleSelectAllCheckbox} from "../../redux/User/user-slice";
+import { getAllLeads } from "../../redux/Lead/lead-operation";
 import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { UserItem } from "./MenuItem/UserItem";
@@ -27,7 +28,7 @@ export const AsidePanel = ({userLocation}) => {
     const statisticBlock = useRef(null);
     const deleteBlock = useRef(null);
 
-
+    
     useEffect(() => {
         let location;
         switch(userLocation){
@@ -167,6 +168,7 @@ export const AsidePanel = ({userLocation}) => {
                         toggleLeadDropCont={toggleLeadDropCont}
                         toggleLeadDropArrow={toggleLeadDropArrow}
                         userSelectOffice={userSelectOffice}
+                        getAllLeads={getAllLeads}
                     />
                     <StatisticItem
                         statisticBlock={statisticBlock}

@@ -1,21 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
 import { TableExternalList } from "./tableExternalLeads.styled";
-import { useEffect } from "react";
-import { getAllLeads } from "../../../redux/Lead/lead-operation";
 import { ReactComponent as CheckedIcon } from "../../../images/svg-icons/check.svg";
 import { ReactComponent as CheckBoxIcon } from "../../../images/svg-icons/rectangle.svg";
+import { useAuth } from "../../../hooks/useAuth";
+import { useLead } from "../../../hooks/useLead";
+
 
 export function TableExternalLeads() {
-  const dispatch = useDispatch();
-  const isAdmin = useSelector((state) => state.auth.isAdmin);
+  const { isAdmin } = useAuth();
+  const { isLeadLoading, isLeadError, isLeads} = useLead();
+  // console.log(isLeads);
+  console.log(isLeadError);
 
-  useEffect(() => {
-    dispatch(getAllLeads());
-  }, [dispatch]);
-  const leads = useSelector((state) => state.lead.leads);
-  const isLeadLoading = useSelector((state) => state.lead.isLeadLoading);
-  const isLeadError = useSelector((state) => state.lead.isLeadError);
-  console.log(leads, isLeadError);
+
+
   return (
     isAdmin &&
     !isLeadLoading ? (
@@ -37,8 +34,8 @@ export function TableExternalLeads() {
             </tr>
           </thead>
           <tbody>
-            {leads &&
-              leads.map((lead, index) => (
+            {isLeads &&
+              isLeads.map((lead, index) => (
                 <tr className="WordList" key={lead._id}>
                   <td className="TableHeaderItem">{lead.name}</td>
                   <td className="TableHeaderItem">{lead.lastName}</td>
