@@ -6,7 +6,8 @@ import {
     closeModalSettings,
     closeModalNewUser,
     closeModalNewLead,
-    closeModaUserDetail, 
+    closeModaUserDetail,
+    closeModaConfirm, 
 } from "../../redux/Modal/modal-slice";
 import { resetUserState } from "../../redux/User/user-slice";
 import { updatingNewUserResponceData } from "../../redux/Auth/auth-slice";
@@ -15,6 +16,7 @@ import { SettingsModal } from "./SettingsModal/SettingsModal";
 import { NewUser } from "./NewUserModal/NewUser";
 import { NewLead } from "./NewLeadModal/NewLead";
 import { UserDetails } from "./UserDetailsModal/UserDetail";
+import { ConfirmDeleteModal } from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import { RefreshLoading } from "../../components/CustomLoaders/CustomLoaders";
 
 
@@ -29,7 +31,8 @@ export const Modal = () => {
         isNewUserModal,
         isNewLeadModal,
         isUserDetails,
-        isLoading, 
+        isLoading,
+        isConfirmModal, 
     } = useModal();
 
 
@@ -48,7 +51,10 @@ export const Modal = () => {
             dispatch(resetUserState());
             dispatch(closeModaUserDetail());
         }
-    },[dispatch, isNewLeadModal, isNewUserModal, isSettingsModal, isUserDetails]);
+        if (isConfirmModal){
+            dispatch(closeModaConfirm());
+        }
+    },[dispatch, isConfirmModal, isNewLeadModal, isNewUserModal, isSettingsModal, isUserDetails]);
 
 
     const handleBackdropClick = useCallback(event => {
@@ -82,7 +88,7 @@ export const Modal = () => {
             {isLoading ? (
                 <RefreshLoading/>
             ) : (
-                (isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails) && (
+                (isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails || isConfirmModal) && (
                     <ModalStyled onClick={handleBackdropClick}>
                         {isSettingsModal && (
                             <SettingsModal handleClickClose={handleClickClose}/>
@@ -95,6 +101,9 @@ export const Modal = () => {
                         )}
                         {isUserDetails && (
                             <UserDetails handleClickClose={handleClickClose}/>
+                        )}
+                        {isConfirmModal && (
+                            <ConfirmDeleteModal handleClickClose={handleClickClose}/>
                         )}
                     </ModalStyled>
                 )

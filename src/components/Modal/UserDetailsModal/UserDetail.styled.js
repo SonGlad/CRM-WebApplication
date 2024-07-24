@@ -153,7 +153,6 @@ export const StyledUserInformation = styled.div`
         padding: 0.75rem;
 
         & h2{
-            text-align: center;
             margin-bottom: 1rem;
         }
     }

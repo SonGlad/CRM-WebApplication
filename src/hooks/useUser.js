@@ -23,6 +23,8 @@ import {
     selectResetPassword,
     selectLeadDetails,
     selectResetPasswordResponse,
+    selectCheckedCheckbox,
+    selectFilteredUsers,
 } from "../redux/User/user-selectors";
 
 
@@ -50,6 +52,8 @@ export const useUser = () => {
     const isResetPassword = useSelector(selectResetPassword);
     const isLeadsDetails = useSelector(selectLeadDetails);
     const resetPasswordResponse = useSelector(selectResetPasswordResponse);
+    const checkedCheckbox = useSelector(selectCheckedCheckbox);
+    const filteredUsers = useSelector(selectFilteredUsers);
 
 
     return {
@@ -75,6 +79,8 @@ export const useUser = () => {
         isVerificationEmail,
         isResetPassword,
         isLeadsDetails,
-        resetPasswordResponse
+        resetPasswordResponse,
+        checkedCheckbox,
+        filteredUsers,
     };
 };
