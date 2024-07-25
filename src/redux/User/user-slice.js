@@ -7,6 +7,7 @@ import {
     resendVerifyEmail,
     resetUserPassword,
     deleteUser,
+    getAvailableUsers,
 } from "./user-operation";
 import { inregister, logOut } from "../Auth/auth-operation";
 
@@ -44,6 +45,7 @@ const initialState = {
     selectedCheckedCheckbox: [],
     filteredUsers: [],
     isUserDeleteSuccess: false,
+    availableUsersForAssign: [],
 };
 
 
@@ -136,6 +138,22 @@ const userSlice = createSlice({
             state.isUserError = null;
         })
         .addCase(getOfficeList.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        //AVAILABLE USERS///////////
+        .addCase(getAvailableUsers.pending, state => {
+            state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getAvailableUsers.fulfilled, (state, { payload }) => {
+            state.availableUsersForAssign = payload;
+            state.isUserLoading = false;
+            state.isUserError = null;
+        })
+        .addCase(getAvailableUsers.rejected, (state, {payload}) => {
             state.isUserLoading = false;
             state.isUserError = payload;
         })
@@ -318,6 +336,7 @@ const userSlice = createSlice({
             state.isUserError = null;
             state.selectedCheckedCheckbox = [];
             state.filteredUsers = [];
+            state.availableUsersForAssign = [];
         })
         .addCase(logOut.rejected, (state, {payload}) => {
             state.isUserLoading = false;

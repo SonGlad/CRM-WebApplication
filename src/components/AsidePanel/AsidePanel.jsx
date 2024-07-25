@@ -21,8 +21,8 @@ export const AsidePanel = ({userLocation}) => {
     const [ isUserBox, setUserBox ] = useState(false);
     const [ isLeadBox, setLeadBox ] = useState(false);
     const [ isDeleteBox, setDeleteBox ] = useState(false)
-    const [ isLocation, setLocation ] = useState('');
     const [ isStatisticBox, setStatisticBox ] = useState(false);
+    const [ isLocation, setLocation ] = useState('');
     const userBlock = useRef(null);
     const leadBlock = useRef(null);
     const statisticBlock = useRef(null);

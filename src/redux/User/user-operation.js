@@ -118,3 +118,19 @@ export const deleteUser = createAsyncThunk(
         }
     }
 );
+
+
+export const getAvailableUsers = createAsyncThunk(
+    '/availableUsers',
+    async (_, thunkApi) => {
+        try{
+            const response = await axios.get('users/availableUsers');
+            toast.success(`Users Information has been received`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error('Oops. Something went wrong. Please try again.');
+            return thunkApi.rejectWithValue(error.message);
+        }
+    }
+);
