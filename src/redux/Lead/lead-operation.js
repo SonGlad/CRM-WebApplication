@@ -35,3 +35,19 @@ export const getAllLeads = createAsyncThunk(
         }
     }
 );
+
+
+export const deleteLead = createAsyncThunk(
+    'leads/:leadId',
+    async(leadId, thunkApi) => {
+        try{
+            const response = await axios.delete(`leads/${leadId}`);
+            toast.success(`Lead Deleted`);
+            return response.data
+        }
+        catch(error){
+            toast.error(error.response.data.message);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

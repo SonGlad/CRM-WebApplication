@@ -8,7 +8,7 @@ export const selectUserDetail = state => state.modal.isUserDetails;
 
 export const selectConfirmModal = state => state.modal.isConfirmModal;
 
-export const selectUsersForDeleteId = state => state.modal.usersForDeleteId;
+export const selectDataForDeleteId = state => state.modal.dataForDeleteId;
 
 export const selectLoading = state => state.modal.isLoading;
 

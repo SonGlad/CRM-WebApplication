@@ -32,7 +32,7 @@ const userPersistConfig = {
   storage,
   whitelist: [
     'officeState',
-    'selectedCheckedCheckbox',
+    'selectedUsersCheckedCheckbox',
   ],
 };
 
@@ -41,7 +41,8 @@ const leadPersistConfig = {
   key: 'lead',
   storage,
   whitelist: [
-    'officeState'
+    'officeState',
+    'selectedExternalLeadsCheckedCheckbox',
   ],
 };
 

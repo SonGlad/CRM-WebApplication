@@ -6,6 +6,7 @@ import {
     selectLeadResponce,
     selectLeads,
     selectNewLead,
+    selectSelectedExternalLeadsCheckedCheckbox,
 } from "../redux/Lead/lead-selectors";
 
 
@@ -16,6 +17,7 @@ export const useLead = () => {
     const isNewLeadDataResponce = useSelector(selectLeadResponce);
     const isLeads = useSelector(selectLeads);
     const newLead = useSelector(selectNewLead);
+    const selectedExternalLeadsCheckedCheckbox = useSelector(selectSelectedExternalLeadsCheckedCheckbox)
 
 
     return {
@@ -25,5 +27,6 @@ export const useLead = () => {
         isNewLeadDataResponce,
         isLeads,
         newLead,
+        selectedExternalLeadsCheckedCheckbox,
     };
 };

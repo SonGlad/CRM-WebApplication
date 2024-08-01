@@ -12,7 +12,10 @@ const modalSlice = createSlice({
         isNewLeadModal: false,
         isUserDetails: false,
         isConfirmModal: false,
-        usersForDeleteId:[],
+        dataForDeleteId:{
+            idToDelete: [],
+            component: '',
+        },
         isSuccess: true,
         isLoading: false,
     },
@@ -44,7 +47,8 @@ const modalSlice = createSlice({
         },
         openModalConfirm: (state, {payload}) => {
             state.isConfirmModal = true;
-            state.usersForDeleteId = payload;
+            state.dataForDeleteId.idToDelete = payload.idToDelete;
+            state.dataForDeleteId.component = payload.component;
         },
         closeModaConfirm: (state) => {
             state.isConfirmModal = false;

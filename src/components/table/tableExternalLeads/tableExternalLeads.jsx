@@ -3,13 +3,21 @@ import { ReactComponent as CheckedIcon } from "../../../images/svg-icons/check.s
 import { ReactComponent as CheckBoxIcon } from "../../../images/svg-icons/rectangle.svg";
 import { useAuth } from "../../../hooks/useAuth";
 import { useLead } from "../../../hooks/useLead";
+import { toggleExternalLeadsCheckboxState } from "../../../redux/Lead/lead-slice";
+import { useDispatch } from "react-redux";
+
 
 
 export function TableExternalLeads() {
   const { isAdmin } = useAuth();
-  const { isLeadLoading, isLeadError, isLeads} = useLead();
+  const dispatch = useDispatch();
+  const { isLeadLoading, isLeadError, isLeads, selectedExternalLeadsCheckedCheckbox} = useLead();
   console.log(isLeadError);
 
+
+  const handleCheckboxChange = (_id) => {
+    dispatch(toggleExternalLeadsCheckboxState({_id}));
+  };
 
 
   return (
@@ -70,8 +78,8 @@ export function TableExternalLeads() {
                         type="checkbox"
                         name="user_agreement"
                         id={lead._id}
-                        // checked={isCheckbox.includes(_id)}
-                        // onChange={() => handleCheckboxChange(_id)}
+                        checked={selectedExternalLeadsCheckedCheckbox.includes(lead._id)}
+                        onChange={() => handleCheckboxChange(lead._id)}
                       />
                       <div className="custom-checkbox">
                         <CheckBoxIcon
