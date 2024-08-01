@@ -48,7 +48,14 @@ export const selectCheckedCheckbox = state => state.user.selectedCheckedCheckbox
 
 export const selectFilteredUsers = state => state.user.filteredUsers;
 
-export const selectAvailableUsersForAssign = state => state.user.availableUsersForAssign
+export const selectAvailableUsersForAssign = state => state.user.availableUsersForAssign;
+
+export const selectUserLeads = state => state.user.userLeads;
+
+export const selectUserLeadsCompnent = state => state.user.userLeadsComponent;
+
+export const selectUserLeadsComponentData = state => state.user.userLeadsComponentData;
+
 
 
 

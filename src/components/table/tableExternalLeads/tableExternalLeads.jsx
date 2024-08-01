@@ -8,7 +8,6 @@ import { useLead } from "../../../hooks/useLead";
 export function TableExternalLeads() {
   const { isAdmin } = useAuth();
   const { isLeadLoading, isLeadError, isLeads} = useLead();
-  // console.log(isLeads);
   console.log(isLeadError);
 
 

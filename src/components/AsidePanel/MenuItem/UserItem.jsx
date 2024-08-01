@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { isOfficeState } from "../../../redux/User/user-slice";
 import { useAuth } from "../../../hooks/useAuth";
+import { getAllUsers } from "../../../redux/User/user-operation";
 
 
 
@@ -19,7 +20,7 @@ export const UserItem = forwardRef(({
     const dispatch = useDispatch();
     const [isVisible, setVisible] = useState(false);
     const officeBlock = useRef(null);
-    const {isAdmin} = useAuth();
+    const {isAdmin, isManager, isConversionManager} = useAuth();
 
 
     const openNewUserModal = () => {
@@ -76,6 +77,9 @@ export const UserItem = forwardRef(({
         openOfficeMenu();
         if (isAdmin) {
             dispatch(isOfficeState(office));
+            dispatch(getAllUsers(office));
+        } else if(isManager || isConversionManager){
+            dispatch(getAllUsers())
         }
     };
 

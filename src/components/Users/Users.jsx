@@ -10,7 +10,7 @@ import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal"
 import { resetOfficeState } from "../../redux/User/user-slice";
-import { getAllUsers, getUserById } from "../../redux/User/user-operation";
+import { getUserById } from "../../redux/User/user-operation";
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
 import { toggleCheckboxState, setFilteredUsers } from "../../redux/User/user-slice";
 import { format } from 'date-fns';
@@ -29,15 +29,6 @@ export const Users = () => {
     const resetStateForOffice = () => {
         dispatch(resetOfficeState())
     };
-
-
-    useEffect(() => {
-        if(isAdmin){
-            dispatch(getAllUsers(userOffice))
-        } else if(isManager || isConversionManager){
-            dispatch(getAllUsers())
-        }
-    },[dispatch, isAdmin, isConversionManager, isManager, userOffice]);
 
 
     const buttonsName = [

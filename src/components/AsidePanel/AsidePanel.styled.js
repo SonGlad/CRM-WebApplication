@@ -13,7 +13,7 @@ export const StyledAsidePanel = styled.aside`
     margin-left: 0.5rem;
 
     .side-panel-cont{
-        height: 87.5dvh;
+        height: 90.5dvh;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -22,8 +22,8 @@ export const StyledAsidePanel = styled.aside`
         border-radius: 0.75rem;
         padding: 0.75rem;
 
-        @media screen and (min-width: 1440px) {
-            height: 87dvh;
+        @media screen and (min-width: 834px) {
+            height: 87.5dvh;
         }
     }
 

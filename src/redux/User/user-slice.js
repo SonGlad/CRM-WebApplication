@@ -8,6 +8,8 @@ import {
     resetUserPassword,
     deleteUser,
     getAvailableUsers,
+    getAllUserSelfCreatedleads,
+    getAllUserAssignedleads,
 } from "./user-operation";
 import { inregister, logOut } from "../Auth/auth-operation";
 
@@ -46,6 +48,9 @@ const initialState = {
     filteredUsers: [],
     isUserDeleteSuccess: false,
     availableUsersForAssign: [],
+    userLeads: [],
+    userLeadsComponent: false,
+    userLeadsComponentData: '',
 };
 
 
@@ -120,6 +125,14 @@ const userSlice = createSlice({
         },
         resetSelectedCheckbox: (state) => {
             state.selectedCheckedCheckbox = [];
+        },
+        setUserLeadsComponent: (state, {payload}) => {
+            state.userLeadsComponent = true;
+            state.userLeadsComponentData = payload;
+        },
+        resetUserLeadsComponent: (state) => {
+            state.userLeadsComponent = false;
+            state.userLeadsComponentData = '';
         },
     },
 
@@ -298,6 +311,38 @@ const userSlice = createSlice({
             state.isUserError = payload;
         })
 
+
+        //GET USER ALL SELF CREATED LEADS//
+        .addCase(getAllUserSelfCreatedleads.pending, state => {
+            // state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getAllUserSelfCreatedleads.fulfilled, (state, {payload} ) => {
+            // state.isUserLoading = false;
+            state.isUserError = null;
+            state.userLeads = payload;
+        })
+        .addCase(getAllUserSelfCreatedleads.rejected, (state, {payload}) => {
+            // state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        //GET USER ALL ASSIGNED LEADS//
+        .addCase(getAllUserAssignedleads.pending, state => {
+            // state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getAllUserAssignedleads.fulfilled, (state, {payload} ) => {
+            // state.isUserLoading = false;
+            state.isUserError = null;
+            state.userLeads = payload;
+        })
+        .addCase(getAllUserAssignedleads.rejected, (state, {payload}) => {
+            // state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
         
         // LOGOUT//////
         .addCase(logOut.pending, state => {
@@ -337,6 +382,9 @@ const userSlice = createSlice({
             state.selectedCheckedCheckbox = [];
             state.filteredUsers = [];
             state.availableUsersForAssign = [];
+            state.userLeads = [];
+            state.userLeadsComponent = false;
+            state.userLeadsComponentData = '';
         })
         .addCase(logOut.rejected, (state, {payload}) => {
             state.isUserLoading = false;
@@ -359,4 +407,6 @@ export const {
     setFilteredUsers, 
     toggleSelectAllCheckbox,
     resetSelectedCheckbox,
+    setUserLeadsComponent,
+    resetUserLeadsComponent,
 } = userSlice.actions;

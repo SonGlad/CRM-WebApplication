@@ -245,6 +245,11 @@ export const StyledUserInformation = styled.div`
             &:hover {
                 color: ${(props) => props.theme.color.primary_green_lite};
             }
+
+            &:disabled {
+                color: ${(props) => props.theme.color.primary_grey};
+                pointer-events: none;
+            }
         }
     }
 `

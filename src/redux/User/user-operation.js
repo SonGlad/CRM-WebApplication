@@ -134,3 +134,37 @@ export const getAvailableUsers = createAsyncThunk(
         }
     }
 );
+
+
+export const getAllUserSelfCreatedleads = createAsyncThunk(
+    '/selfCreatedLeads/:userId?branch=Office1',
+    async({userId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.get(`users/selfCreatedLeads/${userId}${params}`);
+            toast.success(`All User Self Created leads received`);
+            return response.data
+        }
+        catch(error){
+            toast.error(error.response.data.message);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const getAllUserAssignedleads = createAsyncThunk(
+    '/assignedLeads/:userId?branch=Office1',
+    async({userId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.get(`users/assignedLeads/${userId}${params}`);
+            toast.success(`All User Assigned leads received`);
+            return response.data
+        }
+        catch(error){
+            toast.error(error.response.data.message);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

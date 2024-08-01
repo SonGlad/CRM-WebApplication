@@ -12,7 +12,7 @@ export const OfficeLeads = () => {
     const { isAdmin } = useAuth();
     const {availableUsersForAssign} = useUser()
     const dispatch = useDispatch();
-    console.log("Users for Assign", availableUsersForAssign);
+    console.log("Users for Assign:", availableUsersForAssign);
 
 
     const resetStateForOffice = () => {

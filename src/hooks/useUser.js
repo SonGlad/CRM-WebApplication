@@ -26,6 +26,9 @@ import {
     selectCheckedCheckbox,
     selectFilteredUsers,
     selectAvailableUsersForAssign,
+    selectUserLeads,
+    selectUserLeadsCompnent,
+    selectUserLeadsComponentData,
 } from "../redux/User/user-selectors";
 
 
@@ -56,6 +59,9 @@ export const useUser = () => {
     const checkedCheckbox = useSelector(selectCheckedCheckbox);
     const filteredUsers = useSelector(selectFilteredUsers);
     const availableUsersForAssign = useSelector(selectAvailableUsersForAssign);
+    const userLeads = useSelector(selectUserLeads);
+    const userLeadsComponent = useSelector(selectUserLeadsCompnent);
+    const userLeadsComponentData = useSelector(selectUserLeadsComponentData);
 
 
     return {
@@ -85,5 +91,8 @@ export const useUser = () => {
         checkedCheckbox,
         filteredUsers,
         availableUsersForAssign,
+        userLeads,
+        userLeadsComponent,
+        userLeadsComponentData,
     };
 };

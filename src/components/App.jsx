@@ -103,7 +103,6 @@ export const App= () => {
   useEffect(() =>{
     dispatch(saveUserCurrentLocation(currentPath))
   },[currentPath, dispatch]);
-  console.log(userLocation);
 
 
   useEffect(() => {
@@ -122,6 +121,8 @@ export const App= () => {
   },[dispatch, forNoneAdminLogin, isLoggedIn, userLocation]);
 
 
+
+  
   return isRefreshing ? (
     <RefreshLoading/>
   ) : (
@@ -146,7 +147,13 @@ export const App= () => {
           }/>
         </Route>    
       </Routes>
-      {(isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails || isConfirmModal) && <Modal/>}
+      {(isSettingsModal || 
+        isNewUserModal || 
+        isNewLeadModal || 
+        isUserDetails || 
+        isConfirmModal) && 
+        <Modal userLocation={userLocation}/>
+      }
     </>
   );
 };

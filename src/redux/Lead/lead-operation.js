@@ -23,7 +23,6 @@ export const createNewLead = createAsyncThunk(
 export const getAllLeads = createAsyncThunk(
     'leads/all?branch=Office1',
     async (branch, thunkApi) => {
-        console.log(branch);
         const params = branch ? `?branch=${branch}` : '';
         try{
             const response = await axios.get(`leads/all${params}`);
