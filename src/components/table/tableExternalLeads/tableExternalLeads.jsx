@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 
 export function TableExternalLeads() {
   const { isAdmin } = useAuth();
-  const { isLeadLoading, isLeads} = useLead();
   const [delayedLoading, setDelayedLoading] = useState(true);
   const dispatch = useDispatch();
   const { isLeadLoading, isLeadError, isLeads, selectedExternalLeadsCheckedCheckbox} = useLead();

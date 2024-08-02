@@ -70,9 +70,7 @@ export const getTimeZone = createAsyncThunk(
 export const patchStatus = createAsyncThunk(
     'leads/status/:leadId',
     async (dataStatus, thunkApi) => {
-
         const { id, leadStatus } = dataStatus;
-
         try{
             const response = await axios.patch(`leads/status/${id}`, {status: leadStatus});
             toast.success(`Status was changed successfully`);
@@ -89,9 +87,7 @@ export const patchStatus = createAsyncThunk(
 export const patchTimeZone = createAsyncThunk(
     'leads/timezone/:leadId',
     async (dataTimeZone, thunkApi) => {
-
         const { id, leadTimeZone } = dataTimeZone;
-
         try{
             const response = await axios.patch(`leads/timezone/${id}`, {timeZone: leadTimeZone});
             toast.success(`Time Zone was changed successfully`);
@@ -124,9 +120,7 @@ export const deleteLead = createAsyncThunk(
 export const patchCityLead = createAsyncThunk(
     'leads/city/:leadId',
     async (dataCityLead, thunkApi) => {
-
         const { id, leadCity } = dataCityLead;
-
         try{
             const response = await axios.patch(`leads/city/${id}`, {city: leadCity});
             toast.success(`City was changed successfully`);
@@ -143,9 +137,7 @@ export const patchCityLead = createAsyncThunk(
 export const patchRegionLead = createAsyncThunk(
     'leads/region/:leadId',
     async (dataRegionLead, thunkApi) => {
-
         const { id, leadRegion } = dataRegionLead;
-
         try{
             const response = await axios.patch(`leads/region/${id}`, {region: leadRegion});
             toast.success(`Region was changed successfully`);
