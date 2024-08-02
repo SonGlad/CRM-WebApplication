@@ -1,11 +1,13 @@
 import { MenuItemStyled } from "./MenuItem.styled";
 import { ReactComponent as ArrowDown } from '../../../images/svg-icons/arrow-down.svg';
-import { openModalNewLead } from "../../../redux/Modal/modal-slice";
 import { forwardRef,useRef, useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { openModalNewLead } from "../../../redux/Modal/modal-slice";
 import { isOfficeState } from "../../../redux/Lead/lead-slice";
+import { resetUserLeadsComponent } from "../../../redux/User/user-slice";
 import { useAuth } from "../../../hooks/useAuth";
+import { useUser } from "../../../hooks/useUser";
 
 
 export const LeadItem = forwardRef(({
@@ -20,6 +22,7 @@ export const LeadItem = forwardRef(({
     const [isVisible, setVisible] = useState(false);
     const officeBlock = useRef(null);
     const { isAdmin } = useAuth();
+    const { userLeadsComponent } = useUser();
 
 
     const openNewLeadModal = () => {
@@ -75,8 +78,11 @@ export const LeadItem = forwardRef(({
         toggleLeadMenuDrop();
         openOfficeMenu();
         if (isAdmin) {
-            dispatch(getAllLeads(office))
+            dispatch(getAllLeads(office));
             dispatch(isOfficeState(office));
+        };
+        if (userLeadsComponent) {
+            dispatch(resetUserLeadsComponent());
         }
     };
 

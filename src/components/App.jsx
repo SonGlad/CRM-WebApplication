@@ -3,8 +3,8 @@ import { Route, Routes, Navigate, useLocation, useNavigate} from "react-router-d
 import { lazy, useEffect} from "react";
 import { Toaster } from "./ToastContainer/ToastContainer";
 import { Modal } from "./Modal/Modal";
-import { useModal } from "../hooks/useModal";
 import { RefreshLoading } from "../components/CustomLoaders/CustomLoaders";
+import { useModal } from "../hooks/useModal";
 import { useAuth } from "../hooks/useAuth";
 import { 
   updatingAdmin,
@@ -13,13 +13,15 @@ import {
   updatingRetention,
   updatingConversionManager,
   updatingRetentionManager,
+  saveUserCurrentLocation,
+  updatingForNoneAdminLogin,
 } from "../redux/Auth/auth-slice";
+import { refreshCurrentUser } from "../redux/Auth/auth-operation";
+import { getAvailableUsers } from "../redux/User/user-operation";
 import { getAllLeads } from "../redux/Lead/lead-operation";
 import { useDispatch} from "react-redux";
-import { refreshCurrentUser } from "../redux/Auth/auth-operation";
 import { RestrictedRoute } from "../routes/RestrictedRoute";
 import { PrivateRoute } from "../routes/PrivateRoute";
-import { saveUserCurrentLocation, updatingForNoneAdminLogin } from "../redux/Auth/auth-slice";
 
 
 const HomePage = lazy(() => import('../pages/Home'));
@@ -46,7 +48,8 @@ export const App= () => {
     isSettingsModal, 
     isNewUserModal, 
     isNewLeadModal, 
-    isUserDetails, 
+    isUserDetails,
+    isLeadDetails, 
     isConfirmModal,
   } = useModal();
   const currentPath = useLocation().pathname;
@@ -101,7 +104,6 @@ export const App= () => {
   useEffect(() =>{
     dispatch(saveUserCurrentLocation(currentPath))
   },[currentPath, dispatch]);
-  console.log(userLocation);
 
   useEffect(() => {
 
@@ -113,6 +115,15 @@ export const App= () => {
   },[dispatch, isAdmin, isLoggedIn, userLocation]);
 
 
+  useEffect(() => {
+    if(isLoggedIn && userLocation === '/leads' && forNoneAdminLogin){
+      dispatch(getAvailableUsers())
+    }
+  },[dispatch, forNoneAdminLogin, isLoggedIn, userLocation]);
+
+
+
+  
   return isRefreshing ? (
     <RefreshLoading/>
   ) : (
@@ -137,7 +148,14 @@ export const App= () => {
           }/>
         </Route>    
       </Routes>
-      {(isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails || isConfirmModal) && <Modal/>}
+      {(isSettingsModal || 
+        isNewUserModal || 
+        isNewLeadModal || 
+        isUserDetails || 
+        isConfirmModal ||
+        isLeadDetails) && 
+        <Modal userLocation={userLocation}/>
+      }
     </>
   );
 };

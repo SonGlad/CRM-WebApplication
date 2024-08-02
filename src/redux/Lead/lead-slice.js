@@ -9,8 +9,10 @@ import {
   patchRegionLead,
   patchStatus,
   patchTimeZone,
+  deleteLead,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
+
 
 const initialState = {
   officeState: "",
@@ -37,9 +39,10 @@ const initialState = {
   newRegionLead: [],
   patchRegionLeadLoading: false,
   patchRegionLeadError: null,
-    newCountryLead: [],
+  newCountryLead: [],
   patchCountryLeadLoading: false,
   patchCountryLeadError: null,
+  selectedExternalLeadsCheckedCheckbox: [],
 };
 
 const leadSlice = createSlice({
@@ -47,26 +50,47 @@ const leadSlice = createSlice({
   initialState,
 
   reducers: {
-    isOfficeState: (state, action) => {
-      state.officeState = action.payload;
-    },
-    resetOfficeState: (state) => {
-      state.officeState = "";
-    },
-    updatingNewLeadDataResponce: (state) => {
-      state.isNewLeadDataResponce = false;
-    },
-    updatingNewLead: (state) => {
-      state.newLead = null;
-    },
-    getAllLeadsState: (state, action) => {
-      state.leads = action.payload;
-    },
+      isOfficeState: (state, action) => {
+          state.officeState = action.payload;
+      },
+      resetOfficeState: (state) => {
+          state.officeState = '';
+      },
+      updatingNewLeadDataResponce: (state) => {
+          state.isNewLeadDataResponce = false;
+      },
+      updatingNewLead: (state) => {
+          state.newLead = null;
+      },
+      getAllLeadsState: (state, action) => {
+          state.leads = action.payload;
+      },
+      toggleExternalLeadsCheckboxState: (state, action) => {
+          const {_id} = action.payload;
+          const isSelected = state.selectedExternalLeadsCheckedCheckbox.includes(_id);
+          if (isSelected) {
+              state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== _id);
+          } else {
+              state.selectedExternalLeadsCheckedCheckbox.push(_id);
+          }
+      },
+      toggleExternalLeadsSelectAllCheckbox: (state) => {
+          const leadIds = state.leads.map(lead => lead._id);
+          if (state.selectedExternalLeadsCheckedCheckbox.length === leadIds.length) {
+              state.selectedExternalLeadsCheckedCheckbox = [];
+          } else {
+              state.selectedExternalLeadsCheckedCheckbox = [...leadIds];
+          }
+      },
+      resetExternalLeadsSelectedCheckbox: (state) => {
+          state.selectedExternalLeadsCheckedCheckbox = [];
+      },
   },
 
   extraReducers: (builder) => {
     builder
 
+    
       //LOGOUT///////////
       .addCase(logOut.pending, (state) => {
         state.isLeadLoading = true;
@@ -90,17 +114,19 @@ const leadSlice = createSlice({
         state.newCityLead = [];
         state.patchCityLeadLoading = false;
         state.patchCityLeadError = null;
-         state.newRegionLead = [];
+        state.newRegionLead = [];
         state.patchRegionLeadLoading = false;
         state.patchRegionLeadError = null;
         state.newCountryLead = [];
         state.patchCountryLeadLoading = false;
         state.patchCountryLeadError = null;
+        state.selectedExternalLeadsCheckedCheckbox = [];
       })
       .addCase(logOut.rejected, (state, { payload }) => {
         state.isLeadLoading = false;
         state.isLeadError = payload;
       })
+    
 
       //CREATE NEW LEAD///////////
       .addCase(createNewLead.pending, (state) => {
@@ -120,6 +146,7 @@ const leadSlice = createSlice({
         state.isLeadError = payload;
         state.isNewLeadDataResponce = true;
       })
+    
 
       //GET ALL LEADS///////////
       .addCase(getAllLeads.pending, (state) => {
@@ -135,6 +162,7 @@ const leadSlice = createSlice({
         state.isLeadLoading = false;
         state.isLeadError = payload;
       })
+    
 
       //GET ALL STATUS////////////
       .addCase(getStatus.pending, (state) => {
@@ -151,6 +179,44 @@ const leadSlice = createSlice({
         state.isStatusError = payload;
       })
 
+        
+      //CREATE NEW LEAD///////////
+      .addCase(createNewLead.pending, state => {
+          state.isLeadLoading = true;
+          state.isLeadError = null;
+          state.isNewLeadDataResponce = false;
+      })
+      .addCase(createNewLead.fulfilled, (state, { payload }) => {
+          state.leads.unshift(payload);
+          state.newLead = payload;
+          state.isLeadLoading = false;
+          state.isLeadError = null;
+          state.isNewLeadDataResponce = true;
+      })
+      .addCase(createNewLead.rejected, (state, { payload }) => {
+          state.isLeadLoading = false;
+          state.isLeadError = payload;
+          state.isNewLeadDataResponce = true;
+      })
+
+
+      //DELETE LEADS//
+      .addCase(deleteLead.pending, state => {
+          state.isLeadLoading = true;
+          state.isLeadError = null;
+      })
+      .addCase(deleteLead.fulfilled, (state, {payload} ) => {
+          state.isLeadLoading = false;
+          state.isLeadError = null;
+          state.leads = state.users.filter(lead => lead._id !== payload.id);
+          state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== payload.id);
+      })
+      .addCase(deleteLead.rejected, (state, {payload}) => {
+          state.isLeadLoading = false;
+          state.isLeadError = payload;
+      })
+
+
       //GET TIME ZONE///////////////
       .addCase(getTimeZone.pending, (state) => {
         state.isTimeZoneLoading = true;
@@ -165,6 +231,7 @@ const leadSlice = createSlice({
         state.isTimeZoneLoading = false;
         state.isTimeZoneError = payload;
       })
+    
 
       // PATCH STATUS////////////////
       .addCase(patchStatus.pending, (state) => {
@@ -181,7 +248,8 @@ const leadSlice = createSlice({
         state.patchStatusError = payload;
       })
     
-          // PATCH TIME ZONE////////////////
+    
+      // PATCH TIME ZONE////////////////
       .addCase(patchTimeZone.pending, (state) => {
         state.patchTimeZoneLoading = true;
         state.patchTimeZoneError = null;
@@ -196,7 +264,8 @@ const leadSlice = createSlice({
         state.patchTimeZoneError = payload;
       })
     
-          // PATCH CITY////////////////
+    
+      // PATCH CITY////////////////
       .addCase(patchCityLead.pending, (state) => {
         state.patchCityLeadLoading = true;
         state.patchCityLeadError = null;
@@ -211,7 +280,8 @@ const leadSlice = createSlice({
         state.patchCityLeadError = payload;
       })
     
-         // PATCH REGION////////////////
+    
+     // PATCH REGION////////////////
       .addCase(patchRegionLead.pending, (state) => {
         state.patchRegionLeadLoading = true;
         state.patchRegionLeadError = null;
@@ -226,7 +296,8 @@ const leadSlice = createSlice({
         state.patchRegionLeadError = payload;
       })
     
-         // PATCH COUNTRY////////////////
+    
+     // PATCH COUNTRY////////////////
       .addCase(patchCountryLead.pending, (state) => {
         state.patchCountryLeadLoading = true;
         state.patchCountryLeadError = null;
@@ -246,9 +317,12 @@ const leadSlice = createSlice({
 export const leadReducer = leadSlice.reducer;
 
 export const {
-  isOfficeState,
-  resetOfficeState,
-  updatingNewLeadDataResponce,
-  updatingNewLead,
-  getAllLeadsState,
+    isOfficeState,
+    resetOfficeState,
+    updatingNewLeadDataResponce,
+    updatingNewLead,
+    getAllLeadsState,
+    toggleExternalLeadsCheckboxState,
+    toggleExternalLeadsSelectAllCheckbox,
+    resetExternalLeadsSelectedCheckbox,
 } = leadSlice.actions;

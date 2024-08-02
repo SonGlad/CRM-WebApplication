@@ -2,10 +2,12 @@ import { StyledAsidePanel } from "./AsidePanel.styled";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getOfficeList, getRoleList } from "../../redux/User/user-operation";
-import { toggleSelectAllCheckbox} from "../../redux/User/user-slice";
+import { toggleUsersSelectAllCheckbox} from "../../redux/User/user-slice";
+import { toggleExternalLeadsSelectAllCheckbox } from "../../redux/Lead/lead-slice";
 import { getAllLeads } from "../../redux/Lead/lead-operation";
 import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
+import { useLead } from "../../hooks/useLead";
 import { UserItem } from "./MenuItem/UserItem";
 import { LeadItem } from "./MenuItem/LeadItem";
 import { StatisticItem } from "./MenuItem/StatisticItem";
@@ -17,12 +19,14 @@ import { openModalConfirm } from "../../redux/Modal/modal-slice"
 export const AsidePanel = ({userLocation}) => {
     const dispatch = useDispatch();
     const { isAdmin } = useAuth();
-    const { userSelectOffice, checkedCheckbox, filteredUsers} = useUser();
+    const { userSelectOffice, usersCheckedCheckbox, filteredUsers} = useUser();
+    const { selectedExternalLeadsCheckedCheckbox, isLeads } = useLead();
     const [ isUserBox, setUserBox ] = useState(false);
     const [ isLeadBox, setLeadBox ] = useState(false);
-    const [ isDeleteBox, setDeleteBox ] = useState(false)
-    const [ isLocation, setLocation ] = useState('');
+    const [ isUserDeleteBox, setUserDeleteBox ] = useState(false);
+    const [ isExternalLeadDeleteBox, setExternalLeadDeleteBox ] = useState(false);
     const [ isStatisticBox, setStatisticBox ] = useState(false);
+    const [ isLocation, setLocation ] = useState('');
     const userBlock = useRef(null);
     const leadBlock = useRef(null);
     const statisticBlock = useRef(null);
@@ -50,6 +54,7 @@ export const AsidePanel = ({userLocation}) => {
     },[isLocation, userLocation]);
 
 
+
     useEffect(() => {
         dispatch(getOfficeList());
         dispatch(getRoleList());
@@ -66,18 +71,28 @@ export const AsidePanel = ({userLocation}) => {
     const toggleStatisticMenuDrop = () => {
         setStatisticBox(prevState => !prevState)
     };
-    const toggleDeleteMenuDrop = () => {
-        setDeleteBox(prevState => !prevState)
+    const toggleUserDeleteMenuDrop = () => {
+        setUserDeleteBox(prevState => !prevState)
+    };
+    const toggleExternalLeadDeleteMenuDrop = () => {
+        setExternalLeadDeleteBox(prevState => !prevState)
     };
 
 
     useEffect(() => {
-        if (checkedCheckbox.length > 0) {
-            setDeleteBox(true)
+        if (usersCheckedCheckbox.length > 0) {
+            setUserDeleteBox(true)
         } else {
-            setDeleteBox(false)
+            setUserDeleteBox(false)
+        };
+
+        if (selectedExternalLeadsCheckedCheckbox.length > 0){
+            setExternalLeadDeleteBox(true)
+        } else {
+            setExternalLeadDeleteBox(false)
         }
-    },[checkedCheckbox.length])
+    },[selectedExternalLeadsCheckedCheckbox.length, usersCheckedCheckbox.length]);
+
 
 
     const toggleUserDropCont = () => {
@@ -98,11 +113,17 @@ export const AsidePanel = ({userLocation}) => {
     const toggleStatisticDropArrow = () => {
         return isStatisticBox ? 'arrow-svg-close' : '';
     };
-    const toggleDeleteDropCont = () => {
-        return isDeleteBox ? 'delete-dropdown-list-visible' : '';
+    const toggleUserDeleteDropCont = () => {
+        return isUserDeleteBox ? 'delete-dropdown-list-visible' : '';
     };
-    const toggleDeleteDropArrow = () => {
-        return isDeleteBox ? 'arrow-svg-close' : '';
+    const toggleUserDeleteDropArrow = () => {
+        return isUserDeleteBox ? 'arrow-svg-close' : '';
+    };
+    const toggleExternalLeadDeleteDropCont = () => {
+        return isExternalLeadDeleteBox ? 'delete-dropdown-list-visible' : '';
+    };
+    const toggleExternalLeadDeleteDropArrow = () => {
+        return isExternalLeadDeleteBox ? 'arrow-svg-close' : '';
     };
 
 
@@ -117,11 +138,14 @@ export const AsidePanel = ({userLocation}) => {
             if (isStatisticBox) {
                 setStatisticBox(false);
             }
-            if (isDeleteBox) {
-                setDeleteBox(false);
+            if (isUserDeleteBox) {
+                setUserDeleteBox(false);
+            }
+            if (isExternalLeadDeleteBox) {
+                setExternalLeadDeleteBox(false);
             }
         }
-    },[isDeleteBox, isLeadBox, isStatisticBox, isUserBox]);
+    },[isUserBox, isLeadBox, isStatisticBox, isUserDeleteBox, isExternalLeadDeleteBox]);
 
 
     const handleBackgroundClick = useCallback(event => {
@@ -182,14 +206,20 @@ export const AsidePanel = ({userLocation}) => {
                     <DeleteItem
                         deleteBlock={deleteBlock}
                         isLocation={isLocation}
-                        toggleDeleteMenuDrop={toggleDeleteMenuDrop}
-                        toggleDeleteDropCont={toggleDeleteDropCont}
-                        toggleDeleteDropArrow={toggleDeleteDropArrow}
-                        checkedCheckbox={checkedCheckbox}
+                        toggleUserDeleteMenuDrop={toggleUserDeleteMenuDrop}
+                        toggleUserDeleteDropCont={toggleUserDeleteDropCont}
+                        toggleUserDeleteDropArrow={toggleUserDeleteDropArrow}
+                        usersCheckedCheckbox={usersCheckedCheckbox}
                         filteredUsers={filteredUsers}
-                        toggleSelectAllCheckbox={toggleSelectAllCheckbox}
+                        toggleUsersSelectAllCheckbox={toggleUsersSelectAllCheckbox}
                         isAdmin={isAdmin}
                         openModalConfirm={openModalConfirm}
+                        toggleExternalLeadsSelectAllCheckbox={toggleExternalLeadsSelectAllCheckbox}
+                        isLeads={isLeads}
+                        toggleExternalLeadDeleteMenuDrop={toggleExternalLeadDeleteMenuDrop}
+                        toggleExternalLeadDeleteDropCont={toggleExternalLeadDeleteDropCont}
+                        toggleExternalLeadDeleteDropArrow={toggleExternalLeadDeleteDropArrow}
+                        selectedExternalLeadsCheckedCheckbox={selectedExternalLeadsCheckedCheckbox}
                     />
                 </ul>
             </div>

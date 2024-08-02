@@ -118,3 +118,53 @@ export const deleteUser = createAsyncThunk(
         }
     }
 );
+
+
+export const getAvailableUsers = createAsyncThunk(
+    '/availableUsers',
+    async (_, thunkApi) => {
+        try{
+            const response = await axios.get('users/availableUsers');
+            toast.success(`Users Information has been received`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error('Oops. Something went wrong. Please try again.');
+            return thunkApi.rejectWithValue(error.message);
+        }
+    }
+);
+
+
+export const getAllUserSelfCreatedleads = createAsyncThunk(
+    '/selfCreatedLeads/:userId?branch=Office1',
+    async({userId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.get(`users/selfCreatedLeads/${userId}${params}`);
+            toast.success(`All User Self Created leads received`);
+            return response.data
+        }
+        catch(error){
+            toast.error(error.response.data.message);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const getAllUserAssignedleads = createAsyncThunk(
+    '/assignedLeads/:userId?branch=Office1',
+    async({userId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.get(`users/assignedLeads/${userId}${params}`);
+            toast.success(`All User Assigned leads received`);
+            return response.data
+        }
+        catch(error){
+            toast.error(error.response.data.message);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

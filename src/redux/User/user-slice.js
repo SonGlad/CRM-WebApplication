@@ -7,6 +7,9 @@ import {
     resendVerifyEmail,
     resetUserPassword,
     deleteUser,
+    getAvailableUsers,
+    getAllUserSelfCreatedleads,
+    getAllUserAssignedleads,
 } from "./user-operation";
 import { inregister, logOut } from "../Auth/auth-operation";
 
@@ -41,9 +44,13 @@ const initialState = {
     resetPasswordResponse: null,
     isUserLoading: false,
     isUserError: null,
-    selectedCheckedCheckbox: [],
+    selectedUsersCheckedCheckbox: [],
     filteredUsers: [],
     isUserDeleteSuccess: false,
+    availableUsersForAssign: [],
+    userLeads: [],
+    userLeadsComponent: false,
+    userLeadsComponentData: '',
 };
 
 
@@ -99,25 +106,33 @@ const userSlice = createSlice({
         setFilteredUsers: (state, {payload}) => {
             state.filteredUsers = payload;
         },
-        toggleCheckboxState: (state, action) => {
+        toggleUsersCheckboxState: (state, action) => {
             const {_id} = action.payload;
-            const isSelected = state.selectedCheckedCheckbox.includes(_id);
+            const isSelected = state.selectedUsersCheckedCheckbox.includes(_id);
             if (isSelected) {
-                state.selectedCheckedCheckbox = state.selectedCheckedCheckbox.filter(id => id !== _id);
+                state.selectedUsersCheckedCheckbox = state.selectedUsersCheckedCheckbox.filter(id => id !== _id);
             } else {
-                state.selectedCheckedCheckbox.push(_id);
+                state.selectedUsersCheckedCheckbox.push(_id);
             }
         },
-        toggleSelectAllCheckbox: (state) => {
+        toggleUsersSelectAllCheckbox: (state) => {
             const filteredUserIds = state.filteredUsers.map(user => user._id);
-            if (state.selectedCheckedCheckbox.length === filteredUserIds.length) {
-                state.selectedCheckedCheckbox = [];
+            if (state.selectedUsersCheckedCheckbox.length === filteredUserIds.length) {
+                state.selectedUsersCheckedCheckbox = [];
             } else {
-                state.selectedCheckedCheckbox = [...filteredUserIds];
+                state.selectedUsersCheckedCheckbox = [...filteredUserIds];
             }
         },
-        resetSelectedCheckbox: (state) => {
-            state.selectedCheckedCheckbox = [];
+        resetUsersSelectedCheckbox: (state) => {
+            state.selectedUsersCheckedCheckbox = [];
+        },
+        setUserLeadsComponent: (state, {payload}) => {
+            state.userLeadsComponent = true;
+            state.userLeadsComponentData = payload;
+        },
+        resetUserLeadsComponent: (state) => {
+            state.userLeadsComponent = false;
+            state.userLeadsComponentData = '';
         },
     },
 
@@ -136,6 +151,22 @@ const userSlice = createSlice({
             state.isUserError = null;
         })
         .addCase(getOfficeList.rejected, (state, {payload}) => {
+            state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        //AVAILABLE USERS///////////
+        .addCase(getAvailableUsers.pending, state => {
+            state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getAvailableUsers.fulfilled, (state, { payload }) => {
+            state.availableUsersForAssign = payload;
+            state.isUserLoading = false;
+            state.isUserError = null;
+        })
+        .addCase(getAvailableUsers.rejected, (state, {payload}) => {
             state.isUserLoading = false;
             state.isUserError = payload;
         })
@@ -273,10 +304,42 @@ const userSlice = createSlice({
             state.isUserLoading = false;
             state.isUserError = null;
             state.users = state.users.filter(user => user._id !== payload.id);
-            state.selectedCheckedCheckbox = state.selectedCheckedCheckbox.filter(id => id !== payload.id);
+            state.selectedUsersCheckedCheckbox = state.selectedUsersCheckedCheckbox.filter(id => id !== payload.id);
         })
         .addCase(deleteUser.rejected, (state, {payload}) => {
             state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        //GET USER ALL SELF CREATED LEADS//
+        .addCase(getAllUserSelfCreatedleads.pending, state => {
+            // state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getAllUserSelfCreatedleads.fulfilled, (state, {payload} ) => {
+            // state.isUserLoading = false;
+            state.isUserError = null;
+            state.userLeads = payload;
+        })
+        .addCase(getAllUserSelfCreatedleads.rejected, (state, {payload}) => {
+            // state.isUserLoading = false;
+            state.isUserError = payload;
+        })
+
+
+        //GET USER ALL ASSIGNED LEADS//
+        .addCase(getAllUserAssignedleads.pending, state => {
+            // state.isUserLoading = true;
+            state.isUserError = null;
+        })
+        .addCase(getAllUserAssignedleads.fulfilled, (state, {payload} ) => {
+            // state.isUserLoading = false;
+            state.isUserError = null;
+            state.userLeads = payload;
+        })
+        .addCase(getAllUserAssignedleads.rejected, (state, {payload}) => {
+            // state.isUserLoading = false;
             state.isUserError = payload;
         })
 
@@ -316,8 +379,12 @@ const userSlice = createSlice({
             state.isMessage = ''; 
             state.isUserLoading = false;
             state.isUserError = null;
-            state.selectedCheckedCheckbox = [];
+            state.selectedUsersCheckedCheckbox = [];
             state.filteredUsers = [];
+            state.availableUsersForAssign = [];
+            state.userLeads = [];
+            state.userLeadsComponent = false;
+            state.userLeadsComponentData = '';
         })
         .addCase(logOut.rejected, (state, {payload}) => {
             state.isUserLoading = false;
@@ -336,8 +403,10 @@ export const {
     resetUserState,
     updatingVerificationEmailResponse,
     updatingResetPasswordResponse,
-    toggleCheckboxState,
+    toggleUsersCheckboxState,
+    toggleUsersSelectAllCheckbox,
+    resetUsersSelectedCheckbox,
     setFilteredUsers, 
-    toggleSelectAllCheckbox,
-    resetSelectedCheckbox,
+    setUserLeadsComponent,
+    resetUserLeadsComponent,
 } = userSlice.actions;

@@ -5,9 +5,7 @@ export const StyledConfirmDeleteModal = styled.div`
     display: flex;
     flex-direction: column;
     width: 95%;
-    max-width: 31.25rem;
-
-
+    max-width: ${props => props.component === 'ExternalLeads' ? '50rem' : '31.25rem'};
     height: auto;
     padding-top: 1rem;
     padding-left: 1rem;
@@ -76,6 +74,25 @@ export const StyledConfirmDeleteModal = styled.div`
     .form-title2{
         text-align: center;
         line-height: 1.5;
+    }
+
+    .warning-cont{
+        margin-top: 1.5rem;
+    }
+
+    .warning-title{
+        font-weight: 700;
+        font-size: 1.75rem;
+        text-align: center;
+        color: ${p => p.theme.color.error_color};
+        margin-bottom: 1rem;
+    }
+
+    .warning-text{
+        line-height: 1.5;
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: justify;
     }
 
     .button-block {

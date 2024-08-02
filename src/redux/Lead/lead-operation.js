@@ -23,7 +23,6 @@ export const createNewLead = createAsyncThunk(
 export const getAllLeads = createAsyncThunk(
     'leads/all?branch=Office1',
     async (branch, thunkApi) => {
-        console.log(branch);
         const params = branch ? `?branch=${branch}` : '';
         try{
             const response = await axios.get(`leads/all${params}`);
@@ -105,6 +104,23 @@ export const patchTimeZone = createAsyncThunk(
     }
 );
 
+
+export const deleteLead = createAsyncThunk(
+    'leads/:leadId',
+    async(leadId, thunkApi) => {
+        try{
+            const response = await axios.delete(`leads/${leadId}`);
+            toast.success(`Lead Deleted`);
+            return response.data
+        }
+        catch(error){
+            toast.error(error.response.data.message);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
 export const patchCityLead = createAsyncThunk(
     'leads/city/:leadId',
     async (dataCityLead, thunkApi) => {
@@ -142,6 +158,7 @@ export const patchRegionLead = createAsyncThunk(
     }
 );
 
+
 export const patchCountryLead = createAsyncThunk(
     'leads/country/:leadId',
     async (dataCountryLead, thunkApi) => {
@@ -151,6 +168,23 @@ export const patchCountryLead = createAsyncThunk(
         try{
             const response = await axios.patch(`leads/country/${id}`, {country: leadCountry});
             toast.success(`Country was changed successfully`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const getLeadById = createAsyncThunk(
+    'leads/:leadId?branch=Office1',
+    async ({leadId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.get(`leads/${leadId}${params}`);
+            toast.success(`Lead Details load successful`);
             return response.data;
         }
         catch(error) {

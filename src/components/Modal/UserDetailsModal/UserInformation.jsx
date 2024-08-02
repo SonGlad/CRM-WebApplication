@@ -18,6 +18,8 @@ export const UserInformation = ({
     userSelfCreateLeads,
     resendUserVerifyEmail,
     resetPasswordForUser,
+    getAssignedLeads,
+    getSelfCreatedLeads,
 }) => {
 
 
@@ -38,6 +40,7 @@ export const UserInformation = ({
     
         return `${formattedDate} ${formattedTime}`;
     };
+
 
 
     return(
@@ -72,11 +75,21 @@ export const UserInformation = ({
                     <h2>User Leads Information:</h2>
                     <div className="leads-block top">
                         <p><span>Total Assigned Leads: </span>{userAssignedLeads}</p>
-                        <button type="button">Click for Details</button>
+                        <button type="button" 
+                            onClick={getAssignedLeads}
+                            disabled={!userAssignedLeads || userAssignedLeads === 0}
+                        >
+                            Click for Details
+                        </button>
                     </div>
                     <div className="leads-block">
                         <p><span>Total Self-Created Leads: </span>{userSelfCreateLeads}</p>
-                        <button type="button">Click for Details</button>
+                        <button type="button"
+                            onClick={getSelfCreatedLeads}
+                            disabled={!userSelfCreateLeads || userSelfCreateLeads === 0}
+                        >
+                            Click for Details
+                        </button>
                     </div>
                 </div>
             </div>

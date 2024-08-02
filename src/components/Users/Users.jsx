@@ -10,9 +10,9 @@ import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal"
 import { resetOfficeState } from "../../redux/User/user-slice";
-import { getAllUsers, getUserById } from "../../redux/User/user-operation";
+import { getUserById } from "../../redux/User/user-operation";
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
-import { toggleCheckboxState, setFilteredUsers } from "../../redux/User/user-slice";
+import { toggleUsersCheckboxState, setFilteredUsers } from "../../redux/User/user-slice";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 
@@ -20,7 +20,7 @@ import { toZonedTime } from 'date-fns-tz';
 
 export const Users = () => {
     const { isAdmin, isManager, isConversionManager } = useAuth();
-    const { userOffice, allUsers, userLoading, checkedCheckbox, filteredUsers } = useUser(); 
+    const { userOffice, allUsers, userLoading, usersCheckedCheckbox, filteredUsers } = useUser(); 
     const { isUserDetails } = useModal();
     const [filterType, setFilterType] = useState('');
     const dispatch = useDispatch();
@@ -29,15 +29,6 @@ export const Users = () => {
     const resetStateForOffice = () => {
         dispatch(resetOfficeState())
     };
-
-
-    useEffect(() => {
-        if(isAdmin){
-            dispatch(getAllUsers(userOffice))
-        } else if(isManager || isConversionManager){
-            dispatch(getAllUsers())
-        }
-    },[dispatch, isAdmin, isConversionManager, isManager, userOffice]);
 
 
     const buttonsName = [
@@ -136,7 +127,7 @@ export const Users = () => {
 
 
     const handleCheckboxChange = (_id) => {
-        dispatch(toggleCheckboxState({_id}));
+        dispatch(toggleUsersCheckboxState({_id}));
     };
 
 
@@ -200,7 +191,7 @@ export const Users = () => {
                                                     type="checkbox"
                                                     name="delete user" 
                                                     id={_id}
-                                                    checked={checkedCheckbox.includes(_id)}
+                                                    checked={usersCheckedCheckbox.includes(_id)}
                                                     onChange={() => handleCheckboxChange(_id)}
                                                 />
                                                 <div className="custom-checkbox">

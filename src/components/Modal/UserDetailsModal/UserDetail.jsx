@@ -4,12 +4,23 @@ import { DataLoading } from "../../CustomLoaders/CustomLoaders";
 import { useUser } from "../../../hooks/useUser";
 import { useAuth } from "../../../hooks/useAuth";
 import { useModal } from "../../../hooks/useModal";
-import { resendVerifyEmail, resetUserPassword } from "../../../redux/User/user-operation";
+import { 
+    resendVerifyEmail, 
+    resetUserPassword, 
+    getAllUserAssignedleads, 
+    getAllUserSelfCreatedleads 
+} from "../../../redux/User/user-operation";
 import { useDispatch } from "react-redux";
-import { updatingVerificationEmailResponse, updatingResetPasswordResponse } from "../../../redux/User/user-slice";
+import { 
+    updatingVerificationEmailResponse, 
+    updatingResetPasswordResponse,
+    setUserLeadsComponent,
+} from "../../../redux/User/user-slice";
+import { closeModaUserDetail } from "../../../redux/Modal/modal-slice";
 import { UserInformation } from "./UserInformation";
 import { UserDetailModalResponse } from "./UserDetailModalResponse";
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 
 export const UserDetails = ({handleClickClose}) => {
@@ -33,7 +44,7 @@ export const UserDetails = ({handleClickClose}) => {
         isLeadsDetails,
         isResetPassword,
         isVerificationEmail,
-        resetPasswordResponse,  
+        resetPasswordResponse, 
     } = useUser();
     const { isAdmin, isManager } = useAuth();
     const { isSuccess } = useModal();
@@ -41,6 +52,7 @@ export const UserDetails = ({handleClickClose}) => {
     const [password, setPassword] = useState('');
     const [responseText, setResponseText] = useState('');
     const [passwordText, setPasswordText] = useState('');
+    const navigate = useNavigate();
 
 
     const resendUserVerifyEmail = () => {
@@ -72,6 +84,26 @@ export const UserDetails = ({handleClickClose}) => {
                 userId: userId,
             }))
         }
+    };
+
+
+    const getAssignedLeads = () => {
+        dispatch(getAllUserAssignedleads({
+            userId: userId,
+            branch: userBranch,
+        }));
+        dispatch(setUserLeadsComponent('Assigned'));
+        navigate('/leads');
+        dispatch(closeModaUserDetail());
+    };
+    const getSelfCreatedLeads = () => {
+        dispatch(getAllUserSelfCreatedleads({
+            userId: userId,
+            branch: userBranch,
+        }));
+        dispatch(setUserLeadsComponent("Self-Created"));
+        navigate('/leads');
+        dispatch(closeModaUserDetail());
     };
 
 
@@ -149,6 +181,8 @@ export const UserDetails = ({handleClickClose}) => {
                         userSelfCreateLeads={userSelfCreateLeads}
                         resendUserVerifyEmail={resendUserVerifyEmail}
                         resetPasswordForUser={resetPasswordForUser}
+                        getAssignedLeads={getAssignedLeads}
+                        getSelfCreatedLeads={getSelfCreatedLeads}
                     />
                 ) : (
                     <UserDetailModalResponse

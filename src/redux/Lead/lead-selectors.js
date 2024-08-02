@@ -51,3 +51,6 @@ export const selectNewCountryLead = state => state.lead.newCountryLead;
 export const selectPatchCountryLeadLoading = state => state.lead.patchCountryLeadLoading;
 
 export const selectPatchCountryLeadError = state => state.lead.patchCountryLeadError;
+
+export const selectSelectedExternalLeadsCheckedCheckbox = state => state.lead.selectedExternalLeadsCheckedCheckbox;
+
