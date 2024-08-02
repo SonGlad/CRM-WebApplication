@@ -75,14 +75,12 @@ export const LeadItem = forwardRef(({
         toggleLeadMenuDrop();
         openOfficeMenu();
         if (isAdmin) {
-            dispatch(getAllLeads({
-                branch: office
-            }))
+            dispatch(getAllLeads(office))
             dispatch(isOfficeState(office));
         }
     };
 
-
+    
     return(
         <MenuItemStyled ref={leadBlock}>
             <button type='button' className="side-panel-button" onClick={toggleLeadMenuDrop}>

@@ -6,9 +6,9 @@ export const TableListStyled = styled.div`
   width: 100%;
 
   .Table {
+        table-layout: auto;
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
     border-radius: 0.5rem;
     overflow: hidden;
   }
@@ -45,6 +45,9 @@ export const TableListStyled = styled.div`
     overflow-wrap: break-word;
     text-align: center;
     position: relative;
+        @media only screen and (min-width: 1800px) {
+     white-space: nowrap;
+    }
   }
 
   .TableHeaderItem:not(:last-child) {

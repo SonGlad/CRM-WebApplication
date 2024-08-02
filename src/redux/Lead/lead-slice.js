@@ -1,110 +1,254 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { 
-    createNewLead,
-    getAllLeads, 
+import {
+  createNewLead,
+  getAllLeads,
+  getStatus,
+  getTimeZone,
+  patchCityLead,
+  patchCountryLead,
+  patchRegionLead,
+  patchStatus,
+  patchTimeZone,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
 
-
 const initialState = {
-    officeState: '',
-    leads: [],
-    newLead: null,
-    isNewLeadDataResponce: false,
-    isLeadError: null,
-    isLeadLoading: false,
+  officeState: "",
+  leads: [],
+  newLead: null,
+  isNewLeadDataResponce: false,
+  isLeadError: null,
+  isLeadLoading: false,
+  status: [],
+  isStatusError: null,
+  isStatusLoading: false,
+  timeZone: [],
+  isTimeZoneLoading: false,
+  isTimeZoneError: null,
+  newStatusLead: [],
+  patchStatusLoading: false,
+  patchStatusError: null,
+  newTimeZoneLead: [],
+  patchTimeZoneLoading: false,
+  patchTimeZoneError: null,
+  newCityLead: [],
+  patchCityLeadLoading: false,
+  patchCityLeadError: null,
+  newRegionLead: [],
+  patchRegionLeadLoading: false,
+  patchRegionLeadError: null,
+    newCountryLead: [],
+  patchCountryLeadLoading: false,
+  patchCountryLeadError: null,
 };
 
-
 const leadSlice = createSlice({
-    name: 'lead',
-    initialState,
+  name: "lead",
+  initialState,
 
-
-    reducers: {
-        isOfficeState: (state, action) => {
-            state.officeState = action.payload;
-        },
-        resetOfficeState: (state) => {
-            state.officeState = '';
-        },
-        updatingNewLeadDataResponce: (state) => {
-            state.isNewLeadDataResponce = false;
-        },
-        updatingNewLead: (state) => {
-            state.newLead = null;
-        },
-        getAllLeadsState: (state, action) => {
-            state.leads = action.payload;
-        }
+  reducers: {
+    isOfficeState: (state, action) => {
+      state.officeState = action.payload;
     },
+    resetOfficeState: (state) => {
+      state.officeState = "";
+    },
+    updatingNewLeadDataResponce: (state) => {
+      state.isNewLeadDataResponce = false;
+    },
+    updatingNewLead: (state) => {
+      state.newLead = null;
+    },
+    getAllLeadsState: (state, action) => {
+      state.leads = action.payload;
+    },
+  },
 
-    extraReducers: builder => {
-        builder
+  extraReducers: (builder) => {
+    builder
 
-        
-            //LOGOUT///////////
-            .addCase(logOut.pending, state => {
-                state.isLeadLoading = true;
-                state.isLeadError = null;
-            })
-            .addCase(logOut.fulfilled, (state, { payload }) => {
-                state.officeState = '';
-                state.leads = [];
-                state.newLead = null;
-                state.isLeadLoading = false;
-                state.isLeadError = null;
-            })
-            .addCase(logOut.rejected, (state, { payload }) => {
-                state.isLeadLoading = false;
-                state.isLeadError = payload;
-            })
+      //LOGOUT///////////
+      .addCase(logOut.pending, (state) => {
+        state.isLeadLoading = true;
+        state.isLeadError = null;
+      })
+      .addCase(logOut.fulfilled, (state, { payload }) => {
+        state.officeState = "";
+        state.leads = [];
+        state.newLead = null;
+        state.isLeadLoading = false;
+        state.isLeadError = null;
+        state.status = [];
+        state.isStatusError = null;
+        state.isStatusLoading = false;
+        state.newStatusLead = [];
+        state.patchStatusLoading = false;
+        state.patchStatusError = null;
+        state.newTimeZoneLead = [];
+        state.patchTimeZoneLoading = false;
+        state.patchTimeZoneError = null;
+        state.newCityLead = [];
+        state.patchCityLeadLoading = false;
+        state.patchCityLeadError = null;
+         state.newRegionLead = [];
+        state.patchRegionLeadLoading = false;
+        state.patchRegionLeadError = null;
+        state.newCountryLead = [];
+        state.patchCountryLeadLoading = false;
+        state.patchCountryLeadError = null;
+      })
+      .addCase(logOut.rejected, (state, { payload }) => {
+        state.isLeadLoading = false;
+        state.isLeadError = payload;
+      })
 
+      //CREATE NEW LEAD///////////
+      .addCase(createNewLead.pending, (state) => {
+        state.isLeadLoading = true;
+        state.isLeadError = null;
+        state.isNewLeadDataResponce = false;
+      })
+      .addCase(createNewLead.fulfilled, (state, { payload }) => {
+        state.leads.unshift(payload);
+        state.newLead = payload;
+        state.isLeadLoading = false;
+        state.isLeadError = null;
+        state.isNewLeadDataResponce = true;
+      })
+      .addCase(createNewLead.rejected, (state, { payload }) => {
+        state.isLeadLoading = false;
+        state.isLeadError = payload;
+        state.isNewLeadDataResponce = true;
+      })
 
-            //CREATE NEW LEAD///////////
-            .addCase(createNewLead.pending, state => {
-                state.isLeadLoading = true;
-                state.isLeadError = null;
-                state.isNewLeadDataResponce = false;
-            })
-            .addCase(createNewLead.fulfilled, (state, { payload }) => {
-                state.leads.unshift(payload);
-                state.newLead = payload;
-                state.isLeadLoading = false;
-                state.isLeadError = null;
-                state.isNewLeadDataResponce = true;
-            })
-            .addCase(createNewLead.rejected, (state, { payload }) => {
-                state.isLeadLoading = false;
-                state.isLeadError = payload;
-                state.isNewLeadDataResponce = true;
-            })
+      //GET ALL LEADS///////////
+      .addCase(getAllLeads.pending, (state) => {
+        state.isLeadLoading = true;
+        state.isLeadError = null;
+      })
+      .addCase(getAllLeads.fulfilled, (state, { payload }) => {
+        state.isLeadLoading = false;
+        state.isLeadError = null;
+        state.leads = payload;
+      })
+      .addCase(getAllLeads.rejected, (state, { payload }) => {
+        state.isLeadLoading = false;
+        state.isLeadError = payload;
+      })
 
-            //GET ALL LEADS///////////
-            .addCase(getAllLeads.pending, state => {
-                state.isLeadLoading = true;
-                state.isLeadError = null;
-            })
-        .addCase(getAllLeads.fulfilled, (state, { payload }) => {
-            state.isLeadLoading = false;
-            state.isLeadError = null;
-            state.leads = payload;
-        })
-            .addCase(getAllLeads.rejected, (state, { payload }) => {
-            state.isLeadLoading = false;
-                state.isLeadError = payload;
-        })
-    }
+      //GET ALL STATUS////////////
+      .addCase(getStatus.pending, (state) => {
+        state.isStatusLoading = true;
+        state.isStatusError = null;
+      })
+      .addCase(getStatus.fulfilled, (state, { payload }) => {
+        state.isStatusLoading = false;
+        state.isStatusError = null;
+        state.status = payload;
+      })
+      .addCase(getStatus.rejected, (state, { payload }) => {
+        state.isStatusLoading = false;
+        state.isStatusError = payload;
+      })
+
+      //GET TIME ZONE///////////////
+      .addCase(getTimeZone.pending, (state) => {
+        state.isTimeZoneLoading = true;
+        state.isTimeZoneError = null;
+      })
+      .addCase(getTimeZone.fulfilled, (state, { payload }) => {
+        state.isTimeZoneLoading = false;
+        state.isTimeZoneError = null;
+        state.timeZone = payload;
+      })
+      .addCase(getTimeZone.rejected, (state, { payload }) => {
+        state.isTimeZoneLoading = false;
+        state.isTimeZoneError = payload;
+      })
+
+      // PATCH STATUS////////////////
+      .addCase(patchStatus.pending, (state) => {
+        state.patchStatusLoading = true;
+        state.patchStatusError = null;
+      })
+      .addCase(patchStatus.fulfilled, (state, { payload }) => {
+        state.newStatusLead = payload;
+        state.patchStatusLoading = false;
+        state.patchStatusError = null;
+      })
+      .addCase(patchStatus.rejected, (state, { payload }) => {
+        state.patchStatusLoading = false;
+        state.patchStatusError = payload;
+      })
+    
+          // PATCH TIME ZONE////////////////
+      .addCase(patchTimeZone.pending, (state) => {
+        state.patchTimeZoneLoading = true;
+        state.patchTimeZoneError = null;
+      })
+      .addCase(patchTimeZone.fulfilled, (state, { payload }) => {
+        state.newTimeZoneLead = payload;
+        state.patchTimeZoneLoading = false;
+        state.patchTimeZoneError = null;
+      })
+      .addCase(patchTimeZone.rejected, (state, { payload }) => {
+        state.patchTimeZoneLoading = false;
+        state.patchTimeZoneError = payload;
+      })
+    
+          // PATCH CITY////////////////
+      .addCase(patchCityLead.pending, (state) => {
+        state.patchCityLeadLoading = true;
+        state.patchCityLeadError = null;
+      })
+      .addCase(patchCityLead.fulfilled, (state, { payload }) => {
+        state.newCityLead = payload;
+        state.patchCityLeadLoading = false;
+        state.patchCityLeadError = null;
+      })
+      .addCase(patchCityLead.rejected, (state, { payload }) => {
+        state.patchCityLeadLoading = false;
+        state.patchCityLeadError = payload;
+      })
+    
+         // PATCH REGION////////////////
+      .addCase(patchRegionLead.pending, (state) => {
+        state.patchRegionLeadLoading = true;
+        state.patchRegionLeadError = null;
+      })
+      .addCase(patchRegionLead.fulfilled, (state, { payload }) => {
+        state.newRegionLead = payload;
+        state.patchRegionLeadLoading = false;
+        state.patchRegionLeadError = null;
+      })
+      .addCase(patchRegionLead.rejected, (state, { payload }) => {
+        state.patchRegionLeadLoading = false;
+        state.patchRegionLeadError = payload;
+      })
+    
+         // PATCH COUNTRY////////////////
+      .addCase(patchCountryLead.pending, (state) => {
+        state.patchCountryLeadLoading = true;
+        state.patchCountryLeadError = null;
+      })
+      .addCase(patchCountryLead.fulfilled, (state, { payload }) => {
+        state.newCountryLead = payload;
+        state.patchCountryLeadLoading = false;
+        state.patchCountryLeadError = null;
+      })
+      .addCase(patchCountryLead.rejected, (state, { payload }) => {
+        state.patchCountryLeadLoading = false;
+        state.patchCountryLeadError = payload;
+      })
+  },
 });
-
 
 export const leadReducer = leadSlice.reducer;
 
-
 export const {
-    isOfficeState,
-    resetOfficeState,
-    updatingNewLeadDataResponce,
-    updatingNewLead,
-    getAllLeadsState,
+  isOfficeState,
+  resetOfficeState,
+  updatingNewLeadDataResponce,
+  updatingNewLead,
+  getAllLeadsState,
 } = leadSlice.actions;
