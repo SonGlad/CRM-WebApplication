@@ -3,18 +3,29 @@ import { ReactComponent as CheckedIcon } from "../../../images/svg-icons/check.s
 import { ReactComponent as CheckBoxIcon } from "../../../images/svg-icons/rectangle.svg";
 import { useAuth } from "../../../hooks/useAuth";
 import { useLead } from "../../../hooks/useLead";
+import { useEffect, useState } from "react";
 import { toggleExternalLeadsCheckboxState } from "../../../redux/Lead/lead-slice";
 import { useDispatch } from "react-redux";
 
 
-
 export function TableExternalLeads() {
   const { isAdmin } = useAuth();
+  const { isLeadLoading, isLeads} = useLead();
+  const [delayedLoading, setDelayedLoading] = useState(true);
   const dispatch = useDispatch();
   const { isLeadLoading, isLeadError, isLeads, selectedExternalLeadsCheckedCheckbox} = useLead();
   console.log(isLeadError);
 
 
+    useEffect(() => {
+    if (!isLeadLoading) {
+      const timer = setTimeout(() => {
+        setDelayedLoading(false);
+      }, 100); 
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLeadLoading]);
   const handleCheckboxChange = (_id) => {
     dispatch(toggleExternalLeadsCheckboxState({_id}));
   };
@@ -22,7 +33,7 @@ export function TableExternalLeads() {
 
   return (
     isAdmin &&
-    !isLeadLoading ? (
+    !isLeadLoading && !delayedLoading ? (
       <TableExternalList>
         <table className="Table">
           <thead className="TableHeader">

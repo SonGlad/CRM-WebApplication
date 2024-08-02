@@ -23,6 +23,7 @@ const authPersistConfig = {
   whitelist: [
     'token',
     'currentLocation',
+    'isAdmin'
   ],
 };
 

@@ -86,7 +86,7 @@ export const LeadItem = forwardRef(({
         }
     };
 
-
+    
     return(
         <MenuItemStyled ref={leadBlock}>
             <button type='button' className="side-panel-button" onClick={toggleLeadMenuDrop}>

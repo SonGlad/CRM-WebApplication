@@ -105,12 +105,12 @@ export const App= () => {
     dispatch(saveUserCurrentLocation(currentPath))
   },[currentPath, dispatch]);
 
-
   useEffect(() => {
+
     if(isLoggedIn && isAdmin && userLocation === '/'){
         dispatch(getAllLeads())
-    } else if (isLoggedIn && userLocation === '/leads'){
-        dispatch(getAllLeads())
+    } else if (isLoggedIn && !isAdmin && userLocation === '/leads') {
+      dispatch(getAllLeads())
     }
   },[dispatch, isAdmin, isLoggedIn, userLocation]);
 
