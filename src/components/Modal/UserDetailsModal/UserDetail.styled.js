@@ -6,8 +6,6 @@ export const UserDetailsStyled = styled.div`
     flex-direction: column;
     width: 95%;
     max-width: ${props => props.$isResposeForUserDetailsModal ? '31.25rem' : '48rem'};
-
-
     height: auto;
     padding-top: 1rem;
     padding-left: 1rem;

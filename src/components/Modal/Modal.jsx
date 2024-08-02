@@ -8,7 +8,8 @@ import {
     closeModalNewUser,
     closeModalNewLead,
     closeModaUserDetail,
-    closeModaConfirm, 
+    closeModaConfirm,
+    closeModaLeadDetail, 
 } from "../../redux/Modal/modal-slice";
 import { resetUserState, resetUserLeadsComponent } from "../../redux/User/user-slice";
 import { updatingNewUserResponceData } from "../../redux/Auth/auth-slice";
@@ -18,6 +19,7 @@ import { SettingsModal } from "./SettingsModal/SettingsModal";
 import { NewUser } from "./NewUserModal/NewUser";
 import { NewLead } from "./NewLeadModal/NewLead";
 import { UserDetails } from "./UserDetailsModal/UserDetail";
+import { LeadDetails } from "./LeadDetailsModal/LeadDetails";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import { RefreshLoading } from "../../components/CustomLoaders/CustomLoaders";
 
@@ -33,6 +35,7 @@ export const Modal = ({userLocation}) => {
         isNewUserModal,
         isNewLeadModal,
         isUserDetails,
+        isLeadDetails,
         isLoading,
         isConfirmModal, 
     } = useModal();
@@ -63,9 +66,13 @@ export const Modal = ({userLocation}) => {
         if (isConfirmModal){
             dispatch(closeModaConfirm());
         }
+        if (isLeadDetails){
+            dispatch(closeModaLeadDetail());
+        }
     },[
         dispatch, 
         isConfirmModal, 
+        isLeadDetails, 
         isNewLeadModal, 
         isNewUserModal, 
         isSettingsModal, 
@@ -107,7 +114,7 @@ export const Modal = ({userLocation}) => {
             {isLoading ? (
                 <RefreshLoading/>
             ) : (
-                (isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails || isConfirmModal) && (
+                (isSettingsModal || isNewUserModal || isNewLeadModal || isUserDetails || isConfirmModal || isLeadDetails) && (
                     <ModalStyled onClick={handleBackdropClick}>
                         {isSettingsModal && (
                             <SettingsModal handleClickClose={handleClickClose}/>
@@ -123,6 +130,9 @@ export const Modal = ({userLocation}) => {
                         )}
                         {isConfirmModal && (
                             <ConfirmDeleteModal handleClickClose={handleClickClose}/>
+                        )}
+                        {isLeadDetails && (
+                            <LeadDetails handleClickClose={handleClickClose}/>
                         )}
                     </ModalStyled>
                 )

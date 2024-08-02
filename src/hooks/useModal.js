@@ -6,6 +6,7 @@ import {
     selectLoading,
     selectIsSuccess,
     selectUserDetail,
+    selectLeadDetail,
     selectConfirmModal,
     selectDataForDeleteId,
 } from "../redux/Modal/modal-selectors.js";
@@ -18,6 +19,7 @@ export const useModal = () => {
     const isLoading = useSelector(selectLoading);
     const isSuccess = useSelector(selectIsSuccess);
     const isUserDetails = useSelector(selectUserDetail);
+    const isLeadDetails = useSelector(selectLeadDetail);
     const isConfirmModal = useSelector(selectConfirmModal);
     const dataForDeleteId = useSelector(selectDataForDeleteId);
 
@@ -29,6 +31,7 @@ export const useModal = () => {
         isLoading,
         isSuccess,
         isUserDetails,
+        isLeadDetails,
         isConfirmModal,
         dataForDeleteId,
     }

@@ -48,7 +48,8 @@ export const App= () => {
     isSettingsModal, 
     isNewUserModal, 
     isNewLeadModal, 
-    isUserDetails, 
+    isUserDetails,
+    isLeadDetails, 
     isConfirmModal,
   } = useModal();
   const currentPath = useLocation().pathname;
@@ -151,7 +152,8 @@ export const App= () => {
         isNewUserModal || 
         isNewLeadModal || 
         isUserDetails || 
-        isConfirmModal) && 
+        isConfirmModal ||
+        isLeadDetails) && 
         <Modal userLocation={userLocation}/>
       }
     </>

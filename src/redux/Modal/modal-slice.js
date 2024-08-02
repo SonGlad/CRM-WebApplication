@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { inregister } from "../Auth/auth-operation";
 import { createNewLead } from "../Lead/lead-operation";
-import { getUserById, resendVerifyEmail, resetUserPassword} from "../User/user-operation";
+import { 
+    getUserById, 
+    resendVerifyEmail, 
+    resetUserPassword,
+} from "../User/user-operation";
+import { getLeadById } from "../Lead/lead-operation";
 
 
 const modalSlice = createSlice({
@@ -11,6 +16,7 @@ const modalSlice = createSlice({
         isNewUserModal: false,
         isNewLeadModal: false,
         isUserDetails: false,
+        isLeadDetails: false,
         isConfirmModal: false,
         dataForDeleteId:{
             idToDelete: [],
@@ -44,6 +50,12 @@ const modalSlice = createSlice({
         },
         closeModaUserDetail: (state) => {
             state.isUserDetails = false;
+        },
+        openModalLeadDetail: (state) => {
+            state.isLeadDetails = true;
+        },
+        closeModaLeadDetail: (state) => {
+            state.isLeadDetails = false;
         },
         openModalConfirm: (state, {payload}) => {
             state.isConfirmModal = true;
@@ -101,6 +113,18 @@ const modalSlice = createSlice({
         })
 
 
+        // GET LEAD BY ID SWITCHER
+        .addCase(getLeadById.pending, state =>{
+            state.isSuccess = true;
+        })
+        .addCase(getLeadById.fulfilled, (state, { payload }) => {
+            state.isSuccess = true;
+        })
+        .addCase(getLeadById.rejected, (state, {payload}) => {
+            state.isSuccess = false;
+        })
+
+
         //VERIFY EMAIL SWITCHER
         .addCase(resendVerifyEmail.pending, state =>{
             state.isSuccess = true;
@@ -139,6 +163,8 @@ export const {
     closeModalNewLead,
     openModalUserDetail,
     closeModaUserDetail,
+    openModalLeadDetail,
+    closeModaLeadDetail,
     openModalConfirm,
     closeModaConfirm,
 } = modalSlice.actions;

@@ -51,3 +51,20 @@ export const deleteLead = createAsyncThunk(
         }
     }
 );
+
+
+export const getLeadById = createAsyncThunk(
+    'leads/:leadId?branch=Office1',
+    async ({leadId, branch}, thunkApi) => {
+        const params = branch ? `?branch=${branch}` : '';
+        try{
+            const response = await axios.get(`leads/${leadId}${params}`);
+            toast.success(`Lead Details load successful`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
