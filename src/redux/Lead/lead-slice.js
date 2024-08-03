@@ -152,6 +152,7 @@ const leadSlice = createSlice({
     .addCase(getAllLeads.pending, (state) => {
       state.isLeadLoading = true;
       state.isLeadError = null;
+      state.leads = [];
     })
     .addCase(getAllLeads.fulfilled, (state, { payload }) => {
       state.isLeadLoading = false;

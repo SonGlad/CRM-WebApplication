@@ -17,11 +17,13 @@ import {
   updatingForNoneAdminLogin,
 } from "../redux/Auth/auth-slice";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
-import { getAvailableUsers } from "../redux/User/user-operation";
+import { getAvailableUsers, getAllUsers } from "../redux/User/user-operation";
 import { getAllLeads } from "../redux/Lead/lead-operation";
 import { useDispatch} from "react-redux";
 import { RestrictedRoute } from "../routes/RestrictedRoute";
 import { PrivateRoute } from "../routes/PrivateRoute";
+import { useLead } from "../hooks/useLead";
+import { useUser } from "../hooks/useUser";
 
 
 const HomePage = lazy(() => import('../pages/Home'));
@@ -34,6 +36,8 @@ const OfficeLeadsPage = lazy(() => import('../pages/OfficeLeads'))
 export const App= () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { leadOffice } = useLead();
+  const { userOffice } = useUser();
   const {
     isLoadingAuth, 
     isRefreshing, 
@@ -43,6 +47,9 @@ export const App= () => {
     isInitial, 
     isAdmin,
     forNoneAdminLogin,
+    isManager,
+    isConversion,
+    isConversionManager,
   } = useAuth();
   const {
     isSettingsModal, 
@@ -53,6 +60,16 @@ export const App= () => {
     isConfirmModal,
   } = useModal();
   const currentPath = useLocation().pathname;
+
+
+  useEffect(() => {
+    if(!isInitial){
+      dispatch(refreshCurrentUser());
+      if (userLocation) {
+        navigate(userLocation);
+      }    
+    }
+  },[dispatch, isInitial, navigate, userLocation]);
 
 
   useEffect(() => {
@@ -77,7 +94,7 @@ export const App= () => {
       }
     }
   },[dispatch, isLoggedIn, userRole]);
-
+  
 
   useEffect(() => {
     if(isLoggedIn && !isAdmin && forNoneAdminLogin){
@@ -92,27 +109,27 @@ export const App= () => {
 
 
   useEffect(() => {
-    if(!isInitial){
-      dispatch(refreshCurrentUser());
-      if (userLocation) {
-        navigate(userLocation);
-      }
+    if(isLoggedIn && isAdmin && userLocation === '/'){
+      dispatch(getAllLeads())
+    } 
+    if(isLoggedIn && isAdmin && userLocation === '/leads'){
+      dispatch(getAllLeads(leadOffice))
     }
-  },[dispatch, isInitial, navigate, userLocation]);
+    if(isLoggedIn && (isManager || isConversion) && userLocation === '/leads'){
+      dispatch(getAllLeads())
+    }
+    if(isLoggedIn && isAdmin && userLocation === '/users'){
+      dispatch(getAllUsers(userOffice))
+    }
+    if(isLoggedIn && (isManager || isConversionManager) && userLocation === '/users'){
+      dispatch(getAllUsers())
+    }
+  },[dispatch, isAdmin, isConversion, isConversionManager, isLoggedIn, isManager, leadOffice, userLocation, userOffice]);
 
   
   useEffect(() =>{
     dispatch(saveUserCurrentLocation(currentPath))
   },[currentPath, dispatch]);
-
-  useEffect(() => {
-
-    if(isLoggedIn && isAdmin && userLocation === '/'){
-        dispatch(getAllLeads())
-    } else if (isLoggedIn && !isAdmin && userLocation === '/leads') {
-      dispatch(getAllLeads())
-    }
-  },[dispatch, isAdmin, isLoggedIn, userLocation]);
 
 
   useEffect(() => {
@@ -123,7 +140,6 @@ export const App= () => {
 
 
 
-  
   return isRefreshing ? (
     <RefreshLoading/>
   ) : (

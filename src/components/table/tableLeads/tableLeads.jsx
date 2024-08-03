@@ -12,29 +12,21 @@ import { Status } from "../tableComponents/status";
 import { useTableHook } from "../tableHook.jsx/tableHook";
 import { useLead } from "../../../hooks/useLead.js";
 import { useEffect, useState } from "react";
-import { DataLoading } from "../../CustomLoaders/CustomLoaders";
+import { RotatingLoader } from "../../CustomLoaders/CustomLoaders";
 import { useDispatch } from "react-redux";
 import { patchStatus, patchTimeZone } from "../../../redux/Lead/lead-operation.js";
 
+
 export const TableLeads = () => {
   const { isLeadLoading, isLeads } = useLead();
-  const [delayedLoading, setDelayedLoading] = useState(true);
   const [leads, setLeads] = useState(isLeads);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     setLeads(isLeads);
-  }, [isLeads]);
+  },[isLeads]);
 
-  useEffect(() => {
-    if (!isLeadLoading) {
-      const timer = setTimeout(() => {
-        setDelayedLoading(false);
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isLeadLoading]);
 
   const {
     inputVisible,
@@ -47,26 +39,28 @@ export const TableLeads = () => {
     toggleInputVisibility,
   } = useTableHook();
 
+
   const handleDropdownItemClick = (leadIndex, status, name, leadId) => {
     const updatedLeads = [...leads];
     if (name === "timeZone") {
-      dispatch(patchTimeZone({ id: leadId, leadTimeZone: status }))
+      dispatch(patchTimeZone({ id: leadId, leadTimeZone: status }));
       updatedLeads[leadIndex] = {
         ...updatedLeads[leadIndex],
         timeZone: status,
       };
     } else if (name === "status") {
-      dispatch(patchStatus({ id: leadId, leadStatus: status }))
-             updatedLeads[leadIndex] = {
-              ...updatedLeads[leadIndex],
-              status: status,
-            }
+      dispatch(patchStatus({ id: leadId, leadStatus: status }));
+      updatedLeads[leadIndex] = {
+        ...updatedLeads[leadIndex],
+        status: status,
+      }
     }
     setLeads(updatedLeads);
     setInputVisible({ row: null, cell: null });
   };
 
-  return !isLeadLoading && !delayedLoading ? (
+
+  return !isLeadLoading ? (
     <TableListStyled>
       <table className="Table">
         <thead className="TableHeader">
@@ -142,12 +136,12 @@ export const TableLeads = () => {
                   {lead.selfCreated ? "Yes" : "No"}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.latestComment.updatedAt &&
-                    lead.latestComment.updatedAt.slice(0, 16).replace("T", " ")}
+                  {lead.updatedAt &&
+                    lead.updatedAt.slice(0, 16).replace("T", " ")}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.latestComment.createdAt &&
-                    lead.latestComment.createdAt.slice(0, 16).replace("T", " ")}
+                  {lead.createdAt &&
+                    lead.createdAt.slice(0, 16).replace("T", " ")}
                 </td>
                 <td
                   className="TableHeaderItem"
@@ -163,7 +157,8 @@ export const TableLeads = () => {
                   handleTextareaChange={handleTextareaChange}
                 />
               </tr>
-            ))}
+            ))
+          }
         </tbody>
       </table>
       <InputWindow
@@ -186,6 +181,6 @@ export const TableLeads = () => {
       />
     </TableListStyled>
   ) : (
-    <DataLoading />
+    <RotatingLoader />
   );
 };

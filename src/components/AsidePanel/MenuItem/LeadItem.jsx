@@ -78,13 +78,13 @@ export const LeadItem = forwardRef(({
         toggleLeadMenuDrop();
         openOfficeMenu();
         if (isAdmin) {
-            dispatch(getAllLeads(office));
             dispatch(isOfficeState(office));
-        };
+        }
         if (userLeadsComponent) {
             dispatch(resetUserLeadsComponent());
         }
     };
+   
 
     
     return(
