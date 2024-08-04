@@ -1,12 +1,23 @@
 import { StyledMainPage } from "./Main.styled";
-import { useUser } from "../../../hooks/useUser";
+import { useAuth } from "../../../hooks/useAuth";
+import { getAllLeads } from "../../../redux/Lead/lead-operation";
+import { useDispatch } from "react-redux";
 import { TableExternalLeads } from "../../table/tableExternalLeads/tableExternalLeads";
+import { useEffect } from "react";
 
 
 
 export const Main = () => {
-  const { userOffice } = useUser();
-  console.log(userOffice);
+  const { isAdmin } = useAuth();
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    if (isAdmin) {
+      dispatch(getAllLeads())
+    }    
+  },[dispatch, isAdmin]);
+
 
   
   return (

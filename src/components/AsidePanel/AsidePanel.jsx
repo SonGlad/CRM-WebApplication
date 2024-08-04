@@ -4,7 +4,6 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { getOfficeList, getRoleList } from "../../redux/User/user-operation";
 import { toggleUsersSelectAllCheckbox} from "../../redux/User/user-slice";
 import { toggleExternalLeadsSelectAllCheckbox } from "../../redux/Lead/lead-slice";
-import { getAllLeads } from "../../redux/Lead/lead-operation";
 import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { useLead } from "../../hooks/useLead";
@@ -192,7 +191,6 @@ export const AsidePanel = ({userLocation}) => {
                         toggleLeadDropCont={toggleLeadDropCont}
                         toggleLeadDropArrow={toggleLeadDropArrow}
                         userSelectOffice={userSelectOffice}
-                        getAllLeads={getAllLeads}
                     />
                     <StatisticItem
                         statisticBlock={statisticBlock}

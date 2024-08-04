@@ -63,7 +63,7 @@ const userSlice = createSlice({
         isOfficeState:(state, action) => {
             state.officeState = action.payload;
         },
-        resetOfficeState:(state) => {
+        resetOfficeUserState:(state) => {
             state.officeState = '';
         },
         resetUserState:(state) => {
@@ -399,7 +399,7 @@ export const userReducer = userSlice.reducer;
 
 export const {
     isOfficeState,
-    resetOfficeState,
+    resetOfficeUserState,
     resetUserState,
     updatingVerificationEmailResponse,
     updatingResetPasswordResponse,

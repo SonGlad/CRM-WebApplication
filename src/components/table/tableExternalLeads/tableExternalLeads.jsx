@@ -21,8 +21,7 @@ export function TableExternalLeads() {
 
 
   return (
-    isAdmin &&
-    !isLeadLoading ? (
+    (isAdmin && !isLeadLoading) ? (
       <TableExternalList>
         <table className="Table">
           <thead className="TableHeader">

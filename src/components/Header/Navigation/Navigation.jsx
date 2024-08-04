@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom';
 import HeaderLogo from "../../../images/images/logo.png";
 import { useAuth } from "../../../hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { resetOfficeState } from "../../../redux/User/user-slice";
+import { resetOfficeUserState } from "../../../redux/User/user-slice";
+import { resetOfficeLeadState } from "../../../redux/Lead/lead-slice";
 
 
 export const Navigation = () => {
@@ -12,7 +13,8 @@ export const Navigation = () => {
     
 
     const resetStateForOffice = () => {
-        dispatch(resetOfficeState())
+        dispatch(resetOfficeUserState());
+        dispatch(resetOfficeLeadState());
     };
 
     

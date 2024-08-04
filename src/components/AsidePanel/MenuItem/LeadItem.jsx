@@ -16,7 +16,6 @@ export const LeadItem = forwardRef(({
     toggleLeadDropArrow, 
     toggleLeadDropCont, 
     userSelectOffice,
-    getAllLeads,
     }, ref) => {
     const dispatch = useDispatch();
     const [isVisible, setVisible] = useState(false);

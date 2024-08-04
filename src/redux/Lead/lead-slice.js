@@ -53,8 +53,9 @@ const leadSlice = createSlice({
     isOfficeState: (state, action) => {
       state.officeState = action.payload;
     },
-    resetOfficeState: (state) => {
+    resetOfficeLeadState: (state) => {
       state.officeState = '';
+      state.leads = [];
     },
     updatingNewLeadDataResponce: (state) => {
       state.isNewLeadDataResponce = false;
@@ -299,7 +300,7 @@ export const leadReducer = leadSlice.reducer;
 
 export const {
   isOfficeState,
-  resetOfficeState,
+  resetOfficeLeadState,
   updatingNewLeadDataResponce,
   updatingNewLead,
   getAllLeadsState,

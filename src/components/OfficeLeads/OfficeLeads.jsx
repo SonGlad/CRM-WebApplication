@@ -1,11 +1,10 @@
 import { StyledOfficeLeads } from "./OfficeLeads.styled";
 import { NavLink } from "react-router-dom";
-import { resetOfficeState } from "../../redux/Lead/lead-slice";
+import { resetOfficeLeadState } from "../../redux/Lead/lead-slice";
 import { useDispatch } from "react-redux";
 import { useAuth } from "../../hooks/useAuth";
 import { useUser } from "../../hooks/useUser";
 import { TableLeads } from "../table/tableLeads/tableLeads";
-import { getAllLeads } from "../../redux/Lead/lead-operation";
 
 
 
@@ -17,8 +16,7 @@ export const OfficeLeads = () => {
 
 
     const resetStateForOffice = () => {
-        dispatch(resetOfficeState());
-        dispatch(getAllLeads());
+        dispatch(resetOfficeLeadState());
     };
 
 

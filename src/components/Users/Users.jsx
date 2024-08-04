@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal"
-import { resetOfficeState } from "../../redux/User/user-slice";
+import { resetOfficeUserState } from "../../redux/User/user-slice";
 import { getUserById } from "../../redux/User/user-operation";
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
 import { toggleUsersCheckboxState, setFilteredUsers } from "../../redux/User/user-slice";
@@ -27,7 +27,7 @@ export const Users = () => {
     
 
     const resetStateForOffice = () => {
-        dispatch(resetOfficeState())
+        dispatch(resetOfficeUserState())
     };
 
 
