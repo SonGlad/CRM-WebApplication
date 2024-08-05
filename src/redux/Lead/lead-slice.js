@@ -10,6 +10,7 @@ import {
   patchStatus,
   patchTimeZone,
   deleteLead,
+  getLeadById,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -43,6 +44,7 @@ const initialState = {
   patchCountryLeadLoading: false,
   patchCountryLeadError: null,
   selectedExternalLeadsCheckedCheckbox: [],
+  leadDetailById: null,
 };
 
 const leadSlice = createSlice({
@@ -292,6 +294,22 @@ const leadSlice = createSlice({
     .addCase(patchCountryLead.rejected, (state, { payload }) => {
       state.patchCountryLeadLoading = false;
       state.patchCountryLeadError = payload;
+    })
+
+
+    // GET LEAD BY ID////////////////
+    .addCase(getLeadById.pending, (state) => {
+      state.isLeadLoading = true;
+      state.isLeadError = null;
+    })
+    .addCase(getLeadById.fulfilled, (state, { payload }) => {
+      state.leadDetailById = payload;
+      state.isLeadLoading = false;
+      state.isLeadError = null;
+    })
+    .addCase(getLeadById.rejected, (state, { payload }) => {
+      state.isLeadLoading = false;
+      state.isLeadError = payload;
     })
   },
 });

@@ -22,4 +22,20 @@ export const StyledMainPage = styled.div`
             height: 87.5dvh;
         }
     }
+
+    .page-title{
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    
+    .filter-list{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        line-height: 1.25rem;
+    }
 `

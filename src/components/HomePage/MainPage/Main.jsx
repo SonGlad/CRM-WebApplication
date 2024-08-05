@@ -23,8 +23,15 @@ export const Main = () => {
   return (
     <StyledMainPage>
       <div className="wraper">
-        <h1>MAIN PAGE</h1>
-        <TableExternalLeads />
+        <h1 className="page-title">External Leads List & Management</h1>
+        <div className="filter-block">
+          <ul className="filter-list">
+            <li className="filter-item">
+              <p>FILTER BLOCK</p>
+            </li>
+          </ul>
+        </div>
+          <TableExternalLeads />
       </div>
     </StyledMainPage>
   );

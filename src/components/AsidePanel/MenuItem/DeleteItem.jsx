@@ -196,7 +196,7 @@ export const DeleteItem = forwardRef(({
                     </ul>
                 </>
             )}
-                {isLocation === 'LeadsPage' && (
+                {(isLocation === 'LeadsPage' && isAdmin) && (
                 <p>Delete Selected Lead</p>
             )}
         </MenuItemStyled>

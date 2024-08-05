@@ -100,7 +100,7 @@ export const MenuItemStyled = styled.li`
 
     .office-list{
         position: absolute;
-        z-index: 2;
+        z-index: 3;
         top: 0;
         right: -75%;
         border-radius: 0.75rem;

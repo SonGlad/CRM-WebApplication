@@ -104,7 +104,7 @@ export const LeadItem = forwardRef(({
                             onClick={openOfficeMenu}    
                             >Check Leads
                             <ArrowDown className={`side-arrow-svg ${toggleOfficeSideArrow()}`}/>
-                            </button>
+                        </button>
                         <ul className={`office-list ${toggleOfficeDropCont()}`}>
                             {userSelectOffice.map(({office}, index) => (
                                 <li className="office-item" key={index} onClick={() => linkCloseMenu(office)}>
