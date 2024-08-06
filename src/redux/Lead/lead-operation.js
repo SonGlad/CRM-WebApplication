@@ -185,3 +185,35 @@ export const getLeadById = createAsyncThunk(
         }
     }
 );
+
+
+export const leadAssign = createAsyncThunk(
+    'leads/assign/:leadId',
+    async ({leadId, data}, thunkApi) => {
+        try{
+            const response = await axios.post(`leads/assign/${leadId}`, data);
+            toast.success(`Lead successful assigned`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const leadReAssign = createAsyncThunk(
+    'leads/reassign/:leadId',
+    async ({leadId, data}, thunkApi) => {
+        try{
+            const response = await axios.put(`leads/reassign/${leadId}`, data);
+            toast.success(`Lead successful assigned`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

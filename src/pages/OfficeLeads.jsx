@@ -24,7 +24,7 @@ const OfficeLeadsPage = () => {
         if ((isManager || isConversion) && !userLeadsComponent) {
             dispatch(getAllLeads());
         }
-        if (forNoneAdminLogin && !userLeadsComponent) {
+        if (!forNoneAdminLogin && !userLeadsComponent && !isAdmin) {
             dispatch(getAvailableUsers());
         }
     },[dispatch, forNoneAdminLogin, isAdmin, isConversion, isManager, leadOffice, userLeadsComponent]);

@@ -1,24 +1,45 @@
 import { AssignDropContStyled } from "./tableExternalLeads.styled";
-import {ReactComponent as Arrow} from "../../../images/svg-icons/arrow-down.svg";
+import { ReactComponent as Arrow } from "../../../images/svg-icons/arrow-down.svg";
 import { useRef, useState, useCallback, useEffect } from "react";
+import { leadAssign, leadReAssign } from "../../../redux/Lead/lead-operation";
 
 
 
-export const AssignedDropCont = ({lead, userSelectOffice}) => {
+export const AssignedDropCont = ({lead, userSelectOffice, dispatch, isAdmin}) => {
     const [openMenus, setOpenMenus] = useState(new Map());
     const leadRefs = useRef(new Map());
 
 
     const assignExternalLeadDetail = (lead, office) => {
-        console.log(lead);
-        console.log(office);
-        toggleUserMenuDrop(lead._id);
+        if (isAdmin && lead.newContact) {
+            dispatch(leadAssign({
+                leadId: lead._id,
+                data: {
+                    name: lead.name,
+                    lastName: lead.lastName,
+                    email: lead.email,
+                    phone: lead.phone,
+                    resource: lead.resource,
+                    branch: office
+                }
+            }))
+            toggleUserMenuDrop(lead._id);
+        }
+        if (isAdmin && !lead.newContact) {
+            dispatch(leadReAssign({
+                leadId: lead._id,
+                data: {
+                    branch: office
+                }
+            }));
+            toggleUserMenuDrop(lead._id);
+        }
     };
 
 
     const assignButtonValue = (lead) => {
         let text;
-        if (!lead.assigned) {
+        if (lead.newContact) {
           text = 'Assign'
         } else {
           text = "ReAssign"

@@ -11,6 +11,8 @@ import {
   patchTimeZone,
   deleteLead,
   getLeadById,
+  leadAssign,
+  leadReAssign,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -311,8 +313,41 @@ const leadSlice = createSlice({
       state.isLeadLoading = false;
       state.isLeadError = payload;
     })
+
+
+    //LEAD ASSIGN////////////////
+    .addCase(leadAssign.pending, (state) => {
+      state.isLeadError = null;
+    })
+    .addCase(leadAssign.fulfilled, (state, { payload }) => {
+      const updatedLead = payload;      
+      state.leads = state.leads.map(lead => 
+        lead._id === updatedLead._id ? updatedLead : lead
+      );
+      state.isLeadError = null;
+    })
+    .addCase(leadAssign.rejected, (state, { payload }) => {
+      state.isLeadError = payload;
+    })
+
+
+    //LEAD ASSIGN////////////////
+    .addCase(leadReAssign.pending, (state) => {
+      state.isLeadError = null;
+    })
+    .addCase(leadReAssign.fulfilled, (state, { payload }) => {
+      const updatedLead = payload;      
+      state.leads = state.leads.map(lead => 
+        lead._id === updatedLead._id ? updatedLead : lead
+      );
+      state.isLeadError = null;
+    })
+    .addCase(leadReAssign.rejected, (state, { payload }) => {
+      state.isLeadError = payload;
+    })
   },
 });
+
 
 export const leadReducer = leadSlice.reducer;
 

@@ -113,6 +113,8 @@ export const MenuItemStyled = styled.li`
         visibility: hidden;
         opacity: 0;
         scale: 0;
+        transform: scale(0.5) translateY(3px);
+        transform-origin: left top;
         transition: all ${p => p.theme.transition.main_transition};
     }
 
@@ -120,6 +122,8 @@ export const MenuItemStyled = styled.li`
         opacity: 1;
         visibility: visible;
         scale: 1;
+        transform: scale(1) translateY(6px);
+        transform-origin: left top;
     }
 
     .side-arrow-svg {

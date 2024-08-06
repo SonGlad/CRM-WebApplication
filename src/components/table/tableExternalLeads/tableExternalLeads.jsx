@@ -142,8 +142,10 @@ export function TableExternalLeads() {
                   </td>
                   <td className="TableHeaderItem">
                     <AssignedDropCont
+                      isAdmin={isAdmin}
                       lead={lead}
                       userSelectOffice={userSelectOffice}
+                      dispatch={dispatch}
                     />
                   </td>
                   <td className="TableHeaderItem">

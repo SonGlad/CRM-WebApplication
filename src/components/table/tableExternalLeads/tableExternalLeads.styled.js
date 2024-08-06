@@ -226,6 +226,8 @@ export const AssignDropContStyled = styled.div`
     visibility: hidden;
     opacity: 0;
     scale: 0;
+    transform: scale(0.5) translateY(10px);
+    transform-origin: left top;
     transition: all ${p => p.theme.transition.main_transition};
   }
 
@@ -233,6 +235,8 @@ export const AssignDropContStyled = styled.div`
     opacity: 1;
     visibility: visible;
     scale: 1;
+    transform: scale(1) translateY(6px);
+    transform-origin: left top;
   }
 
   .office-item{
@@ -250,7 +254,7 @@ export const AssignDropContStyled = styled.div`
 
 
   .assign-btn{
-    margin-left: 5px;
+    margin-left: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
