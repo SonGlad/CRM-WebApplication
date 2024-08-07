@@ -5,6 +5,7 @@ import {
   selectLeadsError,
   selectLeadResponce,
   selectLeads,
+  selectTotalPages,
   selectNewLead,
   selectStatus,
   selectStatusLoading,
@@ -38,6 +39,7 @@ export const useLead = () => {
   const isLeadsError = useSelector(selectLeadsError);
   const isNewLeadDataResponce = useSelector(selectLeadResponce);
   const isLeads = useSelector(selectLeads);
+  const totalPages = useSelector(selectTotalPages);
   const newLead = useSelector(selectNewLead);
   const status = useSelector(selectStatus);
   const isStatusLoading = useSelector(selectStatusLoading);
@@ -70,6 +72,7 @@ export const useLead = () => {
     isLeadsError,
     isNewLeadDataResponce,
     isLeads,
+    totalPages,
     newLead,
     status,
     isStatusLoading,

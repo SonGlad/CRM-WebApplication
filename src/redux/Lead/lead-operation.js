@@ -27,7 +27,7 @@ export const getAllLeads = createAsyncThunk(
         try{
             const response = await axios.get(`leads/all${params}`);
             toast.success(`All Leads load successful`);
-            return response.data;
+            return response.data; 
         }
         catch(error) {
             toast.error(`${error.response.data.message}`);

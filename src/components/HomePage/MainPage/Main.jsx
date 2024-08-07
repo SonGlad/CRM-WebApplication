@@ -3,6 +3,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { getAllLeads } from "../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
 import { TableExternalLeads } from "../../table/tableExternalLeads/tableExternalLeads";
+import { Pagination } from "../../Pagination/Pagination";
 import { useEffect } from "react";
 
 
@@ -32,6 +33,7 @@ export const Main = () => {
           </ul>
         </div>
           <TableExternalLeads />
+          <Pagination/>
       </div>
     </StyledMainPage>
   );

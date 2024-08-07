@@ -6,7 +6,9 @@ export const selectLeadsError = state => state.lead.isLeadError;
 
 export const selectLeadResponce = state => state.lead.isNewLeadDataResponce;
 
-export const selectLeads = state => state.lead.leads;
+export const selectLeads = state => state.lead.leadsData.leads;
+
+export const selectTotalPages = state => state.lead.leadsData.totalPages;
 
 export const selectNewLead = state => state.lead.newLead;
 

@@ -19,7 +19,10 @@ import { logOut } from "../Auth/auth-operation";
 
 const initialState = {
   officeState: "",
-  leads: [],
+  leadsData: {
+    leads: [],
+    totalPages: '',
+  },
   newLead: null,
   isNewLeadDataResponce: false,
   isLeadError: null,
@@ -59,16 +62,14 @@ const leadSlice = createSlice({
     },
     resetOfficeLeadState: (state) => {
       state.officeState = '';
-      state.leads = [];
+      state.leadsData.leads = [];
+      state.leadsData.totalPages = '';
     },
     updatingNewLeadDataResponce: (state) => {
       state.isNewLeadDataResponce = false;
     },
     updatingNewLead: (state) => {
       state.newLead = null;
-    },
-    getAllLeadsState: (state, action) => {
-      state.leads = action.payload;
     },
     toggleExternalLeadsCheckboxState: (state, action) => {
       const {_id} = action.payload;
@@ -80,7 +81,7 @@ const leadSlice = createSlice({
       }
     },
     toggleExternalLeadsSelectAllCheckbox: (state) => {
-      const leadIds = state.leads.map(lead => lead._id);
+      const leadIds = state.leadsData.leads.map(lead => lead._id);
       if (state.selectedExternalLeadsCheckedCheckbox.length === leadIds.length) {
         state.selectedExternalLeadsCheckedCheckbox = [];
       } else {
@@ -103,7 +104,8 @@ const leadSlice = createSlice({
     })
     .addCase(logOut.fulfilled, (state, { payload }) => {
       state.officeState = "";
-      state.leads = [];
+      state.leadsData.leads = [];
+      state.leadsData.totalPages = '';
       state.newLead = null;
       state.isLeadLoading = false;
       state.isLeadError = null;
@@ -140,7 +142,7 @@ const leadSlice = createSlice({
       state.isNewLeadDataResponce = false;
     })
     .addCase(createNewLead.fulfilled, (state, { payload }) => {
-      state.leads.unshift(payload);
+      state.leadsData.leads.unshift(payload);
       state.newLead = payload;
       state.isLeadLoading = false;
       state.isLeadError = null;
@@ -157,12 +159,14 @@ const leadSlice = createSlice({
     .addCase(getAllLeads.pending, (state) => {
       state.isLeadLoading = true;
       state.isLeadError = null;
-      state.leads = [];
+      state.leadsData.leads = [];
+      state.leadsData.totalPages = '';
     })
     .addCase(getAllLeads.fulfilled, (state, { payload }) => {
       state.isLeadLoading = false;
-      state.isLeadError = null;
-      state.leads = payload;
+      state.isLeadError = null;     
+      state.leadsData.leads = payload.result;
+      state.leadsData.totalPages = payload.totalPages;
     })
     .addCase(getAllLeads.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -194,7 +198,7 @@ const leadSlice = createSlice({
     .addCase(deleteLead.fulfilled, (state, {payload} ) => {
         state.isLeadLoading = false;
         state.isLeadError = null;
-        state.leads = state.users.filter(lead => lead._id !== payload.id);
+        state.leadsData.leads = state.leadsData.leads.filter(lead => lead._id !== payload.id);
         state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== payload.id);
     })
     .addCase(deleteLead.rejected, (state, {payload}) => {
@@ -321,7 +325,7 @@ const leadSlice = createSlice({
     })
     .addCase(leadAssign.fulfilled, (state, { payload }) => {
       const updatedLead = payload;      
-      state.leads = state.leads.map(lead => 
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id ? updatedLead : lead
       );
       state.isLeadError = null;
@@ -331,13 +335,13 @@ const leadSlice = createSlice({
     })
 
 
-    //LEAD ASSIGN////////////////
+    //LEAD REASSIGN////////////////
     .addCase(leadReAssign.pending, (state) => {
       state.isLeadError = null;
     })
     .addCase(leadReAssign.fulfilled, (state, { payload }) => {
       const updatedLead = payload;      
-      state.leads = state.leads.map(lead => 
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id ? updatedLead : lead
       );
       state.isLeadError = null;
@@ -356,7 +360,6 @@ export const {
   resetOfficeLeadState,
   updatingNewLeadDataResponce,
   updatingNewLead,
-  getAllLeadsState,
   toggleExternalLeadsCheckboxState,
   toggleExternalLeadsSelectAllCheckbox,
   resetExternalLeadsSelectedCheckbox,
