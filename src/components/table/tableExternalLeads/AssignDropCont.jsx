@@ -8,7 +8,7 @@ import { leadAssign, leadReAssign } from "../../../redux/Lead/lead-operation";
 export const AssignedDropCont = ({lead, userSelectOffice, dispatch, isAdmin}) => {
     const [openMenus, setOpenMenus] = useState(new Map());
     const leadRefs = useRef(new Map());
-
+  
 
     const assignExternalLeadDetail = (lead, office) => {
         if (isAdmin && lead.newContact) {

@@ -7,13 +7,14 @@ export const TableExternalList = styled.div`
   height: 74dvh;
   padding-bottom: 4px;
   position: relative;
+  margin-bottom: 1rem;
 
   @media screen and (min-width: 834px){
     height: 71dvh;
   }
 
   @media screen and (min-width: 1236px){
-    height: 73dvh;
+    height: 65.4dvh;
   }
 
 
