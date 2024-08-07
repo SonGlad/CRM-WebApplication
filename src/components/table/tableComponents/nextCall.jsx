@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { patchNextCall } from "../../../redux/Lead/lead-operation";
@@ -10,6 +9,7 @@ export const NextCall = ({ lead }) => {
   useEffect(() => {
     if (lead.nextCall) {
       setNewDate(lead.nextCall.toString().slice(0, 16));
+
     }
   }, [lead.nextCall]);
 
@@ -22,6 +22,7 @@ export const NextCall = ({ lead }) => {
         }
       })
   };
+
 
   return (
     <td className="TableHeaderItem">

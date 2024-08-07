@@ -2,13 +2,15 @@ import { useLead } from "../../../hooks/useLead";
 
 export const DropdownStatus = ({ inputVisible, dropdownRef, handleDropdownItemClick }) => {
 
-    const { status: tstatusData, isStatusLoading, isStatusError } = useLead()
 
-     const loading = "Loading...";
+    const { status: tstatusData, isStatusLoading, isStatusError } = useLead()
+    const loading = "Loading...";
+
     
- if (isStatusError) {
-return <div>Oooops something wrong</div>
-    }
+    if (isStatusError) {
+        return <div>Oooops something wrong</div>
+    };
+    
 
     return (
         <>

@@ -38,7 +38,8 @@ export const getRoleList = createAsyncThunk(
 
 export const getAllUsers = createAsyncThunk(
     'users/all',
-    async(branch, thunkApi) => {
+    async(office, thunkApi) => {
+        const branch = office && (office);
         try{
             const response = await axios.get(`users/all/${branch}`);
             toast.success(`All users list been received`);

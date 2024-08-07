@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getStatus, getTimeZone } from "../../../redux/Lead/lead-operation";
 
+
 export const useTableHook = () => {
   const [isMenuBox, setMenuBox] = useState(false);
   const [inputVisible, setInputVisible] = useState({ row: null, cell: null, leadId: null });
@@ -9,14 +10,17 @@ export const useTableHook = () => {
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
 
+
   const adjustTextareaHeight = (textarea) => {
     textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
+
   const handleTextareaChange = (event) => {
     adjustTextareaHeight(event.target);
   };
+
 
 
   const toggleInputVisibility = (row, cell, leadId) => {
@@ -33,11 +37,13 @@ export const useTableHook = () => {
     );
   };
 
+
   const toggleUserMenuDropArrow = (row, cell) => {
     return inputVisible.row === row && inputVisible.cell === cell
       ? "arrow-svg-close"
       : "";
   };
+
 
   useEffect(() => {
     if (inputVisible.row !== null && inputVisible.cell !== null) {
@@ -78,12 +84,14 @@ export const useTableHook = () => {
     }
   }, [inputVisible]);
 
+
   const handleKeyPress = useCallback((event) => {
     if (event.key === "Escape") {
       setMenuBox(false);
       setInputVisible({ row: null, cell: null });
     }
-  }, []);
+  },[]);
+
 
   const handleBackgroundClick = useCallback((event) => {
     const target = event.target;
@@ -98,6 +106,7 @@ export const useTableHook = () => {
     }
   }, []);
 
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyPress);
     document.addEventListener("click", handleBackgroundClick);
@@ -108,11 +117,12 @@ export const useTableHook = () => {
     };
   }, [handleBackgroundClick, handleKeyPress]);
 
+
   return {
     inputVisible,
     inputRef,
     isMenuBox,
-      dropdownRef,
+    dropdownRef,
     setInputVisible,
     setMenuBox,
     handleTextareaChange,

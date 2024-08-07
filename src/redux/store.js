@@ -23,7 +23,6 @@ const authPersistConfig = {
   whitelist: [
     'token',
     'currentLocation',
-    'isAdmin'
   ],
 };
 
@@ -34,6 +33,7 @@ const userPersistConfig = {
   whitelist: [
     'officeState',
     'selectedUsersCheckedCheckbox',
+    'officeState',
   ],
 };
 
@@ -44,6 +44,7 @@ const leadPersistConfig = {
   whitelist: [
     'officeState',
     'selectedExternalLeadsCheckedCheckbox',
+    'officeState',
   ],
 };
 

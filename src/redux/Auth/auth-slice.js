@@ -121,7 +121,7 @@ const authSlice = createSlice({
             state.error = null;
             state.isLoggedIn = false;
             state.isInitial = true;
-            state.forNoneAdminLogin = true;
+            state.forNoneAdminLogin = false;
         })
         .addCase(logIn.fulfilled, (state, {payload}) => {
             state.user = {

@@ -2,14 +2,16 @@ import { useDispatch } from "react-redux";
 import { patchCityLead, patchCountryLead, patchRegionLead } from "../../../redux/Lead/lead-operation";
 import { useState } from "react";
 
+
 export const InputWindow = ({ leads, inputVisible, inputRef, setLeads, handleTextareaChange, setInputVisible }) => {
-  
   const dispatch = useDispatch();
   const [newText, setNewText] = useState("");
+
 
   const handleInputChange = (event) => {
     setNewText(event.target.value);
   };
+
 
   const handleSubmit = (e, leadIndex, fieldName, leadId) => {
     e.preventDefault();
@@ -17,36 +19,37 @@ export const InputWindow = ({ leads, inputVisible, inputRef, setLeads, handleTex
     switch (fieldName) {
       case "city":
         dispatch(patchCityLead({ id: leadId, leadCity: newText }))
-                .then((response) => {
-                  if (response.payload.name) {
-                    const updatedLeads = [...leads];
-                    updatedLeads[leadIndex] = {
-                      ...updatedLeads[leadIndex],
-                      city: newText
-                    };
-                    setLeads(updatedLeads);
-                    setNewText("");
-                    setInputVisible({ row: null, cell: null, leadId: null });
-                  }
-          })
-        break;
+        .then((response) => {
+          if (response.payload.name) {
+            const updatedLeads = [...leads];
+            updatedLeads[leadIndex] = {
+              ...updatedLeads[leadIndex],
+              city: newText
+            };
+            setLeads(updatedLeads);
+            setNewText("");
+            setInputVisible({ row: null, cell: null, leadId: null });
+          }
+        })
+      break;
+
       
       case "region":
         dispatch(patchRegionLead({ id: leadId, leadRegion: newText }))
-          .then((response) => {
-            if (response.payload.name) {
-              const updatedLeads = [...leads];
-              updatedLeads[leadIndex] = {
-                ...updatedLeads[leadIndex],
-                region: newText
-              };
-              setLeads(updatedLeads);
-              setNewText("");
-              setInputVisible({ row: null, cell: null, leadId: null });
-            }
-            })
+        .then((response) => {
+          if (response.payload.name) {
+            const updatedLeads = [...leads];
+            updatedLeads[leadIndex] = {
+              ...updatedLeads[leadIndex],
+              region: newText
+            };
+            setLeads(updatedLeads);
+            setNewText("");
+            setInputVisible({ row: null, cell: null, leadId: null });
+          }
+        })
+      break;
 
-        break;
       
       case "country":
         if (fieldName === "country") {
@@ -64,10 +67,11 @@ export const InputWindow = ({ leads, inputVisible, inputRef, setLeads, handleTex
               }
             })
         }
-        break;
-        default:
+      break;
+      default:
     }
   };
+  
 
   return (
     <>

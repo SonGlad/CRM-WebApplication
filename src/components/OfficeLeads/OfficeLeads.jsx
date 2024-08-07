@@ -1,6 +1,6 @@
 import { StyledOfficeLeads } from "./OfficeLeads.styled";
 import { NavLink } from "react-router-dom";
-import { resetOfficeState } from "../../redux/Lead/lead-slice";
+import { resetOfficeLeadState } from "../../redux/Lead/lead-slice";
 import { useDispatch } from "react-redux";
 import { useAuth } from "../../hooks/useAuth";
 import { useUser } from "../../hooks/useUser";
@@ -15,7 +15,7 @@ export const OfficeLeads = () => {
     console.log("Users for Assign:", availableUsersForAssign);
 
     const resetStateForOffice = () => {
-        dispatch(resetOfficeState())
+        dispatch(resetOfficeLeadState());
     };
 
 

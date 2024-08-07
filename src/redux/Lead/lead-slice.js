@@ -11,13 +11,19 @@ import {
   patchTimeZone,
   deleteLead,
   patchNextCall,
+  getLeadById,
+  leadAssign,
+  leadReAssign,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
 
 
 const initialState = {
   officeState: "",
-  leads: [],
+  leadsData: {
+    leads: [],
+    totalPages: '',
+  },
   newLead: null,
   isNewLeadDataResponce: false,
   isLeadError: null,
@@ -44,9 +50,10 @@ const initialState = {
   patchCountryLeadLoading: false,
   patchCountryLeadError: null,
   selectedExternalLeadsCheckedCheckbox: [],
-    newNextCallLead: [],
+  newNextCallLead: [],
   patchNextCallLeadLoading: false,
   patchNextCallLeadError: null,
+  leadDetailById: null,
 };
 
 const leadSlice = createSlice({
@@ -57,17 +64,16 @@ const leadSlice = createSlice({
     isOfficeState: (state, action) => {
       state.officeState = action.payload;
     },
-    resetOfficeState: (state) => {
+    resetOfficeLeadState: (state) => {
       state.officeState = '';
+      state.leadsData.leads = [];
+      state.leadsData.totalPages = '';
     },
     updatingNewLeadDataResponce: (state) => {
       state.isNewLeadDataResponce = false;
     },
     updatingNewLead: (state) => {
       state.newLead = null;
-    },
-    getAllLeadsState: (state, action) => {
-      state.leads = action.payload;
     },
     toggleExternalLeadsCheckboxState: (state, action) => {
       const { _id } = action.payload;
@@ -79,7 +85,7 @@ const leadSlice = createSlice({
       }
     },
     toggleExternalLeadsSelectAllCheckbox: (state) => {
-      const leadIds = state.leads.map(lead => lead._id);
+      const leadIds = state.leadsData.leads.map(lead => lead._id);
       if (state.selectedExternalLeadsCheckedCheckbox.length === leadIds.length) {
         state.selectedExternalLeadsCheckedCheckbox = [];
       } else {
@@ -95,80 +101,84 @@ const leadSlice = createSlice({
     builder
 
     
-      //LOGOUT///////////
-      .addCase(logOut.pending, (state) => {
-        state.isLeadLoading = true;
-        state.isLeadError = null;
-      })
-      .addCase(logOut.fulfilled, (state, { payload }) => {
-        state.officeState = "";
-        state.leads = [];
-        state.newLead = null;
-        state.isLeadLoading = false;
-        state.isLeadError = null;
-        state.status = [];
-        state.isStatusError = null;
-        state.isStatusLoading = false;
-        state.newStatusLead = [];
-        state.patchStatusLoading = false;
-        state.patchStatusError = null;
-        state.newTimeZoneLead = [];
-        state.patchTimeZoneLoading = false;
-        state.patchTimeZoneError = null;
-        state.newCityLead = [];
-        state.patchCityLeadLoading = false;
-        state.patchCityLeadError = null;
-        state.newRegionLead = [];
-        state.patchRegionLeadLoading = false;
-        state.patchRegionLeadError = null;
-        state.newCountryLead = [];
-        state.patchCountryLeadLoading = false;
-        state.patchCountryLeadError = null;
-        state.selectedExternalLeadsCheckedCheckbox = [];
-        state.newNextCallLead = [];
-        state.patchNextCallLeadLoading = false;
-        state.patchNextCallLeadError = null;
-      })
-      .addCase(logOut.rejected, (state, { payload }) => {
-        state.isLeadLoading = false;
-        state.isLeadError = payload;
-      })
+    //LOGOUT///////////
+    .addCase(logOut.pending, (state) => {
+      state.isLeadLoading = true;
+      state.isLeadError = null;
+    })
+    .addCase(logOut.fulfilled, (state, { payload }) => {
+      state.officeState = "";
+      state.leadsData.leads = [];
+      state.leadsData.totalPages = '';
+      state.newLead = null;
+      state.isLeadLoading = false;
+      state.isLeadError = null;
+      state.status = [];
+      state.isStatusError = null;
+      state.isStatusLoading = false;
+      state.newStatusLead = [];
+      state.patchStatusLoading = false;
+      state.patchStatusError = null;
+      state.newTimeZoneLead = [];
+      state.patchTimeZoneLoading = false;
+      state.patchTimeZoneError = null;
+      state.newCityLead = [];
+      state.patchCityLeadLoading = false;
+      state.patchCityLeadError = null;
+      state.newRegionLead = [];
+      state.patchRegionLeadLoading = false;
+      state.patchRegionLeadError = null;
+      state.newCountryLead = [];
+      state.patchCountryLeadLoading = false;
+      state.patchCountryLeadError = null;
+      state.selectedExternalLeadsCheckedCheckbox = [];
+      state.newNextCallLead = [];
+      state.patchNextCallLeadLoading = false;
+      state.patchNextCallLeadError = null;
+    })
+    .addCase(logOut.rejected, (state, { payload }) => {
+      state.isLeadLoading = false;
+      state.isLeadError = payload;
+    })
     
 
-      //CREATE NEW LEAD///////////
-      .addCase(createNewLead.pending, (state) => {
-        state.isLeadLoading = true;
-        state.isLeadError = null;
-        state.isNewLeadDataResponce = false;
-      })
-      .addCase(createNewLead.fulfilled, (state, { payload }) => {
-        state.leads.unshift(payload);
-        state.newLead = payload;
-        state.isLeadLoading = false;
-        state.isLeadError = null;
-        state.isNewLeadDataResponce = true;
-      })
-      .addCase(createNewLead.rejected, (state, { payload }) => {
-        state.isLeadLoading = false;
-        state.isLeadError = payload;
-        state.isNewLeadDataResponce = true;
-      })
+    //CREATE NEW LEAD///////////
+    .addCase(createNewLead.pending, (state) => {
+      state.isLeadLoading = true;
+      state.isLeadError = null;
+      state.isNewLeadDataResponce = false;
+    })
+    .addCase(createNewLead.fulfilled, (state, { payload }) => {
+      state.leadsData.leads.unshift(payload);
+      state.newLead = payload;
+      state.isLeadLoading = false;
+      state.isLeadError = null;
+      state.isNewLeadDataResponce = true;
+    })
+    .addCase(createNewLead.rejected, (state, { payload }) => {
+      state.isLeadLoading = false;
+      state.isLeadError = payload;
+      state.isNewLeadDataResponce = true;
+    })
     
 
-      //GET ALL LEADS///////////
-      .addCase(getAllLeads.pending, (state) => {
-        state.isLeadLoading = true;
-        state.isLeadError = null;
-      })
-      .addCase(getAllLeads.fulfilled, (state, { payload }) => {
-        state.isLeadLoading = false;
-        state.isLeadError = null;
-        state.leads = payload;
-      })
-      .addCase(getAllLeads.rejected, (state, { payload }) => {
-        state.isLeadLoading = false;
-        state.isLeadError = payload;
-      })
+    //GET ALL LEADS///////////
+    .addCase(getAllLeads.pending, (state) => {
+      state.isLeadLoading = true;
+      state.isLeadError = null;
+      state.leadsData.leads = [];
+      state.leadsData.totalPages = '';
+    })
+    .addCase(getAllLeads.fulfilled, (state, { payload }) => {
+      state.isLeadLoading = false;
+      state.isLeadError = null;     
+      state.leadsData.leads = payload.result;
+      state.leadsData.totalPages = payload.totalPages;
+    })
+    .addCase(getAllLeads.rejected, (state, { payload }) => {
+      state.isLeadLoading = false;
+      state.isLeadError = payload;
+    })
     
 
       //GET ALL STATUS////////////
@@ -195,7 +205,7 @@ const leadSlice = createSlice({
       .addCase(deleteLead.fulfilled, (state, { payload }) => {
         state.isLeadLoading = false;
         state.isLeadError = null;
-        state.leads = state.users.filter(lead => lead._id !== payload.id);
+        state.leadsData.leads = state.leadsData.leads.filter(lead => lead._id !== payload.id);
         state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== payload.id);
       })
       .addCase(deleteLead.rejected, (state, { payload }) => {
@@ -299,7 +309,8 @@ const leadSlice = createSlice({
         state.patchCountryLeadError = payload;
       })
     
-            // PATCH NEXT CALL////////////////
+
+     // PATCH NEXT CALL////////////////
       .addCase(patchNextCall.pending, (state) => {
         state.patchNextCallLeadLoading = true;
         state.patchNextCallLeadError = null;
@@ -313,17 +324,81 @@ const leadSlice = createSlice({
         state.patchNextCallLeadLoading = false;
         state.patchNextCallLeadError = payload;
       })
+
+    
+      // PATCH COUNTRY////////////////
+      .addCase(patchCountryLead.pending, (state) => {
+        state.patchCountryLeadLoading = true;
+        state.patchCountryLeadError = null;
+      })
+      .addCase(patchCountryLead.fulfilled, (state, { payload }) => {
+        state.newCountryLead = payload;
+        state.patchCountryLeadLoading = false;
+        state.patchCountryLeadError = null;
+      })
+      .addCase(patchCountryLead.rejected, (state, { payload }) => {
+        state.patchCountryLeadLoading = false;
+        state.patchCountryLeadError = payload;
+      })
+
+
+      // GET LEAD BY ID////////////////
+      .addCase(getLeadById.pending, (state) => {
+        state.isLeadLoading = true;
+        state.isLeadError = null;
+      })
+      .addCase(getLeadById.fulfilled, (state, { payload }) => {
+        state.leadDetailById = payload;
+        state.isLeadLoading = false;
+        state.isLeadError = null;
+      })
+      .addCase(getLeadById.rejected, (state, { payload }) => {
+        state.isLeadLoading = false;
+        state.isLeadError = payload;
+      })
+
+
+      //LEAD ASSIGN////////////////
+      .addCase(leadAssign.pending, (state) => {
+        state.isLeadError = null;
+      })
+      .addCase(leadAssign.fulfilled, (state, { payload }) => {
+        const updatedLead = payload;      
+        state.leadsData.leads = state.leadsData.leads.map(lead => 
+          lead._id === updatedLead._id ? updatedLead : lead
+        );
+        state.isLeadError = null;
+      })
+      .addCase(leadAssign.rejected, (state, { payload }) => {
+        state.isLeadError = payload;
+      })
+
+
+      //LEAD REASSIGN////////////////
+      .addCase(leadReAssign.pending, (state) => {
+        state.isLeadError = null;
+      })
+      .addCase(leadReAssign.fulfilled, (state, { payload }) => {
+        const updatedLead = payload;      
+        state.leadsData.leads = state.leadsData.leads.map(lead => 
+          lead._id === updatedLead._id ? updatedLead : lead
+        );
+        state.isLeadError = null;
+      })
+      .addCase(leadReAssign.rejected, (state, { payload }) => {
+        state.isLeadError = payload;
+      })
   },
 });
+
 
 export const leadReducer = leadSlice.reducer;
 
 export const {
   isOfficeState,
-  resetOfficeState,
+  resetOfficeLeadState,
   updatingNewLeadDataResponce,
   updatingNewLead,
-  getAllLeadsState,
   toggleExternalLeadsCheckboxState,
   toggleExternalLeadsSelectAllCheckbox,
   resetExternalLeadsSelectedCheckbox,

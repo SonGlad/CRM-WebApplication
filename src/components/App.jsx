@@ -17,8 +17,6 @@ import {
   updatingForNoneAdminLogin,
 } from "../redux/Auth/auth-slice";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
-import { getAvailableUsers } from "../redux/User/user-operation";
-import { getAllLeads } from "../redux/Lead/lead-operation";
 import { useDispatch} from "react-redux";
 import { RestrictedRoute } from "../routes/RestrictedRoute";
 import { PrivateRoute } from "../routes/PrivateRoute";
@@ -56,6 +54,17 @@ export const App= () => {
 
 
   useEffect(() => {
+    dispatch(saveUserCurrentLocation(currentPath))
+    if(!isInitial){
+      dispatch(refreshCurrentUser());
+      if (userLocation) {
+        navigate(userLocation);
+      }    
+    }
+  },[currentPath, dispatch, isInitial, navigate, userLocation]);
+
+
+  useEffect(() => {
     if(isLoggedIn){
       if (userRole === 'Developer' || userRole === 'Administrator' || userRole === 'Manager') {
         dispatch(updatingAdmin())
@@ -77,7 +86,7 @@ export const App= () => {
       }
     }
   },[dispatch, isLoggedIn, userRole]);
-
+  
 
   useEffect(() => {
     if(isLoggedIn && !isAdmin && forNoneAdminLogin){
@@ -90,40 +99,8 @@ export const App= () => {
     }
   }, [dispatch, forNoneAdminLogin, isAdmin, isLoggedIn, navigate, userRole]);
 
+ 
 
-  useEffect(() => {
-    if(!isInitial){
-      dispatch(refreshCurrentUser());
-      if (userLocation) {
-        navigate(userLocation);
-      }
-    }
-  },[dispatch, isInitial, navigate, userLocation]);
-
-  
-  useEffect(() =>{
-    dispatch(saveUserCurrentLocation(currentPath))
-  },[currentPath, dispatch]);
-
-  useEffect(() => {
-
-    if(isLoggedIn && isAdmin && userLocation === '/'){
-        dispatch(getAllLeads())
-    } else if (isLoggedIn && !isAdmin && userLocation === '/leads') {
-      dispatch(getAllLeads())
-    }
-  },[dispatch, isAdmin, isLoggedIn, userLocation]);
-
-
-  useEffect(() => {
-    if(isLoggedIn && userLocation === '/leads' && forNoneAdminLogin){
-      dispatch(getAvailableUsers())
-    }
-  },[dispatch, forNoneAdminLogin, isLoggedIn, userLocation]);
-
-
-
-  
   return isRefreshing ? (
     <RefreshLoading/>
   ) : (

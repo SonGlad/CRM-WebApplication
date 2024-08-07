@@ -90,15 +90,19 @@ export const DeleteItem = forwardRef(({
      
 
     useEffect(() => {
-        const allSelectedInFiltered = filteredUsers.every(user => usersCheckedCheckbox.includes(user._id));
-        setUsersChecked(allSelectedInFiltered);
+        if (filteredUsers) {
+            const allSelectedInFiltered = filteredUsers.every(user => usersCheckedCheckbox.includes(user._id));
+            setUsersChecked(allSelectedInFiltered);
+        }
     }, [filteredUsers, usersCheckedCheckbox]);
  
 
 
     useEffect(() => {
-        const allSelectedInFiltered = isLeads.every(lead => selectedExternalLeadsCheckedCheckbox.includes(lead._id));
-        setExternalLeadsChecked(allSelectedInFiltered);
+        if (isLeads) {
+            const allSelectedInFiltered = isLeads.every(lead => selectedExternalLeadsCheckedCheckbox.includes(lead._id));
+            setExternalLeadsChecked(allSelectedInFiltered);
+        }
     }, [isLeads, selectedExternalLeadsCheckedCheckbox]);
 
 
@@ -196,7 +200,7 @@ export const DeleteItem = forwardRef(({
                     </ul>
                 </>
             )}
-                {isLocation === 'LeadsPage' && (
+                {(isLocation === 'LeadsPage' && isAdmin) && (
                 <p>Delete Selected Lead</p>
             )}
         </MenuItemStyled>

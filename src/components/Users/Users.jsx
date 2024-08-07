@@ -9,7 +9,8 @@ import { useDispatch } from "react-redux";
 import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal"
-import { resetOfficeState } from "../../redux/User/user-slice";
+import { resetOfficeUserState } from "../../redux/User/user-slice";
+import { resetOfficeLeadState } from "../../redux/Lead/lead-slice";
 import { getUserById } from "../../redux/User/user-operation";
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
 import { toggleUsersCheckboxState, setFilteredUsers } from "../../redux/User/user-slice";
@@ -27,7 +28,8 @@ export const Users = () => {
     
 
     const resetStateForOffice = () => {
-        dispatch(resetOfficeState())
+        dispatch(resetOfficeUserState());
+        dispatch(resetOfficeLeadState());
     };
 
 
@@ -183,7 +185,8 @@ export const Users = () => {
                                         <td>
                                             <button className="check-btn" type='button'
                                                 onClick={() => openUserDetail(_id)}
-                                            >Click</button>
+                                            >Click
+                                            </button>
                                         </td>
                                         {isAdmin && (
                                             <td>

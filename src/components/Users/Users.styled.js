@@ -95,7 +95,7 @@ export const StyledUsersPage = styled.div`
         }
 
         @media screen and (min-width: 1236px){
-            height: 72.8dvh;
+            height: 72.4dvh;
         }
 
 
@@ -121,7 +121,6 @@ export const StyledUsersPage = styled.div`
                 position: sticky;
                 top: 0;
                 z-index: 1;
-                background-color: pink;
 
                 & th{
                     border-top: 1px solid ${p => p.theme.color.primary_green_lite};

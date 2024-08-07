@@ -16,7 +16,6 @@ export const LeadItem = forwardRef(({
     toggleLeadDropArrow, 
     toggleLeadDropCont, 
     userSelectOffice,
-    getAllLeads,
     }, ref) => {
     const dispatch = useDispatch();
     const [isVisible, setVisible] = useState(false);
@@ -78,13 +77,13 @@ export const LeadItem = forwardRef(({
         toggleLeadMenuDrop();
         openOfficeMenu();
         if (isAdmin) {
-            dispatch(getAllLeads(office));
             dispatch(isOfficeState(office));
-        };
+        }
         if (userLeadsComponent) {
             dispatch(resetUserLeadsComponent());
         }
     };
+   
 
     
     return(
@@ -105,7 +104,7 @@ export const LeadItem = forwardRef(({
                             onClick={openOfficeMenu}    
                             >Check Leads
                             <ArrowDown className={`side-arrow-svg ${toggleOfficeSideArrow()}`}/>
-                            </button>
+                        </button>
                         <ul className={`office-list ${toggleOfficeDropCont()}`}>
                             {userSelectOffice.map(({office}, index) => (
                                 <li className="office-item" key={index} onClick={() => linkCloseMenu(office)}>
