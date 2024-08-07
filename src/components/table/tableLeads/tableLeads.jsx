@@ -15,17 +15,22 @@ import { useEffect, useState } from "react";
 import { RotatingLoader } from "../../CustomLoaders/CustomLoaders";
 import { useDispatch } from "react-redux";
 import { patchStatus, patchTimeZone } from "../../../redux/Lead/lead-operation.js";
+import { ClientTime } from "../tableComponents/clientTime.jsx";
+import { useUser } from "../../../hooks/useUser.js";  
 
 
 export const TableLeads = () => {
   const { isLeadLoading, isLeads } = useLead();
-  const [leads, setLeads] = useState(isLeads);
+  const { userLeads, userLeadsComponent } = useUser();
+  const [leads, setLeads] = useState()
   const dispatch = useDispatch();
-
+  
 
   useEffect(() => {
-    setLeads(isLeads);
-  },[isLeads]);
+    if (userLeads || isLeads) {
+      setLeads(userLeadsComponent ? userLeads : isLeads)
+    }
+  }, [isLeads, userLeadsComponent, userLeads]);
 
 
   const {
@@ -34,7 +39,6 @@ export const TableLeads = () => {
     dropdownRef,
     setInputVisible,
     handleTextareaChange,
-    calculateClientTime,
     toggleUserMenuDropArrow,
     toggleInputVisibility,
   } = useTableHook();
@@ -129,9 +133,7 @@ export const TableLeads = () => {
                   index={index}
                   toggleUserMenuDropArrow={toggleUserMenuDropArrow}
                 />
-                <td className="TableHeaderItem" style={{ maxWidth: "60px" }}>
-                  {calculateClientTime(lead.timeZone)}
-                </td>
+                <ClientTime lead={lead}/>
                 <td className="TableHeaderItem">
                   {lead.selfCreated ? "Yes" : "No"}
                 </td>
@@ -150,11 +152,7 @@ export const TableLeads = () => {
                   {lead.conAgentId}
                 </td>
                 <NextCall
-                  leads={leads}
                   lead={lead}
-                  setLeads={setLeads}
-                  index={index}
-                  handleTextareaChange={handleTextareaChange}
                 />
               </tr>
             ))

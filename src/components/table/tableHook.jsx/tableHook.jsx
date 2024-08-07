@@ -4,7 +4,6 @@ import { getStatus, getTimeZone } from "../../../redux/Lead/lead-operation";
 
 
 export const useTableHook = () => {
-  const [currentTime] = useState(new Date());
   const [isMenuBox, setMenuBox] = useState(false);
   const [inputVisible, setInputVisible] = useState({ row: null, cell: null, leadId: null });
   const inputRef = useRef(null);
@@ -22,13 +21,6 @@ export const useTableHook = () => {
     adjustTextareaHeight(event.target);
   };
 
-
-  const calculateClientTime = (timeZoneOffset) => {
-    const clientTime = new Date(
-      currentTime.getTime() + timeZoneOffset * 60 * 60 * 1000
-    );
-    return clientTime.toLocaleString();
-  };
 
 
   const toggleInputVisibility = (row, cell, leadId) => {
@@ -134,7 +126,6 @@ export const useTableHook = () => {
     setInputVisible,
     setMenuBox,
     handleTextareaChange,
-    calculateClientTime,
     toggleUserMenuDropArrow,
     toggleInputVisibility,
   };

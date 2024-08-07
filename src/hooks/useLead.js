@@ -29,6 +29,9 @@ import {
   selectPatchCountryLeadLoading,
   selectPatchCountryLeadError,
   selectSelectedExternalLeadsCheckedCheckbox,
+  selectNewNextCallLead,
+  selectPatchNextCallLeadLoading,
+  selectPatchNextCallLeadError,
   selectLeadDetailById,
 } from "../redux/Lead/lead-selectors";
 
@@ -64,6 +67,9 @@ export const useLead = () => {
   const patchCountryLeadError = useSelector(selectPatchCountryLeadError);
   const selectedExternalLeadsCheckedCheckbox = useSelector(selectSelectedExternalLeadsCheckedCheckbox);
   const leadDetailById = useSelector(selectLeadDetailById);
+  const newNextCallLead = useSelector(selectNewNextCallLead);
+  const patchNextCallLeadLoading = useSelector(selectPatchNextCallLeadLoading);
+  const patchNextCallLeadError = useSelector(selectPatchNextCallLeadError);
 
 
   return {
@@ -97,6 +103,8 @@ export const useLead = () => {
     patchCountryLeadError,
     selectedExternalLeadsCheckedCheckbox,
     leadDetailById,
+    newNextCallLead,
+    patchNextCallLeadLoading,
+    patchNextCallLeadError,
   };
 };
-

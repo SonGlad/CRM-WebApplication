@@ -187,6 +187,23 @@ export const getLeadById = createAsyncThunk(
 );
 
 
+export const patchNextCall = createAsyncThunk(
+    'leads/nextcall/:leadId',
+    async (dataNextcallLead, thunkApi) => {
+        const { id, leadNextcall } = dataNextcallLead;
+        try{
+            const response = await axios.patch(`leads/nextcall/${id}`, {nextCall: leadNextcall});
+            toast.success(`Next call was changed successfully`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);      
+
+          
 export const leadAssign = createAsyncThunk(
     'leads/assign/:leadId',
     async ({leadId, data}, thunkApi) => {
@@ -208,7 +225,7 @@ export const leadReAssign = createAsyncThunk(
     async ({leadId, data}, thunkApi) => {
         try{
             const response = await axios.put(`leads/reassign/${leadId}`, data);
-            toast.success(`Lead successful assigned`);
+            toast.success(`Lead successful reassigned`);
             return response.data;
         }
         catch(error) {

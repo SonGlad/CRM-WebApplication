@@ -14,7 +14,6 @@ export const OfficeLeads = () => {
     const dispatch = useDispatch();
     console.log("Users for Assign:", availableUsersForAssign);
 
-
     const resetStateForOffice = () => {
         dispatch(resetOfficeLeadState());
     };
