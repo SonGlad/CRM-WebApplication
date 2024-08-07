@@ -6,9 +6,10 @@ export const Pagination = () => {
     const { totalPages } = useLead();
     const amount = Number(totalPages);
     console.log(amount);
+    const number = 10;
+    const elements = Array.from({ length: number }, (_, index) => index + 1);
     
-    
-
+       
 
     return(
         <PaginationStyled>
@@ -24,36 +25,11 @@ export const Pagination = () => {
                 <div>
                 <div className="content-block">
                     <ul className="content-list">
-                        <li className="content-item">
-                            <button type="button">1</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">2</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">3</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">4</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">5</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">6</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">7</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">8</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">9</button>
-                        </li>
-                        <li className="content-item">
-                            <button type="button">10</button>
-                        </li>
+                        {elements.map((element, index) => (
+                            <li className="content-item" key={index}>
+                                <button type="button">{element}</button>
+                            </li>
+                        ))}
                     </ul>
                 </div>
                 </div>
