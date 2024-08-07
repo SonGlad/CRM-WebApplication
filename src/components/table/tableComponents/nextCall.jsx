@@ -1,32 +1,38 @@
 
-export const NextCall = ({leads, lead, setLeads, index, handleTextareaChange }) => {
-    
-          const handleInputChange = (event, leadIndex, fieldName) => {
-    const updatedLeads = [...leads];
-    const fieldParts = fieldName.split(".");
-    if (fieldParts.length === 2) {
-      updatedLeads[leadIndex][fieldParts[0]][fieldParts[1]] =
-        event.target.value;
-    } else {
-      updatedLeads[leadIndex][fieldName] = event.target.value;
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { patchNextCall } from "../../../redux/Lead/lead-operation";
+
+export const NextCall = ({ lead }) => {
+  const [newDate, setNewDate] = useState("");
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (lead.nextCall) {
+      setNewDate(lead.nextCall.toString().slice(0, 16));
     }
-    setLeads(updatedLeads);
+  }, [lead.nextCall]);
+
+  const handleInputChange = (event) => {
+    const updatedDate = event.target.value;
+    dispatch(patchNextCall({ id: lead._id, leadNextcall: updatedDate }))
+      .then((response) => {
+        if (response.payload.nextCall) {
+          setNewDate(updatedDate);
+        }
+      })
   };
 
-    return (
-                <td className="TableHeaderItem">
-                  <label>
-                    <input
-                      type="datetime-local"
-                      value={lead.latestComment.nextCall && lead.latestComment.nextCall
-                        .toString()
-                        .slice(0, 16)}
-                      onChange={(e) =>
-                        handleInputChange(e, index, "latestComment.nextCall")
-                      }
-                      onInput={handleTextareaChange}
-                    />
-                  </label>
-                </td>
-    );
+  return (
+    <td className="TableHeaderItem">
+      <label>
+        <input
+          type="datetime-local"
+          value={newDate}
+          onChange={handleInputChange}
+        />
+      </label>
+    </td>
+  );
 };
+

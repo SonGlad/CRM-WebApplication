@@ -5,13 +5,14 @@ import { resetUserLeadsComponent } from "../../redux/User/user-slice"
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
+import { TableLeads } from "../table/tableLeads/tableLeads";
 
 
 
 export const UserLeads = () => {
     const { userLeads, userName, userLeadsComponentData } = useUser();
     const dispatch = useDispatch();
-    console.log(userLeads);
+    console.log(userLeads, userLeadsComponentData);
 
 
     const openUserModal = () => {
@@ -40,7 +41,8 @@ export const UserLeads = () => {
                     </NavLink>
                 </div>
                 <h1 className="titles">{userName} all {userLeadsComponentData} Leads details</h1>
-                <h2>UserLeads</h2>
+                {/* <h2>UserLeads</h2> */}
+                <TableLeads/>
             </div>
         </UserLeadsStyled>
     );

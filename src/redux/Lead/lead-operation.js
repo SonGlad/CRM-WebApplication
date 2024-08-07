@@ -185,3 +185,22 @@ export const getLeadById = createAsyncThunk(
         }
     }
 );
+
+
+export const patchNextCall = createAsyncThunk(
+    'leads/nextcall/:leadId',
+    async (dataNextcallLead, thunkApi) => {
+
+        const { id, leadNextcall } = dataNextcallLead;
+
+        try{
+            const response = await axios.patch(`leads/nextcall/${id}`, {nextCall: leadNextcall});
+            toast.success(`Next call was changed successfully`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
