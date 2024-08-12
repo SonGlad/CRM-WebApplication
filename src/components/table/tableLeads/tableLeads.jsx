@@ -12,7 +12,6 @@ import { Status } from "../tableComponents/status";
 import { useTableHook } from "../tableHook.jsx/tableHook";
 import { useLead } from "../../../hooks/useLead.js";
 import { useEffect, useState } from "react";
-import { RotatingLoader } from "../../CustomLoaders/CustomLoaders";
 import { useDispatch } from "react-redux";
 import { patchStatus, patchTimeZone } from "../../../redux/Lead/lead-operation.js";
 import { ClientTime } from "../tableComponents/clientTime.jsx";
@@ -20,7 +19,7 @@ import { useUser } from "../../../hooks/useUser.js";
 
 
 export const TableLeads = () => {
-  const { isLeadLoading, isLeads } = useLead();
+  const { isLeads } = useLead();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState()
   const dispatch = useDispatch();
@@ -64,7 +63,7 @@ export const TableLeads = () => {
   };
 
 
-  return !isLeadLoading ? (
+  return (
     <TableListStyled>
       <table className="Table">
         <thead className="TableHeader">
@@ -178,7 +177,5 @@ export const TableLeads = () => {
         handleDropdownItemClick={handleDropdownItemClick}
       />
     </TableListStyled>
-  ) : (
-    <RotatingLoader />
-  );
+  )
 };

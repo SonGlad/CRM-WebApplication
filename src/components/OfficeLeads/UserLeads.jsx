@@ -6,13 +6,16 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { TableLeads } from "../table/tableLeads/tableLeads";
+import { RotatingLoader } from "../CustomLoaders/CustomLoaders";
+
 
 
 
 export const UserLeads = () => {
-    const { userLeads, userName, userLeadsComponentData } = useUser();
+    const { userName, userLeadsComponentData, isUserLeadsLoading } = useUser();
     const dispatch = useDispatch();
-    console.log(userLeads, userLeadsComponentData);
+    console.log(isUserLeadsLoading);
+    
 
 
     const openUserModal = () => {
@@ -41,8 +44,11 @@ export const UserLeads = () => {
                     </NavLink>
                 </div>
                 <h1 className="titles">{userName} all {userLeadsComponentData} Leads details</h1>
-                {/* <h2>UserLeads</h2> */}
-                <TableLeads/>
+                {isUserLeadsLoading ? (
+                    <RotatingLoader/>
+                ) : (
+                    <TableLeads/>
+                )}
             </div>
         </UserLeadsStyled>
     );

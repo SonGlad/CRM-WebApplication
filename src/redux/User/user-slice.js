@@ -43,6 +43,7 @@ const initialState = {
     isResetPassword: false,
     resetPasswordResponse: null,
     isUserLoading: false,
+    isUserLeadsLoading: false,
     isUserError: null,
     selectedUsersCheckedCheckbox: [],
     filteredUsers: [],
@@ -314,32 +315,32 @@ const userSlice = createSlice({
 
         //GET USER ALL SELF CREATED LEADS//
         .addCase(getAllUserSelfCreatedleads.pending, state => {
-            // state.isUserLoading = true;
+            state.isUserLeadsLoading = true;
             state.isUserError = null;
         })
         .addCase(getAllUserSelfCreatedleads.fulfilled, (state, {payload} ) => {
-            // state.isUserLoading = false;
+            state.isUserLeadsLoading = false;
             state.isUserError = null;
             state.userLeads = payload;
         })
         .addCase(getAllUserSelfCreatedleads.rejected, (state, {payload}) => {
-            // state.isUserLoading = false;
+            state.isUserLeadsLoading = false;
             state.isUserError = payload;
         })
 
 
         //GET USER ALL ASSIGNED LEADS//
         .addCase(getAllUserAssignedleads.pending, state => {
-            // state.isUserLoading = true;
+            state.isUserLeadsLoading = true;
             state.isUserError = null;
         })
         .addCase(getAllUserAssignedleads.fulfilled, (state, {payload} ) => {
-            // state.isUserLoading = false;
+            state.isUserLeadsLoading = false;
             state.isUserError = null;
             state.userLeads = payload;
         })
         .addCase(getAllUserAssignedleads.rejected, (state, {payload}) => {
-            // state.isUserLoading = false;
+            state.isUserLeadsLoading = false;
             state.isUserError = payload;
         })
 
@@ -378,6 +379,7 @@ const userSlice = createSlice({
             state.isLeadsDetails = false;
             state.isMessage = ''; 
             state.isUserLoading = false;
+            state.isUserLeadsLoading = false;
             state.isUserError = null;
             state.selectedUsersCheckedCheckbox = [];
             state.filteredUsers = [];

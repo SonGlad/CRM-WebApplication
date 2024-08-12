@@ -1,23 +1,17 @@
 import { StyledMainPage } from "./Main.styled";
-import { useAuth } from "../../../hooks/useAuth";
-import { getAllLeads } from "../../../redux/Lead/lead-operation";
-import { useDispatch } from "react-redux";
 import { TableExternalLeads } from "../../table/tableExternalLeads/tableExternalLeads";
 import { Pagination } from "../../Pagination/Pagination";
-import { useEffect } from "react";
+import { RotatingLoader } from "../../CustomLoaders/CustomLoaders";
+import { useAuth } from "../../../hooks/useAuth";
+import { useLead } from "../../../hooks/useLead";
+import { useModal } from "../../../hooks/useModal";
 
 
 
 export const Main = () => {
   const { isAdmin } = useAuth();
-  const dispatch = useDispatch();
-
-
-  useEffect(() => {
-    if (isAdmin) {
-      dispatch(getAllLeads())
-    }    
-  },[dispatch, isAdmin]);
+  const { isLeadDetails } = useModal();
+  const { isLeadLoading } = useLead();
 
 
   
@@ -32,8 +26,14 @@ export const Main = () => {
             </li>
           </ul>
         </div>
-          <TableExternalLeads />
-          <Pagination/>
+          <div className="content-container">
+            {(isAdmin && isLeadLoading && !isLeadDetails) ? (
+              <RotatingLoader/>
+            ) : (
+              <TableExternalLeads/>
+            )}
+            <Pagination/>
+          </div>
       </div>
     </StyledMainPage>
   );

@@ -23,7 +23,9 @@ const initialState = {
   leadsData: {
     leads: [],
     totalPages: '',
+    totalLeads: null,
   },
+  leadsAmountPerPage: '20',
   newLead: null,
   isNewLeadDataResponce: false,
   isLeadError: null,
@@ -68,6 +70,7 @@ const leadSlice = createSlice({
       state.officeState = '';
       state.leadsData.leads = [];
       state.leadsData.totalPages = '';
+      state.leadsData.totalLeads = null;
     },
     updatingNewLeadDataResponce: (state) => {
       state.isNewLeadDataResponce = false;
@@ -95,6 +98,9 @@ const leadSlice = createSlice({
     resetExternalLeadsSelectedCheckbox: (state) => {
       state.selectedExternalLeadsCheckedCheckbox = [];
     },
+    setLeadsAmountPerPage: (state, action) => {
+      state.leadsAmountPerPage = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -110,6 +116,8 @@ const leadSlice = createSlice({
       state.officeState = "";
       state.leadsData.leads = [];
       state.leadsData.totalPages = '';
+      state.leadsData.totalLeads = null;
+      state.leadsAmountPerPage = '';
       state.newLead = null;
       state.isLeadLoading = false;
       state.isLeadError = null;
@@ -150,6 +158,7 @@ const leadSlice = createSlice({
     })
     .addCase(createNewLead.fulfilled, (state, { payload }) => {
       state.leadsData.leads.unshift(payload);
+      state.leadsData.totalLeads = state.leadsData.totalLeads + 1;
       state.newLead = payload;
       state.isLeadLoading = false;
       state.isLeadError = null;
@@ -167,13 +176,17 @@ const leadSlice = createSlice({
       state.isLeadLoading = true;
       state.isLeadError = null;
       state.leadsData.leads = [];
-      state.leadsData.totalPages = '';
     })
     .addCase(getAllLeads.fulfilled, (state, { payload }) => {
       state.isLeadLoading = false;
       state.isLeadError = null;     
       state.leadsData.leads = payload.result;
-      state.leadsData.totalPages = payload.totalPages;
+      const currentTotalPages = Number(state.leadsData.totalPages); 
+      const newTotalPages = Number(payload.totalPages);
+      if (currentTotalPages !== newTotalPages) {
+        state.leadsData.totalPages = payload.totalPages;
+      }
+      state.leadsData.totalLeads = payload.totalFilteredLeads;      
     })
     .addCase(getAllLeads.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -207,6 +220,7 @@ const leadSlice = createSlice({
       state.isLeadError = null;
       state.leadsData.leads = state.leadsData.leads.filter(lead => lead._id !== payload.id);
       state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== payload.id);
+      state.leadsData.totalLeads = state.leadsData.totalLeads - 1;
     })
     .addCase(deleteLead.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -387,4 +401,5 @@ export const {
   toggleExternalLeadsCheckboxState,
   toggleExternalLeadsSelectAllCheckbox,
   resetExternalLeadsSelectedCheckbox,
+  setLeadsAmountPerPage,
 } = leadSlice.actions;

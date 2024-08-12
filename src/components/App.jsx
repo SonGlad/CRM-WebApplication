@@ -108,7 +108,7 @@ export const App= () => {
       {isLoadingAuth && <RefreshLoading />}
       <Toaster/>
       <Routes>
-        <Route parth='/' element = {<SharedLayout userLocation={userLocation}/>}>
+        <Route path='/' element = {<SharedLayout userLocation={userLocation}/>}>
           <Route index element={<HomePage/>}/>
           <Route path='*' element = {<Navigate to="/"/>}/>
           <Route path="/signup" element={

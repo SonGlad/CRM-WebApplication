@@ -20,6 +20,15 @@ export const StyledOfficeLeads = styled.div`
 
         @media screen and (min-width: 834px) {
             height: 87.5dvh;
+            display: flex;
+            flex-direction: column;
         }
+    }
+
+    .content-container{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        flex-grow: 1;
     }
 `

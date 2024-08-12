@@ -8,6 +8,8 @@ export const selectAllUsers = state => state.user.users;
 
 export const selectUserLoading = state => state.user.isUserLoading;
 
+export const selectIsUserLeadsLoading = state => state.user.isUserLeadsLoading
+
 export const selectUserError = state => state.user.isUserError;
 
 export const selectUserId = state => state.user.user.id;

@@ -1,10 +1,8 @@
 import { TableExternalList } from "./tableExternalLeads.styled";
 import { useAuth } from "../../../hooks/useAuth";
 import { useLead } from "../../../hooks/useLead";
-import { useModal } from "../../../hooks/useModal";
 import { useUser } from "../../../hooks/useUser";
 import { useDispatch } from "react-redux";
-import { RotatingLoader } from "../../CustomLoaders/CustomLoaders";
 import { openModalLeadDetail } from "../../../redux/Modal/modal-slice";
 import { getLeadById } from "../../../redux/Lead/lead-operation";
 import { format } from 'date-fns';
@@ -17,9 +15,9 @@ import { CustomCheckbox } from "./CustomCheckbox";
 export function TableExternalLeads() {
   const dispatch = useDispatch();
   const { isAdmin } = useAuth();
-  const { isLeadDetails } = useModal();
   const { userSelectOffice } = useUser();
-  const { isLeadLoading, isLeads, selectedExternalLeadsCheckedCheckbox} = useLead();
+  const { isLeads, selectedExternalLeadsCheckedCheckbox} = useLead();
+  
   
 
   let filteredLeads;
@@ -63,13 +61,15 @@ export function TableExternalLeads() {
   };
 
 
+  // For style 'small-table' - check styles on Main.styled.js
+  const chnageTableStyle = () => {
+    return isLeads.length < 13 ? 'small-table' : '';
+  };
+
 
   return (
-    (isAdmin && isLeadLoading && !isLeadDetails) ? (
-      <RotatingLoader/>
-    ) : (
-      <TableExternalList>
-        <table className="Table">
+    <TableExternalList className={chnageTableStyle()}>
+      <table className="Table">
         <thead className="TableHeader">
           <tr className="TableHeaderList">
             <th id="nameColumn" className="TableHeaderName">Name:</th>
@@ -87,84 +87,83 @@ export function TableExternalLeads() {
             <th id="checkColumn" className="TableHeaderName">Check</th>
           </tr>
         </thead>
-          <tbody>
-            {isLeads &&
-              filteredLeads.map((lead, index) => (
-                <tr className={lead.newContact ? 'back-color' : ''} key={lead._id}>
-                  <td className="TableHeaderItem">{lead.name}</td>
-                  <td className="TableHeaderItem">{lead.lastName}</td>
-                  <td className="TableHeaderItem">{lead.email}</td>
-                  <td className="TableHeaderItem">{lead.phone}</td>
-                  <td className="TableHeaderItem">{capitalizeSource(lead.resource)}</td>
-                  <td className="TableHeaderItem">{formatDateTime(lead.createdAt)}</td>
-                  <td className="TableHeaderItem">{formatBranchName(lead.assignedOffice)}</td>
-                  <td className="TableHeaderItem">
-                    {lead.crmManager.name || lead.crmManager.email ? (
+        <tbody>
+          {isLeads &&
+            filteredLeads.map((lead, index) => (
+              <tr className={lead.newContact ? 'back-color' : ''} key={lead._id}>
+                <td className="TableHeaderItem">{lead.name}</td>
+                <td className="TableHeaderItem">{lead.lastName}</td>
+                <td className="TableHeaderItem">{lead.email}</td>
+                <td className="TableHeaderItem">{lead.phone}</td>
+                <td className="TableHeaderItem">{capitalizeSource(lead.resource)}</td>
+                <td className="TableHeaderItem">{formatDateTime(lead.createdAt)}</td>
+                <td className="TableHeaderItem">{formatBranchName(lead.assignedOffice)}</td>
+                <td className="TableHeaderItem">
+                  {lead.crmManager.name || lead.crmManager.email ? (
+                  <ul>
+                    <li>
+                      <p>{lead.crmManager.name}</p>
+                    </li>
+                    <li>
+                      <p>{lead.crmManager.email}</p>
+                    </li>
+                  </ul>
+                  ) : (
+                    <p>Not Assigned Yet</p>
+                  )}
+                </td>
+                <td className="TableHeaderItem">
+                  {lead.conManager.name || lead.conManager.email ? (
                     <ul>
                       <li>
-                        <p>{lead.crmManager.name}</p>
+                        <p>{lead.conManager.name}</p>
                       </li>
                       <li>
-                        <p>{lead.crmManager.email}</p>
+                        <p>{lead.conManager.email}</p>
                       </li>
                     </ul>
-                    ) : (
-                      <p>Not Assigned Yet</p>
-                    )}
-                  </td>
-                  <td className="TableHeaderItem">
-                    {lead.conManager.name || lead.conManager.email ? (
-                      <ul>
-                        <li>
-                          <p>{lead.conManager.name}</p>
-                        </li>
-                        <li>
-                          <p>{lead.conManager.email}</p>
-                        </li>
-                      </ul>
-                    ) : (
-                      <p>Not Assigned Yet</p>
-                    )}
-                  </td>
-                  <td className="TableHeaderItem">
-                    {lead.conAgent.name || lead.conAgent.email ? (
-                      <ul>
-                        <li>
-                          <p>{lead.conAgent.name}</p>
-                        </li>
-                        <li>
-                          <p>{lead.conAgent.email}</p>
-                        </li>
-                      </ul>
-                    ) : (
-                      <p>Not Assigned Yet</p>
-                    )}
-                  </td>
-                  <td className="TableHeaderItem">
-                    <AssignedDropCont
-                      isAdmin={isAdmin}
-                      lead={lead}
-                      userSelectOffice={userSelectOffice}
-                      dispatch={dispatch}
-                    />
-                  </td>
-                  <td className="TableHeaderItem">
-                    <button className="check-btn" type='button'
-                      onClick={() => openExternalLeadDetail(lead._id)}
-                    >Open
-                    </button>
-                  </td>
-                  <td className="TableHeaderItem">
-                    <CustomCheckbox
-                      lead={lead}
-                      selectedExternalLeadsCheckedCheckbox={selectedExternalLeadsCheckedCheckbox}
-                    />
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </TableExternalList>
-    ) 
-  );
+                  ) : (
+                    <p>Not Assigned Yet</p>
+                  )}
+                </td>
+                <td className="TableHeaderItem">
+                  {lead.conAgent.name || lead.conAgent.email ? (
+                    <ul>
+                      <li>
+                        <p>{lead.conAgent.name}</p>
+                      </li>
+                      <li>
+                        <p>{lead.conAgent.email}</p>
+                      </li>
+                    </ul>
+                  ) : (
+                    <p>Not Assigned Yet</p>
+                  )}
+                </td>
+                <td className="TableHeaderItem">
+                  <AssignedDropCont
+                    isAdmin={isAdmin}
+                    lead={lead}
+                    userSelectOffice={userSelectOffice}
+                    dispatch={dispatch}
+                  />
+                </td>
+                <td className="TableHeaderItem">
+                  <button className="check-btn" type='button'
+                    onClick={() => openExternalLeadDetail(lead._id)}
+                  >Open
+                  </button>
+                </td>
+                <td className="TableHeaderItem">
+                  <CustomCheckbox
+                    lead={lead}
+                    selectedExternalLeadsCheckedCheckbox={selectedExternalLeadsCheckedCheckbox}
+                  />
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </TableExternalList>
+  ) 
 }

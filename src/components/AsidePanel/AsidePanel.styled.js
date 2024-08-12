@@ -31,6 +31,7 @@ export const StyledAsidePanel = styled.aside`
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
     }
 
     .delete-list{

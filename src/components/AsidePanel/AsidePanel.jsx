@@ -11,15 +11,17 @@ import { UserItem } from "./MenuItem/UserItem";
 import { LeadItem } from "./MenuItem/LeadItem";
 import { StatisticItem } from "./MenuItem/StatisticItem";
 import { DeleteItem } from "./MenuItem/DeleteItem";
-import { openModalConfirm } from "../../redux/Modal/modal-slice"
+import { openModalConfirm } from "../../redux/Modal/modal-slice";
+import { AmountPerPage } from "./MenuItem/AmountPerPage";
 
 
 
 export const AsidePanel = ({userLocation}) => {
     const dispatch = useDispatch();
     const { isAdmin } = useAuth();
-    const { userSelectOffice, usersCheckedCheckbox, filteredUsers} = useUser();
+    const { userSelectOffice, usersCheckedCheckbox, filteredUsers, userLeadsComponent} = useUser();
     const { selectedExternalLeadsCheckedCheckbox, isLeads } = useLead();
+    const [ isAmountPerPageBox, setAmountPerPageBox] = useState(false);
     const [ isUserBox, setUserBox ] = useState(false);
     const [ isLeadBox, setLeadBox ] = useState(false);
     const [ isUserDeleteBox, setUserDeleteBox ] = useState(false);
@@ -30,6 +32,7 @@ export const AsidePanel = ({userLocation}) => {
     const leadBlock = useRef(null);
     const statisticBlock = useRef(null);
     const deleteBlock = useRef(null);
+    const amountPerPageBlock = useRef();
 
     
     useEffect(() => {
@@ -75,6 +78,9 @@ export const AsidePanel = ({userLocation}) => {
     };
     const toggleExternalLeadDeleteMenuDrop = () => {
         setExternalLeadDeleteBox(prevState => !prevState)
+    };
+    const toggleAmountPerPageBlock = () => {
+        setAmountPerPageBox(prevState => !prevState)
     };
 
 
@@ -124,6 +130,12 @@ export const AsidePanel = ({userLocation}) => {
     const toggleExternalLeadDeleteDropArrow = () => {
         return isExternalLeadDeleteBox ? 'arrow-svg-close' : '';
     };
+    const toggleAmountPerPageDropCont = () => {
+        return isAmountPerPageBox ? 'amount-dropdown-list-visible' : '';
+    };
+    const toggleAmountPerPageDropArrow = () => {
+        return isAmountPerPageBox ? 'arrow-svg-close' : '';
+    };
 
 
     const handleKeyPress = useCallback(event => {
@@ -143,8 +155,11 @@ export const AsidePanel = ({userLocation}) => {
             if (isExternalLeadDeleteBox) {
                 setExternalLeadDeleteBox(false);
             }
+            if (isAmountPerPageBox) {
+                setAmountPerPageBox(false);
+            }
         }
-    },[isUserBox, isLeadBox, isStatisticBox, isUserDeleteBox, isExternalLeadDeleteBox]);
+    },[isUserBox, isLeadBox, isStatisticBox, isUserDeleteBox, isExternalLeadDeleteBox, isAmountPerPageBox]);
 
 
     const handleBackgroundClick = useCallback(event => {
@@ -156,6 +171,9 @@ export const AsidePanel = ({userLocation}) => {
         }
         if (statisticBlock.current && !statisticBlock.current.contains(event.target)) {
             setStatisticBox(false);
+        }
+        if (amountPerPageBlock.current && !amountPerPageBlock.current.contains(event.target)) {
+            setAmountPerPageBox(false);
         }
         // if (deleteBlock.current && !deleteBlock.current.contains(event.target)) {
         //     setDeleteBox(false);
@@ -174,10 +192,19 @@ export const AsidePanel = ({userLocation}) => {
     },[handleBackgroundClick, handleKeyPress]);
 
 
+    
     return(
         <StyledAsidePanel>
             <div className="side-panel-cont">
                 <ul className="side-panel-list">
+                    {((isLocation === 'MainPage' || isLocation === 'LeadsPage') && !userLeadsComponent) && (
+                        <AmountPerPage
+                            amountPerPageBlock={amountPerPageBlock}
+                            toggleAmountPerPageBlock={toggleAmountPerPageBlock}
+                            toggleAmountPerPageDropCont={toggleAmountPerPageDropCont}
+                            toggleAmountPerPageDropArrow={toggleAmountPerPageDropArrow}
+                        />
+                    )}
                     <UserItem
                         userBlock={userBlock}
                         toggleUserMenuDrop={toggleUserMenuDrop}
