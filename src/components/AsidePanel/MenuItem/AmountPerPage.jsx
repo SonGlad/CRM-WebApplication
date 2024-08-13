@@ -16,7 +16,7 @@ export const AmountPerPage = forwardRef(({
     const { totalLeads, leadsAmountPerPage} = useLead();
     const [value, setValue] = useState("");
     const [isEnable, setEnable] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
     
 
     const handleInput = (e, maxDigits) => {
@@ -53,7 +53,7 @@ export const AmountPerPage = forwardRef(({
         <MenuItemStyled  ref={amountPerPageBlock}>
             <div className="text-block">
                 <p>Total Leads:</p>
-                <p>{totalLeads}</p>
+                <p>{totalLeads || 0}</p>
 
             </div>
             <div className="text-block">

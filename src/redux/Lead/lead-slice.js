@@ -105,7 +105,7 @@ const leadSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-
+    
     
     //LOGOUT///////////
     .addCase(logOut.pending, (state) => {
@@ -117,7 +117,7 @@ const leadSlice = createSlice({
       state.leadsData.leads = [];
       state.leadsData.totalPages = '';
       state.leadsData.totalLeads = null;
-      state.leadsAmountPerPage = '';
+      state.leadsAmountPerPage = '20';
       state.newLead = null;
       state.isLeadLoading = false;
       state.isLeadError = null;

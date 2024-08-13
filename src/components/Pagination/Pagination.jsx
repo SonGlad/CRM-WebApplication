@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 
 export const Pagination = () => {
     const dispatch = useDispatch();
-    const { userLocation, isAdmin, isManager, isConversion } = useAuth();
+    const { isAdmin, isManager, isConversion } = useAuth();
     const { totalPages, leadOffice, leadsAmountPerPage } = useLead();
     const { userLeadsComponent } = useUser();
     const [count, setCount] = useState(1);
@@ -38,29 +38,17 @@ export const Pagination = () => {
 
     const page = count.toString();
     const limit = leadsAmountPerPage.toString();
-
+    
 
     useEffect(() => {
-        if (isAdmin && userLocation === "/") {
-            dispatch(getAllLeads({
-                page: page,
-                limit: limit,
-            }));
-        }
-        if (isAdmin && !userLeadsComponent && userLocation === '/leads') {
+        if ((isAdmin || isManager || isConversion) && !userLeadsComponent) {
             dispatch(getAllLeads({
                 page: page,
                 limit: limit,
                 branch: leadOffice,
             }));
         }
-        if ((isManager || isConversion) && !userLeadsComponent && userLocation === '/leads') {
-            dispatch(getAllLeads({
-                page: page,
-                limit: limit,
-            }));
-        }
-    }, [count, dispatch, isAdmin, isConversion, isManager, leadOffice, limit, page, userLeadsComponent, userLocation]);
+    },[dispatch, isAdmin, isConversion, isManager, leadOffice, limit, page, userLeadsComponent]);
        
      
 

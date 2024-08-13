@@ -17,4 +17,8 @@ export const StyledNavigation = styled.div`
             height: 3.125rem;
         }
     }
+
+    .pointer-events{
+        pointer-events: none;
+    }
 `

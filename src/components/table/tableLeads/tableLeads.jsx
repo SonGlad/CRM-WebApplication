@@ -21,7 +21,7 @@ import { useUser } from "../../../hooks/useUser.js";
 export const TableLeads = () => {
   const { isLeads } = useLead();
   const { userLeads, userLeadsComponent } = useUser();
-  const [leads, setLeads] = useState()
+  const [leads, setLeads] = useState();
   const dispatch = useDispatch();
   
 

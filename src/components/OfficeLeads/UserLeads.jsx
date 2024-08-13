@@ -10,12 +10,9 @@ import { RotatingLoader } from "../CustomLoaders/CustomLoaders";
 
 
 
-
 export const UserLeads = () => {
     const { userName, userLeadsComponentData, isUserLeadsLoading } = useUser();
-    const dispatch = useDispatch();
-    console.log(isUserLeadsLoading);
-    
+    const dispatch = useDispatch();  
 
 
     const openUserModal = () => {
@@ -25,8 +22,9 @@ export const UserLeads = () => {
     const backToUsers = () => {
         dispatch(resetUserLeadsComponent());
     };
-
-
+    
+    
+    
     return(
         <UserLeadsStyled>
             <div className="wraper">
@@ -38,7 +36,7 @@ export const UserLeads = () => {
                         <ArrowSVG className="svg"/>
                         Back to User Information
                     </button>
-                    <NavLink className="link" to='/users' on onClick={backToUsers}>
+                    <NavLink className="link" to='/users' onClick={backToUsers}>
                         Back to Users
                         <ArrowSVG className="svg"/>
                     </NavLink>
