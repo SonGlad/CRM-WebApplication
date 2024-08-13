@@ -6,6 +6,7 @@ import { Modal } from "./Modal/Modal";
 import { RefreshLoading } from "../components/CustomLoaders/CustomLoaders";
 import { useModal } from "../hooks/useModal";
 import { useAuth } from "../hooks/useAuth";
+import { useUser } from "../hooks/useUser";
 import { 
   updatingAdmin,
   updatingManager,
@@ -50,36 +51,40 @@ export const App= () => {
     isLeadDetails, 
     isConfirmModal,
   } = useModal();
+  const { userLeadsComponent } = useUser();
   const currentPath = useLocation().pathname;
+  
 
 
   useEffect(() => {
-    dispatch(saveUserCurrentLocation(currentPath))
+    dispatch(saveUserCurrentLocation(currentPath));
     if(!isInitial){
       dispatch(refreshCurrentUser());
-      if (userLocation) {
+      if(userLeadsComponent) {
+        navigate("/users");
+      } else {
         navigate(userLocation);
-      }    
+      }   
     }
-  },[currentPath, dispatch, isInitial, navigate, userLocation]);
+  },[currentPath, dispatch, isInitial, navigate, userLeadsComponent, userLocation]);
 
 
   useEffect(() => {
     if(isLoggedIn){
       if (userRole === 'Developer' || userRole === 'Administrator' || userRole === 'Manager') {
-        dispatch(updatingAdmin())
+        dispatch(updatingAdmin());
       }
       if(userRole === 'CRM Manager'){
-        dispatch(updatingManager())
+        dispatch(updatingManager());
       }
       if(userRole === 'Conversion Manager' || userRole === 'Conversion Agent'){
-        dispatch(updatingConversion())
+        dispatch(updatingConversion());
       }
       if(userRole === 'Retention Manager' || userRole === 'Retention Agent'){
-        dispatch(updatingRetention())
+        dispatch(updatingRetention());
       }
       if(userRole === 'Conversion Manager'){
-        dispatch(updatingConversionManager())
+        dispatch(updatingConversionManager());
       }
       if(userRole === 'Retention Manager'){
         dispatch(updatingRetentionManager())
