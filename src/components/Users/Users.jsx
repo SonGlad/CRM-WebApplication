@@ -13,7 +13,7 @@ import { resetOfficeUserState } from "../../redux/User/user-slice";
 import { resetOfficeLeadState } from "../../redux/Lead/lead-slice";
 import { getUserById } from "../../redux/User/user-operation";
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
-import { toggleUsersCheckboxState, setFilteredUsers } from "../../redux/User/user-slice";
+import { toggleUsersCheckboxState, setFilteredUsers, resetUserLeadsComponent } from "../../redux/User/user-slice";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 
@@ -30,6 +30,7 @@ export const Users = () => {
     const resetStateForOffice = () => {
         dispatch(resetOfficeUserState());
         dispatch(resetOfficeLeadState());
+        dispatch(resetUserLeadsComponent());
     };
 
 
