@@ -175,9 +175,6 @@ export const AsidePanel = ({userLocation}) => {
         if (amountPerPageBlock.current && !amountPerPageBlock.current.contains(event.target)) {
             setAmountPerPageBox(false);
         }
-        // if (deleteBlock.current && !deleteBlock.current.contains(event.target)) {
-        //     setDeleteBox(false);
-        // }
     },[]);
 
 

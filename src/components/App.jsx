@@ -15,7 +15,6 @@ import {
   updatingConversionManager,
   updatingRetentionManager,
   saveUserCurrentLocation,
-  updatingForNoneAdminLogin,
 } from "../redux/Auth/auth-slice";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
 import { useDispatch} from "react-redux";
@@ -41,7 +40,6 @@ export const App= () => {
     isLoggedIn, 
     isInitial, 
     isAdmin,
-    forNoneAdminLogin,
   } = useAuth();
   const {
     isSettingsModal, 
@@ -53,7 +51,6 @@ export const App= () => {
   } = useModal();
   const { userLeadsComponent } = useUser();
   const currentPath = useLocation().pathname;
-  
 
 
   useEffect(() => {
@@ -62,11 +59,13 @@ export const App= () => {
       dispatch(refreshCurrentUser());
       if(userLeadsComponent) {
         navigate("/users");
+      } else if(!isAdmin & currentPath === "/"){
+        navigate("/leads");
       } else {
         navigate(userLocation);
-      }   
+      }  
     }
-  },[currentPath, dispatch, isInitial, navigate, userLeadsComponent, userLocation]);
+  },[currentPath, dispatch, isAdmin, isInitial, navigate, userLeadsComponent, userLocation]);
 
 
   useEffect(() => {
@@ -91,20 +90,8 @@ export const App= () => {
       }
     }
   },[dispatch, isLoggedIn, userRole]);
-  
 
-  useEffect(() => {
-    if(isLoggedIn && !isAdmin && forNoneAdminLogin){
-      if (userRole === 'CRM Manager' || userRole === 'Conversion Manager' || userRole === 'Conversion Agent') {
-        navigate('/leads');
-        setTimeout(() => {
-          dispatch(updatingForNoneAdminLogin())
-        }, 1000)
-      }
-    }
-  }, [dispatch, forNoneAdminLogin, isAdmin, isLoggedIn, navigate, userRole]);
 
- 
 
   return isRefreshing ? (
     <RefreshLoading/>
@@ -121,6 +108,9 @@ export const App= () => {
           }/>
           <Route path="/signin" element={
             <RestrictedRoute redirectTo="/" component={<LoginPage/>} />
+          }/>
+          <Route path="/" element={
+            <RestrictedRoute redirectTo="/" adminRedirectTo="/leads" component={<HomePage/>} />
           }/>
           <Route path="/leads" element={
             <PrivateRoute redirectTo="/signin" component={<OfficeLeadsPage/>}/>

@@ -37,7 +37,6 @@ const initialState = {
     isLoading: false,
     isRefreshing: false,
     isInitial: false,
-    forNoneAdminLogin: false,
     error: null,
     currentLocation: null,
 };
@@ -75,9 +74,6 @@ const authSlice = createSlice({
         },
         updatingNewUserResponceData: (state) => {
             state.isNewUserDataResponce = false;
-        },
-        updatingForNoneAdminLogin: (state) => {
-            state.forNoneAdminLogin = false;
         },
         updatingNewUser: (state) => {
             state.newUser = {
@@ -121,7 +117,6 @@ const authSlice = createSlice({
             state.error = null;
             state.isLoggedIn = false;
             state.isInitial = true;
-            state.forNoneAdminLogin = false;
         })
         .addCase(logIn.fulfilled, (state, {payload}) => {
             state.user = {
@@ -134,14 +129,12 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isLoggedIn = true;
             state.isInitial = true;
-            state.forNoneAdminLogin = true;
             state.error = null;
         })
         .addCase(logIn.rejected, (state, {payload}) => {
             state.isLoading = false;
             state.isLoggedIn = false;
             state.isInitial = false;
-            state.forNoneAdminLogin = false;
             state.error = payload;
         })
 
@@ -150,7 +143,6 @@ const authSlice = createSlice({
             state.isLoading = true;
             state.isRefreshing = false;
             state.isInitial = true;
-            state.forNoneAdminLogin = false;
             state.error = null;
         })
         .addCase(logOut.fulfilled, (state, { payload }) => {
@@ -178,7 +170,6 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             state.isInitial = false;
             state.isRefreshing = false;
-            state.forNoneAdminLogin = false;
             state.error = null;
             state.currentLocation = null;
         })
@@ -186,7 +177,6 @@ const authSlice = createSlice({
             state.isInitial = false;
             state.isLoggedIn = false;
             state.isLoading = false;
-            state.forNoneAdminLogin = false;
             state.error = payload;
         })
 
@@ -289,6 +279,5 @@ export const {
     updatingConversionManager,
     updatingRetentionManager,
     updatingNewUserResponceData,
-    updatingForNoneAdminLogin,
     updatingNewUser
 } = authSlice.actions;

@@ -14,8 +14,6 @@ export const selectRefreshing = state => state.auth.isRefreshing;
 
 export const selectInitial = state => state.auth.isInitial;
 
-export const selectNoneAdminLogin = state => state.auth.forNoneAdminLogin;
-
 export const selectSettingsUpdate = state => state.auth.isSettingsUpdated;
 
 export const selectNewUserResponceData = state => state.auth.isNewUserDataResponce;
