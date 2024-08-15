@@ -81,7 +81,6 @@ export const App= () => {
   },[dispatch, isLoggedIn, userRole]);
 
 
-
   useEffect(() => {
     dispatch(saveUserCurrentLocation(currentPath));
     if(!isInitial){

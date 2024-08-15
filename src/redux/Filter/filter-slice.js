@@ -28,7 +28,6 @@ const filterSlice = createSlice({
         
         //LOGOUT///////////
         .addCase(logOut.pending, state =>{
-            state.isFilterLoading= true;
             state.filterError = null;
         })
         .addCase(logOut.fulfilled, (state, { payload }) => {
