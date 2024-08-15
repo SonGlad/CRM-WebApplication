@@ -39,6 +39,7 @@ const initialState = {
     isInitial: false,
     error: null,
     currentLocation: null,
+    isInitialized : false,
 };
 
 
@@ -84,6 +85,9 @@ const authSlice = createSlice({
                 branch: null,
             }
         },
+        setInitialized: (state) => {
+            state.isInitialized = true;
+        }
     },
 
     extraReducers: builder => {
@@ -130,6 +134,7 @@ const authSlice = createSlice({
             state.isLoggedIn = true;
             state.isInitial = true;
             state.error = null;
+            state.isInitialized = false;
         })
         .addCase(logIn.rejected, (state, {payload}) => {
             state.isLoading = false;
@@ -172,6 +177,7 @@ const authSlice = createSlice({
             state.isRefreshing = false;
             state.error = null;
             state.currentLocation = null;
+            state.isInitialized = false;
         })
         .addCase(logOut.rejected, (state, {payload}) => {
             state.isInitial = false;
@@ -186,6 +192,7 @@ const authSlice = createSlice({
             state.isRefreshing = true;
             state.isInitial = false;
             state.isLoading = true;
+            state.isInitialized = false;
         })
         .addCase(refreshCurrentUser.fulfilled, (state, { payload }) => {
             state.user = {
@@ -199,6 +206,7 @@ const authSlice = createSlice({
             state.isRefreshing = false;
             state.isInitial = true;
             state.error = null;
+            state.isInitialized = false;
         })
         .addCase(refreshCurrentUser.rejected, (state, { payload }) => {
             state.isLoading = false;
@@ -216,7 +224,6 @@ const authSlice = createSlice({
         .addCase(updateUserAvatar.fulfilled, (state, { payload }) => {
             state.avatarURL = payload.avatarURL;
             state.isSettingsUpdated = true;
-            state.isLoggedIn = true;
             state.error = null;
         })
         .addCase(updateUserAvatar.rejected, (state, { payload }) => {
@@ -231,7 +238,6 @@ const authSlice = createSlice({
             state.isSettingsUpdated = false;
         })
         .addCase(updateUserInfo.fulfilled, (state, { payload }) => {
-            state.isLoggedIn = true;
             state.isSettingsUpdated = true;
             state.error = null;
         })
@@ -279,5 +285,6 @@ export const {
     updatingConversionManager,
     updatingRetentionManager,
     updatingNewUserResponceData,
-    updatingNewUser
+    updatingNewUser,
+    setInitialized
 } = authSlice.actions;

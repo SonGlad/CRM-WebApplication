@@ -49,7 +49,9 @@ export function TableExternalLeads() {
 
 
   const formatBranchName = (branch) => {
-    return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    if (branch) {
+      return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    }
   };
 
 
@@ -66,7 +68,7 @@ export function TableExternalLeads() {
     return isLeads.length < 13 ? 'small-table' : '';
   };
 
-
+  
   return (
     <TableExternalList className={chnageTableStyle()}>
       <table className="Table">

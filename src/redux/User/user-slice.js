@@ -347,7 +347,6 @@ const userSlice = createSlice({
         
         // LOGOUT//////
         .addCase(logOut.pending, state => {
-            state.isUserLoading = true;
             state.isUserError = null;
         })
         .addCase(logOut.fulfilled, (state, { payload }) => {

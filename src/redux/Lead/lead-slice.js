@@ -109,7 +109,6 @@ const leadSlice = createSlice({
     
     //LOGOUT///////////
     .addCase(logOut.pending, (state) => {
-      state.isLeadLoading = true;
       state.isLeadError = null;
     })
     .addCase(logOut.fulfilled, (state, { payload }) => {

@@ -2,17 +2,19 @@ import { useAuth } from "../hooks/useAuth";
 import { Navigate } from 'react-router-dom';
 
 
-
 export const RestrictedRoute = ({ 
   component: Component, 
   redirectTo = '/', 
-  adminRedirectTo = '/leads', 
+  noneAdminTo = '/leads' 
 }) => {
-  const { isLoggedIn, isAdmin } = useAuth();
+  const { isLoggedIn, isAdmin, isInitialized } = useAuth();
 
-  if (isLoggedIn && !isAdmin) {
-    return <Navigate to={adminRedirectTo} />;
+
+  if (isLoggedIn && isInitialized && isAdmin) {
+    return <Navigate to={redirectTo}/>
+  } else if (isLoggedIn && isInitialized && !isAdmin) {
+    return <Navigate to={noneAdminTo}/>
   }
 
-  return isLoggedIn ? <Navigate to={redirectTo} /> : Component;
+  return Component;
 };

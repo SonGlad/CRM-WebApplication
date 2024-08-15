@@ -44,4 +44,6 @@ export const selectRetentionManager = state => state.auth.isRetentionManager;
 
 export const selectConversionManager = state => state.auth.isConversionManager;
 
+export const selectIsInitialized = state => state.auth.isInitialized;
+
 

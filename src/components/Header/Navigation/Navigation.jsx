@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import HeaderLogo from "../../../images/images/logo.png";
 import { useAuth } from "../../../hooks/useAuth";
 import { useUser } from "../../../hooks/useUser";
+import { useLead } from "../../../hooks/useLead";
 import { useDispatch } from "react-redux";
 import { resetOfficeUserState, resetUserLeadsComponent } from "../../../redux/User/user-slice";
 import { resetOfficeLeadState } from "../../../redux/Lead/lead-slice";
@@ -12,15 +13,23 @@ import { useEffect, useState } from "react";
 export const Navigation = () => {
     const [isPointerEvents, setPointerEvents] = useState(true);
     const { isAdmin, isLoggedIn, userLocation, isManager, isConversion } = useAuth();
-    const { userLeadsComponent } = useUser();
-    const dispatch = useDispatch();    
-    
+    const { userLeadsComponent, userOffice } = useUser();
+    const { leadOffice } = useLead();
+    const dispatch = useDispatch(); 
+        
 
     const resetStateForOffice = () => {
-        dispatch(resetOfficeUserState());
-        dispatch(resetOfficeLeadState());
-        dispatch(resetUserLeadsComponent());
-    };
+        if (userOffice) {
+            dispatch(resetOfficeUserState());
+        }
+        if (leadOffice) {
+            dispatch(resetOfficeLeadState());
+        }
+        if (userLeadsComponent) {
+            dispatch(resetUserLeadsComponent());
+        }
+    };   
+    
 
 
     useEffect(() => {
@@ -41,13 +50,19 @@ export const Navigation = () => {
     
     return (
         <StyledNavigation>
-            <NavLink 
-                className={`link ${pointerEventsStyle()}`} 
-                to={isAdmin ? '/' : '/leads'} 
-                onClick={resetStateForOffice}
-            >
-                <img className="header-logo-img" src={HeaderLogo} alt="header logo" width="42" height="42"/>
-            </NavLink>
+            {isLoggedIn ? (
+                <NavLink 
+                    className={`link ${pointerEventsStyle()}`}
+                    to={isAdmin ? '/' : '/leads'} 
+                    onClick={resetStateForOffice}
+                >
+                    <img className="header-logo-img" src={HeaderLogo} alt="header logo" width="42" height="42"/>
+                </NavLink>
+            ) : (
+                <NavLink className='link' to={'/'}>
+                    <img className="header-logo-img" src={HeaderLogo} alt="header logo" width="42" height="42"/>
+                </NavLink>
+            )}
         </StyledNavigation>
     )
 }; 

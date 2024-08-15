@@ -5,9 +5,9 @@ import { useAuth } from "../hooks/useAuth";
 
 
 const HomePage = () => {
-  const {isLoggedIn} = useAuth();
+  const { isLoggedIn } = useAuth();
 
-
+  
   return isLoggedIn ? (
       <Main/>
     ) : (

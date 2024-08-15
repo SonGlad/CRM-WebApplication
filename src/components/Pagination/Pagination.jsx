@@ -74,11 +74,14 @@ export const Pagination = () => {
         if (elements.length > 1) {
             setIncreaseEnable(true);
         }
+        if (elements.length < 9) {           
+            setLastVisible(false);
+        }
         if (elements.length === 1) {
             setIncreaseEnable(false);
             setLastVisible(false);
         }
-    },[elements.length]);
+    },[elements]);
     
 
     const toggleButtonBackground = (index) => {

@@ -1,5 +1,6 @@
 import { SharedLayout } from "./SharedLayout";
-import { Route, Routes, Navigate, useLocation, useNavigate} from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { lazy, useEffect} from "react";
 import { Toaster } from "./ToastContainer/ToastContainer";
 import { Modal } from "./Modal/Modal";
@@ -15,6 +16,7 @@ import {
   updatingConversionManager,
   updatingRetentionManager,
   saveUserCurrentLocation,
+  setInitialized,
 } from "../redux/Auth/auth-slice";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
 import { useDispatch} from "react-redux";
@@ -38,8 +40,9 @@ export const App= () => {
     userRole, 
     userLocation, 
     isLoggedIn, 
-    isInitial, 
+    isInitial,
     isAdmin,
+    isInitialized, 
   } = useAuth();
   const {
     isSettingsModal, 
@@ -52,22 +55,7 @@ export const App= () => {
   const { userLeadsComponent } = useUser();
   const currentPath = useLocation().pathname;
 
-
-  useEffect(() => {
-    dispatch(saveUserCurrentLocation(currentPath));
-    if(!isInitial){
-      dispatch(refreshCurrentUser());
-      if(userLeadsComponent) {
-        navigate("/users");
-      } else if(!isAdmin & currentPath === "/"){
-        navigate("/leads");
-      } else {
-        navigate(userLocation);
-      }  
-    }
-  },[currentPath, dispatch, isAdmin, isInitial, navigate, userLeadsComponent, userLocation]);
-
-
+ 
   useEffect(() => {
     if(isLoggedIn){
       if (userRole === 'Developer' || userRole === 'Administrator' || userRole === 'Manager') {
@@ -88,10 +76,32 @@ export const App= () => {
       if(userRole === 'Retention Manager'){
         dispatch(updatingRetentionManager())
       }
+      dispatch(setInitialized());
     }
   },[dispatch, isLoggedIn, userRole]);
 
 
+
+  useEffect(() => {
+    dispatch(saveUserCurrentLocation(currentPath));
+    if(!isInitial){
+      dispatch(refreshCurrentUser());
+      if (userLeadsComponent) {
+        navigate('/users')
+      } else {
+        navigate(userLocation)
+      }
+    }
+  },[currentPath, dispatch, isInitial, navigate, userLeadsComponent, userLocation]);
+
+
+  useEffect(() => {
+    if(isInitialized && !isAdmin && userLocation === '/'){
+      navigate('/leads')
+    } 
+  },[isAdmin, isInitialized, navigate, userLocation]);
+
+ 
 
   return isRefreshing ? (
     <RefreshLoading/>
@@ -103,20 +113,20 @@ export const App= () => {
         <Route path='/' element = {<SharedLayout userLocation={userLocation}/>}>
           <Route index element={<HomePage/>}/>
           <Route path='*' element = {<Navigate to="/"/>}/>
+          <Route path="/" element={
+            <RestrictedRoute noneAdminTo="/leads" component={<HomePage/>} />
+          }/>
           <Route path="/signup" element={
             <RestrictedRoute redirectTo="/" component={<RegisterPage/>} />
           }/>
           <Route path="/signin" element={
             <RestrictedRoute redirectTo="/" component={<LoginPage/>} />
           }/>
-          <Route path="/" element={
-            <RestrictedRoute redirectTo="/" adminRedirectTo="/leads" component={<HomePage/>} />
-          }/>
-          <Route path="/leads" element={
-            <PrivateRoute redirectTo="/signin" component={<OfficeLeadsPage/>}/>
-          }/>
           <Route path="/users" element={
             <PrivateRoute redirectTo="/signin" component={<UsersPage/>}/>
+          }/>
+          <Route path="/leads" element={
+            <PrivateRoute redirectTo="/signin" component={<OfficeLeadsPage />} />
           }/>
         </Route>    
       </Routes>
