@@ -137,4 +137,21 @@ export const TableListStyled = styled.div`
     border: none;
   }
 
+    .check-btn{
+    font-size: 0.5rem;
+    /* width: 70%; */
+    color: ${(props) => props.theme.color.primary_black};
+    background-color: ${p => p.theme.color.primary_green_lite};
+    border: 1px solid ${p => p.theme.color.primary_green_lite};
+    padding: 0.25rem 0.25rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: color ${p => p.theme.transition.main_transition};
+    flex-wrap: nowrap;
+
+    &:hover{
+      color: ${props => props.theme.color.primary_grey};
+    }
+  }
+
 `;
