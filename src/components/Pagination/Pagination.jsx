@@ -24,7 +24,7 @@ export const Pagination = () => {
     const [firstVisibleValue, setFirstVisibleValue] = useState(0);
     const [decreaseEnable, setDecreaseEnable] = useState(false);
     const [increaseEnable, setIncreaseEnable] = useState(false);
-    const listRef = useRef(null);
+    const listRef = useRef(null);  
     
     
     let amount;
@@ -81,7 +81,7 @@ export const Pagination = () => {
             setIncreaseEnable(false);
             setLastVisible(false);
         }
-    },[elements]);
+    },[elements.length]);
     
 
     const toggleButtonBackground = (index) => {

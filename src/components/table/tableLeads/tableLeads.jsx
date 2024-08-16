@@ -26,7 +26,6 @@ import { openModalLeadDetail } from "../../../redux/Modal/modal-slice.js";
 
 export const TableLeads = () => {
   const {
-    isLeadLoading,
     isLeads,
     selectedExternalLeadsCheckedCheckbox,
   } = useLead();
