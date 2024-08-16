@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/CRM-WebApplication/static/css/main.d666774a.css",
-    "main.js": "/CRM-WebApplication/static/js/main.78d48952.js",
+    "main.js": "/CRM-WebApplication/static/js/main.0fe8dce2.js",
     "static/js/461.d3dc8485.chunk.js": "/CRM-WebApplication/static/js/461.d3dc8485.chunk.js",
     "static/js/992.af0a1c83.chunk.js": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js",
     "static/js/524.3db5a56a.chunk.js": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js",
     "static/js/769.69ddeba8.chunk.js": "/CRM-WebApplication/static/js/769.69ddeba8.chunk.js",
-    "static/js/1.6dde6222.chunk.js": "/CRM-WebApplication/static/js/1.6dde6222.chunk.js",
+    "static/js/1.7f6d85ac.chunk.js": "/CRM-WebApplication/static/js/1.7f6d85ac.chunk.js",
     "static/js/249.dbd818c1.chunk.js": "/CRM-WebApplication/static/js/249.dbd818c1.chunk.js",
     "static/media/iReX_logo.png": "/CRM-WebApplication/static/media/iReX_logo.bb7640ae2d9d84190796.png",
     "static/media/welcome.jpg": "/CRM-WebApplication/static/media/welcome.b907e6f055a9be3133fe.jpg",
@@ -36,16 +36,16 @@
     "static/media/arrow-down.svg": "/CRM-WebApplication/static/media/arrow-down.e3ed7849216bb46de413bbb56a4a7bcf.svg",
     "static/media/rectangle.svg": "/CRM-WebApplication/static/media/rectangle.87ad7b1ba8cdb017b1733cd21909939f.svg",
     "main.d666774a.css.map": "/CRM-WebApplication/static/css/main.d666774a.css.map",
-    "main.78d48952.js.map": "/CRM-WebApplication/static/js/main.78d48952.js.map",
+    "main.0fe8dce2.js.map": "/CRM-WebApplication/static/js/main.0fe8dce2.js.map",
     "461.d3dc8485.chunk.js.map": "/CRM-WebApplication/static/js/461.d3dc8485.chunk.js.map",
     "992.af0a1c83.chunk.js.map": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js.map",
     "524.3db5a56a.chunk.js.map": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js.map",
     "769.69ddeba8.chunk.js.map": "/CRM-WebApplication/static/js/769.69ddeba8.chunk.js.map",
-    "1.6dde6222.chunk.js.map": "/CRM-WebApplication/static/js/1.6dde6222.chunk.js.map",
+    "1.7f6d85ac.chunk.js.map": "/CRM-WebApplication/static/js/1.7f6d85ac.chunk.js.map",
     "249.dbd818c1.chunk.js.map": "/CRM-WebApplication/static/js/249.dbd818c1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d666774a.css",
-    "static/js/main.78d48952.js"
+    "static/js/main.0fe8dce2.js"
   ]
 }
