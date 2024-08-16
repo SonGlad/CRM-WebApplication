@@ -6,6 +6,8 @@ import {
   selectLeadResponce,
   selectLeads,
   selectTotalPages,
+  selectTotalLeads,
+  selectLeadsAmountPerPage,
   selectNewLead,
   selectStatus,
   selectStatusLoading,
@@ -43,6 +45,8 @@ export const useLead = () => {
   const isNewLeadDataResponce = useSelector(selectLeadResponce);
   const isLeads = useSelector(selectLeads);
   const totalPages = useSelector(selectTotalPages);
+  const totalLeads = useSelector(selectTotalLeads);
+  const leadsAmountPerPage = useSelector(selectLeadsAmountPerPage);
   const newLead = useSelector(selectNewLead);
   const status = useSelector(selectStatus);
   const isStatusLoading = useSelector(selectStatusLoading);
@@ -79,6 +83,8 @@ export const useLead = () => {
     isNewLeadDataResponce,
     isLeads,
     totalPages,
+    totalLeads,
+    leadsAmountPerPage,
     newLead,
     status,
     isStatusLoading,

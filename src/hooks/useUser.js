@@ -3,7 +3,8 @@ import {
     selectOffice,
     selectRole,
     selectActiveOffice,
-    selectUserLoading, 
+    selectUserLoading,
+    selectIsUserLeadsLoading, 
     selectUserError,
     selectAllUsers,
     selectUserId,
@@ -36,6 +37,7 @@ export const useUser = () => {
     const userSelectOffice = useSelector(selectOffice);
     const userSelectRole = useSelector(selectRole);
     const userLoading = useSelector(selectUserLoading);
+    const isUserLeadsLoading = useSelector(selectIsUserLeadsLoading);
     const userError = useSelector(selectUserError);
     const userOffice = useSelector(selectActiveOffice);
     const allUsers = useSelector(selectAllUsers);
@@ -68,6 +70,7 @@ export const useUser = () => {
         userSelectOffice,
         userSelectRole,
         userLoading,
+        isUserLeadsLoading,
         userError,
         userOffice,
         allUsers,

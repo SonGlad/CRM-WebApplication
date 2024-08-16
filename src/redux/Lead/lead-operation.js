@@ -22,8 +22,10 @@ export const createNewLead = createAsyncThunk(
 
 export const getAllLeads = createAsyncThunk(
     'leads/all?branch=Office1',
-    async (branch, thunkApi) => {       
-        const params = branch ? `?branch=${branch}` : '';
+    async ({page, limit, branch}, thunkApi) => {
+        const params1 = `?page=${page}&limit=${limit}&branch=${branch}`;
+        const params2 = `?page=${page}&limit=${limit}`;       
+        const params = branch ? params1 : params2;
         try{
             const response = await axios.get(`leads/all${params}`);
             toast.success(`All Leads load successful`);

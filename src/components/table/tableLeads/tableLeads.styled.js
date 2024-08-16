@@ -4,9 +4,10 @@ export const TableListStyled = styled.div`
   border: 1px solid ${(p) => p.theme.color.primary_green_lite};
   border-radius: 0.625rem;
   width: 100%;
+  margin-top: 2rem;
 
   .Table {
-        table-layout: auto;
+    table-layout: auto;
     width: 100%;
     border-collapse: collapse;
     border-radius: 0.5rem;
@@ -45,8 +46,9 @@ export const TableListStyled = styled.div`
     overflow-wrap: break-word;
     text-align: center;
     position: relative;
-        @media only screen and (min-width: 1800px) {
-     white-space: nowrap;
+
+    @media only screen and (min-width: 1800px) {
+      white-space: nowrap;
     }
   }
 
@@ -80,8 +82,7 @@ export const TableListStyled = styled.div`
   .dropdown {
     z-index: 1000;
     position: absolute;
-        font-size: 0.5rem;
-    /* display: grid; */
+    font-size: 0.5rem;
     gap: 0.25rem;
     border-radius: 1rem;
     padding: 0.75rem 0.5rem;

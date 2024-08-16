@@ -8,7 +8,6 @@ import {
     selectLoading,
     selectRefreshing,
     selectInitial,
-    selectNoneAdminLogin,
     selectSettingsUpdate,
     selectUserLocation,
     selectAuthError,
@@ -24,6 +23,7 @@ import {
     selectRetentionManager,
     selectConversionManager,
     selectNewUserResponceData,
+    selectIsInitialized,
 } from "../redux/Auth/auth-selectors";
 
 
@@ -32,7 +32,6 @@ export const useAuth = () => {
     const isLoggedIn = useSelector(selectLoggedUser);
     const isRefreshing = useSelector(selectRefreshing);
     const isInitial = useSelector(selectInitial);
-    const forNoneAdminLogin = useSelector(selectNoneAdminLogin);
     const isSettingsUpdated = useSelector(selectSettingsUpdate);
     const userName = useSelector(selectUserName);
     const userRole = useSelector(selectUserRole);
@@ -52,6 +51,7 @@ export const useAuth = () => {
     const isConversionManager = useSelector(selectConversionManager);
     const isRetentionManager = useSelector(selectRetentionManager);
     const isNewUserResponceData = useSelector(selectNewUserResponceData);
+    const isInitialized = useSelector(selectIsInitialized);
 
 
     return {
@@ -59,7 +59,6 @@ export const useAuth = () => {
         isLoggedIn,
         isRefreshing,
         isInitial,
-        forNoneAdminLogin,
         isSettingsUpdated,
         userName,
         userRole,
@@ -79,5 +78,6 @@ export const useAuth = () => {
         isConversionManager,
         isRetentionManager,
         isNewUserResponceData,
+        isInitialized,
     };
 };

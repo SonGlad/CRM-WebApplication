@@ -12,7 +12,6 @@ import { Status } from "../tableComponents/status";
 import { useTableHook } from "../tableHook.jsx/tableHook";
 import { useLead } from "../../../hooks/useLead.js";
 import { useEffect, useState } from "react";
-import { RotatingLoader } from "../../CustomLoaders/CustomLoaders";
 import { useDispatch } from "react-redux";
 import {
   getLeadById,
@@ -77,7 +76,7 @@ export const TableLeads = () => {
     dispatch(getLeadById({leadId: _id}));
   };
 
-  return !isLeadLoading ? (
+  return (
     <TableListStyled>
       <table className="Table">
         <thead className="TableHeader">
@@ -216,7 +215,5 @@ export const TableLeads = () => {
         handleDropdownItemClick={handleDropdownItemClick}
       />
     </TableListStyled>
-  ) : (
-    <RotatingLoader />
-  );
+  )
 };

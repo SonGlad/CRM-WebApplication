@@ -10,10 +10,9 @@ import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal"
 import { resetOfficeUserState } from "../../redux/User/user-slice";
-import { resetOfficeLeadState } from "../../redux/Lead/lead-slice";
 import { getUserById } from "../../redux/User/user-operation";
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
-import { toggleUsersCheckboxState, setFilteredUsers } from "../../redux/User/user-slice";
+import { toggleUsersCheckboxState, setFilteredUsers, resetUserLeadsComponent } from "../../redux/User/user-slice";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 
@@ -21,15 +20,19 @@ import { toZonedTime } from 'date-fns-tz';
 
 export const Users = () => {
     const { isAdmin, isManager, isConversionManager } = useAuth();
-    const { userOffice, allUsers, userLoading, usersCheckedCheckbox, filteredUsers } = useUser(); 
+    const { userOffice, allUsers, userLoading, usersCheckedCheckbox, filteredUsers, userLeadsComponent } = useUser(); 
     const { isUserDetails } = useModal();
     const [filterType, setFilterType] = useState('');
     const dispatch = useDispatch();
     
 
     const resetStateForOffice = () => {
-        dispatch(resetOfficeUserState());
-        dispatch(resetOfficeLeadState());
+        if (userOffice) {
+            dispatch(resetOfficeUserState());
+        }
+        if (userLeadsComponent) {
+            dispatch(resetUserLeadsComponent());
+        }
     };
 
 

@@ -20,6 +20,8 @@ export const StyledMainPage = styled.div`
 
         @media screen and (min-width: 834px) {
             height: 87.5dvh;
+            display: flex;
+            flex-direction: column;
         }
     }
 
@@ -27,6 +29,10 @@ export const StyledMainPage = styled.div`
         font-weight: 700;
         text-align: center;
         margin-bottom: 1rem;
+    }
+
+    .filter-block{
+        margin-bottom: 2rem;
     }
 
     
@@ -37,5 +43,24 @@ export const StyledMainPage = styled.div`
         justify-content: center;
         font-weight: 500;
         line-height: 1.25rem;
+    }
+
+    .content-container{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        flex-grow: 1;
+    }
+
+    .small-table{
+        border-right: 1px solid ${p => p.theme.color.primary_green_lite};
+
+        & tbody{
+            & tr:last-child{
+                & td{
+                    border-bottom: 1px solid ${p => p.theme.color.primary_green_lite};
+                }
+            }
+        }
     }
 `

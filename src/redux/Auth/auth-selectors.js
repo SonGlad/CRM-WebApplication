@@ -14,8 +14,6 @@ export const selectRefreshing = state => state.auth.isRefreshing;
 
 export const selectInitial = state => state.auth.isInitial;
 
-export const selectNoneAdminLogin = state => state.auth.forNoneAdminLogin;
-
 export const selectSettingsUpdate = state => state.auth.isSettingsUpdated;
 
 export const selectNewUserResponceData = state => state.auth.isNewUserDataResponce;
@@ -45,5 +43,7 @@ export const selectConversion = state => state.auth.isConversion;
 export const selectRetentionManager = state => state.auth.isRetentionManager;
 
 export const selectConversionManager = state => state.auth.isConversionManager;
+
+export const selectIsInitialized = state => state.auth.isInitialized;
 
 

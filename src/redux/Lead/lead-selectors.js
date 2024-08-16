@@ -10,6 +10,10 @@ export const selectLeads = state => state.lead.leadsData.leads;
 
 export const selectTotalPages = state => state.lead.leadsData.totalPages;
 
+export const selectTotalLeads = state => state.lead.leadsData.totalLeads;
+
+export const selectLeadsAmountPerPage = state => state.lead.leadsAmountPerPage
+
 export const selectNewLead = state => state.lead.newLead;
 
 export const selectStatus = state => state.lead.status;

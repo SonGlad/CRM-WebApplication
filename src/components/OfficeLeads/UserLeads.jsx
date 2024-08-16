@@ -6,13 +6,13 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { TableLeads } from "../table/tableLeads/tableLeads";
+import { RotatingLoader } from "../CustomLoaders/CustomLoaders";
 
 
 
 export const UserLeads = () => {
-    const { userLeads, userName, userLeadsComponentData } = useUser();
-    const dispatch = useDispatch();
-    console.log(userLeads, userLeadsComponentData);
+    const { userName, userLeadsComponentData, isUserLeadsLoading } = useUser();
+    const dispatch = useDispatch();  
 
 
     const openUserModal = () => {
@@ -22,8 +22,9 @@ export const UserLeads = () => {
     const backToUsers = () => {
         dispatch(resetUserLeadsComponent());
     };
-
-
+    
+    
+    
     return(
         <UserLeadsStyled>
             <div className="wraper">
@@ -35,14 +36,17 @@ export const UserLeads = () => {
                         <ArrowSVG className="svg"/>
                         Back to User Information
                     </button>
-                    <NavLink className="link" to='/users' on onClick={backToUsers}>
+                    <NavLink className="link" to='/users' onClick={backToUsers}>
                         Back to Users
                         <ArrowSVG className="svg"/>
                     </NavLink>
                 </div>
                 <h1 className="titles">{userName} all {userLeadsComponentData} Leads details</h1>
-                {/* <h2>UserLeads</h2> */}
-                <TableLeads/>
+                {isUserLeadsLoading ? (
+                    <RotatingLoader/>
+                ) : (
+                    <TableLeads/>
+                )}
             </div>
         </UserLeadsStyled>
     );

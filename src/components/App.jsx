@@ -1,11 +1,13 @@
 import { SharedLayout } from "./SharedLayout";
-import { Route, Routes, Navigate, useLocation, useNavigate} from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { lazy, useEffect} from "react";
 import { Toaster } from "./ToastContainer/ToastContainer";
 import { Modal } from "./Modal/Modal";
 import { RefreshLoading } from "../components/CustomLoaders/CustomLoaders";
 import { useModal } from "../hooks/useModal";
 import { useAuth } from "../hooks/useAuth";
+import { useUser } from "../hooks/useUser";
 import { 
   updatingAdmin,
   updatingManager,
@@ -14,7 +16,7 @@ import {
   updatingConversionManager,
   updatingRetentionManager,
   saveUserCurrentLocation,
-  updatingForNoneAdminLogin,
+  setInitialized,
 } from "../redux/Auth/auth-slice";
 import { refreshCurrentUser } from "../redux/Auth/auth-operation";
 import { useDispatch} from "react-redux";
@@ -38,9 +40,9 @@ export const App= () => {
     userRole, 
     userLocation, 
     isLoggedIn, 
-    isInitial, 
+    isInitial,
     isAdmin,
-    forNoneAdminLogin,
+    isInitialized, 
   } = useAuth();
   const {
     isSettingsModal, 
@@ -50,54 +52,53 @@ export const App= () => {
     isLeadDetails, 
     isConfirmModal,
   } = useModal();
+  const { userLeadsComponent } = useUser();
   const currentPath = useLocation().pathname;
 
-
-  useEffect(() => {
-    dispatch(saveUserCurrentLocation(currentPath))
-    if(!isInitial){
-      dispatch(refreshCurrentUser());
-      if (userLocation) {
-        navigate(userLocation);
-      }    
-    }
-  },[currentPath, dispatch, isInitial, navigate, userLocation]);
-
-
+ 
   useEffect(() => {
     if(isLoggedIn){
       if (userRole === 'Developer' || userRole === 'Administrator' || userRole === 'Manager') {
-        dispatch(updatingAdmin())
+        dispatch(updatingAdmin());
       }
       if(userRole === 'CRM Manager'){
-        dispatch(updatingManager())
+        dispatch(updatingManager());
       }
       if(userRole === 'Conversion Manager' || userRole === 'Conversion Agent'){
-        dispatch(updatingConversion())
+        dispatch(updatingConversion());
       }
       if(userRole === 'Retention Manager' || userRole === 'Retention Agent'){
-        dispatch(updatingRetention())
+        dispatch(updatingRetention());
       }
       if(userRole === 'Conversion Manager'){
-        dispatch(updatingConversionManager())
+        dispatch(updatingConversionManager());
       }
       if(userRole === 'Retention Manager'){
         dispatch(updatingRetentionManager())
       }
+      dispatch(setInitialized());
     }
   },[dispatch, isLoggedIn, userRole]);
-  
+
 
   useEffect(() => {
-    if(isLoggedIn && !isAdmin && forNoneAdminLogin){
-      if (userRole === 'CRM Manager' || userRole === 'Conversion Manager' || userRole === 'Conversion Agent') {
-        navigate('/leads');
-        setTimeout(() => {
-          dispatch(updatingForNoneAdminLogin())
-        }, 1000)
+    dispatch(saveUserCurrentLocation(currentPath));
+    if(!isInitial){
+      dispatch(refreshCurrentUser());
+      if (userLeadsComponent) {
+        navigate('/users')
+      } else {
+        navigate(userLocation)
       }
     }
-  }, [dispatch, forNoneAdminLogin, isAdmin, isLoggedIn, navigate, userRole]);
+  },[currentPath, dispatch, isInitial, navigate, userLeadsComponent, userLocation]);
+
+
+  useEffect(() => {
+    if(isInitialized && !isAdmin && userLocation === '/'){
+      navigate('/leads')
+    } 
+  },[isAdmin, isInitialized, navigate, userLocation]);
 
  
 
@@ -108,20 +109,23 @@ export const App= () => {
       {isLoadingAuth && <RefreshLoading />}
       <Toaster/>
       <Routes>
-        <Route parth='/' element = {<SharedLayout userLocation={userLocation}/>}>
+        <Route path='/' element = {<SharedLayout userLocation={userLocation}/>}>
           <Route index element={<HomePage/>}/>
           <Route path='*' element = {<Navigate to="/"/>}/>
+          <Route path="/" element={
+            <RestrictedRoute noneAdminTo="/leads" component={<HomePage/>} />
+          }/>
           <Route path="/signup" element={
             <RestrictedRoute redirectTo="/" component={<RegisterPage/>} />
           }/>
           <Route path="/signin" element={
             <RestrictedRoute redirectTo="/" component={<LoginPage/>} />
           }/>
-          <Route path="/leads" element={
-            <PrivateRoute redirectTo="/signin" component={<OfficeLeadsPage/>}/>
-          }/>
           <Route path="/users" element={
             <PrivateRoute redirectTo="/signin" component={<UsersPage/>}/>
+          }/>
+          <Route path="/leads" element={
+            <PrivateRoute redirectTo="/signin" component={<OfficeLeadsPage />} />
           }/>
         </Route>    
       </Routes>

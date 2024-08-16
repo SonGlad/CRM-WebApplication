@@ -37,9 +37,9 @@ const initialState = {
     isLoading: false,
     isRefreshing: false,
     isInitial: false,
-    forNoneAdminLogin: false,
     error: null,
     currentLocation: null,
+    isInitialized : false,
 };
 
 
@@ -76,9 +76,6 @@ const authSlice = createSlice({
         updatingNewUserResponceData: (state) => {
             state.isNewUserDataResponce = false;
         },
-        updatingForNoneAdminLogin: (state) => {
-            state.forNoneAdminLogin = false;
-        },
         updatingNewUser: (state) => {
             state.newUser = {
                 name: null,
@@ -88,6 +85,9 @@ const authSlice = createSlice({
                 branch: null,
             }
         },
+        setInitialized: (state) => {
+            state.isInitialized = true;
+        }
     },
 
     extraReducers: builder => {
@@ -121,7 +121,6 @@ const authSlice = createSlice({
             state.error = null;
             state.isLoggedIn = false;
             state.isInitial = true;
-            state.forNoneAdminLogin = false;
         })
         .addCase(logIn.fulfilled, (state, {payload}) => {
             state.user = {
@@ -134,23 +133,20 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isLoggedIn = true;
             state.isInitial = true;
-            state.forNoneAdminLogin = true;
             state.error = null;
+            state.isInitialized = false;
         })
         .addCase(logIn.rejected, (state, {payload}) => {
             state.isLoading = false;
             state.isLoggedIn = false;
             state.isInitial = false;
-            state.forNoneAdminLogin = false;
             state.error = payload;
         })
 
         // LOGOUT////////
         .addCase(logOut.pending, state =>{
             state.isLoading = true;
-            state.isRefreshing = false;
             state.isInitial = true;
-            state.forNoneAdminLogin = false;
             state.error = null;
         })
         .addCase(logOut.fulfilled, (state, { payload }) => {
@@ -178,15 +174,14 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             state.isInitial = false;
             state.isRefreshing = false;
-            state.forNoneAdminLogin = false;
             state.error = null;
             state.currentLocation = null;
+            state.isInitialized = false;
         })
         .addCase(logOut.rejected, (state, {payload}) => {
             state.isInitial = false;
             state.isLoggedIn = false;
             state.isLoading = false;
-            state.forNoneAdminLogin = false;
             state.error = payload;
         })
 
@@ -196,6 +191,7 @@ const authSlice = createSlice({
             state.isRefreshing = true;
             state.isInitial = false;
             state.isLoading = true;
+            state.isInitialized = false;
         })
         .addCase(refreshCurrentUser.fulfilled, (state, { payload }) => {
             state.user = {
@@ -209,6 +205,7 @@ const authSlice = createSlice({
             state.isRefreshing = false;
             state.isInitial = true;
             state.error = null;
+            state.isInitialized = false;
         })
         .addCase(refreshCurrentUser.rejected, (state, { payload }) => {
             state.isLoading = false;
@@ -226,7 +223,6 @@ const authSlice = createSlice({
         .addCase(updateUserAvatar.fulfilled, (state, { payload }) => {
             state.avatarURL = payload.avatarURL;
             state.isSettingsUpdated = true;
-            state.isLoggedIn = true;
             state.error = null;
         })
         .addCase(updateUserAvatar.rejected, (state, { payload }) => {
@@ -241,7 +237,6 @@ const authSlice = createSlice({
             state.isSettingsUpdated = false;
         })
         .addCase(updateUserInfo.fulfilled, (state, { payload }) => {
-            state.isLoggedIn = true;
             state.isSettingsUpdated = true;
             state.error = null;
         })
@@ -289,6 +284,6 @@ export const {
     updatingConversionManager,
     updatingRetentionManager,
     updatingNewUserResponceData,
-    updatingForNoneAdminLogin,
-    updatingNewUser
+    updatingNewUser,
+    setInitialized
 } = authSlice.actions;

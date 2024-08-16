@@ -1,20 +1,21 @@
 import styled from "styled-components";
 
+
 export const TableExternalList = styled.div`
-  margin-top: 2rem;
   color: ${p => p.theme.color.primary_white};
   overflow-y: auto;
   height: 74dvh;
-  padding-bottom: 4px;
   position: relative;
-  margin-bottom: 1rem;
+  border: 1px solid ${p => p.theme.color.primary_green_lite};
+  border-right: none;
+  border-radius: 12px;
 
   @media screen and (min-width: 834px){
     height: 71dvh;
   }
 
   @media screen and (min-width: 1236px){
-    height: 65.4dvh;
+    height: 68.93dvh;
   }
 
 
@@ -30,13 +31,9 @@ export const TableExternalList = styled.div`
   }
 
 
-
   & table {
     width: 100%;
-    border-spacing: 0px;
-    border: 1px solid ${p => p.theme.color.primary_green_lite};
-    border-top: none;
-    border-radius: 12px;
+    border-collapse: collapse;
     table-layout: fixed;
 
     & thead{
@@ -45,47 +42,49 @@ export const TableExternalList = styled.div`
       z-index: 2;
 
       & th{
-        border-top: 1px solid ${p => p.theme.color.primary_green_lite};
+        background-color: ${p => p.theme.color.background3};
+        border-bottom: 1px solid ${p => p.theme.color.primary_green_lite};
+        border-right: 1px solid ${p => p.theme.color.primary_green_lite};
+
+        &:last-child{
+          border-right: none;
+        }
       }
     }
   }
-  
 
-  & th{
-    background-color: ${p => p.theme.color.background3};
 
-    &:first-child{
-      border-top-left-radius: 10px;
-    }
-
-    &:last-child{
-      border-top-right-radius: 10px;
-    }
+  .back-color{
+    background-color: #369469;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px 10px inset;
   }
+  
 
   & tr, td, th{
     text-align: center;
     padding: 1rem 0;
-    border-bottom: 1px solid ${p => p.theme.color.primary_green_lite};
-    border-right: 1px solid ${p => p.theme.color.primary_green_lite};
   }
 
-
-  & tr:last-child {
+  & tbody{
     & td {
-      border-bottom: none;
+      border-bottom: 1px solid ${p => p.theme.color.primary_green_lite};
+      border-right: 1px solid ${p => p.theme.color.primary_green_lite};
     }
 
-    & td:last-child {
-      border-bottom-right-radius: 10px;
+    & tr:last-child{
+      & td{
+        border-bottom: none;
+      }
     }
   }
+
       
   & td:last-child, 
   & th:last-child{
     border-right: none;
     width: 3.75rem;
   }
+
 
   & td:nth-last-child(2),
   & th:nth-last-child(2),
@@ -98,6 +97,7 @@ export const TableExternalList = styled.div`
   & td:last-child{
     position: relative;
   }
+
 
   .TableHeaderName{
     padding:0.5rem 0.25rem;
@@ -115,6 +115,7 @@ export const TableExternalList = styled.div`
     text-align: center;
   }
 
+
   #sourceColumn{
     width: 5.5rem;
   }
@@ -123,11 +124,6 @@ export const TableExternalList = styled.div`
   }
   #officeColumn {
     width: 5rem;
-  }
-
-  .back-color{
-    background-color: #369469;
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px 10px inset;
   }
 
 

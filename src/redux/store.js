@@ -33,7 +33,7 @@ const userPersistConfig = {
   whitelist: [
     'officeState',
     'selectedUsersCheckedCheckbox',
-    'officeState',
+    'userLeadsComponent',
   ],
 };
 
@@ -44,7 +44,6 @@ const leadPersistConfig = {
   whitelist: [
     'officeState',
     'selectedExternalLeadsCheckedCheckbox',
-    'officeState',
   ],
 };
 
