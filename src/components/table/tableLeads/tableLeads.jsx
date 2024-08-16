@@ -162,17 +162,26 @@ export const TableLeads = () => {
                   {lead.createdAt &&
                     lead.createdAt.slice(0, 16).replace("T", " ")}
                 </td>
-                {userRole !== "Conversion Agent" && <td
+                {userRole !== "Conversion Agent" && 
+                <td
                   className="TableHeaderItem"
                   style={{ background: !lead.agentId ? "#ff000082" : "" }}
                 >
-                  {lead.agentId && lead.agentId.username}
+                  {!lead.agentId ? (
+                    'Not Assigned'
+                  ) : (
+                    lead.agentId.username
+                  )}
                 </td>}
-                     {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && <td
+                {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && <td
                   className="TableHeaderItem"
-                  style={{ background: !lead.managerId.username ? "#ff000082" : "" }}
+                  style={{ background: !lead.managerId ? "#ff000082" : "" }}
                 >
-                  {lead.managerId.username}
+                  {!lead.managerId ? (
+                    'Not Assigned'
+                  ) : (
+                    lead.managerId.username
+                  )}
                 </td>}
                 <NextCall lead={lead} />
                                   <td className="TableHeaderItem">
