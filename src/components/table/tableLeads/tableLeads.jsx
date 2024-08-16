@@ -14,24 +14,34 @@ import { useLead } from "../../../hooks/useLead.js";
 import { useEffect, useState } from "react";
 import { RotatingLoader } from "../../CustomLoaders/CustomLoaders";
 import { useDispatch } from "react-redux";
-import { patchStatus, patchTimeZone } from "../../../redux/Lead/lead-operation.js";
+import {
+  getLeadById,
+  patchStatus,
+  patchTimeZone,
+} from "../../../redux/Lead/lead-operation.js";
 import { ClientTime } from "../tableComponents/clientTime.jsx";
-import { useUser } from "../../../hooks/useUser.js";  
-
+import { useUser } from "../../../hooks/useUser.js";
+import { CustomCheckbox } from "../tableExternalLeads/CustomCheckbox.jsx";
+import { useAuth } from "../../../hooks/useAuth.js";
+import { openModalLeadDetail } from "../../../redux/Modal/modal-slice.js";
 
 export const TableLeads = () => {
-  const { isLeadLoading, isLeads } = useLead();
+  const {
+    isLeadLoading,
+    isLeads,
+    selectedExternalLeadsCheckedCheckbox,
+  } = useLead();
   const { userLeads, userLeadsComponent } = useUser();
-  const [leads, setLeads] = useState()
+  const { userBranch, userRole } = useAuth();
+  const [leads, setLeads] = useState();
   const dispatch = useDispatch();
-  
+   console.log(userRole)
 
   useEffect(() => {
     if (userLeads || isLeads) {
-      setLeads(userLeadsComponent ? userLeads : isLeads)
+      setLeads(userLeadsComponent ? userLeads : isLeads);
     }
   }, [isLeads, userLeadsComponent, userLeads]);
-
 
   const {
     inputVisible,
@@ -42,7 +52,6 @@ export const TableLeads = () => {
     toggleUserMenuDropArrow,
     toggleInputVisibility,
   } = useTableHook();
-
 
   const handleDropdownItemClick = (leadIndex, status, name, leadId) => {
     const updatedLeads = [...leads];
@@ -57,12 +66,16 @@ export const TableLeads = () => {
       updatedLeads[leadIndex] = {
         ...updatedLeads[leadIndex],
         status: status,
-      }
+      };
     }
     setLeads(updatedLeads);
     setInputVisible({ row: null, cell: null });
   };
 
+    const openExternalLeadDetail = (_id) => {  
+    dispatch(openModalLeadDetail());
+    dispatch(getLeadById({leadId: _id}));
+  };
 
   return !isLeadLoading ? (
     <TableListStyled>
@@ -84,8 +97,14 @@ export const TableLeads = () => {
             <th className="TableHeaderItem">Self created</th>
             <th className="TableHeaderItem">Last update</th>
             <th className="TableHeaderItem">Created At</th>
-            <th className="TableHeaderItem">Agent</th>
+            {userRole !== "Conversion Agent" && <th className="TableHeaderItem">Assign / Reassign Agent</th>}
+            {userRole !== "Conversion Manager" &&
+              userRole !== "Conversion Agent" && <th className="TableHeaderItem">Assign / Reassign Manager</th>}
             <th className="TableHeaderItem">Next call</th>
+            <th className="TableHeaderItem">Details</th>
+            {userBranch === "Main" && (
+              <th className="TableHeaderItem">Check</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -133,7 +152,7 @@ export const TableLeads = () => {
                   index={index}
                   toggleUserMenuDropArrow={toggleUserMenuDropArrow}
                 />
-                <ClientTime lead={lead}/>
+                <ClientTime lead={lead} />
                 <td className="TableHeaderItem">
                   {lead.selfCreated ? "Yes" : "No"}
                 </td>
@@ -145,18 +164,37 @@ export const TableLeads = () => {
                   {lead.createdAt &&
                     lead.createdAt.slice(0, 16).replace("T", " ")}
                 </td>
-                <td
+                {userRole !== "Conversion Agent" && <td
                   className="TableHeaderItem"
-                  style={{ background: lead.assigned ? "none" : "#ff000082" }}
+                  style={{ background: !lead.agentId ? "#ff000082" : "" }}
                 >
-                  {lead.conAgentId}
-                </td>
-                <NextCall
-                  lead={lead}
-                />
+                  {lead.agentId && lead.agentId.username}
+                </td>}
+                     {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && <td
+                  className="TableHeaderItem"
+                  style={{ background: !lead.managerId.username ? "#ff000082" : "" }}
+                >
+                  {lead.managerId.username}
+                </td>}
+                <NextCall lead={lead} />
+                                  <td className="TableHeaderItem">
+                    <button className="check-btn" type='button'
+                      onClick={() => openExternalLeadDetail(lead._id)}
+                    >Open
+                    </button>
+                  </td>
+                {userBranch === "Main" && (
+                  <td className="TableHeaderItem">
+                    <CustomCheckbox
+                      lead={lead}
+                      selectedExternalLeadsCheckedCheckbox={
+                        selectedExternalLeadsCheckedCheckbox
+                      }
+                    />
+                  </td>
+                )}
               </tr>
-            ))
-          }
+            ))}
         </tbody>
       </table>
       <InputWindow
