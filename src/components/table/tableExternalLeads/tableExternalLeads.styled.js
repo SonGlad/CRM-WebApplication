@@ -27,7 +27,6 @@ export const TableExternalList = styled.div`
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background-color: ${p => p.theme.color.primary_green_lite};
-    border-radius: 5px;
   }
 
 
@@ -280,6 +279,10 @@ export const AssignDropContStyled = styled.div`
 
     &:hover{
       color: ${props => props.theme.color.primary_grey};
+
+      & .icon{
+        stroke: ${props => props.theme.color.primary_grey};
+      }
     }
   }
 `

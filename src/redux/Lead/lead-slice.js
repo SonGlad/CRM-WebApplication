@@ -14,6 +14,7 @@ import {
   getLeadById,
   leadAssign,
   leadReAssign,
+  leadChangeBaseInfo,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -56,7 +57,10 @@ const initialState = {
   patchNextCallLeadLoading: false,
   patchNextCallLeadError: null,
   leadDetailById: null,
+  isLeadDetailsModal: false,
+  leadDetailByIdLocation: '',
 };
+
 
 const leadSlice = createSlice({
   name: "lead",
@@ -101,6 +105,15 @@ const leadSlice = createSlice({
     setLeadsAmountPerPage: (state, action) => {
       state.leadsAmountPerPage = action.payload;
     },
+    setLeadDetailsModalTrue: (state, {payload}) => {
+      state.isLeadDetailsModal = true;
+      state.leadDetailByIdLocation = payload;
+    },
+    setLeadDetailsModalFalse: (state) => {
+      state.isLeadDetailsModal = false;
+      state.leadDetailById = null;
+      state.leadDetailByIdLocation = '';
+    },
   },
 
   extraReducers: (builder) => {
@@ -142,6 +155,8 @@ const leadSlice = createSlice({
       state.newNextCallLead = [];
       state.patchNextCallLeadLoading = false;
       state.patchNextCallLeadError = null;
+      state.isLeadDetailsModal = false;
+      state.leadDetailByIdLocation = '';
     })
     .addCase(logOut.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -339,7 +354,6 @@ const leadSlice = createSlice({
     })
 
 
-
     // GET LEAD BY ID////////////////
     .addCase(getLeadById.pending, (state) => {
       state.isLeadLoading = true;
@@ -365,6 +379,9 @@ const leadSlice = createSlice({
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id ? updatedLead : lead
       );
+      if(state.isLeadDetailsModal === true){
+        state.leadDetailById = payload;
+      };
       state.isLeadError = null;
     })
     .addCase(leadAssign.rejected, (state, { payload }) => {
@@ -381,9 +398,31 @@ const leadSlice = createSlice({
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id ? updatedLead : lead
       );
+      if(state.isLeadDetailsModal === true){
+        state.leadDetailById = payload;
+      };
       state.isLeadError = null;
     })
     .addCase(leadReAssign.rejected, (state, { payload }) => {
+      state.isLeadError = payload;
+    })
+
+
+    //LEAD CHANGE BASE INFORMATION////////////////
+    .addCase(leadChangeBaseInfo.pending, (state) => {
+      state.isLeadError = null;
+    })
+    .addCase(leadChangeBaseInfo.fulfilled, (state, { payload }) => {
+      const updatedLead = payload;      
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id ? updatedLead : lead
+      );
+      if(state.isLeadDetailsModal === true){
+        state.leadDetailById = payload;
+      };
+      state.isLeadError = null;
+    })
+    .addCase(leadChangeBaseInfo.rejected, (state, { payload }) => {
       state.isLeadError = payload;
     })
   },
@@ -401,4 +440,6 @@ export const {
   toggleExternalLeadsSelectAllCheckbox,
   resetExternalLeadsSelectedCheckbox,
   setLeadsAmountPerPage,
+  setLeadDetailsModalTrue,
+  setLeadDetailsModalFalse,
 } = leadSlice.actions;

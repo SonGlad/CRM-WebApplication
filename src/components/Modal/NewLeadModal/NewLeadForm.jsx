@@ -49,7 +49,7 @@ export const NewLeadForm = ({
                 {getInputAlert("leadName")}
                 <UserIcon className="icon"/>
             </label>
-            <label className='input-label' htmlFor="leadlastName">
+            <label className='input-label' htmlFor="leadLastName">
                 <input
                     type="text"
                     className={getInputClass('leadLastName')}

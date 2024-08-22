@@ -87,34 +87,34 @@ const NewLeadFormSchema = Yup.object().shape({
     .required("The field isrequired"),
   phone: Yup.string()
     .matches(/^\d+$/, 'Phone number can only contain digits')
-    .min(12, 'Number is too short')
+    .min(10, 'Number is too short')
     .max(16, 'Number is too long')
     .required("Please enter valid phone number"),
 });
 
 
-const UpdateLeadKYCSchema = Yup.object().shape({
-  name: Yup.string()
-    .trim()
-    .min(2, 'Name is too short')
-    .max(40, 'Name is too long')
-    .required("The field is required"),
-  surname: Yup.string()
-    .trim()
-    .min(2, 'Last name is too short')
-    .max(40, 'Last name is too long')
-    .required("The field is required"),
-  email: Yup.string()
-    .trim()
-    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email')
-    .email("Invalid email")
-    .required("The field isrequired"),
-  phone: Yup.string()
-    // .matches(/^\+?\d+$/, 'Phone number can only contain digits')
-    .min(8, 'Number is too short')
-    .max(20, 'Number is too long')
-    .required("Please enter valid phone number"),
-});
+// const UpdateLeadKYCSchema = Yup.object().shape({
+//   name: Yup.string()
+//     .trim()
+//     .min(2, 'Name is too short')
+//     .max(40, 'Name is too long')
+//     .required("The field is required"),
+//   surname: Yup.string()
+//     .trim()
+//     .min(2, 'Last name is too short')
+//     .max(40, 'Last name is too long')
+//     .required("The field is required"),
+//   email: Yup.string()
+//     .trim()
+//     .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email')
+//     .email("Invalid email")
+//     .required("The field isrequired"),
+//   phone: Yup.string()
+//     // .matches(/^\+?\d+$/, 'Phone number can only contain digits')
+//     .min(10, 'Number is too short')
+//     .max(20, 'Number is too long')
+//     .required("Please enter valid phone number"),
+// });
 
 
 export {
@@ -123,5 +123,5 @@ export {
   SettingsSchema,
   NewUserSchema,
   NewLeadFormSchema,
-  UpdateLeadKYCSchema,
+  // UpdateLeadKYCSchema,
 };

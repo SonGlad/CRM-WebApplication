@@ -5,16 +5,15 @@ import { useModal } from "../../../hooks/useModal";
 import { useAuth } from "../../../hooks/useAuth";
 import { DataLoading } from "../../CustomLoaders/CustomLoaders";
 import { ExternalLeadComponent } from "./ExernalLeadComponent/ExternalLead";
+import { OfficeLeadComponent } from "./OfficeLeadComponent/OfficeLeadComponent";
 
 
 
 export const LeadDetails = ({handleClickClose}) => {
-    const { leadDetailById, isLeadLoading, leadOffice } = useLead();
+    const { leadDetailById, isLeadLoading, leadOffice, leadDetailByIdLocation } = useLead();
     const { isSuccess } = useModal();
     const { isAdmin } = useAuth();
-    console.log("Lead Details:", leadDetailById);
-    console.log("Is Success", isSuccess);
-    console.log("Is Lead Loading", isLeadLoading);
+    console.log("Is Success", isSuccess); 
 
     
     const formatLeadOffice = () => {
@@ -32,21 +31,31 @@ export const LeadDetails = ({handleClickClose}) => {
             text = 'Lead Details';
         }
         return text;
-    };  
+    };
     
     
-    
+    const selectComponent = () => {
+        switch(leadDetailByIdLocation){
+            case "External":
+                return <ExternalLeadComponent leadDetailById={leadDetailById}/>
+            case "Office":
+                return <OfficeLeadComponent/>
+            default:
+                return <div>Error: Invalid lead type</div>;
+        }
+    };
 
+    
     return(
         <LeadDetailsStyled>
             <button className="close-btn" type="button" onClick={handleClickClose}>
                 <CloseIcon className="close-icon" width={12} height={12}/>
             </button>
-            <h1 className="form-title">{formTitleText}</h1>
+            <h1 className="form-title">{formTitleText()}</h1>
             {isLeadLoading ? (
                 <DataLoading/>
             ) : (
-                <ExternalLeadComponent/>
+                selectComponent()
             )}
         </LeadDetailsStyled>
     );

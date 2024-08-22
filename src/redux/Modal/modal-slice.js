@@ -38,24 +38,28 @@ const modalSlice = createSlice({
         },
         closeModalNewUser: (state) => {
             state.isNewUserModal = false;
+            state.isSuccess = true;
         },
         openModalNewLead: (state) => {
             state.isNewLeadModal = true;
         },
         closeModalNewLead: (state) => {
             state.isNewLeadModal = false;
+            state.isSuccess = true;
         },
         openModalUserDetail: (state) => {
             state.isUserDetails = true;
         },
         closeModaUserDetail: (state) => {
             state.isUserDetails = false;
+            state.isSuccess = true;
         },
         openModalLeadDetail: (state) => {
             state.isLeadDetails = true;
         },
         closeModaLeadDetail: (state) => {
             state.isLeadDetails = false;
+            state.isSuccess = true;
         },
         openModalConfirm: (state, {payload}) => {
             state.isConfirmModal = true;

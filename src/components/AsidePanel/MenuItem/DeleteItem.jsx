@@ -138,7 +138,7 @@ export const DeleteItem = forwardRef(({
                     </button>
                     <ul className={`delete-dropdown-list ${toggleUserDeleteDropCont()}`}>
                         <li className="users-drop-item delete-item">
-                            <label htmlFor="delete users" className="delete-label">
+                            <label htmlFor="selectAllCheckbox" className="delete-label">
                                 <input className="delete-checkbox"
                                     name="delete_all_users" 
                                     type="checkbox"
@@ -173,7 +173,7 @@ export const DeleteItem = forwardRef(({
                     </button>
                     <ul className={`delete-dropdown-list ${toggleExternalLeadDeleteDropCont()}`}>
                         <li className="users-drop-item delete-item">
-                            <label htmlFor="delete users" className="delete-label">
+                            <label htmlFor="selectAllCheckbox" className="delete-label">
                                 <input className="delete-checkbox"
                                     name="delete_all_users" 
                                     type="checkbox"

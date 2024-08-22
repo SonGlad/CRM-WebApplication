@@ -1,82 +1,238 @@
 import { ExternalLeadStyled } from "./ExternalLead.styled";
-import {ReactComponent as UserIcon} from "../../../../images/svg-icons/user.svg";
-import {ReactComponent as EmailIcon} from "../../../../images/svg-icons/email.svg";
-// import {ReactComponent as ArrowIcon} from "../../../../images/svg-icons/arrow-down.svg";
+import {ReactComponent as ArrowIcon} from "../../../../images/svg-icons/arrow-down.svg";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useTheme } from "styled-components";
+import { LeadNameForm } from "../LeadNameForm";
+import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
+import { useUser } from "../../../../hooks/useUser";
+import { useDispatch } from "react-redux";
+import { leadAssign, leadReAssign } from "../../../../redux/Lead/lead-operation";
 
 
-export const ExternalLeadComponent = () => {
+export const ExternalLeadComponent = ({leadDetailById}) => {
+    const theme = useTheme();
+    const [crmManager, setCRMManager] = useState(false);
+    const [conManager, setConManager] = useState(false);
+    const [conAgent, setConAgent] = useState(false);
+    const [dropDown, setDropDown] = useState(false);
+    const dropContRef = useRef();
+    const { userSelectOffice } = useUser();
+    const dispatch = useDispatch();
+    
+    
+    useEffect(() => {
+        const crmManager = leadDetailById.crmManager;
+        const conManager = leadDetailById.conManager;
+        const conAgent = leadDetailById.conAgent;
+
+        if(conAgent && (conAgent.name || conAgent.email)){
+            setConAgent(true);
+        }
+        if(conManager && (conManager.name || conManager.email)){
+            setConManager(true);
+        }
+        if (crmManager && (crmManager.name || crmManager.email)) {
+            setCRMManager(true);
+        }
+    },[leadDetailById.conAgent, leadDetailById.conManager, leadDetailById.crmManager]);
+
+
+    const formatBranchName = (branch) => {
+        if (branch) {
+          return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+        }
+    };
+
+
+    const capitalizeSource = (str) => {
+        if (typeof str !== 'string' || str.length === 0) {
+          return str;
+        }
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
+
+    const formatDateTime = (dateString, timeZone = 'Europe/Kiev') => {
+        const date = new Date(dateString);
+        const zonedDate = toZonedTime(date, timeZone);
+    
+        const formattedDate = format(zonedDate, 'yyyy-MM-dd', { timeZone });
+        const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
+    
+        return `${formattedDate} ${formattedTime}`;
+    };
+
+
+    const assignButtonValue = (leadDetailById) => {
+        if (leadDetailById.newContact) {
+            return 'Assign'
+        } 
+        return "ReAssign";
+    };
+
+
+    const toggleLeadDropArrow = () => {
+        return dropDown ? 'icon-active' : '';
+    };
+    const toggleLeadDropCont = () => {
+        return dropDown ? 'office-list-visible' : '';
+    };
+
+
+    const toggleDropDown = () => {
+        setDropDown(prevState => !prevState)
+    };
+
+
+    const formatOfficeName = (office) => {
+        return office.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    };
+
+
+    const handleBackgroundClick = useCallback(event => {
+        if (dropContRef.current && !dropContRef.current.contains(event.target)) {
+            setDropDown(false);
+        }
+    },[]);
+
+
+    useEffect(() => {
+        document.addEventListener('click', handleBackgroundClick);
+    
+        return () => {
+          document.removeEventListener('click', handleBackgroundClick);
+        };
+    },[handleBackgroundClick]);
+
+
+    const assignExternalLeadDetail = (leadDetailById, office) => {
+        if (leadDetailById.newContact) {
+            dispatch(leadAssign({
+                leadId: leadDetailById._id,
+                data: {
+                    name: leadDetailById.name,
+                    lastName: leadDetailById.lastName,
+                    email: leadDetailById.email,
+                    phone: leadDetailById.phone,
+                    resource: leadDetailById.resource,
+                    branch: office
+                }
+            }));
+            setDropDown(false);
+        }
+        if (!leadDetailById.newContact) {
+            dispatch(leadReAssign({
+                leadId: leadDetailById._id,
+                data: {
+                    branch: office
+                }
+            }));
+            setDropDown(false);
+        }
+    };
 
     
-
     return(
         <ExternalLeadStyled>
-            <form className="lead-form">
-                <div className="info-cont">
-                    <label className='input-label' htmlFor="leadName">
-                        <p>Name</p>
-                        <input
-                            type="text"
-                            // className={getInputClass('leadName')}
-                            id='leadName'
-                            name="leadName"
-                            placeholder="Name"
-                            // onChange={handleChange}
-                            // value={newLeadName}
-                            // onBlur={handleBlur}
-                        />
-                        {/* {getInputAlert("leadName")} */}
-                        <UserIcon className="icon"/>
-                    </label>
-                    <label className='input-label' htmlFor="leadlastName">
-                        <p>Last Name</p>
-                        <input
-                            type="text"
-                            // className={getInputClass('leadLastName')}
-                            id='leadLastName'
-                            name="leadLastName"
-                            placeholder="Last Name"
-                            // onChange={handleChange}
-                            // value={newLeadLastName}
-                            // onBlur={handleBlur}
-                        />
-                        {/* {getInputAlert('leadLastName')} */}
-                        <UserIcon className="icon"/>
-                    </label>
-                    <label className='input-label' htmlFor="leadEmail">
-                        <p>Email</p>
-                        <input
-                            type="email"
-                            // className={getInputClass('leadEmail')}
-                            id='leadEmail'
-                            name="leadEmail"
-                            placeholder="Email"
-                            // onChange={handleChange}
-                            // value={newLeadEmail}
-                            // onBlur={handleBlur}
-                        />
-                        {/* {getInputAlert('leadEmail')} */}
-                        <EmailIcon className="icon"/>
-                    </label>
-                    <label className='input-label' htmlFor="leadPhone">
-                        <p>Phone</p>
-                        <input
-                            type="phone"
-                            // className={getInputClass('leadEmail')}
-                            id='leadPhone'
-                            name="leadPhone"
-                            placeholder="Phone"
-                            // onChange={handleChange}
-                            // value={newLeadEmail}
-                            // onBlur={handleBlur}
-                        />
-                        {/* {getInputAlert('leadEmail')} */}
-                        <EmailIcon className="icon"/>
-                    </label>
+            <LeadNameForm
+                leadDetailById={leadDetailById}
+            />
+            <div className="info-cont">
+                <div>
+                    <p>Assigned Office</p>
+                    {leadDetailById.assigned ? (
+                        <p>{formatBranchName(leadDetailById.assignedOffice)}</p>
+                    ) : (
+                        <p style={{color: theme.color.error_color,}}>Not Assigned Yet</p>
+                    )}
                 </div>
-                <div className="info-cont">
-                    <p>other info</p>
+                <div>
+                    <p>Assigned CRM Manager</p>
+                    {crmManager ? (
+                        <>
+                            <p><span>Name: </span>{leadDetailById.crmManager.name}</p>
+                            <p><span>Email: </span>{leadDetailById.crmManager.email}</p>
+                        </>
+                    ) : (
+                        <p style={{
+                            color: theme.color.error_color,
+                            marginBottom: '1.65rem'
+                        }}
+                        >Not Assigned Yet
+                        </p>
+                    )}
                 </div>
-            </form>
+                <div>
+                    <p>Assigned Conversion Manager</p>
+                    {conManager ? (
+                        <>
+                            <p><span>Name: </span>{leadDetailById.conManager.name}</p>
+                            <p><span>Email: </span>{leadDetailById.conManager.email}</p>
+                        </>
+                    ) : (
+                        <p style={{
+                            color: theme.color.error_color,
+                            marginBottom: '1.65rem'
+                        }}
+                        >Not Assigned Yet
+                        </p>
+                    )}
+                </div>
+                <div>
+                    <p>Assigned Conversion Agent</p>
+                    {conAgent ? (
+                        <>
+                            <p><span>Name: </span>{leadDetailById.conAgent.name}</p>
+                            <p><span>Email: </span>{leadDetailById.conAgent.email}</p>
+                        </>
+                    ) : (
+                        <p style={{
+                            color: theme.color.error_color,
+                            marginBottom: '1.65rem'
+                        }}
+                        >Not Assigned Yet
+                        </p>
+                    )}
+                </div>
+            </div>
+            <div className="info-cont">
+                <p><span>Created: </span>{formatDateTime(leadDetailById.createdAt)}</p>
+                <p><span>Last Update: </span>{formatDateTime(leadDetailById.updatedAt)}</p>
+            </div>
+            <div className="info-cont">
+                <p><span>Resource: </span>{capitalizeSource(leadDetailById.resource)}</p>
+                <div className="drop-cont" ref={dropContRef}>
+                    <button type="button" className="assign-button"
+                        onClick={toggleDropDown}
+                    >
+                        {assignButtonValue(leadDetailById)}
+                        <ArrowIcon className={`icon ${toggleLeadDropArrow()}`}/>
+                    </button>
+                    <ul className={`office-list ${toggleLeadDropCont()}`}>
+                        {leadDetailById.assigned ? (userSelectOffice
+                            .filter(({ office }) => office !== leadDetailById.assignedOffice)
+                            .map(({office}, index) => (
+                            <li className="office-item" key={index}>
+                                <p className="drop-cont-text" 
+                                    onClick={() => assignExternalLeadDetail(leadDetailById, office)}
+                                >To {formatOfficeName(office)}
+                                </p>
+                            </li>
+                            ))
+                        ) : (
+                            userSelectOffice.map(({office}, index) => (
+                            <li className="office-item" key={index}>
+                                <p className="drop-cont-text"
+                                    onClick={() => assignExternalLeadDetail(leadDetailById, office)}
+                                >To {formatOfficeName(office)}
+                                </p>
+                            </li>
+                            ))
+                        )}
+                    </ul>
+                </div>
+            </div>
         </ExternalLeadStyled>
     );
 };

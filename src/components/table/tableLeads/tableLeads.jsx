@@ -23,17 +23,27 @@ import { useUser } from "../../../hooks/useUser.js";
 import { CustomCheckbox } from "../tableExternalLeads/CustomCheckbox.jsx";
 import { useAuth } from "../../../hooks/useAuth.js";
 import { openModalLeadDetail } from "../../../redux/Modal/modal-slice.js";
+import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice.js";
+
 
 export const TableLeads = () => {
   const {
     isLeads,
     selectedExternalLeadsCheckedCheckbox,
+    leadOffice,
   } = useLead();
+  const { 
+    userBranch, 
+    userRole, 
+    isAdmin, 
+    isConversion, 
+    isManager, 
+    isLoggedIn 
+  } = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
-  const { userBranch, userRole } = useAuth();
   const [leads, setLeads] = useState();
   const dispatch = useDispatch();
-   console.log(userRole)
+   console.log(userRole);   
 
   useEffect(() => {
     if (userLeads || isLeads) {
@@ -70,9 +80,17 @@ export const TableLeads = () => {
     setInputVisible({ row: null, cell: null });
   };
 
-    const openExternalLeadDetail = (_id) => {  
+  const openExternalLeadDetail = (_id) => {  
     dispatch(openModalLeadDetail());
-    dispatch(getLeadById({leadId: _id}));
+    dispatch(setLeadDetailsModalTrue('Office'));
+    if(isLoggedIn && isAdmin){
+      dispatch(getLeadById({
+        leadId: _id,
+        branch: leadOffice,
+      }));
+    } else if(isLoggedIn && (isConversion || isManager)){
+      dispatch(getLeadById({leadId: _id}));
+    }
   };
 
   return (
