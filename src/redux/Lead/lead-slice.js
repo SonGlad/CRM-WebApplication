@@ -125,6 +125,7 @@ const leadSlice = createSlice({
     },
     resetAssignLeadsSelectedCheckbox: (state) => {
       state.selectedAssignLeadsCheckedCheckbox = [];
+    },
     setLeadDetailsModalTrue: (state, {payload}) => {
       state.isLeadDetailsModal = true;
       state.leadDetailByIdLocation = payload;
