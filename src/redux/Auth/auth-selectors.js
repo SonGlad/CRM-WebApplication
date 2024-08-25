@@ -4,6 +4,8 @@ export const selectUserRole = state => state.auth.user.role;
 
 export const selectUserBranch = state => state.auth.user.branch;
 
+export const selectUserEmail = state => state.auth.user.email;
+
 export const selectUserAvatarURL = state => state.auth.avatarURL;
 
 export const selectLoggedUser = state => state.auth.isLoggedIn;

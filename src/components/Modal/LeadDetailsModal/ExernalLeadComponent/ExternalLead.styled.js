@@ -5,7 +5,6 @@ export const ExternalLeadStyled = styled.div`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
     gap: 0.85rem;
 
 
@@ -146,6 +145,86 @@ export const ExternalLeadStyled = styled.div`
                 }
             }
         }
+    }
+
+    .delete-block{
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .delete-button{
+        width: 49%;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+        color: ${(props) => props.theme.color.primary_black};
+        background-color: ${p => p.theme.color.primary_green_lite};
+        border: 1px solid ${p => p.theme.color.primary_green_lite};
+        padding: 0.25rem;
+        border-radius: 0.75rem;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover{
+            color: ${props => props.theme.color.primary_grey};
+        }
+
+        &:disabled{
+            color: ${props => props.theme.color.primary_grey};
+            pointer-events: none;
+        }
+    }
+
+    .delete-label{
+        width: 49%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        position: relative;
+    }
+
+    .delete-checkbox {
+        width: 1rem;
+        height: 1rem;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        opacity: 0;
+    }
+
+    .custom-checkbox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 55%;
+        right: 0.1rem;
+    }
+    .custom-checkbox-before, .custom-checkbox-after{
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -60%);
+        pointer-events: none;
+    }
+    .custom-checkbox-before{
+        opacity: 1;
+        transition: opacity ${p => p.theme.transition.main_transition};
+    }
+    .custom-checkbox-after{
+        opacity: 0;
+        transition: opacity ${p => p.theme.transition.main_transition};
+    }
+    .delete-checkbox:focus + .custom-checkbox > .custom-checkbox-before{
+        outline: 1px solid ${p => p.theme.color.primary_green_lite};
+        border-radius: 2px;
+        outline-offset: -1px; 
+    }
+
+    .delete-checkbox:checked + .custom-checkbox > .custom-checkbox-after{
+        opacity: 1;
+    }
+    .delete-checkbox:checked + .custom-checkbox > .custom-checkbox-before{
+        opacity: 0;
     }
 
 `

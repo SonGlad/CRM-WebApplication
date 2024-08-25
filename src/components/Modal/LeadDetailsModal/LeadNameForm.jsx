@@ -13,7 +13,7 @@ import {leadChangeBaseInfo} from "../../../redux/Lead/lead-operation";
 
 
 
-export const LeadNameForm = ({leadDetailById}) => {
+export const LeadNameForm = ({leadDetailById, leadDetailByIdLocation}) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [formatedPhoneNumber, setFormatedPhoneNumber] = useState('');
     const [isFormChanged, setFormChanged] = useState(false);
@@ -105,7 +105,7 @@ export const LeadNameForm = ({leadDetailById}) => {
    
 
     return(
-        <LeadNameFormStyled onSubmit={handleSubmit}>
+        <LeadNameFormStyled onSubmit={handleSubmit} $leadDetailByIdLocation={leadDetailByIdLocation}>
             <label className='input-label' htmlFor="leadName">
                 <p>Name</p>
                 <input

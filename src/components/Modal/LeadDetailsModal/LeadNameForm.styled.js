@@ -4,7 +4,7 @@ import correct from '../../../images/svg-icons/correct.svg';
 
 
 export const LeadNameFormStyled = styled.form `
-    width: 49%;
+    width: ${props => props.$leadDetailByIdLocation === "External" ? '49%' : '32.5%'};
     display: flex;
     flex-direction: column;
     justify-content: center;

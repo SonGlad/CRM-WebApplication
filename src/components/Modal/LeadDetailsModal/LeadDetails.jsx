@@ -6,6 +6,8 @@ import { useAuth } from "../../../hooks/useAuth";
 import { DataLoading } from "../../CustomLoaders/CustomLoaders";
 import { ExternalLeadComponent } from "./ExernalLeadComponent/ExternalLead";
 import { OfficeLeadComponent } from "./OfficeLeadComponent/OfficeLeadComponent";
+import { ConfirmDeleteLead } from "./ConfirmDeleteLead";
+import { useState } from "react";
 
 
 
@@ -13,33 +15,60 @@ export const LeadDetails = ({handleClickClose}) => {
     const { leadDetailById, isLeadLoading, leadOffice, leadDetailByIdLocation } = useLead();
     const { isSuccess } = useModal();
     const { isAdmin } = useAuth();
-    console.log("Is Success", isSuccess); 
+    const [isDeleteComponent, setDeleteComponent] = useState(false);
+    console.log("Is Success", isSuccess);
+     
 
-    
     const formatLeadOffice = () => {
         return leadOffice.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
     };
 
 
     const formTitleText = () => {
-        let text;
         if (isAdmin && !leadOffice) {
-            text = 'Extrenal Lead Details'
+            return 'Extrenal Lead Details'
         } else if(isAdmin && leadOffice){
-            text = `${formatLeadOffice()} Lead Details`;
+            if(leadDetailById){
+                return (
+                    <>
+                        {formatLeadOffice()} Lead <span>ID: {leadDetailById.clientId}</span> Details
+                    </>
+                )
+            }
         } else {
-            text = 'Lead Details';
+            if (leadDetailById) {
+                return (
+                    <>
+                        Lead <span>ID: {leadDetailById.clientId}</span> Details
+                    </> 
+                )
+            }
         }
-        return text;
     };
-    
+
+
+    const setDeleteComponentTrue = () => {
+        setDeleteComponent(true);
+    };
+    const setDeleteComponentFalse = () => {
+        setDeleteComponent(false);
+    };
+
     
     const selectComponent = () => {
         switch(leadDetailByIdLocation){
             case "External":
-                return <ExternalLeadComponent leadDetailById={leadDetailById}/>
+                return <ExternalLeadComponent 
+                    leadDetailById={leadDetailById}
+                    leadDetailByIdLocation={leadDetailByIdLocation}
+                    setDeleteComponentTrue={setDeleteComponentTrue}
+                    />
             case "Office":
-                return <OfficeLeadComponent/>
+                return <OfficeLeadComponent 
+                    leadDetailById={leadDetailById}
+                    leadDetailByIdLocation={leadDetailByIdLocation}
+                    setDeleteComponentTrue={setDeleteComponentTrue}
+                    />
             default:
                 return <div>Error: Invalid lead type</div>;
         }
@@ -47,7 +76,7 @@ export const LeadDetails = ({handleClickClose}) => {
 
     
     return(
-        <LeadDetailsStyled>
+        <LeadDetailsStyled $leadDetailByIdLocation={leadDetailByIdLocation}>
             <button className="close-btn" type="button" onClick={handleClickClose}>
                 <CloseIcon className="close-icon" width={12} height={12}/>
             </button>
@@ -55,7 +84,15 @@ export const LeadDetails = ({handleClickClose}) => {
             {isLeadLoading ? (
                 <DataLoading/>
             ) : (
-                selectComponent()
+                !isDeleteComponent ? (
+                    selectComponent()
+                ) : (
+                    <ConfirmDeleteLead
+                        setDeleteComponentFalse={setDeleteComponentFalse}
+                        leadDetailById={leadDetailById}
+                        leadDetailByIdLocation={leadDetailByIdLocation}
+                    />
+                )
             )}
         </LeadDetailsStyled>
     );

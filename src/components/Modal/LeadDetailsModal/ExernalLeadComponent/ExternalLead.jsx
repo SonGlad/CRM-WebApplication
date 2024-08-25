@@ -1,5 +1,7 @@
 import { ExternalLeadStyled } from "./ExternalLead.styled";
 import {ReactComponent as ArrowIcon} from "../../../../images/svg-icons/arrow-down.svg";
+import {ReactComponent as CheckedIcon} from "../../../../images/svg-icons/check.svg";
+import {ReactComponent as CheckBoxIcon} from "../../../../images/svg-icons/rectangle.svg";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useTheme } from "styled-components";
 import { LeadNameForm } from "../LeadNameForm";
@@ -10,12 +12,13 @@ import { useDispatch } from "react-redux";
 import { leadAssign, leadReAssign } from "../../../../redux/Lead/lead-operation";
 
 
-export const ExternalLeadComponent = ({leadDetailById}) => {
+export const ExternalLeadComponent = ({leadDetailById, leadDetailByIdLocation, setDeleteComponentTrue}) => {
     const theme = useTheme();
     const [crmManager, setCRMManager] = useState(false);
     const [conManager, setConManager] = useState(false);
     const [conAgent, setConAgent] = useState(false);
     const [dropDown, setDropDown] = useState(false);
+    const [isChecked, setChecked] = useState(false);
     const dropContRef = useRef();
     const { userSelectOffice } = useUser();
     const dispatch = useDispatch();
@@ -132,11 +135,17 @@ export const ExternalLeadComponent = ({leadDetailById}) => {
         }
     };
 
+
+    const toggleDeleteCheckbox = () => {
+        setChecked(prevState => !prevState);
+    };
     
+       
     return(
         <ExternalLeadStyled>
             <LeadNameForm
                 leadDetailById={leadDetailById}
+                leadDetailByIdLocation={leadDetailByIdLocation}
             />
             <div className="info-cont">
                 <div>
@@ -232,6 +241,28 @@ export const ExternalLeadComponent = ({leadDetailById}) => {
                         )}
                     </ul>
                 </div>
+            </div>
+            <div className="info-cont delete-block">
+                <button type="button" 
+                    className="delete-button"
+                    onClick={setDeleteComponentTrue}
+                    disabled={!isChecked}
+                >Delete Lead
+                </button>
+                <label htmlFor="deleteCheckbox" className="delete-label">
+                    Check to Delete
+                    <input className="delete-checkbox"
+                        name="delete_lead" 
+                        type="checkbox"
+                        id="deleteCheckbox"
+                        checked={isChecked}
+                        onChange={toggleDeleteCheckbox}
+                    />
+                    <div className="custom-checkbox">
+                        <CheckBoxIcon className="custom-checkbox-before" width="16" height="16"/>
+                        <CheckedIcon className="custom-checkbox-after" width="16" height="16"/>
+                    </div>
+                </label>
             </div>
         </ExternalLeadStyled>
     );
