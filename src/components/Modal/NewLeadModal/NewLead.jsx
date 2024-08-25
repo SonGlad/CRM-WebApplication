@@ -117,7 +117,7 @@ export const NewLead = ({handleClickClose}) => {
             }
 
             if(!isAdmin && (isConversion || isManager)){
-                leadData.branch = userBranch;
+                leadData.branch = userBranch
             }
   
             dispatch(createNewLead(leadData));

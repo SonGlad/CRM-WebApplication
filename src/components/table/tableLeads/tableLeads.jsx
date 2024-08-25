@@ -20,16 +20,17 @@ import {
 } from "../../../redux/Lead/lead-operation.js";
 import { ClientTime } from "../tableComponents/clientTime.jsx";
 import { useUser } from "../../../hooks/useUser.js";
-import { CustomCheckbox } from "../tableExternalLeads/CustomCheckbox.jsx";
 import { useAuth } from "../../../hooks/useAuth.js";
 import { openModalLeadDetail } from "../../../redux/Modal/modal-slice.js";
+import { CustomAssignLeadCheckbox } from "./CustomAssignLeadCheckbox.jsx";
 import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice.js";
+
 
 
 export const TableLeads = () => {
   const {
     isLeads,
-    selectedExternalLeadsCheckedCheckbox,
+    selectedAssignLeadsCheckedCheckbox,
     leadOffice,
   } = useLead();
   const { 
@@ -80,6 +81,7 @@ export const TableLeads = () => {
     setInputVisible({ row: null, cell: null });
   };
 
+
   const openExternalLeadDetail = (_id) => {  
     dispatch(openModalLeadDetail());
     dispatch(setLeadDetailsModalTrue('Office'));
@@ -92,6 +94,7 @@ export const TableLeads = () => {
       dispatch(getLeadById({leadId: _id}));
     }
   };
+
 
   return (
     <TableListStyled>
@@ -204,16 +207,16 @@ export const TableLeads = () => {
                 <NextCall lead={lead} />
                                   <td className="TableHeaderItem">
                     <button className="check-btn" type='button'
-                      onClick={() => openExternalLeadDetail(lead._id)}
+                      onClick={() => openExternalLeadDetail(lead._id, lead.branch)}
                     >Open
                     </button>
                   </td>
                 {userBranch === "Main" && (
                   <td className="TableHeaderItem">
-                    <CustomCheckbox
+                    <CustomAssignLeadCheckbox
                       lead={lead}
-                      selectedExternalLeadsCheckedCheckbox={
-                        selectedExternalLeadsCheckedCheckbox
+                      selectedAssignLeadsCheckedCheckbox={
+                        selectedAssignLeadsCheckedCheckbox
                       }
                     />
                   </td>
