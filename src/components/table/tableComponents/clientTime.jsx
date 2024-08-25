@@ -27,7 +27,7 @@ export const ClientTime = ({ lead }) => {
   };
 
   return (
-    <td className="TableHeaderItem" style={{ maxWidth: "60px" }}>
+    <td className="TableHeaderItem" style={{ maxWidth: "60px", textWrap: "unset"}}>
       {calculateClientTime(lead.timeZone)}
     </td>
   );

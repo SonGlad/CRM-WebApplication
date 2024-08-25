@@ -155,3 +155,52 @@ export const TableListStyled = styled.div`
   }
 
 `;
+
+
+export const CustomCheckboxStyled = styled.div`
+
+  .custom-checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .checkbox {
+    margin-top: 5px;
+    width: 16px;
+    height: 16px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+  }
+  
+  .custom-checkbox-before, .custom-checkbox-after{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .custom-checkbox-before{
+    opacity: 1;
+    transition: opacity ${p => p.theme.transition.main_transition};
+  }
+  .custom-checkbox-after{
+    opacity: 0;
+    transition: opacity ${p => p.theme.transition.main_transition};
+  }
+  .checkbox:focus + .custom-checkbox > .custom-checkbox-before{
+    outline: 3px solid ${p => p.theme.color.primary_green_lite};
+    border-radius: 2px;
+    outline-offset: -3px; 
+  }
+
+  .checkbox:checked + .custom-checkbox > .custom-checkbox-after{
+    opacity: 1;
+  }
+  .checkbox:checked + .custom-checkbox > .custom-checkbox-before{
+    opacity: 0;
+  }
+
+`

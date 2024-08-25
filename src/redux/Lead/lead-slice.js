@@ -56,6 +56,7 @@ const initialState = {
   patchNextCallLeadLoading: false,
   patchNextCallLeadError: null,
   leadDetailById: null,
+  selectedAssignLeadsCheckedCheckbox: [],
 };
 
 const leadSlice = createSlice({
@@ -101,6 +102,26 @@ const leadSlice = createSlice({
     setLeadsAmountPerPage: (state, action) => {
       state.leadsAmountPerPage = action.payload;
     },
+    toggleAssignLeadsCheckboxState: (state, action) => {
+      const { _id } = action.payload;
+      const isSelected = state.selectedAssignLeadsCheckedCheckbox.includes(_id);
+      if (isSelected) {
+        state.selectedAssignLeadsCheckedCheckbox = state.selectedAssignLeadsCheckedCheckbox.filter(id => id !== _id);
+      } else {
+        state.selectedAssignLeadsCheckedCheckbox.push(_id);
+      }
+    },
+    toggleAssignLeadsSelectAllCheckbox: (state) => {
+      const leadIds = state.leadsData.leads.map(lead => lead._id);
+      if (state.selectedAssignLeadsCheckedCheckbox.length === leadIds.length) {
+        state.selectedAssignLeadsCheckedCheckbox = [];
+      } else {
+        state.selectedAssignLeadsCheckedCheckbox = [...leadIds];
+      }
+    },
+    resetAssignLeadsSelectedCheckbox: (state) => {
+      state.selectedAssignLeadsCheckedCheckbox = [];
+    },
   },
 
   extraReducers: (builder) => {
@@ -142,6 +163,7 @@ const leadSlice = createSlice({
       state.newNextCallLead = [];
       state.patchNextCallLeadLoading = false;
       state.patchNextCallLeadError = null;
+      state.selectedAssignLeadsCheckedCheckbox = [];
     })
     .addCase(logOut.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -220,6 +242,7 @@ const leadSlice = createSlice({
       state.leadsData.leads = state.leadsData.leads.filter(lead => lead._id !== payload.id);
       state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== payload.id);
       state.leadsData.totalLeads = state.leadsData.totalLeads - 1;
+      state.selectedAssignLeadsCheckedCheckbox = state.selectedAssignLeadsCheckedCheckbox.filter(id => id !== payload.id);
     })
     .addCase(deleteLead.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -401,4 +424,7 @@ export const {
   toggleExternalLeadsSelectAllCheckbox,
   resetExternalLeadsSelectedCheckbox,
   setLeadsAmountPerPage,
+    toggleAssignLeadsCheckboxState,
+  toggleAssignLeadsSelectAllCheckbox,
+  resetAssignLeadsSelectedCheckbox,
 } = leadSlice.actions;

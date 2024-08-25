@@ -23,7 +23,7 @@ export const NewLead = ({handleClickClose}) => {
     const [isFormChanged, setFormChanged] = useState(false);
     const [isSelectOffice, setSelectOffice] = useState('External');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const { isAdmin, userRole } = useAuth();
+    const { isAdmin, userRole, userBranch, isConversion, isManager } = useAuth();
     const { userSelectOffice } = useUser();
     const { isSuccess } = useModal();
     const { isNewLeadDataResponce, isLeadsError, newLead } = useLead();
@@ -114,6 +114,10 @@ export const NewLead = ({handleClickClose}) => {
 
             if (isAdmin && isSelectOffice !== 'External') {
                 leadData.branch = isSelectOffice;
+            }
+
+            if(!isAdmin && (isConversion || isManager)){
+                leadData.branch = userBranch
             }
   
             dispatch(createNewLead(leadData));

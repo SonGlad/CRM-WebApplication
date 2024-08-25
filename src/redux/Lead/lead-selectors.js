@@ -68,4 +68,6 @@ export const selectPatchNextCallLeadError = state => state.lead.patchNextCallLea
 
 export const selectLeadDetailById = state => state.lead.leadDetailById;
 
+export const selectSelectedAssignLeadsCheckedCheckbox = state => state.lead.selectedAssignLeadsCheckedCheckbox;
+
 
