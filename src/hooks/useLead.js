@@ -36,6 +36,7 @@ import {
   selectPatchNextCallLeadError,
   selectLeadDetailById,
   selectSelectedAssignLeadsCheckedCheckbox,
+  selectLeadDetailByIdLocation,
 } from "../redux/Lead/lead-selectors";
 
 
@@ -76,6 +77,8 @@ export const useLead = () => {
   const patchNextCallLeadLoading = useSelector(selectPatchNextCallLeadLoading);
   const patchNextCallLeadError = useSelector(selectPatchNextCallLeadError);
   const selectedAssignLeadsCheckedCheckbox = useSelector(selectSelectedAssignLeadsCheckedCheckbox);
+  const leadDetailByIdLocation = useSelector(selectLeadDetailByIdLocation);
+
 
 
   return {
@@ -115,5 +118,6 @@ export const useLead = () => {
     patchNextCallLeadLoading,
     patchNextCallLeadError,
     selectedAssignLeadsCheckedCheckbox,
+    leadDetailByIdLocation,
   };
 };

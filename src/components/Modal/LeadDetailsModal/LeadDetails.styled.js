@@ -5,7 +5,7 @@ export const LeadDetailsStyled = styled.div`
     display: flex;
     flex-direction: column;
     width: 95%;
-    max-width: 48rem;
+    max-width: ${props => props.$leadDetailByIdLocation === "External" ? '48rem' : '78rem'};
     height: auto;
     padding-top: 1rem;
     padding-left: 1rem;
@@ -69,5 +69,9 @@ export const LeadDetailsStyled = styled.div`
         font-size: 1.875rem;
         line-height: 1.2;
         margin-bottom: 1.25rem;
+
+        & span{
+            color: ${p => p.theme.color.primary_green_lite};
+        }
     }
 `

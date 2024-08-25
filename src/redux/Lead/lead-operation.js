@@ -236,3 +236,19 @@ export const leadReAssign = createAsyncThunk(
         }
     }
 );
+
+
+export const leadChangeBaseInfo = createAsyncThunk(
+    'leads/:leadId(change Base Info)',
+    async ({leadId, data}, thunkApi) => {
+        try{
+            const response = await axios.patch(`leads/${leadId}`, data);
+            toast.success(`Lead base information successful updated`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

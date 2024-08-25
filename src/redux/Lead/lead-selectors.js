@@ -70,4 +70,7 @@ export const selectLeadDetailById = state => state.lead.leadDetailById;
 
 export const selectSelectedAssignLeadsCheckedCheckbox = state => state.lead.selectedAssignLeadsCheckedCheckbox;
 
+export const selectLeadDetailByIdLocation = state => state.lead.leadDetailByIdLocation;
+
+
 

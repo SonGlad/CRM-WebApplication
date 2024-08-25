@@ -2,7 +2,8 @@ import { useSelector } from 'react-redux';
 import {
     selectUserName,
     selectUserRole,
-    selectUserBranch, 
+    selectUserBranch,
+    selectUserEmail, 
     selectUserAvatarURL,
     selectLoggedUser,
     selectLoading,
@@ -35,7 +36,8 @@ export const useAuth = () => {
     const isSettingsUpdated = useSelector(selectSettingsUpdate);
     const userName = useSelector(selectUserName);
     const userRole = useSelector(selectUserRole);
-    const userBranch = useSelector(selectUserBranch );
+    const userBranch = useSelector(selectUserBranch);
+    const userEmail = useSelector(selectUserEmail);
     const userAvatarURL = useSelector(selectUserAvatarURL);
     const userLocation = useSelector(selectUserLocation);
     const authError = useSelector(selectAuthError);
@@ -63,6 +65,7 @@ export const useAuth = () => {
         userName,
         userRole,
         userBranch,
+        userEmail,
         userAvatarURL,
         userLocation,
         authError,

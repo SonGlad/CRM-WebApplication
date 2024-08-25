@@ -15,6 +15,7 @@ const initialState = {
         name: null,
         role: null,
         branch: null,
+        email: null,
     },
     newUser: {
         name: null,
@@ -127,6 +128,7 @@ const authSlice = createSlice({
                 name: payload.username,
                 branch: payload.branch,
                 role: payload.role,
+                email: payload.email,
             };
             state.avatarURL = payload.avatarURL;
             state.token = payload.token;
@@ -154,6 +156,7 @@ const authSlice = createSlice({
                 name: null,
                 role: null,
                 branch: null,
+                email: null,
             };
             state.newUser = {
                 name: null,
@@ -198,6 +201,7 @@ const authSlice = createSlice({
                 name: payload.username,
                 branch: payload.branch,
                 role: payload.role,
+                email: payload.email,
             };
             state.avatarURL = payload.avatarURL;
             state.isLoading = false;

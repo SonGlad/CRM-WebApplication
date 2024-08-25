@@ -38,13 +38,10 @@ export const AssignedDropCont = ({lead, userSelectOffice, dispatch, isAdmin}) =>
 
 
     const assignButtonValue = (lead) => {
-        let text;
         if (lead.newContact) {
-          text = 'Assign'
-        } else {
-          text = "ReAssign"
-        }
-        return text;
+          return'Assign'
+        } 
+        return "ReAssign"
     };
 
 
@@ -80,16 +77,20 @@ export const AssignedDropCont = ({lead, userSelectOffice, dispatch, isAdmin}) =>
     
     
     const handleBackgroundClick = useCallback(event => {
+        const newOpenMenus = new Map(openMenus);
+        let shouldUpdate = false;
+
         leadRefs.current.forEach((ref, leadId) => {
-            if (ref && !ref.contains(event.target)) {
-            setOpenMenus(prevState => {
-                const newMap = new Map(prevState);
-                newMap.set(leadId, false);
-                return newMap;
-            });
+            if (ref && !ref.contains(event.target) && openMenus.get(leadId)) {
+                newOpenMenus.set(leadId, false);
+                shouldUpdate = true;
             }
         });
-    }, []);
+
+        if (shouldUpdate) {
+            setOpenMenus(newOpenMenus);
+        }
+    }, [openMenus]);
     
     
     useEffect(() => {
@@ -105,7 +106,11 @@ export const AssignedDropCont = ({lead, userSelectOffice, dispatch, isAdmin}) =>
 
 
     return(
-        <AssignDropContStyled ref={el => leadRefs.current.set(lead._id, el)}>
+        <AssignDropContStyled ref={el => {
+            if (el) {
+                leadRefs.current.set(lead._id, el);
+            }
+        }}>
             <button className="assign-btn" type='button'
                 onClick={() => toggleUserMenuDrop(lead._id)}
             >

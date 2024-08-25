@@ -4,6 +4,7 @@ import { useLead } from "../../../hooks/useLead";
 import { useUser } from "../../../hooks/useUser";
 import { useDispatch } from "react-redux";
 import { openModalLeadDetail } from "../../../redux/Modal/modal-slice";
+import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice";
 import { getLeadById } from "../../../redux/Lead/lead-operation";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
@@ -33,6 +34,7 @@ export function TableExternalLeads() {
 
   const openExternalLeadDetail = (_id) => {  
     dispatch(openModalLeadDetail());
+    dispatch(setLeadDetailsModalTrue('External'));
     dispatch(getLeadById({leadId: _id}));
   };
 
