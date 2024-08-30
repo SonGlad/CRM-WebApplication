@@ -67,7 +67,7 @@ export function TableExternalLeads() {
 
   // For style 'small-table' - check styles on Main.styled.js
   const chnageTableStyle = () => {
-    return isLeads.length < 13 ? 'small-table' : '';
+    return isLeads.length < 12 ? 'small-table' : '';
   };
 
   

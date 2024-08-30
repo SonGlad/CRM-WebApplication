@@ -136,6 +136,7 @@ const leadSlice = createSlice({
       state.leadDetailByIdLocation = '';
     },
   },
+  
 
   extraReducers: (builder) => {
     builder
