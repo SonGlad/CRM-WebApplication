@@ -17,8 +17,7 @@ export function TableExternalLeads() {
   const dispatch = useDispatch();
   const { isAdmin } = useAuth();
   const { userSelectOffice } = useUser();
-  const { isLeads, selectedExternalLeadsCheckedCheckbox} = useLead();
-  
+  const { isLeads, selectedExternalLeadsCheckedCheckbox } = useLead();
   
 
   let filteredLeads;

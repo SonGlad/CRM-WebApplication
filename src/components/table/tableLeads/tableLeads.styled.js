@@ -22,10 +22,8 @@ export const TableListStyled = styled.div`
     padding: 1rem 0.25rem 1rem 0.25rem;
   }
 
-  td[id^="lastName-"],
-  td[id^="email-"],
-  td[id^="phone-"],
-  td[id^="resourse-"],
+  td[id^="status-"],
+  td[id^="timeZone-"],
   td[id^="country-"],
   td[id^="region-"],
   td[id^="city-"] {
@@ -80,19 +78,25 @@ export const TableListStyled = styled.div`
   }
 
   .dropdown {
+    width: 10rem;
     z-index: 1000;
     position: absolute;
-    font-size: 0.5rem;
-    gap: 0.25rem;
+    font-size: 0.75rem;
+    gap: 0.5rem;
     border-radius: 1rem;
     padding: 0.75rem 0.5rem;
     box-shadow: 0 0.25rem 3rem 0 rgba(18, 20, 23, 0.08);
-    background: ${(p) => p.theme.color.primary_green_lite};
+       background-color: ${p => p.theme.color.background2};
+    border: 0.25rem solid ${p => p.theme.color.background3};
     color: black;
+    overflow: hidden;
+     overflow-x: auto; 
   }
+
 
   .ListItem {
     cursor: pointer;
+    color: #E3FFA8;
 
     &:hover {
       color: #a2a59e;
@@ -112,13 +116,15 @@ export const TableListStyled = styled.div`
   }
 
   .arrow-svg-close {
+     cursor: pointer;
     transform: rotate(180deg);
   }
 
   .InputContainer {
     display: flex;
     position: absolute;
-    background: #e3ffa8e0;
+    background-color: ${p => p.theme.color.background2};
+    border: 0.25rem solid ${p => p.theme.color.background3};
     border-radius: 10px;
     padding: 10px;
     z-index: 9999;
@@ -127,13 +133,14 @@ export const TableListStyled = styled.div`
   }
 
   .InputContainer input {
-    color: black;
+    color: white;
   }
 
   .ButtonSave {
+    cursor: pointer;
     border-radius: 5px;
-    background: black;
-    color: white;
+    background: #E3FFA8;
+    color: ${p => p.theme.color.background2};
     border: none;
   }
 
