@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/CRM-WebApplication/static/css/main.d666774a.css",
-    "main.js": "/CRM-WebApplication/static/js/main.b40fe0b1.js",
-    "static/js/571.23c59f75.chunk.js": "/CRM-WebApplication/static/js/571.23c59f75.chunk.js",
+    "main.js": "/CRM-WebApplication/static/js/main.d12f9a1b.js",
+    "static/js/571.190a1cfd.chunk.js": "/CRM-WebApplication/static/js/571.190a1cfd.chunk.js",
     "static/js/992.af0a1c83.chunk.js": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js",
     "static/js/524.3db5a56a.chunk.js": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js",
     "static/js/769.69ddeba8.chunk.js": "/CRM-WebApplication/static/js/769.69ddeba8.chunk.js",
     "static/js/791.0f8139ee.chunk.js": "/CRM-WebApplication/static/js/791.0f8139ee.chunk.js",
-    "static/js/302.0ce5a1bf.chunk.js": "/CRM-WebApplication/static/js/302.0ce5a1bf.chunk.js",
+    "static/js/302.5efeecbe.chunk.js": "/CRM-WebApplication/static/js/302.5efeecbe.chunk.js",
     "static/media/iReX_logo.png": "/CRM-WebApplication/static/media/iReX_logo.bb7640ae2d9d84190796.png",
     "static/media/welcome.jpg": "/CRM-WebApplication/static/media/welcome.b907e6f055a9be3133fe.jpg",
     "static/media/register.jpg": "/CRM-WebApplication/static/media/register.de1789afbcb5698ada48.jpg",
@@ -36,16 +36,16 @@
     "static/media/arrow-down.svg": "/CRM-WebApplication/static/media/arrow-down.e3ed7849216bb46de413bbb56a4a7bcf.svg",
     "static/media/rectangle.svg": "/CRM-WebApplication/static/media/rectangle.87ad7b1ba8cdb017b1733cd21909939f.svg",
     "main.d666774a.css.map": "/CRM-WebApplication/static/css/main.d666774a.css.map",
-    "main.b40fe0b1.js.map": "/CRM-WebApplication/static/js/main.b40fe0b1.js.map",
-    "571.23c59f75.chunk.js.map": "/CRM-WebApplication/static/js/571.23c59f75.chunk.js.map",
+    "main.d12f9a1b.js.map": "/CRM-WebApplication/static/js/main.d12f9a1b.js.map",
+    "571.190a1cfd.chunk.js.map": "/CRM-WebApplication/static/js/571.190a1cfd.chunk.js.map",
     "992.af0a1c83.chunk.js.map": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js.map",
     "524.3db5a56a.chunk.js.map": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js.map",
     "769.69ddeba8.chunk.js.map": "/CRM-WebApplication/static/js/769.69ddeba8.chunk.js.map",
     "791.0f8139ee.chunk.js.map": "/CRM-WebApplication/static/js/791.0f8139ee.chunk.js.map",
-    "302.0ce5a1bf.chunk.js.map": "/CRM-WebApplication/static/js/302.0ce5a1bf.chunk.js.map"
+    "302.5efeecbe.chunk.js.map": "/CRM-WebApplication/static/js/302.5efeecbe.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d666774a.css",
-    "static/js/main.b40fe0b1.js"
+    "static/js/main.d12f9a1b.js"
   ]
 }
