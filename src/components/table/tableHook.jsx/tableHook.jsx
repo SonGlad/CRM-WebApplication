@@ -1,14 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getStatus, getTimeZone } from "../../../redux/Lead/lead-operation";
+import { useLead } from "../../../hooks/useLead";
 
 
 export const useTableHook = () => {
   const [isMenuBox, setMenuBox] = useState(false);
   const [inputVisible, setInputVisible] = useState({ row: null, cell: null, leadId: null });
+  const [index, setIndex] = useState()
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
+
+    const {
+    isLeads,
+    } = useLead();
+
 
 
   const adjustTextareaHeight = (textarea) => {
@@ -22,20 +29,26 @@ export const useTableHook = () => {
   };
 
 
-
   const toggleInputVisibility = (row, cell, leadId) => {
-    if (cell === "status") {
-      dispatch(getStatus())
-    } else if (cell === "timeZone") {
-      dispatch(getTimeZone())
+    setIndex(leadId)
+    switch (cell) {
+      case "status":
+        dispatch(getStatus())
+        break;
+         case "timeZone":
+        dispatch(getTimeZone())
+        break;
+      default:
     }
-    setMenuBox(isMenuBox === false ? row : false);
+
+        setMenuBox(isMenuBox === false ? row : false);
     setInputVisible(
       inputVisible.row === row && inputVisible.cell === cell
         ? { row: null, cell: null }
         : { row, cell, leadId }
     );
   };
+
 
 
   const toggleUserMenuDropArrow = (row, cell) => {
@@ -54,7 +67,7 @@ export const useTableHook = () => {
       const dropdownContainer = dropdownRef.current;
       if (inputElement && (inputContainer || dropdownContainer)) {
         const rect = inputElement.getBoundingClientRect();
-        if (inputContainer) {
+          if (inputContainer) {
           inputContainer.style.top = `${
             rect.top + window.scrollY + rect.height
           }px`;
@@ -70,19 +83,19 @@ export const useTableHook = () => {
         if (dropdownContainer && inputVisible.cell === "status") {
           dropdownContainer.style.display = "grid";
           dropdownContainer.style.top = `${
-            (rect.top + window.scrollY + rect.height) / 2
+           isLeads[isLeads.length - 1]._id !== index? rect.top - dropdownRef.current.clientHeight * 0.9 : rect.top - dropdownRef.current.clientHeight * 1.11
           }px`;
           dropdownContainer.style.left = `${rect.right + window.scrollX}px`;
         }
         if (dropdownContainer && inputVisible.cell === "timeZone") {
           dropdownContainer.style.display = "flex";
           dropdownContainer.style.left = `${
-            (rect.right + window.scrollX) / 1.36
+            (rect.right + window.scrollX) / 1.125
           }px`;
         }
       }
     }
-  }, [inputVisible]);
+  }, [inputVisible, isLeads, index]);
 
 
   const handleKeyPress = useCallback((event) => {
@@ -130,3 +143,4 @@ export const useTableHook = () => {
     toggleInputVisibility,
   };
 };
+

@@ -1,4 +1,3 @@
-
 export const TimeZone = ({lead, ArrowDown, toggleInputVisibility, index, toggleUserMenuDropArrow }) => {
 
 
