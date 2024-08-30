@@ -202,7 +202,7 @@ export const LeadChangeInfoBlockStyled = styled.div`
 
 
 export const LeadKYCBlockStyled = styled.div`
-    height: 22.125rem;
+    /* height: 22.125rem; */
     width: 32.5%;
     padding: 0.5rem;
 `
@@ -218,7 +218,7 @@ export const LeadKYCBlockStyled = styled.div`
 
 
 export const LeadCreateUpdateCallBlockStyled = styled.div`
-    height: 22.125rem;
+    /* height: 22.125rem; */
     width: 32.5%;
     padding: 0.5rem;
 `
@@ -237,7 +237,7 @@ export const LeadCreateUpdateCallBlockStyled = styled.div`
 
 
 export const LeadCommentBlockStyled = styled.div`
-    height: 22.125rem;
+    /* height: 22.125rem; */
     width: 32.5%;
     padding: 0.5rem;
 `

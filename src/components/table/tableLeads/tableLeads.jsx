@@ -1,7 +1,7 @@
 import { TableListStyled } from "./tableLeads.styled";
 import { ReactComponent as ArrowDown } from "../../../images/svg-icons/arrow-down.svg";
-import { DropdownTimeZone } from "../tableComponents/dropdownTimeZone";
-import { DropdownStatus } from "../tableComponents/dropdownStatus";
+// import { DropdownTimeZone } from "../tableComponents/dropdownTimeZone";
+// import { DropdownStatus } from "../tableComponents/dropdownStatus";
 import { InputWindow } from "../tableComponents/inputWindow";
 import { NextCall } from "../tableComponents/nextCall";
 import { TimeZone } from "../tableComponents/timeZone";
@@ -43,8 +43,9 @@ export const TableLeads = () => {
   } = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState();
-  const dispatch = useDispatch();
-   console.log(userRole);   
+
+  const dispatch = useDispatch(); 
+
 
   useEffect(() => {
     if (userLeads || isLeads) {
@@ -232,17 +233,20 @@ export const TableLeads = () => {
         setLeads={setLeads}
         handleTextareaChange={handleTextareaChange}
         setInputVisible={setInputVisible}
+           dropdownRef={dropdownRef}
+        handleDropdownItemClick={handleDropdownItemClick}
       />
-      <DropdownStatus
+      {/* <DropdownStatus
         inputVisible={inputVisible}
         dropdownRef={dropdownRef}
         handleDropdownItemClick={handleDropdownItemClick}
-      />
-      <DropdownTimeZone
+      /> */}
+      {/* <DropdownTimeZone
         inputVisible={inputVisible}
         dropdownRef={dropdownRef}
         handleDropdownItemClick={handleDropdownItemClick}
-      />
+      /> */}
     </TableListStyled>
   )
 };
+
