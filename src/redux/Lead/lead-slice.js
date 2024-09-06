@@ -136,6 +136,7 @@ const leadSlice = createSlice({
       state.leadDetailByIdLocation = '';
     },
   },
+  
 
   extraReducers: (builder) => {
     builder
@@ -417,7 +418,7 @@ const leadSlice = createSlice({
       state.isLeadError = null;
     })
     .addCase(leadReAssign.fulfilled, (state, { payload }) => {
-      const updatedLead = payload;      
+      const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id ? updatedLead : lead
       );

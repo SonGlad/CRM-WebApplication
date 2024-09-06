@@ -109,9 +109,9 @@ export const updateUserInfo = createAsyncThunk(
 
 export const inregister = createAsyncThunk(
     'auth/inregister',
-    async (credentials, thunkApi) => {
+    async (data, thunkApi) => {
         try{
-            const response = await axios.post('auth/inregister', credentials);
+            const response = await axios.post('auth/inregister', data);
             toast.success(`The new user has been registered`);
             return response.data;
         }

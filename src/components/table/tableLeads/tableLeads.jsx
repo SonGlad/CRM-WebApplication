@@ -33,8 +33,8 @@ export const TableLeads = () => {
   } = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState();
+  const dispatch = useDispatch();   
 
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (userLeads || isLeads) {
@@ -160,35 +160,31 @@ export const TableLeads = () => {
                   {lead.createdAt &&
                     lead.createdAt.slice(0, 16).replace("T", " ")}
                 </td>
-                {userRole !== "Conversion Agent" && (
-                  <td
-                    className="TableHeaderItem"
-                    style={{ background: !lead.agentId ? "#ff000082" : "" }}
-                  >
-                    {!lead.agentId ? "Not Assigned" : lead.agentId.username}
-                  </td>
-                )}
-                {userRole !== "Conversion Manager" &&
-                  userRole !== "Conversion Agent" && (
-                    <td
-                      className="TableHeaderItem"
-                      style={{ background: !lead.managerId ? "#ff000082" : "" }}
-                    >
-                      {!lead.managerId
-                        ? "Not Assigned"
-                        : lead.managerId.username}
-                    </td>
+                {userRole !== "Conversion Agent" && 
+                <td
+                  className="TableHeaderItem"
+                  style={{ background: !lead.conAgentId ? "#ff000082" : "" }}
+                >
+                  {!lead.conAgentId ? (
+                    'Not Assigned'
+                  ) : (
+                    lead.conAgentId.username
+                  )}
+                </td>}
+                {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && <td
+                  className="TableHeaderItem"
+                  style={{ background: !lead.conManagerId ? "#ff000082" : "" }}
+                >
+                  {!lead.conManagerId ? (
+                    'Not Assigned'
+                  ) : (
+                    lead.conManagerId.username
                   )}
                 <NextCall lead={lead} />
                 <td className="TableHeaderItem">
-                  <button
-                    className="check-btn"
-                    type="button"
-                    onClick={() =>
-                      openExternalLeadDetail(lead._id, lead.branch)
-                    }
-                  >
-                    Open
+                  <button className="check-btn" type='button'
+                    onClick={() => openExternalLeadDetail(lead._id, lead.branch)}
+                  >Open
                   </button>
                 </td>
                 {userBranch === "Main" && (

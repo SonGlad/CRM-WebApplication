@@ -206,14 +206,14 @@ export const AssignDropContStyled = styled.div`
 
 
   .office-list{
-    width: 6rem;
+    width: 6.4rem;
     position: absolute;
     z-index: 1;
     top: -0.5rem;
-    right: -115%;
+    right: -117%;
     border-radius: 0.5rem;
     padding: 0.7rem 0.2rem;
-    gap: 1.4rem;
+    gap: 1rem;
     background-color: ${p => p.theme.color.background2};
     display: flex;
     flex-direction: column;
@@ -225,6 +225,7 @@ export const AssignDropContStyled = styled.div`
     transform: scale(0.5) translateY(10px);
     transform-origin: left top;
     transition: all ${p => p.theme.transition.main_transition};
+    border: 0.25rem solid ${p => p.theme.color.background3};
   }
 
   .office-list-visible{

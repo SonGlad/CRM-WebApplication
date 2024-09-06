@@ -1,19 +1,24 @@
 import {LeadAssignReAssignOwnerBlockStyled} from"./OfficeLeadBlocks.styled";
+import {ReactComponent as ArrowIcon} from "../../../../../images/svg-icons/arrow-down.svg";
 import { useTheme } from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useAuth } from "../../../../../hooks/useAuth";
-
+import { useUser } from "../../../../../hooks/useUser";
+import { useDispatch } from "react-redux";
+import { leadAssign, leadReAssign } from "../../../../../redux/Lead/lead-operation";
 
 
 export const LeadAssignReAssignOwnerBlock = ({leadDetailById}) => {
     const theme = useTheme();
     const { isAdmin, isManager, isConversionManager } = useAuth();
+    const { availableUsersForAssign } = useUser();
     const [crmManager, setCRMManager] = useState(false);
     const [conManager, setConManager] = useState(false);
     const [conAgent, setConAgent] = useState(false);
     const [isSelfCreated, setSelfCreated] = useState(false);
-    // const [dropDown, setDropDown] = useState(false);
-    console.log(leadDetailById);
+    const [dropDown, setDropDown] = useState(false);
+    const dropContRef = useRef();
+    const dispatch = useDispatch();
     
 
     useEffect(() => {
@@ -50,6 +55,109 @@ export const LeadAssignReAssignOwnerBlock = ({leadDetailById}) => {
           return str;
         }
         return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
+
+    const toggleDropDown = () => {
+        setDropDown(prevState => !prevState)
+    };
+
+
+    const toggleLeadDropArrow = () => {
+        return dropDown ? 'icon-active' : '';
+    };
+
+    const toggleLeadDropCont = () => {
+        return dropDown ? 'office-list-visible' : '';
+    };
+
+
+    const handleBackgroundClick = useCallback(event => {
+        if (dropContRef.current && !dropContRef.current.contains(event.target)) {
+            setDropDown(false);
+        }
+    },[]);
+
+
+    useEffect(() => {
+        document.addEventListener('click', handleBackgroundClick);
+    
+        return () => {
+          document.removeEventListener('click', handleBackgroundClick);
+        };
+    },[handleBackgroundClick]);
+
+
+
+    const assignButtonValue = () => {
+        if(isManager){
+            if (conManager) {
+                return "ReAssign";            
+            }
+            return "Assign";
+        } else if(isConversionManager){
+            if (conAgent) {
+                return "ReAssign";            
+            }
+            return "Assign";
+        }       
+    };
+
+
+    const renderUserList = (excludedId) => {
+        return availableUsersForAssign
+        .filter(user => user._id !== excludedId)
+        .map((user, index) => (
+            <li className="office-item" key={index}>
+                <p className="drop-cont-text"
+                    onClick={() => assignExternalLeadDetail(user)}
+                >To: {user.username}
+                </p>
+            </li>
+        ));
+    };
+
+
+    const assignExternalLeadDetail = (user) => {
+        if(isManager){
+            if (!isSelfCreated && !conManager) {
+                dispatch(leadAssign({
+                    leadId: leadDetailById._id,
+                    data: {
+                        conManagerId: user._id
+                    }
+                }));
+                setDropDown(false);
+            }
+            if (!isSelfCreated && conManager) {
+                dispatch(leadReAssign({
+                    leadId: leadDetailById._id,
+                    data: {
+                        conManagerId: user._id
+                    }
+                }));
+                setDropDown(false);
+            }
+        } else if (isConversionManager){
+            if (!isSelfCreated && !conAgent) {
+                dispatch(leadAssign({
+                    leadId: leadDetailById._id,
+                    data: {
+                        conAgentId: user._id
+                    }
+                }));
+                setDropDown(false);
+            }
+            if (!isSelfCreated && conAgent) {
+                dispatch(leadReAssign({
+                    leadId: leadDetailById._id,
+                    data: {
+                        conAgentId: user._id
+                    }
+                }));
+                setDropDown(false);
+            }
+        }
     };
 
 
@@ -111,6 +219,32 @@ export const LeadAssignReAssignOwnerBlock = ({leadDetailById}) => {
                                 >Not Assigned Yet
                                 </p>
                             )}
+                        </div>
+                    )}
+                    {(!isSelfCreated && (isManager || isConversionManager)) && (
+                        <div className="drop-cont" ref={dropContRef}>
+                            <button type="button" className="assign-button"
+                                onClick={toggleDropDown}
+                            >
+                                {assignButtonValue()}
+                                <ArrowIcon className={`icon ${toggleLeadDropArrow()}`}/>
+                            </button>
+                            <ul className={`office-list ${toggleLeadDropCont()}`}>
+                                {isManager && (
+                                    conManager ? (
+                                        renderUserList(leadDetailById.conManagerId._id)
+                                    ) : (
+                                        renderUserList()
+                                    )
+                                )}
+                                {isConversionManager && (
+                                    conAgent ? (
+                                        renderUserList(leadDetailById.conAgentId._id)
+                                    ) : (
+                                        renderUserList()
+                                    )
+                                )}
+                            </ul>
                         </div>
                     )}
                 </>
