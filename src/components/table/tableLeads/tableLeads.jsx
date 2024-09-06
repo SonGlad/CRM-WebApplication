@@ -171,16 +171,19 @@ export const TableLeads = () => {
                     lead.conAgentId.username
                   )}
                 </td>}
-                {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && <td
-                  className="TableHeaderItem"
-                  style={{ background: !lead.conManagerId ? "#ff000082" : "" }}
-                >
-                  {!lead.conManagerId ? (
-                    'Not Assigned'
-                  ) : (
-                    lead.conManagerId.username
-                  )}
-                <NextCall lead={lead} />
+                {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && (
+                  <td
+                    className="TableHeaderItem"
+                    style={{ background: !lead.conManagerId ? "#ff000082" : "" }}
+                    >
+                    {!lead.conManagerId ? (
+                      'Not Assigned'
+                    ) : (
+                      lead.conManagerId.username
+                    )}
+                    <NextCall lead={lead} />
+                  </td>
+                )}
                 <td className="TableHeaderItem">
                   <button className="check-btn" type='button'
                     onClick={() => openExternalLeadDetail(lead._id, lead.branch)}
