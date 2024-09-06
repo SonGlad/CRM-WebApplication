@@ -43,8 +43,7 @@ export const TableLeads = () => {
   } = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState();
-
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();   
 
 
   useEffect(() => {
@@ -187,31 +186,31 @@ export const TableLeads = () => {
                 {userRole !== "Conversion Agent" && 
                 <td
                   className="TableHeaderItem"
-                  style={{ background: !lead.agentId ? "#ff000082" : "" }}
+                  style={{ background: !lead.conAgentId ? "#ff000082" : "" }}
                 >
-                  {!lead.agentId ? (
+                  {!lead.conAgentId ? (
                     'Not Assigned'
                   ) : (
-                    lead.agentId.username
+                    lead.conAgentId.username
                   )}
                 </td>}
                 {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && <td
                   className="TableHeaderItem"
-                  style={{ background: !lead.managerId ? "#ff000082" : "" }}
+                  style={{ background: !lead.conManagerId ? "#ff000082" : "" }}
                 >
-                  {!lead.managerId ? (
+                  {!lead.conManagerId ? (
                     'Not Assigned'
                   ) : (
-                    lead.managerId.username
+                    lead.conManagerId.username
                   )}
                 </td>}
                 <NextCall lead={lead} />
-                                  <td className="TableHeaderItem">
-                    <button className="check-btn" type='button'
-                      onClick={() => openExternalLeadDetail(lead._id, lead.branch)}
-                    >Open
-                    </button>
-                  </td>
+                <td className="TableHeaderItem">
+                  <button className="check-btn" type='button'
+                    onClick={() => openExternalLeadDetail(lead._id, lead.branch)}
+                  >Open
+                  </button>
+                </td>
                 {userBranch === "Main" && (
                   <td className="TableHeaderItem">
                     <CustomAssignLeadCheckbox
