@@ -181,9 +181,9 @@ export const TableLeads = () => {
                     ) : (
                       lead.conManagerId.username
                     )}
-                    <NextCall lead={lead} />
                   </td>
                 )}
+                <NextCall lead={lead} />
                 <td className="TableHeaderItem">
                   <button className="check-btn" type='button'
                     onClick={() => openExternalLeadDetail(lead._id, lead.branch)}
