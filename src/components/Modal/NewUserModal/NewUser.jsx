@@ -35,7 +35,8 @@ export const NewUser = ({handleClickClose}) => {
         authNewUserRole, 
         authNewUserBranch, 
         isNewUserResponceData, 
-        authError
+        authError,
+        userBranch,
     } = useAuth();
 
 
@@ -145,13 +146,23 @@ export const NewUser = ({handleClickClose}) => {
         validationSchema: NewUserSchema,
     
         onSubmit: (values) => {
-            dispatch(inregister({
-                username: values.userName,
-                email: values.userEmail,
-                password: values.userPassword,
-                role: isSelectRole,
-                branch: isSelectOffice
-            }))
+            if (isAdmin) {
+                dispatch(inregister({
+                    username: values.userName,
+                    email: values.userEmail,
+                    password: values.userPassword,
+                    role: isSelectRole,
+                    branch: isSelectOffice,
+                }))
+            } else {
+                dispatch(inregister({
+                    username: values.userName,
+                    email: values.userEmail,
+                    password: values.userPassword,
+                    role: isSelectRole,
+                    branch: userBranch,
+                })) 
+            }
             resetForm();
             setSelectOffice('Select');
             setSelectRole('Select');

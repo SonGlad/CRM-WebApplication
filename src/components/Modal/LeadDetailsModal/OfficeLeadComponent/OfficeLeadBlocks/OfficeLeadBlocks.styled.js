@@ -70,7 +70,7 @@ export const LeadAssignReAssignOwnerBlockStyled = styled.div`
 
     .drop-cont{
         position: relative;
-        max-width: 50%;
+        max-width: 35%;
     }
 
     & .assign-button{
@@ -126,7 +126,6 @@ export const LeadAssignReAssignOwnerBlockStyled = styled.div`
         background-color: ${p => p.theme.color.background};
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: space-evenly;
         visibility: hidden;
         opacity: 0;
@@ -152,7 +151,7 @@ export const LeadAssignReAssignOwnerBlockStyled = styled.div`
     }
 
     .office-list-visible{
-        width: 9rem;
+        width: 15.5rem;
         opacity: 1;
         visibility: visible;
         overflow-y: auto;
