@@ -1,26 +1,48 @@
 import styled from "styled-components";
 
 export const TableListStyled = styled.div`
-  border: 1px solid ${(p) => p.theme.color.primary_green_lite};
   border-radius: 0.625rem;
   width: 100%;
   margin-top: 2rem;
+  position: relative;
+  overflow-y: auto;
+
+  .TableContainer{
+border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+  }
 
   .Table {
     table-layout: auto;
     width: 100%;
     border-collapse: collapse;
     border-radius: 0.5rem;
-    overflow: hidden;
   }
 
+
   .TableHeader {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
     background: #223f53;
   }
 
-  .TableHeaderList th {
+  .TableHeaderItem::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px; 
+     background-color: #E3FFA8;
+    z-index: 5;
+}
+
+/* 
+  .TableHeaderList thead {
     padding: 1rem 0.25rem 1rem 0.25rem;
-  }
+
+    border-top: 1px solid #E3FFA8;
+  } */
 
   td[id^="status-"],
   td[id^="timeZone-"],
@@ -32,12 +54,11 @@ export const TableListStyled = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    position: relative;
   }
 
   .TableHeaderItem {
     padding:0.5rem 0.25rem;
-    border-bottom: 1px solid ${(p) => p.theme.color.primary_green_lite};
+    border-bottom: 1px solid transparent;
     text-align: left;
     font-weight: 500;
     font-size: 0.5rem;
@@ -53,6 +74,7 @@ export const TableListStyled = styled.div`
   .TableHeaderItem:not(:last-child) {
     border-right: 1px solid ${(p) => p.theme.color.primary_green_lite};
   }
+
 
   .WordList textarea,
   select,
@@ -82,7 +104,7 @@ export const TableListStyled = styled.div`
     z-index: 1000;
     position: absolute;
     font-size: 0.75rem;
-    gap: 0.5rem;
+    gap: 0.2rem;
     border-radius: 1rem;
     padding: 0.75rem 0.5rem;
     box-shadow: 0 0.25rem 3rem 0 rgba(18, 20, 23, 0.08);
@@ -127,7 +149,7 @@ export const TableListStyled = styled.div`
     border: 0.25rem solid ${p => p.theme.color.background3};
     border-radius: 10px;
     padding: 10px;
-    z-index: 9999;
+    z-index: 999;
     width: max-content;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }

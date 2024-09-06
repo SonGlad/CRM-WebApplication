@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getStatus, getTimeZone } from "../../../redux/Lead/lead-operation";
 import { useLead } from "../../../hooks/useLead";
 
 
@@ -10,7 +8,6 @@ export const useTableHook = () => {
   const [index, setIndex] = useState()
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
-  const dispatch = useDispatch();
 
     const {
     isLeads,
@@ -31,15 +28,6 @@ export const useTableHook = () => {
 
   const toggleInputVisibility = (row, cell, leadId) => {
     setIndex(leadId)
-    switch (cell) {
-      case "status":
-        dispatch(getStatus())
-        break;
-         case "timeZone":
-        dispatch(getTimeZone())
-        break;
-      default:
-    }
 
         setMenuBox(isMenuBox === false ? row : false);
     setInputVisible(
@@ -48,6 +36,7 @@ export const useTableHook = () => {
         : { row, cell, leadId }
     );
   };
+
 
 
 
@@ -63,15 +52,17 @@ export const useTableHook = () => {
       const inputElement = document.getElementById(
         `${inputVisible.cell}-${inputVisible.row}`
       );
+
+      const tableElement = document.querySelector('.TableHeaderItem').offsetHeight;
+      // const mainContainer = document.getElementById('root').offsetHeight;
       const inputContainer = inputRef.current;
       const dropdownContainer = dropdownRef.current;
+      const indexElement = isLeads.findIndex(element => element._id === index);
       if (inputElement && (inputContainer || dropdownContainer)) {
         const rect = inputElement.getBoundingClientRect();
           if (inputContainer) {
-          inputContainer.style.top = `${
-            rect.top + window.scrollY + rect.height
-          }px`;
-          inputContainer.style.left = `${rect.left + window.scrollX}px`;
+            inputContainer.style.top = `${tableElement + (rect.height * (indexElement + 1) - window.scrollX)}px`;
+            inputContainer.style.left = `${rect.left - inputContainer.clientWidth * 1.5}px`
         }
         if (dropdownContainer) {
           dropdownContainer.style.top = `${
@@ -82,20 +73,26 @@ export const useTableHook = () => {
 
         if (dropdownContainer && inputVisible.cell === "status") {
           dropdownContainer.style.display = "grid";
-          dropdownContainer.style.top = `${
-           isLeads[isLeads.length - 1]._id !== index? rect.top - dropdownRef.current.clientHeight * 0.9 : rect.top - dropdownRef.current.clientHeight * 1.11
-          }px`;
-          dropdownContainer.style.left = `${rect.right + window.scrollX}px`;
+          // dropdownContainer.style.top = `${
+          //  isLeads[isLeads.length - 1]._id !== index ? rect.top - dropdownRef.current.clientHeight * 0.9 : rect.top - dropdownRef.current.clientHeight * 1.11
+          // }px`;
+          dropdownContainer.style.top = `${ (rect.height * (indexElement + 1) - window.scrollX)}px`;
+          // dropdownContainer.style.left = `${rect.right + window.scrollX}px`;
+          dropdownContainer.style.left = `${rect.right - dropdownContainer.clientWidth * 1.6}px`
         }
         if (dropdownContainer && inputVisible.cell === "timeZone") {
           dropdownContainer.style.display = "flex";
           dropdownContainer.style.left = `${
-            (rect.right + window.scrollX) / 1.125
-          }px`;
+            isLeads[isLeads.length - 1]._id !== index ? (rect.right + window.scrollX) / 1.55 : rect.right
+            }px`;
+          // dropdownContainer.style.top = `${isLeads[isLeads.length - 1]._id !== index ? '' : rect.top}px`;
+           dropdownContainer.style.top = `${tableElement + (rect.height * (indexElement + 1) - window.scrollX)}px`;
         }
       }
     }
   }, [inputVisible, isLeads, index]);
+  
+
 
 
   const handleKeyPress = useCallback((event) => {

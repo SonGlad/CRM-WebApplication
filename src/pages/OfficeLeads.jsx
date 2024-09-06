@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAvailableUsers } from "../redux/User/user-operation";
+import { getStatus, getTimeZone } from "../redux/Lead/lead-operation";
 
 
 
@@ -15,6 +16,10 @@ const OfficeLeadsPage = () => {
 
 
     useEffect(() => {
+        if (!forNoneAdminLogin && !userLeadsComponent) {
+            dispatch(getStatus());
+            dispatch(getTimeZone());
+        }
         if (!forNoneAdminLogin && !userLeadsComponent && !isAdmin) {
             dispatch(getAvailableUsers());
         }

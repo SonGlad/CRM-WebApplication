@@ -1,7 +1,7 @@
 import { TableListStyled } from "./tableLeads.styled";
 import { ReactComponent as ArrowDown } from "../../../images/svg-icons/arrow-down.svg";
-// import { DropdownTimeZone } from "../tableComponents/dropdownTimeZone";
-// import { DropdownStatus } from "../tableComponents/dropdownStatus";
+import { DropdownTimeZone } from "../tableComponents/dropdownTimeZone";
+import { DropdownStatus } from "../tableComponents/dropdownStatus";
 import { InputWindow } from "../tableComponents/inputWindow";
 import { NextCall } from "../tableComponents/nextCall";
 import { TimeZone } from "../tableComponents/timeZone";
@@ -13,11 +13,7 @@ import { useTableHook } from "../tableHook.jsx/tableHook";
 import { useLead } from "../../../hooks/useLead.js";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  getLeadById,
-  patchStatus,
-  patchTimeZone,
-} from "../../../redux/Lead/lead-operation.js";
+import { getLeadById } from "../../../redux/Lead/lead-operation.js";
 import { ClientTime } from "../tableComponents/clientTime.jsx";
 import { useUser } from "../../../hooks/useUser.js";
 import { useAuth } from "../../../hooks/useAuth.js";
@@ -25,21 +21,15 @@ import { openModalLeadDetail } from "../../../redux/Modal/modal-slice.js";
 import { CustomAssignLeadCheckbox } from "./CustomAssignLeadCheckbox.jsx";
 import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice.js";
 
-
-
 export const TableLeads = () => {
+  const { isLeads, selectedAssignLeadsCheckedCheckbox, leadOffice } = useLead();
   const {
-    isLeads,
-    selectedAssignLeadsCheckedCheckbox,
-    leadOffice,
-  } = useLead();
-  const { 
-    userBranch, 
-    userRole, 
-    isAdmin, 
-    isConversion, 
-    isManager, 
-    isLoggedIn 
+    userBranch,
+    userRole,
+    isAdmin,
+    isConversion,
+    isManager,
+    isLoggedIn,
   } = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState();
@@ -62,42 +52,25 @@ export const TableLeads = () => {
     toggleInputVisibility,
   } = useTableHook();
 
-  const handleDropdownItemClick = (leadIndex, status, name, leadId) => {
-    const updatedLeads = [...leads];
-    if (name === "timeZone") {
-      dispatch(patchTimeZone({ id: leadId, leadTimeZone: status }));
-      updatedLeads[leadIndex] = {
-        ...updatedLeads[leadIndex],
-        timeZone: status,
-      };
-    } else if (name === "status") {
-      dispatch(patchStatus({ id: leadId, leadStatus: status }));
-      updatedLeads[leadIndex] = {
-        ...updatedLeads[leadIndex],
-        status: status,
-      };
-    }
-    setLeads(updatedLeads);
-    setInputVisible({ row: null, cell: null });
-  };
-
-
-  const openExternalLeadDetail = (_id) => {  
+  const openExternalLeadDetail = (_id) => {
     dispatch(openModalLeadDetail());
-    dispatch(setLeadDetailsModalTrue('Office'));
-    if(isLoggedIn && isAdmin){
-      dispatch(getLeadById({
-        leadId: _id,
-        branch: leadOffice,
-      }));
-    } else if(isLoggedIn && (isConversion || isManager)){
-      dispatch(getLeadById({leadId: _id}));
+    dispatch(setLeadDetailsModalTrue("Office"));
+    if (isLoggedIn && isAdmin) {
+      dispatch(
+        getLeadById({
+          leadId: _id,
+          branch: leadOffice,
+        })
+      );
+    } else if (isLoggedIn && (isConversion || isManager)) {
+      dispatch(getLeadById({ leadId: _id }));
     }
   };
-
 
   return (
+   
     <TableListStyled>
+       <div className="TableContainer">
       <table className="Table">
         <thead className="TableHeader">
           <tr className="TableHeaderList">
@@ -116,9 +89,13 @@ export const TableLeads = () => {
             <th className="TableHeaderItem">Self created</th>
             <th className="TableHeaderItem">Last update</th>
             <th className="TableHeaderItem">Created At</th>
-            {userRole !== "Conversion Agent" && <th className="TableHeaderItem">Assign / Reassign Agent</th>}
+            {userRole !== "Conversion Agent" && (
+              <th className="TableHeaderItem">Assign / Reassign Agent</th>
+            )}
             {userRole !== "Conversion Manager" &&
-              userRole !== "Conversion Agent" && <th className="TableHeaderItem">Assign / Reassign Manager</th>}
+              userRole !== "Conversion Agent" && (
+                <th className="TableHeaderItem">Assign / Reassign Manager</th>
+              )}
             <th className="TableHeaderItem">Next call</th>
             <th className="TableHeaderItem">Details</th>
             {userBranch === "Main" && (
@@ -203,7 +180,6 @@ export const TableLeads = () => {
                   ) : (
                     lead.conManagerId.username
                   )}
-                </td>}
                 <NextCall lead={lead} />
                 <td className="TableHeaderItem">
                   <button className="check-btn" type='button'
@@ -223,8 +199,8 @@ export const TableLeads = () => {
                 )}
               </tr>
             ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>    
       <InputWindow
         leads={leads}
         inputVisible={inputVisible}
@@ -232,20 +208,23 @@ export const TableLeads = () => {
         setLeads={setLeads}
         handleTextareaChange={handleTextareaChange}
         setInputVisible={setInputVisible}
-           dropdownRef={dropdownRef}
-        handleDropdownItemClick={handleDropdownItemClick}
       />
-      {/* <DropdownStatus
+      <DropdownStatus
         inputVisible={inputVisible}
         dropdownRef={dropdownRef}
-        handleDropdownItemClick={handleDropdownItemClick}
-      /> */}
-      {/* <DropdownTimeZone
+        leads={leads}
+        setLeads={setLeads}
+        setInputVisible={setInputVisible}
+      />
+      <DropdownTimeZone
         inputVisible={inputVisible}
         dropdownRef={dropdownRef}
-        handleDropdownItemClick={handleDropdownItemClick}
-      /> */}
-    </TableListStyled>
-  )
+        leads={leads}
+        setLeads={setLeads}
+        setInputVisible={setInputVisible}
+        />
+        </div>
+      </TableListStyled>
+      
+  );
 };
-

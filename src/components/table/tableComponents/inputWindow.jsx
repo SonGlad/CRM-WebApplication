@@ -5,7 +5,6 @@ import {
   patchRegionLead,
 } from "../../../redux/Lead/lead-operation";
 import { useState } from "react";
-import { useLead } from "../../../hooks/useLead";
 
 export const InputWindow = ({
   leads,
@@ -14,20 +13,10 @@ export const InputWindow = ({
   setLeads,
   handleTextareaChange,
   setInputVisible,
-  dropdownRef,
-  handleDropdownItemClick,
 }) => {
   const dispatch = useDispatch();
   const [newText, setNewText] = useState("");
 
-    const {
-    status: tstatusData,
-    timeZone: timeZoneData,
-    isStatusLoading,
-    isTimeZoneLoading,
-    isStatusError,
-  } = useLead();
-  const loading = "Loading...";
 
   const handleInputChange = (event) => {
     setNewText(event.target.value);
@@ -93,10 +82,6 @@ export const InputWindow = ({
     }
   };
 
-  if (isStatusError) {
-    return <div>Oooops something wrong</div>;
-  }
-
   return (
     <>
       {inputVisible.row !== null &&
@@ -125,63 +110,6 @@ export const InputWindow = ({
             </button>
           </form>
         )}
-      {inputVisible.row !== null &&
-        inputVisible.cell !== null &&
-        inputVisible.cell === "status" && (
-          <ul className="dropdown" ref={dropdownRef}>
-            {!isStatusLoading
-              ? tstatusData.map((status, item) => (
-                  <li
-                    className="ListItem"
-                    key={item}
-                    value={status}
-                    onClick={() =>
-                      handleDropdownItemClick(
-                        inputVisible.row,
-                        status,
-                        "status",
-                        inputVisible.leadId
-                      )
-                    }
-                  >
-                    {status}
-                  </li>
-                ))
-              : loading.split("").map((load, item) => (
-                  <li className="ListItem" key={item}>
-                    {load}
-                  </li>
-                ))}
-          </ul>
-        )}
-
-      {inputVisible.row !== null && inputVisible.cell === "timeZone" && (
-        <ul className="dropdown" ref={dropdownRef}>
-          {!isTimeZoneLoading
-            ? timeZoneData.map((zona, item) => (
-                <li
-                  className="ListItem"
-                  key={item}
-                  value={zona}
-                  onClick={() =>
-                    handleDropdownItemClick(
-                      inputVisible.row,
-                      zona,
-                      "timeZone",
-                      inputVisible.leadId
-                    )
-                  }
-                >
-                  {zona}
-                </li>
-              ))
-            : loading.split("").map((load, item) => (
-                <li className="ListItem" key={item}>
-                  {load}
-                </li>
-              ))}
-        </ul>
-      )}
     </>
   );
 };
