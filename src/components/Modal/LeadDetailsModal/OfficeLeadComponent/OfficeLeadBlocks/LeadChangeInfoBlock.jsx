@@ -61,7 +61,7 @@ export const LeadChangeInfoBlock = ({leadDetailById}) => {
             }
             setTimeout(() => {
                 dispatch(setSuccessToFalse())
-            },1000)
+            },250)
         }
     },[cityValue, countryValue, dispatch, isSuccess, leadDetailById, regionValue])
 

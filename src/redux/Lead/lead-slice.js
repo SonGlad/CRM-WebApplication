@@ -15,6 +15,7 @@ import {
   leadAssign,
   leadReAssign,
   leadChangeBaseInfo,
+  leadChangeKYCInfo,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -473,6 +474,30 @@ const leadSlice = createSlice({
       state.isLeadError = null;
     })
     .addCase(leadChangeBaseInfo.rejected, (state, { payload }) => {
+      state.isLeadError = payload;
+    })
+
+
+    //LEAD CHANGE KYC INFORMATION////////////////
+    .addCase(leadChangeKYCInfo.pending, (state) => {
+      state.isLeadError = null;
+    })
+    .addCase(leadChangeKYCInfo.fulfilled, (state, { payload }) => {
+      console.log(payload);
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { ...lead, KYC: updatedLead.KYC }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = {
+          ...state.leadDetailById, 
+          KYC: payload.KYC
+        };
+      }
+    })
+    .addCase(leadChangeKYCInfo.rejected, (state, { payload }) => {
       state.isLeadError = payload;
     })
   },

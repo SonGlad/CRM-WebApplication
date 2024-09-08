@@ -16,7 +16,7 @@ export const LeadDetailsStyled = styled.div`
     position: relative;
 
     @media only screen and (min-width: 834px) {
-        padding: 1.5rem;
+        padding: 1rem;
     }
 
 
@@ -63,7 +63,7 @@ export const LeadDetailsStyled = styled.div`
 
     .form-title{
         text-align: center;
-        margin-top: 1rem;
+        /* margin-top: 1rem; */
         color: ${p => p.theme.color.primary_white};
         font-weight: 500;
         font-size: 1.875rem;

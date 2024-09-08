@@ -380,9 +380,130 @@ export const LeadChangeInfoBlockStyled = styled.div`
 
 
 export const LeadKYCBlockStyled = styled.div`
-    /* height: 22.125rem; */
-    width: 32.5%;
+    width: 50%;
     padding: 0.5rem;
+    font-size: 0.875rem;
+
+
+    .create-contact-form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.35rem;
+    }
+
+    .radio-btn-list{
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .radio-btn-item{
+        width: 32.3%;
+        padding: 0.5rem;
+        border: 1px solid ${props => props.theme.color.primary_green_lite};
+        border-radius: 0.75rem;
+    }
+
+    .radio-btn-item-title{
+        margin-bottom: 0.6rem;
+        text-align: center;
+    }
+
+    .LabelActivity {
+        position: relative;
+        align-items: center;
+        display: flex;
+        margin-bottom: 0.6rem;
+        padding-left: 0.5rem;
+
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+
+    .radio-btn-input {
+        height: 0.75rem;
+        width: 0.75rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        cursor: pointer;
+        margin-right: 0.5rem;
+        border-radius: 50%;
+        padding: 0;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 9%;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background-color: ${props => props.theme.color.primary_black_2};
+            border: 1px solid ${props => props.theme.color.primary_grey};
+        }
+
+        &:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 9%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: ${props => props.theme.color.primary_green_lite};
+            transform: translate(-50%, -50%);
+            visibility: visible;
+        }
+    }
+
+
+    .buttonContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 0.75rem;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.25rem;
+    }
+
+    .saveButton {
+        color: ${(props) => props.theme.color.primary_black};
+        background-color: ${(p) => p.theme.color.primary_green_lite};
+        width: 49%;
+        border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+        border-radius: 0.75rem;
+        padding: 0.25rem;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover {
+            color: ${(props) => props.theme.color.primary_grey};
+        }
+
+        &:disabled {
+            color: ${(props) => props.theme.color.primary_grey};
+            pointer-events: none;
+        }
+    }
+
+    .cancelButton {
+        background-color: ${(props) => props.theme.color.primary_black_2};
+        color: ${(props) => props.theme.color.primary_grey};
+        width: 49%;
+        padding: 0.25rem 0.5rem;
+        border: 1px solid transparent;
+        border-radius: 0.75rem;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover {
+            color: ${(props) => props.theme.color.primary_green_lite};
+        }
+    }
 `
 
 
@@ -397,25 +518,14 @@ export const LeadKYCBlockStyled = styled.div`
 
 export const LeadCreateUpdateCallBlockStyled = styled.div`
     /* height: 22.125rem; */
-    width: 32.5%;
+    width: 23.7%;
     padding: 0.5rem;
 `
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 export const LeadCommentBlockStyled = styled.div`
     /* height: 22.125rem; */
-    width: 32.5%;
+    width: 23.7%;
     padding: 0.5rem;
 `

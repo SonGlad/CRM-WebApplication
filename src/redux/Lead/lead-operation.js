@@ -252,3 +252,20 @@ export const leadChangeBaseInfo = createAsyncThunk(
         }
     }
 );
+
+
+export const leadChangeKYCInfo = createAsyncThunk(
+    'leads/kyc/:leadId(change KYC Info)',
+    async ({leadId, data}, thunkApi) => {
+        try{
+            const response = await axios.patch(`leads/kyc/${leadId}`, data);
+            toast.success(`Lead KYC information successful updated`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            console.log(error);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

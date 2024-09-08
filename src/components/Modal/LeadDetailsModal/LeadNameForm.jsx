@@ -34,6 +34,7 @@ export const LeadNameForm = ({leadDetailById, leadDetailByIdLocation}) => {
         errors,
         touched,
         isValid,
+        resetForm,
         handleBlur,
         handleChange,
         handleSubmit,
@@ -102,6 +103,25 @@ export const LeadNameForm = ({leadDetailById, leadDetailByIdLocation}) => {
         values.leadLastName, 
         values.leadName
     ]);
+
+
+    const formReset = () => {
+        resetForm({
+            values: {
+                leadName: leadDetailById.name,
+                leadLastName: leadDetailById.lastName,
+                leadEmail: leadDetailById.email,
+                phone: leadDetailById.phone,
+            },
+        });
+        setPhoneNumber(formatedPhoneNumber);
+    };
+
+
+    const handleCancel = () => {
+        formReset();
+        setFormChanged(false);
+    };
    
 
     return(
@@ -178,10 +198,16 @@ export const LeadNameForm = ({leadDetailById, leadDetailByIdLocation}) => {
                 />
                 {getInputAlert("phone")}
             </label>
-            <button type="submit" className="submit-btn"
-                disabled={!isValid || !isFormChanged}
-            >Save
-            </button>
+            <div className="button-container">
+                <button type="submit" className="submit-btn"
+                    disabled={!isValid || !isFormChanged}
+                >Save
+                </button>
+                <button className="cancel-btn" type="button" 
+                    onClick={handleCancel}
+                >Cancel
+                </button>
+            </div>
         </LeadNameFormStyled>
     );
 };

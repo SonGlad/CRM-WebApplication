@@ -50,7 +50,7 @@ export const SettingsModal = ({handleClickClose}) => {
                 setTimeout(() => {
                     setFormChange(false);
                     resetForm();
-                }, 500);
+                }, 250);
             }
 
             if (selectedFile !== null) {
