@@ -28,49 +28,15 @@ export const selectTimeZoneLoading = state => state.lead.isTimeZoneLoading;
 
 export const selectTimeZoneError = state => state.lead.isTimeZoneLoading;
 
-export const selectNewStatusLead = state => state.lead.newStatusLead;
-
-export const selectPathStatusLoading = state => state.lead.patchStatusLoading;
-
-export const selectPathStatusError = state => state.lead.patchStatusError;
-
-export const selectNewTimeZone = state => state.lead.newTimeZoneLead;
-
-export const selectPatchTimeZoneLoading = state => state.lead.patchTimeZoneLoading;
-
-export const selectPatchTimeZoneError = state => state.lead.patchTimeZoneError;
-
-export const selectNewCityLead = state => state.lead.newCityLead;
-
-export const selectPatchCityLeadLoading = state => state.lead.patchCityLeadLoading;
-
-export const selectPatchCityLeadError = state => state.lead.patchCityLeadError;
-
-export const selectNewRegionLead = state => state.lead.newRegionLead;
-
-export const selectPatchRegionLeadLoading = state => state.lead.patchRegionLeadLoading;
-
-export const selectPatchRegionLeadError = state => state.lead.patchRegionLeadError;
-
-export const selectNewCountryLead = state => state.lead.newCountryLead;
-
-export const selectPatchCountryLeadLoading = state => state.lead.patchCountryLeadLoading;
-
-export const selectPatchCountryLeadError = state => state.lead.patchCountryLeadError;
+export const selectLeadDetailById = state => state.lead.leadDetailById;
 
 export const selectSelectedExternalLeadsCheckedCheckbox = state => state.lead.selectedExternalLeadsCheckedCheckbox;
-
-export const selectNewNextCallLead = state => state.lead.newNextCallLead;
-
-export const selectPatchNextCallLeadLoading = state => state.lead.patchNextCallLeadLoading;
-
-export const selectPatchNextCallLeadError = state => state.lead.patchNextCallLeadError;
-
-export const selectLeadDetailById = state => state.lead.leadDetailById;
 
 export const selectSelectedAssignLeadsCheckedCheckbox = state => state.lead.selectedAssignLeadsCheckedCheckbox;
 
 export const selectLeadDetailByIdLocation = state => state.lead.leadDetailByIdLocation;
+
+export const selectIsSuccess = state => state.lead.isSuccess
 
 
 

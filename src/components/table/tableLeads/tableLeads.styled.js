@@ -22,7 +22,7 @@ border: 1px solid ${(p) => p.theme.color.primary_green_lite};
   .TableHeader {
     position: sticky;
     top: 0;
-    z-index: 2000;
+    z-index: 1;
     background: #223f53;
   }
 

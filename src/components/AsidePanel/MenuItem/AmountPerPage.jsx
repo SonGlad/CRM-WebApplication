@@ -67,7 +67,7 @@ export const AmountPerPage = forwardRef(({
             <ul className={`amount-dropdown-list ${toggleAmountPerPageDropCont()}`}>
                 <li className="users-drop-item">
                     <p>To change the number of leads displayed on the page, simply enter a new value in the field below and then save it.</p>
-                    <form action="amountPerPage">
+                    <form onSubmit={(e) => e.preventDefault()}>
                         <label htmlFor="amount">
                             <input type="number"
                                 value={value}
@@ -81,7 +81,7 @@ export const AmountPerPage = forwardRef(({
                                 required
                             />
                         </label>
-                        <button type="button"
+                        <button type="submit"
                             onClick={saveValue}
                             disabled={!isEnable}
                         >Save

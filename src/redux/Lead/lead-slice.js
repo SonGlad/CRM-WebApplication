@@ -37,29 +37,12 @@ const initialState = {
   timeZone: [],
   isTimeZoneLoading: false,
   isTimeZoneError: null,
-  newStatusLead: [],
-  patchStatusLoading: false,
-  patchStatusError: null,
-  newTimeZoneLead: [],
-  patchTimeZoneLoading: false,
-  patchTimeZoneError: null,
-  newCityLead: [],
-  patchCityLeadLoading: false,
-  patchCityLeadError: null,
-  newRegionLead: [],
-  patchRegionLeadLoading: false,
-  patchRegionLeadError: null,
-  newCountryLead: [],
-  patchCountryLeadLoading: false,
-  patchCountryLeadError: null,
-  selectedExternalLeadsCheckedCheckbox: [],
-  newNextCallLead: [],
-  patchNextCallLeadLoading: false,
-  patchNextCallLeadError: null,
   leadDetailById: null,
+  selectedExternalLeadsCheckedCheckbox: [],
   selectedAssignLeadsCheckedCheckbox: [],
   isLeadDetailsModal: false,
   leadDetailByIdLocation: '',
+  isSuccess: false,
 };
 
 
@@ -135,6 +118,9 @@ const leadSlice = createSlice({
       state.leadDetailById = null;
       state.leadDetailByIdLocation = '';
     },
+    setSuccessToFalse: (state) => {
+      state.isSuccess = false;
+    },
   },
   
 
@@ -158,25 +144,8 @@ const leadSlice = createSlice({
       state.status = [];
       state.isStatusError = null;
       state.isStatusLoading = false;
-      state.newStatusLead = [];
-      state.patchStatusLoading = false;
-      state.patchStatusError = null;
-      state.newTimeZoneLead = [];
-      state.patchTimeZoneLoading = false;
-      state.patchTimeZoneError = null;
-      state.newCityLead = [];
-      state.patchCityLeadLoading = false;
-      state.patchCityLeadError = null;
-      state.newRegionLead = [];
-      state.patchRegionLeadLoading = false;
-      state.patchRegionLeadError = null;
-      state.newCountryLead = [];
-      state.patchCountryLeadLoading = false;
-      state.patchCountryLeadError = null;
+      state.leadDetailById = null;
       state.selectedExternalLeadsCheckedCheckbox = [];
-      state.newNextCallLead = [];
-      state.patchNextCallLeadLoading = false;
-      state.patchNextCallLeadError = null;
       state.selectedAssignLeadsCheckedCheckbox = [];
       state.isLeadDetailsModal = false;
       state.leadDetailByIdLocation = '';
@@ -230,23 +199,7 @@ const leadSlice = createSlice({
       state.isLeadError = payload;
     })
     
-
-    //GET ALL STATUS////////////
-    .addCase(getStatus.pending, (state) => {
-      state.isStatusLoading = true;
-      state.isStatusError = null;
-    })
-    .addCase(getStatus.fulfilled, (state, { payload }) => {
-      state.isStatusLoading = false;
-      state.isStatusError = null;
-      state.status = payload;
-    })
-    .addCase(getStatus.rejected, (state, { payload }) => {
-      state.isStatusLoading = false;
-      state.isStatusError = payload;
-    })
-
-        
+ 
     //DELETE LEADS//
     .addCase(deleteLead.pending, state => {
       state.isLeadLoading = true;
@@ -263,6 +216,22 @@ const leadSlice = createSlice({
     .addCase(deleteLead.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
       state.isLeadError = payload;
+    })
+
+
+    //GET ALL STATUS////////////
+    .addCase(getStatus.pending, (state) => {
+      state.isStatusLoading = true;
+      state.isStatusError = null;
+    })
+    .addCase(getStatus.fulfilled, (state, { payload }) => {
+      state.isStatusLoading = false;
+      state.isStatusError = null;
+      state.status = payload;
+    })
+    .addCase(getStatus.rejected, (state, { payload }) => {
+      state.isStatusLoading = false;
+      state.isStatusError = payload;
     })
 
 
@@ -284,97 +253,154 @@ const leadSlice = createSlice({
 
     // PATCH STATUS////////////////
     .addCase(patchStatus.pending, (state) => {
-      state.patchStatusLoading = true;
-      state.patchStatusError = null;
+      state.isLeadError = null;
     })
     .addCase(patchStatus.fulfilled, (state, { payload }) => {
-      state.newStatusLead = payload;
-      state.patchStatusLoading = false;
-      state.patchStatusError = null;
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { ...lead, status: updatedLead.status }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = {
+          ...state.leadDetailById, 
+          status: payload.status
+        };
+      }
+      state.isLeadError = null;
     })
     .addCase(patchStatus.rejected, (state, { payload }) => {
-      state.patchStatusLoading = false;
-      state.patchStatusError = payload;
+      state.isLeadError = payload;
     })
     
     
     // PATCH TIME ZONE////////////////
     .addCase(patchTimeZone.pending, (state) => {
-      state.patchTimeZoneLoading = true;
-      state.patchTimeZoneError = null;
+      state.isLeadError = null;
     })
     .addCase(patchTimeZone.fulfilled, (state, { payload }) => {
-      state.newTimeZoneLead = payload;
-      state.patchTimeZoneLoading = false;
-      state.patchTimeZoneError = null;
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { ...lead, timeZone: updatedLead.timeZone }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = {
+          ...state.leadDetailById, 
+          timeZone: payload.timeZone
+        };
+      }
+      state.isLeadError = null;
     })
     .addCase(patchTimeZone.rejected, (state, { payload }) => {
-      state.patchTimeZoneLoading = false;
-      state.patchTimeZoneError = payload;
+      state.isLeadError = payload;
     })
     
     
     // PATCH CITY////////////////
     .addCase(patchCityLead.pending, (state) => {
-      state.patchCityLeadLoading = true;
-      state.patchCityLeadError = null;
+      state.isLeadError = null;
+      state.isSuccess = false;
     })
     .addCase(patchCityLead.fulfilled, (state, { payload }) => {
-      state.newCityLead = payload;
-      state.patchCityLeadLoading = false;
-      state.patchCityLeadError = null;
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { ...lead, city: updatedLead.city }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = {
+          ...state.leadDetailById, 
+          city: payload.city
+        };
+        state.isSuccess = true;
+      }
+      state.isLeadError = null;
     })
     .addCase(patchCityLead.rejected, (state, { payload }) => {
-      state.patchCityLeadLoading = false;
-      state.patchCityLeadError = payload;
+      state.isLeadError = payload;
+      state.isSuccess = false;
     })
     
     
     // PATCH REGION////////////////
     .addCase(patchRegionLead.pending, (state) => {
-      state.patchRegionLeadLoading = true;
-      state.patchRegionLeadError = null;
+      state.isLeadError = null;
+      state.isSuccess = false;
     })
     .addCase(patchRegionLead.fulfilled, (state, { payload }) => {
-      state.newRegionLead = payload;
-      state.patchRegionLeadLoading = false;
-      state.patchRegionLeadError = null;
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { ...lead, region: updatedLead.region }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = {
+          ...state.leadDetailById, 
+          region: payload.region
+        };
+        state.isSuccess = true;
+      }
+      state.isLeadError = null;
     })
     .addCase(patchRegionLead.rejected, (state, { payload }) => {
-      state.patchRegionLeadLoading = false;
-      state.patchRegionLeadError = payload;
+      state.isLeadError = payload;
+      state.isSuccess = false;
     })
     
     
     // PATCH COUNTRY////////////////
     .addCase(patchCountryLead.pending, (state) => {
-      state.patchCountryLeadLoading = true;
-      state.patchCountryLeadError = null;
+      state.isLeadError = null;
+      state.isSuccess = false;
     })
     .addCase(patchCountryLead.fulfilled, (state, { payload }) => {
-      state.newCountryLead = payload;
-      state.patchCountryLeadLoading = false;
-      state.patchCountryLeadError = null;
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { ...lead, country: updatedLead.country }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = {
+          ...state.leadDetailById, 
+          country: payload.country
+        };
+        state.isSuccess = true;
+      }
+      state.isLeadError = null;
     })
     .addCase(patchCountryLead.rejected, (state, { payload }) => {
-      state.patchCountryLeadLoading = false;
-      state.patchCountryLeadError = payload;
+      state.isLeadError = payload;
+      state.isSuccess = false;
     })
     
 
     // PATCH NEXT CALL////////////////
     .addCase(patchNextCall.pending, (state) => {
-      state.patchNextCallLeadLoading = true;
-      state.patchNextCallLeadError = null;
+      state.isLeadError = null;
     })
     .addCase(patchNextCall.fulfilled, (state, { payload }) => {
-      state.newNextCallLead = payload;
-      state.patchNextCallLeadLoading = false;
-      state.patchNextCallLeadError = null;
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { ...lead, nextCall: updatedLead.nextCall }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = {
+          ...state.leadDetailById, 
+          nextCall: payload.nextCall
+        };
+      }
+      state.isLeadError = null;
     })
     .addCase(patchNextCall.rejected, (state, { payload }) => {
-      state.patchNextCallLeadLoading = false;
-      state.patchNextCallLeadError = payload;
+      state.isLeadError = payload;
     })
 
 
@@ -469,4 +495,5 @@ export const {
   resetAssignLeadsSelectedCheckbox,
   setLeadDetailsModalTrue,
   setLeadDetailsModalFalse,
+  setSuccessToFalse,
 } = leadSlice.actions;

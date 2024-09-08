@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 export const ClientTime = ({ lead }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -11,9 +12,14 @@ export const ClientTime = ({ lead }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+
   const calculateClientTime = (timeZoneOffset) => {
+    const currentUTCTime  = new Date(
+      currentTime.getTime() + currentTime.getTimezoneOffset() * 60000
+    );     
+
     const clientTime = new Date(
-      currentTime.getTime() + timeZoneOffset * 60 * 60 * 1000
+      currentUTCTime.getTime() + timeZoneOffset * 60 * 60 * 1000
     );
     
     return clientTime.toLocaleString("ru-RU", {

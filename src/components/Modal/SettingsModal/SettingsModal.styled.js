@@ -103,6 +103,10 @@ export const SettingsModalStyled = styled.div`
             box-shadow: none;
         }
 
+        &::placeholder{
+            color: ${props => props.theme.color.primary_grey}
+        }
+
         &[type="file"] {
             visibility: hidden;
             pointer-events: none;
@@ -174,19 +178,10 @@ export const SettingsModalStyled = styled.div`
     }
 
 
-    .DivInput:hover input[name='currentPassword'],
-    .DivInput:hover input[name='newPassword'] {
-        border: 1px solid ${props => props.theme.color.primary_green_lite};
-    }
-
     .DivInput[id='currentPassword']:hover .ImgError,
     .DivInput[id='currentPassword']:hover .ImgCorrect,
-    .DivInput[id='currentPassword']:hover .ErrorText,
-    .DivInput[id='currentPassword']:hover .SuccessText,
     .DivInput[id='newPassword']:hover .ImgError,
-    .DivInput[id='newPassword']:hover .ImgCorrect,
-    .DivInput[id='newPassword']:hover .ErrorText,
-    .DivInput[id='newPassword']:hover .SuccessText {
+    .DivInput[id='newPassword']:hover .ImgCorrect {
         display: none;
     }
 

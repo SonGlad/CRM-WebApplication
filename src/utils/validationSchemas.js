@@ -41,12 +41,14 @@ const SettingsSchema = Yup.object({
     .trim()
     .min(8, "Must be 8 characters")
     .max(50, "Too Long!")
-    .matches(passwordRules, "Must be A-z, 1-9"),
+    .matches(passwordRules, "Must be A-z, 1-9")
+    .required("Required"),
   newPassword: Yup.string()
     .trim()
     .min(8, "Must be 8 characters")
     .max(50, "Too Long!")
-    .matches(passwordRules, "Must be A-z, 1-9"),
+    .matches(passwordRules, "Must be A-z, 1-9")
+    .required("Required"),
 });
 
 

@@ -33,9 +33,9 @@ export const TableLeads = () => {
   } = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState();
-  const dispatch = useDispatch();   
+  const dispatch = useDispatch(); 
 
-
+  
   useEffect(() => {
     if (userLeads || isLeads) {
       setLeads(userLeadsComponent ? userLeads : isLeads);

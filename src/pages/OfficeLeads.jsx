@@ -12,18 +12,18 @@ import { getStatus, getTimeZone } from "../redux/Lead/lead-operation";
 const OfficeLeadsPage = () => {
     const dispatch = useDispatch();
     const { userLeadsComponent } = useUser();
-    const { isAdmin, forNoneAdminLogin} = useAuth();
+    const { isAdmin, isManager, isConversionManager, isConversion } = useAuth();
 
 
     useEffect(() => {
-        if (!forNoneAdminLogin && !userLeadsComponent) {
+        if (!userLeadsComponent && (isAdmin || isManager || isConversion)) {
             dispatch(getStatus());
             dispatch(getTimeZone());
         }
-        if (!forNoneAdminLogin && !userLeadsComponent && !isAdmin) {
+        if (!userLeadsComponent && !isAdmin && (isManager || isConversionManager)) {
             dispatch(getAvailableUsers());
         }
-    },[dispatch, forNoneAdminLogin, isAdmin, userLeadsComponent]);
+    },[dispatch, isAdmin, isConversion, isConversionManager, isManager, userLeadsComponent]);
     
 
 

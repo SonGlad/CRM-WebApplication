@@ -20,10 +20,18 @@ export const OfficeLeadComponent = ({leadDetailById, leadDetailByIdLocation, set
             <LeadAssignReAssignOwnerBlock
                 leadDetailById={leadDetailById}
             />
-            <LeadChangeInfoBlock/>
-            <LeadKYCBlock/>
-            <LeadCreateUpdateCallBlock/>
-            <LeadCommentBlock/>
+            <LeadChangeInfoBlock
+                leadDetailById={leadDetailById}
+            />
+            <LeadKYCBlock
+                leadDetailById={leadDetailById}
+            />
+            <LeadCreateUpdateCallBlock
+                leadDetailById={leadDetailById}
+            />
+            <LeadCommentBlock
+                leadDetailById={leadDetailById}
+            />
             <button type="button" onClick={setDeleteComponentTrue}>Delete</button>
         </OfficeLeadComponentStyled>
     )

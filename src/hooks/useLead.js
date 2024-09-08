@@ -15,28 +15,11 @@ import {
   selectTimeZone,
   selectTimeZoneLoading,
   selectTimeZoneError,
-  selectNewStatusLead,
-  selectPathStatusLoading,
-  selectPathStatusError,
-  selectNewTimeZone,
-  selectPatchTimeZoneLoading,
-  selectPatchTimeZoneError,
-  selectNewCityLead,
-  selectPatchCityLeadLoading,
-  selectPatchCityLeadError,
-  selectNewRegionLead,
-  selectPatchRegionLeadLoading,
-  selectPatchRegionLeadError,
-  selectNewCountryLead,
-  selectPatchCountryLeadLoading,
-  selectPatchCountryLeadError,
-  selectSelectedExternalLeadsCheckedCheckbox,
-  selectNewNextCallLead,
-  selectPatchNextCallLeadLoading,
-  selectPatchNextCallLeadError,
   selectLeadDetailById,
+  selectSelectedExternalLeadsCheckedCheckbox,
   selectSelectedAssignLeadsCheckedCheckbox,
   selectLeadDetailByIdLocation,
+  selectIsSuccess,
 } from "../redux/Lead/lead-selectors";
 
 
@@ -56,28 +39,11 @@ export const useLead = () => {
   const timeZone = useSelector(selectTimeZone);
   const isTimeZoneLoading = useSelector(selectTimeZoneLoading);
   const isTimeZoneError = useSelector(selectTimeZoneError);
-  const patchStatusLoading = useSelector(selectPathStatusLoading);
-  const patchStatusError = useSelector(selectPathStatusError);
-  const newStatusLead = useSelector(selectNewStatusLead);
-  const newTimeZoneLead = useSelector(selectNewTimeZone);
-  const patchTimeZoneLoading = useSelector(selectPatchTimeZoneLoading);
-  const patchTimeZoneError = useSelector(selectPatchTimeZoneError);
-  const newCityLead = useSelector(selectNewCityLead);
-  const patchCityLeadLoading = useSelector(selectPatchCityLeadLoading);
-  const patchCityLeadError = useSelector(selectPatchCityLeadError);
-  const newRegionLead = useSelector(selectNewRegionLead);
-  const patchRegionLeadLoading = useSelector(selectPatchRegionLeadLoading);
-  const patchRegionLeadError = useSelector(selectPatchRegionLeadError);
-  const newCountryLead = useSelector(selectNewCountryLead);
-  const patchCountryLeadLoading = useSelector(selectPatchCountryLeadLoading);
-  const patchCountryLeadError = useSelector(selectPatchCountryLeadError);
   const selectedExternalLeadsCheckedCheckbox = useSelector(selectSelectedExternalLeadsCheckedCheckbox);
   const leadDetailById = useSelector(selectLeadDetailById);
-  const newNextCallLead = useSelector(selectNewNextCallLead);
-  const patchNextCallLeadLoading = useSelector(selectPatchNextCallLeadLoading);
-  const patchNextCallLeadError = useSelector(selectPatchNextCallLeadError);
   const selectedAssignLeadsCheckedCheckbox = useSelector(selectSelectedAssignLeadsCheckedCheckbox);
   const leadDetailByIdLocation = useSelector(selectLeadDetailByIdLocation);
+  const isSuccess = useSelector(selectIsSuccess);
 
 
 
@@ -97,27 +63,10 @@ export const useLead = () => {
     timeZone,
     isTimeZoneLoading,
     isTimeZoneError,
-    newStatusLead,
-    patchStatusLoading,
-    patchStatusError,
-    newTimeZoneLead,
-    patchTimeZoneLoading,
-    patchTimeZoneError,
-    newCityLead,
-    patchCityLeadLoading,
-    patchCityLeadError,
-    newRegionLead,
-    patchRegionLeadLoading,
-    patchRegionLeadError,
-    newCountryLead,
-    patchCountryLeadLoading,
-    patchCountryLeadError,
     selectedExternalLeadsCheckedCheckbox,
     leadDetailById,
-    newNextCallLead,
-    patchNextCallLeadLoading,
-    patchNextCallLeadError,
     selectedAssignLeadsCheckedCheckbox,
     leadDetailByIdLocation,
+    isSuccess
   };
 };

@@ -18,9 +18,8 @@ export const OfficeLeads = () => {
     const { isAdmin } = useAuth();
     const { isLeadLoading, leadOffice } = useLead();
     const { isLeadDetails } = useModal();
-    const { availableUsersForAssign, userLeadsComponent } = useUser()
+    const { userLeadsComponent } = useUser()
     const dispatch = useDispatch();
-    console.log("Users for Assign:", availableUsersForAssign);
     
 
     const resetStateForLeads = () => {
