@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/CRM-WebApplication/static/css/main.d666774a.css",
-    "main.js": "/CRM-WebApplication/static/js/main.d7857784.js",
-    "static/js/571.190a1cfd.chunk.js": "/CRM-WebApplication/static/js/571.190a1cfd.chunk.js",
-    "static/js/992.af0a1c83.chunk.js": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js",
-    "static/js/524.3db5a56a.chunk.js": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js",
-    "static/js/769.69ddeba8.chunk.js": "/CRM-WebApplication/static/js/769.69ddeba8.chunk.js",
-    "static/js/513.48970882.chunk.js": "/CRM-WebApplication/static/js/513.48970882.chunk.js",
+    "main.css": "/CRM-WebApplication/static/css/main.b9ff39c7.css",
+    "main.js": "/CRM-WebApplication/static/js/main.62e72f1c.js",
+    "static/js/571.deeb67cc.chunk.js": "/CRM-WebApplication/static/js/571.deeb67cc.chunk.js",
+    "static/js/992.1e642304.chunk.js": "/CRM-WebApplication/static/js/992.1e642304.chunk.js",
+    "static/js/524.f02b70a3.chunk.js": "/CRM-WebApplication/static/js/524.f02b70a3.chunk.js",
+    "static/js/769.72db8562.chunk.js": "/CRM-WebApplication/static/js/769.72db8562.chunk.js",
+    "static/js/513.bed0f61e.chunk.js": "/CRM-WebApplication/static/js/513.bed0f61e.chunk.js",
     "static/js/302.5efeecbe.chunk.js": "/CRM-WebApplication/static/js/302.5efeecbe.chunk.js",
     "static/media/iReX_logo.png": "/CRM-WebApplication/static/media/iReX_logo.bb7640ae2d9d84190796.png",
     "static/media/welcome.jpg": "/CRM-WebApplication/static/media/welcome.b907e6f055a9be3133fe.jpg",
@@ -29,23 +29,24 @@
     "static/media/telegram.svg": "/CRM-WebApplication/static/media/telegram.ecc0c5ffa75177b1302974012eae0af8.svg",
     "static/media/arrow-left.svg": "/CRM-WebApplication/static/media/arrow-left.d83f2da68a3f119c6c553c0110084034.svg",
     "static/media/eye.svg": "/CRM-WebApplication/static/media/eye.6b00c3608d2b95883cbcd085afe1b291.svg",
+    "static/media/calendar.svg": "/CRM-WebApplication/static/media/calendar.fe4e0657fbaad8e58d4b6781bd9e8a82.svg",
     "static/media/email.svg": "/CRM-WebApplication/static/media/email.c74f4d10a115e14ec4a72cf313b26d24.svg",
     "static/media/logout.svg": "/CRM-WebApplication/static/media/logout.47d6d0dc6aaf1e004df43c1b52b80148.svg",
     "static/media/user.svg": "/CRM-WebApplication/static/media/user.1c1a09120a317ba44e35daaa99752a9e.svg",
     "static/media/correct.svg": "/CRM-WebApplication/static/media/correct.b5b7505624f3a38a8b7994508d630e79.svg",
     "static/media/arrow-down.svg": "/CRM-WebApplication/static/media/arrow-down.e3ed7849216bb46de413bbb56a4a7bcf.svg",
     "static/media/rectangle.svg": "/CRM-WebApplication/static/media/rectangle.87ad7b1ba8cdb017b1733cd21909939f.svg",
-    "main.d666774a.css.map": "/CRM-WebApplication/static/css/main.d666774a.css.map",
-    "main.d7857784.js.map": "/CRM-WebApplication/static/js/main.d7857784.js.map",
-    "571.190a1cfd.chunk.js.map": "/CRM-WebApplication/static/js/571.190a1cfd.chunk.js.map",
-    "992.af0a1c83.chunk.js.map": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js.map",
-    "524.3db5a56a.chunk.js.map": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js.map",
-    "769.69ddeba8.chunk.js.map": "/CRM-WebApplication/static/js/769.69ddeba8.chunk.js.map",
-    "513.48970882.chunk.js.map": "/CRM-WebApplication/static/js/513.48970882.chunk.js.map",
+    "main.b9ff39c7.css.map": "/CRM-WebApplication/static/css/main.b9ff39c7.css.map",
+    "main.62e72f1c.js.map": "/CRM-WebApplication/static/js/main.62e72f1c.js.map",
+    "571.deeb67cc.chunk.js.map": "/CRM-WebApplication/static/js/571.deeb67cc.chunk.js.map",
+    "992.1e642304.chunk.js.map": "/CRM-WebApplication/static/js/992.1e642304.chunk.js.map",
+    "524.f02b70a3.chunk.js.map": "/CRM-WebApplication/static/js/524.f02b70a3.chunk.js.map",
+    "769.72db8562.chunk.js.map": "/CRM-WebApplication/static/js/769.72db8562.chunk.js.map",
+    "513.bed0f61e.chunk.js.map": "/CRM-WebApplication/static/js/513.bed0f61e.chunk.js.map",
     "302.5efeecbe.chunk.js.map": "/CRM-WebApplication/static/js/302.5efeecbe.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d666774a.css",
-    "static/js/main.d7857784.js"
+    "static/css/main.b9ff39c7.css",
+    "static/js/main.62e72f1c.js"
   ]
 }
