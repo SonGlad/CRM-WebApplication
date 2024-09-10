@@ -183,6 +183,30 @@ border: 1px solid ${(p) => p.theme.color.primary_green_lite};
     }
   }
 
+
+  .calendar-cont{
+    width: 72px;
+
+    & input{
+      padding: 0;
+      text-align: center;
+      color: ${props => props.theme.color.primary_white};
+      transition: border ${props => props.theme.transition.main_transition};
+
+      &:focus,
+      &:hover {
+        color: ${props => props.theme.color.primary_green_lite};
+
+        &::placeholder{
+        color: ${props => props.theme.color.primary_green_lite};
+      }
+      }
+      
+      &::placeholder{
+        color: ${props => props.theme.color.primary_white};
+      }
+    }
+  }
 `;
 
 
@@ -196,8 +220,8 @@ export const CustomCheckboxStyled = styled.div`
 
   .checkbox {
     margin-top: 5px;
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     outline: none;
     border: none;
     cursor: pointer;

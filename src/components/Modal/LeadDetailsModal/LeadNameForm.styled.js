@@ -4,7 +4,13 @@ import correct from '../../../images/svg-icons/correct.svg';
 
 
 export const LeadNameFormStyled = styled.form `
-    width: ${props => props.$leadDetailByIdLocation === "External" ? '49%' : '32.5%'};
+    width: ${props => props.$leadDetailByIdLocation === "External"
+    ? '49%'
+    : '23.7%'};
+    border: ${props => props.$leadDetailByIdLocation === "External" 
+    ? 'none' 
+    : `1px solid ${props.theme.color.primary_green_lite}`};
+    border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
     justify-content: center;

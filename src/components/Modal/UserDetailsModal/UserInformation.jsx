@@ -1,6 +1,6 @@
 import { StyledUserInformation } from "./UserDetail.styled";
-import { format } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
+import { ShowRules } from "../../../utils/showRules";
+
 
 
 export const UserInformation = ({
@@ -21,26 +21,12 @@ export const UserInformation = ({
     getAssignedLeads,
     getSelfCreatedLeads,
 }) => {
+    const { formatDateTime, formatBranchName } = ShowRules();
 
 
-    const formatBranchName = (userBranch) => {
-        return userBranch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    };
     const formatCreatorBranchName = (userCreatorBranch) => {
         return userCreatorBranch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
     };
-
-
-    const formatDateTime = (dateString, timeZone = 'Europe/Kiev') => {
-        const date = new Date(dateString);
-        const zonedDate = toZonedTime(date, timeZone);
-    
-        const formattedDate = format(zonedDate, 'yyyy-MM-dd', { timeZone });
-        const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
-    
-        return `${formattedDate} ${formattedTime}`;
-    };
-
 
 
     return(

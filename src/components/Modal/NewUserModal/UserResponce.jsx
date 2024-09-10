@@ -1,6 +1,7 @@
 import { StyledUserResponce } from "./NewUser.styled";
 import {ReactComponent as SuccsessIcon} from "../../../images/svg-icons/ok.svg";
 import {ReactComponent as ErrorIcon} from "../../../images/svg-icons/error-logo.svg";
+import { ShowRules } from "../../../utils/showRules";
 
 
 export const UserResponce = ({
@@ -16,11 +17,7 @@ export const UserResponce = ({
     forContinueButton,
     forDoneButton,
 }) => {
-
-
-    const formatOfficeNameResponce = (authNewUserBranch) => {
-        return authNewUserBranch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    }; 
+    const { formatOfficeName } = ShowRules();
 
 
     return(
@@ -40,7 +37,7 @@ export const UserResponce = ({
                         <p className="content-text-item"><span>Password:</span> {authNewUserPassword}</p>
                         <p className="content-text-item"><span>Role:</span> {authNewUserRole}</p>
                         {isAdmin && (
-                            <p className="content-text-item"><span>Branch:</span> {formatOfficeNameResponce(authNewUserBranch)}</p>
+                            <p className="content-text-item"><span>Branch:</span> {formatOfficeName(authNewUserBranch)}</p>
                         )}
                         <button className="password-button" type='button' onClick={handleCopy}>
                             {isCopied ? "Copied!" : "Copy"}

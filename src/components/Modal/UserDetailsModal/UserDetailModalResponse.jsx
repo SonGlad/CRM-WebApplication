@@ -2,6 +2,7 @@ import { StyledUserVerification } from "./UserDetail.styled";
 import {ReactComponent as SuccsessIcon} from "../../../images/svg-icons/ok.svg";
 import { useState, useEffect } from "react";
 import { ErrorResponse } from "./UserErrorResponse";
+import { ShowRules } from "../../../utils/showRules";
 
 
 export const UserDetailModalResponse = ({
@@ -20,6 +21,7 @@ export const UserDetailModalResponse = ({
     handleCopy,
     resetPasswordResponse,
 }) => {
+    const { formatOfficeName } = ShowRules();
     const [isResponse, setResponse] = useState('');
     const [branch, setBranch] = useState(null);
 
@@ -42,11 +44,6 @@ export const UserDetailModalResponse = ({
             setBranch(extractedBranch);
         }
     },[resetPasswordResponse]);
-
-    
-    const formatOfficeName = (branch) => {
-        return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    };
 
 
     return (

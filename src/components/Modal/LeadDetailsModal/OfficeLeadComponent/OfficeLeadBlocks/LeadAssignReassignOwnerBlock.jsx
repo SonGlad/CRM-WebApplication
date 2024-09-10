@@ -168,13 +168,19 @@ export const LeadAssignReAssignOwnerBlock = ({leadDetailById}) => {
             {!isSelfCreated ? (
                 <>
                     {isAdmin && (
-                        <div>
+                        <div className="users-details-cont">
                             <p>Assigned CRM Manager</p>
                             {crmManager ? (
                                 <>
-                                    <p><span>Name: </span>{leadDetailById.managerId.username}</p>
-                                    <p><span>Email: </span>{leadDetailById.managerId.email}</p>
-                                </>
+                                    <div>
+                                        <p>Name:</p>
+                                        <p>{leadDetailById.managerId.username}</p>
+                                    </div>
+                                    <div>
+                                        <p>Email:</p>
+                                        <p>{leadDetailById.managerId.email}</p>
+                                    </div>
+                                 </>
                             ) : (
                                 <p style={{
                                     color: theme.color.error_color,
@@ -186,12 +192,18 @@ export const LeadAssignReAssignOwnerBlock = ({leadDetailById}) => {
                         </div>
                     )}
                     { (isAdmin || isManager ) && (
-                        <div>
+                        <div className="users-details-cont">
                             <p>Assigned Conversion Manager</p>
                             {conManager ? (
                                 <>
-                                    <p><span>Name: </span>{leadDetailById.conManagerId.username}</p>
-                                    <p><span>Email: </span>{leadDetailById.conManagerId.email}</p>
+                                    <div>
+                                        <p>Name:</p>
+                                        <p>{leadDetailById.conManagerId.username}</p>
+                                    </div>
+                                    <div>
+                                        <p>Email:</p>
+                                        <p>{leadDetailById.conManagerId.email}</p>
+                                    </div>
                                 </>
                             ) : (
                                 <p style={{
@@ -204,13 +216,19 @@ export const LeadAssignReAssignOwnerBlock = ({leadDetailById}) => {
                         </div>
                     )}
                     {(isAdmin || isManager || isConversionManager) && (
-                        <div>
+                        <div className="users-details-cont">
                             <p>Assigned Conversion Agent</p>
                             {conAgent ? (
-                                <>
-                                    <p><span>Name: </span>{leadDetailById.conAgentId.username}</p>
-                                    <p><span>Email: </span>{leadDetailById.conAgentId.email}</p>
-                                </>
+                                    <>
+                                       <div>
+                                           <p>Name:</p>
+                                           <p>{leadDetailById.conAgentId.username}</p>
+                                       </div>
+                                       <div>
+                                           <p>Email:</p>
+                                           <p>{leadDetailById.conAgentId.email}</p>
+                                       </div>
+                                   </>
                             ) : (
                                 <p style={{
                                     color: theme.color.error_color,

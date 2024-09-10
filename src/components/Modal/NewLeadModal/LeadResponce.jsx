@@ -1,6 +1,7 @@
 import { StyledLeadResponce } from "./NewLead.styled";
 import {ReactComponent as SuccsessIcon} from "../../../images/svg-icons/ok.svg";
 import {ReactComponent as ErrorIcon} from "../../../images/svg-icons/error-logo.svg";
+import { ShowRules } from "../../../utils/showRules";
 
 
 export const LeadResponce = ({
@@ -11,11 +12,7 @@ export const LeadResponce = ({
     forContinueButton,
     forDoneButton,
 }) => {
-
-
-    const formatOfficeNameResponce = (responceBranch) => {
-        return responceBranch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    }; 
+    const {formatOfficeName} = ShowRules();
 
 
     return(
@@ -32,7 +29,7 @@ export const LeadResponce = ({
                         <p className="content-text-item"><span>Email:</span> {newLead.email}</p>
                         <p className="content-text-item"><span>Phone:</span> {newLead.phone}</p>
                         {isAdmin && newLead.branch && (
-                            <p className="content-text-item"><span>Branch:</span> {formatOfficeNameResponce(newLead.branch)}</p>
+                            <p className="content-text-item"><span>Branch:</span> {formatOfficeName(newLead.branch)}</p>
                         )}
                     </div>
                 </div>

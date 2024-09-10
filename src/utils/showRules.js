@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
+
 
 export const ShowRules = (values, touched, errors) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +15,7 @@ export const ShowRules = (values, touched, errors) => {
       ? "ErrorInput"
       : "SuccessInput";
   };
+
 
   const getInputAlert = (fieldName) => {
     return !values[fieldName] ? (
@@ -34,6 +38,7 @@ export const ShowRules = (values, touched, errors) => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
+
   const getHidePassword = () => {
     return (
       <div
@@ -44,10 +49,10 @@ export const ShowRules = (values, touched, errors) => {
   };
 
 
-
   const handleTogglePasswordNew = () => {
     setShowPasswordNew((prevShowPasswordNew) => !prevShowPasswordNew);
   };
+
 
   const getHidePasswordNew = () => {
     return (
@@ -58,12 +63,41 @@ export const ShowRules = (values, touched, errors) => {
     );
   };
 
+
+  const formatDateTime = (dateString, timeZone = 'Europe/Kiev') => {
+    const date = new Date(dateString);
+    const zonedDate = toZonedTime(date, timeZone);
+
+    const formattedDate = format(zonedDate, 'dd.MM.yyyy', { timeZone });
+    const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
+
+    return `${formattedDate}, ${formattedTime}`;
+  };
+
+
+  const formatBranchName = (branch) => {
+    if (branch) {
+      return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    }
+  };
+
+
+  const formatOfficeName = (officeName) => {
+    if (officeName) {
+      return officeName.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
+    }
+  }; 
+
+
   return { 
     showPassword, 
     showPasswordNew, 
     getInputClass, 
     getInputAlert, 
     getHidePassword, 
-    getHidePasswordNew  
+    getHidePasswordNew,
+    formatDateTime,
+    formatBranchName,
+    formatOfficeName,  
   };
 };

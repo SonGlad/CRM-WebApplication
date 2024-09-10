@@ -13,12 +13,12 @@ import { resetOfficeUserState } from "../../redux/User/user-slice";
 import { getUserById } from "../../redux/User/user-operation";
 import { openModalUserDetail } from "../../redux/Modal/modal-slice";
 import { toggleUsersCheckboxState, setFilteredUsers, resetUserLeadsComponent } from "../../redux/User/user-slice";
-import { format } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
+import { ShowRules } from "../../utils/showRules";
 
 
 
 export const Users = () => {
+    const { formatDateTime, formatBranchName, formatOfficeName } = ShowRules();
     const { isAdmin, isManager, isConversionManager } = useAuth();
     const { userOffice, allUsers, userLoading, usersCheckedCheckbox, filteredUsers, userLeadsComponent } = useUser(); 
     const { isUserDetails } = useModal();
@@ -47,27 +47,6 @@ export const Users = () => {
     ];
 
    
-    const formatOfficeName = (userOffice) => {
-        return userOffice.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    }; 
-
-
-    const formatBranchName = (branch) => {
-        return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    };
-
-
-    const formatDateTime = (dateString, timeZone = 'Europe/Kiev') => {
-        const date = new Date(dateString);
-        const zonedDate = toZonedTime(date, timeZone);
-    
-        const formattedDate = format(zonedDate, 'yyyy-MM-dd', { timeZone });
-        const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
-    
-        return `${formattedDate} ${formattedTime}`;
-    };
-
-
     const handleFilter = (type) => {
         setFilterType(type);
     };

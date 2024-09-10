@@ -61,7 +61,7 @@ export const RotatingLoader = () => {
         <RotatingStyled>
             <PuffLoader 
                 size={160}
-                color={"#36d7b7"}
+                color={"#E3FFA8"}
                 loading = {true} 
                 speedMultiplier={1}
                 aria-label="Loading Spinner"

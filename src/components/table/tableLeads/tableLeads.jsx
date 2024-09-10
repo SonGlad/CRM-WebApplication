@@ -20,9 +20,12 @@ import { useAuth } from "../../../hooks/useAuth.js";
 import { openModalLeadDetail } from "../../../redux/Modal/modal-slice.js";
 import { CustomAssignLeadCheckbox } from "./CustomAssignLeadCheckbox.jsx";
 import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice.js";
+import { ShowRules } from "../../../utils/showRules.js";
+
 
 export const TableLeads = () => {
   const { isLeads, selectedAssignLeadsCheckedCheckbox, leadOffice } = useLead();
+  const { formatDateTime } = ShowRules();
   const {
     userBranch,
     userRole,
@@ -153,12 +156,10 @@ export const TableLeads = () => {
                   {lead.selfCreated ? "Yes" : "No"}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.updatedAt &&
-                    lead.updatedAt.slice(0, 16).replace("T", " ")}
+                  {lead.updatedAt && formatDateTime(lead.updatedAt)}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.createdAt &&
-                    lead.createdAt.slice(0, 16).replace("T", " ")}
+                  {lead.createdAt && formatDateTime(lead.createdAt)}
                 </td>
                 {userRole !== "Conversion Agent" && 
                 <td

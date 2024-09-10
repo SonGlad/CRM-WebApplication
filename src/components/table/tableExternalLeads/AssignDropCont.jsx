@@ -2,10 +2,12 @@ import { AssignDropContStyled } from "./tableExternalLeads.styled";
 import { ReactComponent as Arrow } from "../../../images/svg-icons/arrow-down.svg";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { leadAssign, leadReAssign } from "../../../redux/Lead/lead-operation";
+import { ShowRules } from "../../../utils/showRules";
 
 
 
 export const AssignedDropCont = ({lead, userSelectOffice, dispatch, isAdmin}) => {
+    const { formatOfficeName } = ShowRules();
     const [openMenus, setOpenMenus] = useState(new Map());
     const leadRefs = useRef(new Map());
   
@@ -42,11 +44,6 @@ export const AssignedDropCont = ({lead, userSelectOffice, dispatch, isAdmin}) =>
           return'Assign'
         } 
         return "ReAssign"
-    };
-
-
-    const formatOfficeName = (office) => {
-        return office.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
     };
 
 

@@ -18,7 +18,6 @@ import { useDispatch } from "react-redux";
 export const LeadChangeInfoBlock = ({leadDetailById}) => {
     const [isStatus, setStatus] = useState(false);
     const [isTimeZone, setTimeZone] = useState(false);
-    const [currentTime, setCurrentTime] = useState(new Date());
     const [statusDropDown, setStatusDropDown] = useState(false);
     const [timeZoneDropDown, setTimeZoneDropDown] = useState(false);
     const [countryValue, setCountryValue] = useState(leadDetailById.country);
@@ -64,36 +63,6 @@ export const LeadChangeInfoBlock = ({leadDetailById}) => {
             },250)
         }
     },[cityValue, countryValue, dispatch, isSuccess, leadDetailById, regionValue])
-
-
-    useEffect(() => {
-      const intervalId = setInterval(() => {
-        setCurrentTime(new Date());
-      }, 60000);
-  
-      return () => clearInterval(intervalId);
-    }, []);
-
-    
-  
-    const calculateClientTime = (timeZoneOffset) => {
-      const currentUTCTime  = new Date(
-        currentTime.getTime() + currentTime.getTimezoneOffset() * 60000
-      );     
-
-      const clientTime = new Date(
-        currentUTCTime.getTime() + timeZoneOffset * 60 * 60 * 1000
-      );
-      
-      return clientTime.toLocaleString("ru-RU", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: undefined 
-      });
-    };
 
 
     const resetFormsValue = () => {
@@ -379,10 +348,6 @@ export const LeadChangeInfoBlock = ({leadDetailById}) => {
                         >Save
                     </button>
                 </form>
-            </div>
-            <div className="content-block">
-                <p className="title-text">Client Time:</p>
-                <p className="value-text">{calculateClientTime(leadDetailById.timeZone)}</p>
             </div>
         </LeadChangeInfoBlockStyled>
     );

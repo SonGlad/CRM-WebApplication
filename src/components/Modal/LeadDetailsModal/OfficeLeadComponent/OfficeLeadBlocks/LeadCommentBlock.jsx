@@ -1,7 +1,9 @@
 import { LeadCommentBlockStyled } from "./OfficeLeadBlocks.styled";
 
 
-export const LeadCommentBlock = () => {
+export const LeadCommentBlock = ({leadDetailById}) => {
+    console.log(leadDetailById.latestComment);
+    
 
     return(
         <LeadCommentBlockStyled>

@@ -6,19 +6,19 @@ import { useDispatch } from "react-redux";
 import { openModalLeadDetail } from "../../../redux/Modal/modal-slice";
 import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice";
 import { getLeadById } from "../../../redux/Lead/lead-operation";
-import { format } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
 import { AssignedDropCont } from "./AssignDropCont";
 import { CustomCheckbox } from "./CustomCheckbox";
+import { ShowRules } from "../../../utils/showRules";
 
 
 
 export function TableExternalLeads() {
   const dispatch = useDispatch();
+  const { formatDateTime, formatBranchName } = ShowRules(); 
   const { isAdmin } = useAuth();
   const { userSelectOffice } = useUser();
   const { isLeads, selectedExternalLeadsCheckedCheckbox } = useLead();
-  
+    
 
   let filteredLeads;
   if (isLeads) {
@@ -35,24 +35,6 @@ export function TableExternalLeads() {
     dispatch(openModalLeadDetail());
     dispatch(setLeadDetailsModalTrue('External'));
     dispatch(getLeadById({leadId: _id}));
-  };
-
-
-  const formatDateTime = (dateString, timeZone = 'Europe/Kiev') => {
-    const date = new Date(dateString);
-    const zonedDate = toZonedTime(date, timeZone);
-
-    const formattedDate = format(zonedDate, 'yyyy-MM-dd', { timeZone });
-    const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
-
-    return `${formattedDate} ${formattedTime}`;
-  };
-
-
-  const formatBranchName = (branch) => {
-    if (branch) {
-      return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    }
   };
 
 
@@ -102,45 +84,51 @@ export function TableExternalLeads() {
                 <td className="TableHeaderItem">{formatDateTime(lead.createdAt)}</td>
                 <td className="TableHeaderItem">{formatBranchName(lead.assignedOffice)}</td>
                 <td className="TableHeaderItem">
-                  {lead.crmManager.name || lead.crmManager.email ? (
-                  <ul>
-                    <li>
-                      <p>{lead.crmManager.name}</p>
-                    </li>
-                    <li>
-                      <p>{lead.crmManager.email}</p>
-                    </li>
-                  </ul>
-                  ) : (
-                    <p>Not Assigned Yet</p>
+                  {lead.crmManager && (
+                    (lead.crmManager.name || lead.crmManager.email) ? (
+                    <ul>
+                      <li>
+                        <p>{lead.crmManager.name}</p>
+                      </li>
+                      <li>
+                        <p>{lead.crmManager.email}</p>
+                      </li>
+                    </ul>
+                    ) : (
+                      <p>Not Assigned Yet</p>
+                    )
                   )}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.conManager.name || lead.conManager.email ? (
-                    <ul>
-                      <li>
-                        <p>{lead.conManager.name}</p>
-                      </li>
-                      <li>
-                        <p>{lead.conManager.email}</p>
-                      </li>
-                    </ul>
-                  ) : (
-                    <p>Not Assigned Yet</p>
+                  {lead.conManager && (
+                    (lead.conManager.name || lead.conManager.email) ? (
+                      <ul>
+                        <li>
+                          <p>{lead.conManager.name}</p>
+                        </li>
+                        <li>
+                          <p>{lead.conManager.email}</p>
+                        </li>
+                      </ul>
+                    ) : (
+                      <p>Not Assigned Yet</p>
+                    )
                   )}
                 </td>
                 <td className="TableHeaderItem">
-                  {lead.conAgent.name || lead.conAgent.email ? (
-                    <ul>
-                      <li>
-                        <p>{lead.conAgent.name}</p>
-                      </li>
-                      <li>
-                        <p>{lead.conAgent.email}</p>
-                      </li>
-                    </ul>
-                  ) : (
-                    <p>Not Assigned Yet</p>
+                  {lead.conAgent && (
+                    (lead.conAgent.name || lead.conAgent.email) ? (
+                      <ul>
+                        <li>
+                          <p>{lead.conAgent.name}</p>
+                        </li>
+                        <li>
+                          <p>{lead.conAgent.email}</p>
+                        </li>
+                      </ul>
+                    ) : (
+                      <p>Not Assigned Yet</p>
+                    )
                   )}
                 </td>
                 <td className="TableHeaderItem">

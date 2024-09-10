@@ -68,9 +68,6 @@ export const NewLead = ({handleClickClose}) => {
     },[handleBackgroundClick, handleKeyPress]);
 
 
-    const formatOfficeName = (office) => {
-        return office.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    };
     const formatOfficeNameToShow = (isSelectOffice) => {
         return isSelectOffice.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
     };
@@ -126,10 +123,12 @@ export const NewLead = ({handleClickClose}) => {
             setPhoneNumber('');
         },
     });
+    
 
     const {
         getInputClass,
         getInputAlert,
+        formatOfficeName,
     } = ShowRules(values, touched, errors);
  
 

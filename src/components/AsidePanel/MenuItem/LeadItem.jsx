@@ -8,6 +8,7 @@ import { isOfficeState } from "../../../redux/Lead/lead-slice";
 import { resetUserLeadsComponent } from "../../../redux/User/user-slice";
 import { useAuth } from "../../../hooks/useAuth";
 import { useUser } from "../../../hooks/useUser";
+import { ShowRules } from "../../../utils/showRules";
 
 
 export const LeadItem = forwardRef(({
@@ -17,6 +18,7 @@ export const LeadItem = forwardRef(({
     toggleLeadDropCont, 
     userSelectOffice,
     }, ref) => {
+    const { formatOfficeName } = ShowRules();
     const dispatch = useDispatch();
     const [isVisible, setVisible] = useState(false);
     const officeBlock = useRef(null);
@@ -27,11 +29,6 @@ export const LeadItem = forwardRef(({
     const openNewLeadModal = () => {
         toggleLeadMenuDrop();
         dispatch(openModalNewLead());
-    };
-
-
-    const formatOfficeName = (office) => {
-        return office.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
     };
 
 

@@ -5,15 +5,15 @@ import {ReactComponent as CheckBoxIcon} from "../../../../images/svg-icons/recta
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useTheme } from "styled-components";
 import { LeadNameForm } from "../LeadNameForm";
-import { format } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
 import { useUser } from "../../../../hooks/useUser";
 import { useDispatch } from "react-redux";
 import { leadAssign, leadReAssign } from "../../../../redux/Lead/lead-operation";
+import { ShowRules } from "../../../../utils/showRules";
 
 
 export const ExternalLeadComponent = ({leadDetailById, leadDetailByIdLocation, setDeleteComponentTrue}) => {
     const theme = useTheme();
+    const { formatDateTime, formatBranchName, formatOfficeName } = ShowRules();
     const [crmManager, setCRMManager] = useState(false);
     const [conManager, setConManager] = useState(false);
     const [conAgent, setConAgent] = useState(false);
@@ -41,29 +41,11 @@ export const ExternalLeadComponent = ({leadDetailById, leadDetailByIdLocation, s
     },[leadDetailById.conAgent, leadDetailById.conManager, leadDetailById.crmManager]);
 
 
-    const formatBranchName = (branch) => {
-        if (branch) {
-          return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-        }
-    };
-
-
     const capitalizeSource = (str) => {
         if (typeof str !== 'string' || str.length === 0) {
           return str;
         }
         return str.charAt(0).toUpperCase() + str.slice(1);
-    };
-
-
-    const formatDateTime = (dateString, timeZone = 'Europe/Kiev') => {
-        const date = new Date(dateString);
-        const zonedDate = toZonedTime(date, timeZone);
-    
-        const formattedDate = format(zonedDate, 'yyyy-MM-dd', { timeZone });
-        const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
-    
-        return `${formattedDate} ${formattedTime}`;
     };
 
 
@@ -85,11 +67,6 @@ export const ExternalLeadComponent = ({leadDetailById, leadDetailByIdLocation, s
 
     const toggleDropDown = () => {
         setDropDown(prevState => !prevState)
-    };
-
-
-    const formatOfficeName = (office) => {
-        return office.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
     };
 
 

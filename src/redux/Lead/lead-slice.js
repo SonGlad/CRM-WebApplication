@@ -483,7 +483,6 @@ const leadSlice = createSlice({
       state.isLeadError = null;
     })
     .addCase(leadChangeKYCInfo.fulfilled, (state, { payload }) => {
-      console.log(payload);
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 

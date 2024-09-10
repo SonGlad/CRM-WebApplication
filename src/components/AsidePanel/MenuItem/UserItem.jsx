@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { isOfficeState } from "../../../redux/User/user-slice";
 import { useAuth } from "../../../hooks/useAuth";
+import { ShowRules } from "../../../utils/showRules";
 
 
 export const UserItem = forwardRef(({
@@ -15,6 +16,7 @@ export const UserItem = forwardRef(({
     toggleUserDropCont, 
     userSelectOffice,
     }, ref) => {
+    const { formatOfficeName } = ShowRules();
     const dispatch = useDispatch();
     const [isVisible, setVisible] = useState(false);
     const officeBlock = useRef(null);
@@ -26,12 +28,7 @@ export const UserItem = forwardRef(({
         dispatch(openModalNewUser());
     };
 
-
-    const formatOfficeName = (office) => {
-        return office.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
-    };
-
-
+    
     const openOfficeMenu = () => {
         setVisible(prevState => !prevState)
     };
