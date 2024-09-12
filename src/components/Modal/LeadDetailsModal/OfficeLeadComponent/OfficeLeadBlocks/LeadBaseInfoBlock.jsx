@@ -7,7 +7,7 @@ import { useAuth } from "../../../../../hooks/useAuth";
 
 export const LeadBaseInfoBloc = ({leadDetailById, leadDetailByIdLocation}) => {
     const [isOwner, setIsOwner] = useState(false);
-    const {userEmail} = useAuth();
+    const { userEmail } = useAuth();
 
 
     useEffect(() => {

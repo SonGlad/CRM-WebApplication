@@ -2,7 +2,6 @@ import styled from "styled-components";
 import "flatpickr/dist/themes/dark.css";
 
 
-
 export const LeadBaseInfoBlockStyled = styled.div`
     width: 23.7%;
     padding: 0.5rem;
@@ -33,157 +32,6 @@ export const LeadBaseInfoBlockStyled = styled.div`
 
 
 
-
-
-
-
-
-
-export const LeadAssignReAssignOwnerBlockStyled = styled.div`
-    width: 23.7%;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.35rem;
-    padding: 0.5rem;
-    border: 1px solid ${p => p.theme.color.primary_green_lite};
-    border-radius: 0.75rem;
-
-    & p{
-        & span{
-            color: ${(p) => p.theme.color.primary_green_lite};
-        }
-    }
-
-    & .users-details-cont{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-
-        & div{
-            display: flex;
-            gap: 4px;
-
-            & p:first-child{
-                color: ${(p) => p.theme.color.primary_green_lite};
-            }
-
-            & p:last-child{
-                max-width: 210px;
-                overflow: hidden;
-                font-size: 1rem;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 1;
-                -webkit-box-orient: vertical;
-            }
-        }
-    }
-
-    .drop-cont{
-        position: relative;
-        max-width: 35%;
-    }
-
-    & .assign-button{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1.25rem;
-        color: ${(props) => props.theme.color.primary_black};
-        background-color: ${p => p.theme.color.primary_green_lite};
-        border: 1px solid ${p => p.theme.color.primary_green_lite};
-        padding: 0.25rem;
-        border-radius: 0.75rem;
-        cursor: pointer;
-        transition: color ${p => p.theme.transition.main_transition};
-
-        & .icon{
-            width: 0.875rem;
-            height: 0.875rem;
-            rotate: -90deg;
-            stroke: ${props => props.theme.color.primary_black};
-            transition: all ${p => p.theme.transition.main_transition};
-            margin-right: -0.5rem;
-        }
-
-        & .icon-active{
-            rotate: 90deg;
-        }
-
-        &:hover{
-            color: ${props => props.theme.color.primary_grey};
-
-            & .icon{
-                stroke: ${props => props.theme.color.primary_grey};
-            }
-        }
-    }
-
-    .office-list{
-        height: 5.4rem;
-        overflow-y: hidden;
-        overflow-x: hidden;
-        width: 0;
-        position: absolute;
-        z-index: 1;
-        top: -100%;
-        left: 110%;
-        border-radius: 0.5rem;
-        padding: 0.5rem;
-        gap: 1rem;
-        background-color: ${p => p.theme.color.background};
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        visibility: hidden;
-        opacity: 0;
-        font-size: 0rem;
-        transform: scaleX(0) translate(-10px, 6px);
-        transform-origin: 0% 0%;
-        border-top: 0.25rem solid ${p => p.theme.color.primary_black_2};
-        border-bottom: 0.25rem solid ${p => p.theme.color.primary_black_2};
-        border-right: 0.25rem solid ${p => p.theme.color.primary_black_2};
-        border-left: 0.25rem solid ${p => p.theme.color.primary_black_2};
-        transition: all ${p => p.theme.transition.main_transition};
-
-        &::-webkit-scrollbar {
-            width: 0.5rem;
-            background-color: transparent;
-        }
-        &::-webkit-scrollbar-thumb {
-            border-radius: 5px;
-            background-color: ${p => p.theme.color.primary_grey};
-            border-radius: 5px;
-        }
-    }
-
-    .office-list-visible{
-        width: 15.5rem;
-        opacity: 1;
-        visibility: visible;
-        overflow-y: auto;
-        transform: scaleX(1) translate(-10px, 6px);
-        transform-origin: 0% 0%;
-        font-size: 1rem;
-    }
-
-    .office-item{
-        cursor: pointer;
-
-        & .drop-cont-text{
-            transition: color ${p => p.theme.transition.main_transition};
-            color: ${p => p.theme.color.primary_white};
-
-            &:hover{
-                color: ${p => p.theme.color.primary_green_lite}
-            }
-        }
-    }
-`
 
 
 
@@ -318,6 +166,167 @@ export const LeadKYCBlockStyled = styled.div`
         }
     }
 `
+
+
+
+
+
+
+
+
+
+
+export const LeadAssignReAssignOwnerBlockStyled = styled.div`
+    width: 23.7%;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    padding: 0.5rem;
+    border: 1px solid ${p => p.theme.color.primary_green_lite};
+    border-radius: 0.75rem;
+
+    & p{
+        & span{
+            color: ${(p) => p.theme.color.primary_green_lite};
+        }
+    }
+
+    & .users-details-cont{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        & div{
+            display: flex;
+            gap: 4px;
+
+            & p:first-child{
+                color: ${(p) => p.theme.color.primary_green_lite};
+            }
+
+            & p:last-child{
+                max-width: 210px;
+                overflow: hidden;
+                font-size: 1rem;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+            }
+        }
+    }
+
+    .drop-cont{
+        margin-top: auto;
+        position: relative;
+        max-width: 35%;
+    }
+
+    & .assign-button{
+        width: 95%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+        color: ${(props) => props.theme.color.primary_black};
+        background-color: ${p => p.theme.color.primary_green_lite};
+        border: 1px solid ${p => p.theme.color.primary_green_lite};
+        padding: 0.25rem;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        & .icon{
+            width: 0.875rem;
+            height: 0.875rem;
+            rotate: -90deg;
+            stroke: ${props => props.theme.color.primary_black};
+            transition: all ${p => p.theme.transition.main_transition};
+            margin-right: -0.5rem;
+        }
+
+        & .icon-active{
+            rotate: 90deg;
+        }
+
+        &:hover{
+            color: ${props => props.theme.color.primary_grey};
+
+            & .icon{
+                stroke: ${props => props.theme.color.primary_grey};
+            }
+        }
+    }
+
+    .office-list{
+        height: 5.5rem;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        width: 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 15%;
+        left: 110%;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        gap: 0.75rem;
+        background-color: ${p => p.theme.color.background};
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        visibility: hidden;
+        opacity: 0;
+        font-size: 0rem;
+        transform: scaleX(0) translate(-10px, 6px);
+        transform-origin: 0% 0%;
+        border-top: 0.25rem solid ${p => p.theme.color.primary_black_2};
+        border-bottom: 0.25rem solid ${p => p.theme.color.primary_black_2};
+        border-right: 0.25rem solid ${p => p.theme.color.primary_black_2};
+        border-left: 0.25rem solid ${p => p.theme.color.primary_black_2};
+        transition: all ${p => p.theme.transition.main_transition};
+
+        &::-webkit-scrollbar {
+            width: 0.5rem;
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background-color: ${p => p.theme.color.primary_grey};
+            border-radius: 5px;
+        }
+    }
+
+    .office-list-visible{
+        width: 11.5rem;
+        opacity: 1;
+        visibility: visible;
+        overflow-y: auto;
+        transform: scaleX(1) translate(-10px, 6px);
+        transform-origin: 0% 0%;
+        font-size: 0.725rem;
+    }
+
+    .office-item{
+        cursor: pointer;
+
+        & .drop-cont-text{
+            transition: color ${p => p.theme.transition.main_transition};
+            color: ${p => p.theme.color.primary_white};
+
+            &:hover{
+                color: ${p => p.theme.color.primary_green_lite}
+            }
+        }
+    }
+`
+
+
+
+
 
 
 
@@ -477,6 +486,7 @@ export const LeadCreateUpdateCallBlockStyled = styled.div`
         opacity: 0;
     }
 `
+
 
 
 
@@ -678,13 +688,289 @@ export const LeadChangeInfoBlockStyled = styled.div`
 
 
 
+
+
+
+
 export const LeadCommentBlockStyled = styled.div`
     width: 41.3%;
     padding: 0.5rem;
     border: 1px solid ${p => p.theme.color.primary_green_lite};
     border-radius: 0.75rem;
+    position: relative;
 
+    .title{
+        margin-bottom: 0.5rem;
+        color: ${p => p.theme.color.primary_green_lite};
+    }
 
-
+    .content-block{
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        height: 87%;
+    }
     
+    .detail-cont{
+        border: 1px solid ${p => p.theme.color.primary_green_lite};
+        border-top-right-radius: 0.75rem;
+        border-top-left-radius: 0.75rem;
+        border-bottom: none;
+        background-color: ${p => p.theme.color.background3};
+        padding: 0.5rem;
+    }
+
+    .user-cont{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .group-cont{
+        max-width: 33%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .user-title{
+        color: ${p => p.theme.color.primary_green_lite};
+    }
+
+    .user-text{
+        font-size: 0.76rem;
+        color: ${p => p.theme.color.primary_white};
+    }
+
+    .time-text{
+        font-size: 0.7rem;
+        color: ${p => p.theme.color.primary_grey};
+    }
+
+    .comment-cont-parrent{
+        border: 1px solid ${p => p.theme.color.primary_green_lite};
+        border-bottom-right-radius: 0.75rem;
+        border-bottom-left-radius: 0.75rem;
+        border-top: none;
+        padding-top: 0.25rem;
+        padding-bottom: 0.5rem;
+        padding-right: 0.1rem;
+    }
+    
+    .comment-cont{
+        height: 4.25rem;
+        overflow-y: auto;
+        letter-spacing: 0.1rem;
+        font-size: 0.8rem;
+        line-height: 1.1rem;
+        padding-left: 0.5rem;
+
+        & p{
+            color: ${p => p.theme.color.primary_green_lite};
+            font-size: 0.9rem;
+
+            & span{
+                color: ${p => p.theme.color.primary_white};
+                font-size: 0.8rem;
+            }
+        }
+
+
+        &::-webkit-scrollbar {
+            width: 0.25rem;
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background-color: ${p => p.theme.color.primary_grey};
+            border-radius: 5px;
+        }
+    }
+
+    .button-block {
+        display: flex;
+        flex-direction: row;
+        gap: 0.75rem;
+        align-items: center;
+        justify-content: space-between;
+        line-height: 1.25rem;
+        margin-top: auto;
+        font-size: 0.875rem;
+    }
+
+    .create-btn {
+        color: ${(props) => props.theme.color.primary_black};
+        background-color: ${(p) => p.theme.color.primary_green_lite};
+        width: 45%;
+        border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+        border-radius: 0.75rem;
+        padding: 0.25rem;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover {
+            color: ${(props) => props.theme.color.primary_grey};
+        }
+
+        &:disabled {
+            color: ${(props) => props.theme.color.primary_grey};
+            pointer-events: none;
+        }
+    }
+
+    .new-comment-cont{
+        background-color: ${p => p.theme.color.background2};
+        padding: 0.5rem;
+        position: absolute;
+        top: 0.4rem;
+        left: 0.5rem;
+        border: 1px solid ${p => p.theme.color.primary_green_lite};
+        border-radius: 0.6rem;
+        width: 97%;
+        height: 11.187rem;
+    }
+
+    .comment-form{
+        & p{
+            margin-bottom: 0.3125rem;
+            color: ${p => p.theme.color.primary_green_lite};
+        }
+
+        & div{
+            border: 1px solid ${p => p.theme.color.primary_green_lite};
+            padding: 0.5rem 0.25rem 0.5rem 0.5rem;
+            border-radius: 0.75rem;
+            background-color: ${p => p.theme.color.primary_white};
+        }
+
+        & .submit-btn {
+            position: absolute;
+            line-height: 1.15;
+            font-size: 0.875rem;
+            bottom: -22%;
+            right: 0;
+            color: ${(props) => props.theme.color.primary_black};
+            background-color: ${(p) => p.theme.color.primary_green_lite};
+            width: 49%;
+            border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+            border-radius: 0.75rem;
+            padding: 0.25rem;
+            transition: color ${p => p.theme.transition.main_transition};
+
+            &:hover {
+                color: ${(props) => props.theme.color.primary_grey};
+            }
+
+            &:disabled {
+                color: ${(props) => props.theme.color.primary_grey};
+                pointer-events: none;
+            }
+        }
+    }
+
+    .form-comment{
+        display: block;
+        width: 100%;
+        padding: 0;
+        padding-right: 0.25rem;
+        resize: none;
+        outline: none;
+        border: none;
+        font-size: 16px;
+        line-height: calc(20 / 16);
+        background-color: transparent;
+        
+        &::placeholder{
+            color: ${p => p.theme.color.primary_grey};
+            font-size: 14px;
+            line-height: calc(16 / 14);
+            letter-spacing: 0.04em;
+        }
+
+        &::-webkit-scrollbar {
+            width: 0.25rem;
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background-color: ${p => p.theme.color.primary_grey};
+            border-radius: 5px;
+        }
+    }
+
+    .all-comment-cont{
+        position: absolute;
+        padding: 0.5rem 0.25rem 0.5rem 0.5rem;
+        top: -160%;
+        left: -4px;
+        border: 1px solid ${p => p.theme.color.primary_green_lite};
+        border-radius: 0.75rem;
+        background-color: ${p => p.theme.color.primary_black_2};
+        width: 102%;
+        height: 240%;
+    }
+    
+    .all-comment-padding{
+        height: 100%;
+        overflow-y: auto; 
+        padding-right: 0.25rem;
+
+        &::-webkit-scrollbar {
+            width: 0.25rem;
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background-color: ${p => p.theme.color.primary_grey};
+            border-radius: 5px;
+        }
+    }
+    
+    .all-comment-list{
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .all-comment-item{
+        border: 1px solid ${p => p.theme.color.primary_green_lite};
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+
+    .all-comment-detail-cont{
+        background-color: ${p => p.theme.color.background3};
+        padding: 0.5rem;
+    }
+
+    .all-comment-user-cont{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .all-comment-cont-parrent{
+        padding-top: 0.25rem;
+        padding-bottom: 0.5rem;
+        padding-right: 0.1rem;
+    }
+
+    .all-comment-cont-cont{
+        letter-spacing: 0.1rem;
+        font-size: 0.8rem;
+        line-height: 1.1rem;
+        padding-left: 0.5rem;
+
+        & p{
+            color: ${p => p.theme.color.primary_green_lite};
+            font-size: 0.9rem;
+
+            & span{
+                color: ${p => p.theme.color.primary_white};
+                font-size: 0.8rem;
+            }
+        }
+    }
 `

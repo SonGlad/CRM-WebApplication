@@ -36,14 +36,17 @@ export const TableLeads = () => {
   } = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState();
-  const dispatch = useDispatch(); 
-
-  
+  const dispatch = useDispatch();
+   
+ 
   useEffect(() => {
-    if (userLeads || isLeads) {
-      setLeads(userLeadsComponent ? userLeads : isLeads);
+    if (userLeadsComponent && userLeads) {
+      setLeads(userLeads)
+    } else if(isLeads){
+      setLeads(isLeads)
     }
-  }, [isLeads, userLeadsComponent, userLeads]);
+  }, [isLeads, userLeads, userLeadsComponent]);
+
 
   const {
     inputVisible,
@@ -54,6 +57,7 @@ export const TableLeads = () => {
     toggleUserMenuDropArrow,
     toggleInputVisibility,
   } = useTableHook();
+  
 
   const openExternalLeadDetail = (_id) => {
     dispatch(openModalLeadDetail());
@@ -206,25 +210,19 @@ export const TableLeads = () => {
           </tbody>
         </table>    
       <InputWindow
-        leads={leads}
         inputVisible={inputVisible}
         inputRef={inputRef}
-        setLeads={setLeads}
         handleTextareaChange={handleTextareaChange}
         setInputVisible={setInputVisible}
       />
       <DropdownStatus
         inputVisible={inputVisible}
         dropdownRef={dropdownRef}
-        leads={leads}
-        setLeads={setLeads}
         setInputVisible={setInputVisible}
       />
       <DropdownTimeZone
         inputVisible={inputVisible}
         dropdownRef={dropdownRef}
-        leads={leads}
-        setLeads={setLeads}
         setInputVisible={setInputVisible}
         />
         </div>

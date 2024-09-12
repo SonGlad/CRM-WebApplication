@@ -11,7 +11,7 @@ import {
     closeModaConfirm,
     closeModaLeadDetail, 
 } from "../../redux/Modal/modal-slice";
-import { setLeadDetailsModalFalse } from "../../redux/Lead/lead-slice";
+import { setLeadDetailsModalFalse, resetAllComments } from "../../redux/Lead/lead-slice";
 import { resetUserState, resetUserLeadsComponent } from "../../redux/User/user-slice";
 import { updatingNewUserResponceData } from "../../redux/Auth/auth-slice";
 import { useModal } from "../../hooks/useModal";
@@ -70,6 +70,7 @@ export const Modal = ({userLocation}) => {
         if (isLeadDetails){
             dispatch(closeModaLeadDetail());
             dispatch(setLeadDetailsModalFalse());
+            dispatch(resetAllComments());
         }
     },[
         dispatch, 

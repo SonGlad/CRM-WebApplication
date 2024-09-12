@@ -2,7 +2,7 @@ import RingLoader from "react-spinners/RingLoader";
 import PulseLoader from "react-spinners/PulseLoader";
 import PuffLoader from 'react-spinners/PuffLoader'
 
-import {RingLoaderStyled, DataLoaderStyled, RotatingStyled } from "./CustomLoaders.styled";
+import {RingLoaderStyled, DataLoaderStyled, RotatingStyled, AllCommentsLoaderStyled } from "./CustomLoaders.styled";
 
 
 
@@ -68,5 +68,21 @@ export const RotatingLoader = () => {
                 data-testid="loader" 
             />
         </RotatingStyled>
+    )
+}
+
+
+export const AllCommentsLoader = () => {
+    return (
+        <AllCommentsLoaderStyled>
+            <PuffLoader 
+                size={160}
+                color={"#E3FFA8"}
+                loading = {true} 
+                speedMultiplier={1}
+                aria-label="Loading Spinner"
+                data-testid="loader" 
+            />
+        </AllCommentsLoaderStyled>
     )
 }

@@ -2,28 +2,17 @@ import { useDispatch } from "react-redux";
 import { useLead } from "../../../hooks/useLead";
 import { patchStatus} from "../../../redux/Lead/lead-operation";
 
-export const DropdownStatus = ({ inputVisible, dropdownRef, leads, setLeads, setInputVisible}) => {
+export const DropdownStatus = ({ inputVisible, dropdownRef, setInputVisible}) => {
     const dispatch = useDispatch();
 
     const { status: tstatusData, isStatusLoading, isStatusError} = useLead()
     const loading = "Loading...";
 
-    const handleDropdownItemClick = (e, leadIndex, status, leadId) => {
+    const handleDropdownItemClick = (e, status, leadId) => {
         e.preventDefault();
-          dispatch(patchStatus({ id: leadId, leadStatus: status })).then(
-          (response) => {
-            if (response.payload.name) {
-              const updatedLeads = [...leads];
-              updatedLeads[leadIndex] = {
-                ...updatedLeads[leadIndex],
-                status: status,
-              };
-              setLeads(updatedLeads);
-              setInputVisible({ row: null, cell: null, leadId: null });
-            }
-          }
-        );
-  };
+        dispatch(patchStatus({ id: leadId, leadStatus: status }))
+        setInputVisible({ row: null, cell: null, leadId: null });
+    };
 
     
     if (isStatusError) {

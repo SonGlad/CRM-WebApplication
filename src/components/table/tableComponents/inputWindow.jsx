@@ -7,10 +7,8 @@ import {
 import { useState } from "react";
 
 export const InputWindow = ({
-  leads,
   inputVisible,
   inputRef,
-  setLeads,
   handleTextareaChange,
   setInputVisible,
 }) => {
@@ -27,57 +25,25 @@ export const InputWindow = ({
 
     switch (fieldName) {
       case "city":
-        dispatch(patchCityLead({ id: leadId, leadCity: newText })).then(
-          (response) => {
-            if (response.payload.name) {
-              const updatedLeads = [...leads];
-              updatedLeads[leadIndex] = {
-                ...updatedLeads[leadIndex],
-                city: newText,
-              };
-              setLeads(updatedLeads);
-              setNewText("");
-              setInputVisible({ row: null, cell: null, leadId: null });
-            }
-          }
-        );
-        break;
+        dispatch(patchCityLead({ id: leadId, leadCity: newText }))
+        setNewText("");
+        setInputVisible({ row: null, cell: null, leadId: null });
+      break;
 
       case "region":
-        dispatch(patchRegionLead({ id: leadId, leadRegion: newText })).then(
-          (response) => {
-            if (response.payload.name) {
-              const updatedLeads = [...leads];
-              updatedLeads[leadIndex] = {
-                ...updatedLeads[leadIndex],
-                region: newText,
-              };
-              setLeads(updatedLeads);
-              setNewText("");
-              setInputVisible({ row: null, cell: null, leadId: null });
-            }
-          }
-        );
-        break;
+        dispatch(patchRegionLead({ id: leadId, leadRegion: newText }))
+        setNewText("");
+        setInputVisible({ row: null, cell: null, leadId: null });
+      break;
 
       case "country":
         if (fieldName === "country") {
-          dispatch(patchCountryLead({ id: leadId, leadCountry: newText })).then(
-            (response) => {
-              if (response.payload.name) {
-                const updatedLeads = [...leads];
-                updatedLeads[leadIndex] = {
-                  ...updatedLeads[leadIndex],
-                  country: newText,
-                };
-                setLeads(updatedLeads);
-                setNewText("");
-                setInputVisible({ row: null, cell: null, leadId: null });
-              }
-            }
-          );
+          dispatch(patchCountryLead({ id: leadId, leadCountry: newText }))
+          setNewText("");
+          setInputVisible({ row: null, cell: null, leadId: null });
         }
-        break;
+      break;
+      
       default:
     }
   };

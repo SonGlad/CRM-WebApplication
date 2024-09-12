@@ -268,3 +268,35 @@ export const leadChangeKYCInfo = createAsyncThunk(
         }
     }
 );
+
+
+export const leadAddNewComment = createAsyncThunk(
+    'leads/comment/:leadId(add new comment)',
+    async ({leadId, data}, thunkApi) => {
+        try{
+            const response = await axios.patch(`leads/comment/${leadId}`, data);
+            toast.success(`New comment added`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const getAllComments = createAsyncThunk(
+    'leads/allComments/:leadId',
+    async (leadId, thunkApi) => {
+        try{
+            const response = await axios.get(`leads/allComments/${leadId}`);
+            toast.success(`All Comments Received`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

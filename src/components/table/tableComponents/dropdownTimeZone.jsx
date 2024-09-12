@@ -3,28 +3,17 @@ import { useLead } from "../../../hooks/useLead";
 import { patchTimeZone } from "../../../redux/Lead/lead-operation";
 
 
-export const DropdownTimeZone = ({ inputVisible, dropdownRef, leads, setLeads, setInputVisible}) => {
+export const DropdownTimeZone = ({ inputVisible, dropdownRef, setInputVisible}) => {
 const dispatch = useDispatch();
 
     const { timeZone: timeZoneData, isTimeZoneLoading } = useLead()
     const loading = "Loading...";
 
-        const handleDropdownItemClick = (e, leadIndex, zona, leadId) => {
+    const handleDropdownItemClick = (e, leadIndex, zona, leadId) => {
         e.preventDefault();
-          dispatch(patchTimeZone({ id: leadId, leadTimeZone: zona })).then(
-          (response) => {
-            if (response.payload.name) {
-              const updatedLeads = [...leads];
-              updatedLeads[leadIndex] = {
-                ...updatedLeads[leadIndex],
-                timeZone: zona,
-              };
-              setLeads(updatedLeads);
-              setInputVisible({ row: null, cell: null, leadId: null });
-            }
-          }
-        );
-  };
+        dispatch(patchTimeZone({ id: leadId, leadTimeZone: zona }))
+        setInputVisible({ row: null, cell: null, leadId: null });
+    };
 
 
     return (

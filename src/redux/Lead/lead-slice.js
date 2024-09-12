@@ -16,6 +16,8 @@ import {
   leadReAssign,
   leadChangeBaseInfo,
   leadChangeKYCInfo,
+  leadAddNewComment,
+  getAllComments,
 } from "./lead-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -44,6 +46,9 @@ const initialState = {
   isLeadDetailsModal: false,
   leadDetailByIdLocation: '',
   isSuccess: false,
+  allComments: [],
+  isAllCommentsLoading: false,
+  isAllCommentsError: null,
 };
 
 
@@ -122,6 +127,9 @@ const leadSlice = createSlice({
     setSuccessToFalse: (state) => {
       state.isSuccess = false;
     },
+    resetAllComments: (state) => {
+      state.allComments = [];
+    },
   },
   
 
@@ -150,6 +158,9 @@ const leadSlice = createSlice({
       state.selectedAssignLeadsCheckedCheckbox = [];
       state.isLeadDetailsModal = false;
       state.leadDetailByIdLocation = '';
+      state.allComments = [];
+      state.isAllCommentsLoading = false;
+      state.isAllCommentsError = null;
     })
     .addCase(logOut.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -260,13 +271,20 @@ const leadSlice = createSlice({
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 
-        ? { ...lead, status: updatedLead.status }
+        ? { 
+          ...lead, 
+          status: updatedLead.status,
+          updatedAt: updatedLead.updatedAt,  
+          latestComment: updatedLead.latestComment,
+        }
         : lead
       );
       if (state.isLeadDetailsModal === true) {
         state.leadDetailById = {
           ...state.leadDetailById, 
-          status: payload.status
+          status: updatedLead.status,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
         };
       }
       state.isLeadError = null;
@@ -284,13 +302,20 @@ const leadSlice = createSlice({
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 
-        ? { ...lead, timeZone: updatedLead.timeZone }
+        ? { 
+          ...lead, 
+          timeZone: updatedLead.timeZone,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
+        }
         : lead
       );
       if (state.isLeadDetailsModal === true) {
         state.leadDetailById = {
           ...state.leadDetailById, 
-          timeZone: payload.timeZone
+          timeZone: updatedLead.timeZone,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
         };
       }
       state.isLeadError = null;
@@ -309,13 +334,20 @@ const leadSlice = createSlice({
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 
-        ? { ...lead, city: updatedLead.city }
+        ? { 
+          ...lead, 
+          city: updatedLead.city,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
+        }
         : lead
       );
       if (state.isLeadDetailsModal === true) {
         state.leadDetailById = {
           ...state.leadDetailById, 
-          city: payload.city
+          city: updatedLead.city,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
         };
         state.isSuccess = true;
       }
@@ -336,13 +368,20 @@ const leadSlice = createSlice({
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 
-        ? { ...lead, region: updatedLead.region }
+        ? { 
+          ...lead, 
+          region: updatedLead.region,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
+        }
         : lead
       );
       if (state.isLeadDetailsModal === true) {
         state.leadDetailById = {
           ...state.leadDetailById, 
-          region: payload.region
+          region: updatedLead.region,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
         };
         state.isSuccess = true;
       }
@@ -363,13 +402,20 @@ const leadSlice = createSlice({
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 
-        ? { ...lead, country: updatedLead.country }
+        ? { 
+          ...lead, 
+          country: updatedLead.country,
+          latestComment: updatedLead.latestComment, 
+          updatedAt: updatedLead.updatedAt,  
+        }
         : lead
       );
       if (state.isLeadDetailsModal === true) {
         state.leadDetailById = {
           ...state.leadDetailById, 
-          country: payload.country
+          country: updatedLead.country,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
         };
         state.isSuccess = true;
       }
@@ -389,13 +435,20 @@ const leadSlice = createSlice({
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 
-        ? { ...lead, nextCall: updatedLead.nextCall }
+        ? { 
+          ...lead, 
+          nextCall: updatedLead.nextCall,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
+        }
         : lead
       );
       if (state.isLeadDetailsModal === true) {
         state.leadDetailById = {
           ...state.leadDetailById, 
-          nextCall: payload.nextCall
+          nextCall: updatedLead.nextCall,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
         };
       }
       state.isLeadError = null;
@@ -486,18 +539,71 @@ const leadSlice = createSlice({
       const updatedLead = payload;
       state.leadsData.leads = state.leadsData.leads.map(lead => 
         lead._id === updatedLead._id 
-        ? { ...lead, KYC: updatedLead.KYC }
+        ? { 
+          ...lead, 
+          KYC: updatedLead.KYC,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
+        }
         : lead
       );
       if (state.isLeadDetailsModal === true) {
-        state.leadDetailById = {
+        state.leadDetailById = 
+        {
           ...state.leadDetailById, 
-          KYC: payload.KYC
+          KYC: updatedLead.KYC,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
         };
       }
     })
     .addCase(leadChangeKYCInfo.rejected, (state, { payload }) => {
       state.isLeadError = payload;
+    })
+
+
+    //LEAD ADD NEW COMMENT////////////////
+    .addCase(leadAddNewComment.pending, (state) => {
+      state.isLeadError = null;
+    })
+    .addCase(leadAddNewComment.fulfilled, (state, { payload }) => {
+      const updatedLead = payload;
+      state.leadsData.leads = state.leadsData.leads.map(lead => 
+        lead._id === updatedLead._id 
+        ? { 
+          ...lead,
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
+        }
+        : lead
+      );
+      if (state.isLeadDetailsModal === true) {
+        state.leadDetailById = 
+        {
+          ...state.leadDetailById, 
+          latestComment: updatedLead.latestComment,
+          updatedAt: updatedLead.updatedAt,  
+        };
+      }
+    })
+    .addCase(leadAddNewComment.rejected, (state, { payload }) => {
+      state.isLeadError = payload;
+    })
+
+
+    //GET ALL COMMENTS////////////
+    .addCase(getAllComments.pending, (state) => {
+      state.isAllCommentsLoading = true;
+      state.isAllCommentsError = null;
+    })
+    .addCase(getAllComments.fulfilled, (state, { payload }) => {
+      state.isAllCommentsLoading = false;
+      state.isAllCommentsError = null;
+      state.allComments = payload;
+    })
+    .addCase(getAllComments.rejected, (state, { payload }) => {
+      state.isAllCommentsLoading= false;
+      state.isAllCommentsError = payload;
     })
   },
 });
@@ -520,4 +626,5 @@ export const {
   setLeadDetailsModalTrue,
   setLeadDetailsModalFalse,
   setSuccessToFalse,
+  resetAllComments,
 } = leadSlice.actions;

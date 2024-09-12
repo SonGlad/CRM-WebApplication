@@ -20,6 +20,9 @@ import {
   selectSelectedAssignLeadsCheckedCheckbox,
   selectLeadDetailByIdLocation,
   selectIsSuccess,
+  selectAllComments,
+  selectIsAllCommentsLoading,
+  selectIsAllCommentsError,
 } from "../redux/Lead/lead-selectors";
 
 
@@ -44,6 +47,9 @@ export const useLead = () => {
   const selectedAssignLeadsCheckedCheckbox = useSelector(selectSelectedAssignLeadsCheckedCheckbox);
   const leadDetailByIdLocation = useSelector(selectLeadDetailByIdLocation);
   const isSuccess = useSelector(selectIsSuccess);
+  const allComments = useSelector(selectAllComments);
+  const isAllCommentsLoadding = useSelector(selectIsAllCommentsLoading);
+  const isAllCommentsError = useSelector(selectIsAllCommentsError);
 
 
 
@@ -67,6 +73,9 @@ export const useLead = () => {
     leadDetailById,
     selectedAssignLeadsCheckedCheckbox,
     leadDetailByIdLocation,
-    isSuccess
+    isSuccess,
+    allComments,
+    isAllCommentsLoadding,
+    isAllCommentsError 
   };
 };

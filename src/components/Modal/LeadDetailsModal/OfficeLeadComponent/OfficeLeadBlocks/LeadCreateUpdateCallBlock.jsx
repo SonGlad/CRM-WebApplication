@@ -8,6 +8,7 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/dark.css";
 import { useDispatch } from "react-redux";
 import { patchNextCall } from "../../../../../redux/Lead/lead-operation";
+import {useAuth} from "../../../../../hooks/useAuth";
 
 
 
@@ -17,6 +18,8 @@ export const LeadCreateUpdateCallBlock = ({leadDetailById, setDeleteComponentTru
     const [currentTime, setCurrentTime] = useState(new Date());
     const [isChecked, setChecked] = useState(false);
     const dateNow = useRef(new Date());
+    const [isOwner, setIsOwner] = useState(false);
+    const { userEmail, isAdmin } = useAuth();
     const dispatch = useDispatch();
   
 
@@ -91,6 +94,18 @@ export const LeadCreateUpdateCallBlock = ({leadDetailById, setDeleteComponentTru
     };
 
 
+    useEffect(() => {
+        if(leadDetailById.owner){
+            if (userEmail === leadDetailById.owner.email) {
+                setIsOwner(true)
+            } else {
+                setIsOwner(false)
+            }
+        }
+    },[leadDetailById.owner, userEmail]);
+
+
+
     return(
         <LeadCreateUpdateCallBlockStyled 
             $isOverdue={isOverdue}
@@ -130,28 +145,30 @@ export const LeadCreateUpdateCallBlock = ({leadDetailById, setDeleteComponentTru
                     <CalendarIcon className="calendar-icon" width={16} height={16}/>
                 </div>
             </div>
-            <div className="delete-block">
-                <button type="button" 
-                    className="delete-button"
-                    onClick={setDeleteComponentTrue}
-                    disabled={!isChecked}
-                >Delete Lead
-                </button>
-                <label htmlFor="deleteCheckbox" className="delete-label">
-                    Check to Delete
-                    <input className="delete-checkbox"
-                        name="delete_lead" 
-                        type="checkbox"
-                        id="deleteCheckbox"
-                        checked={isChecked}
-                        onChange={toggleDeleteCheckbox}
-                    />
-                    <div className="custom-checkbox">
-                        <CheckBoxIcon className="custom-checkbox-before" width="16" height="16"/>
-                        <CheckedIcon className="custom-checkbox-after" width="16" height="16"/>
-                    </div>
-                </label>
-            </div>
+            {(isAdmin || isOwner) && (
+                <div className="delete-block">
+                    <button type="button" 
+                        className="delete-button"
+                        onClick={setDeleteComponentTrue}
+                        disabled={!isChecked}
+                    >Delete Lead
+                    </button>
+                    <label htmlFor="deleteCheckbox" className="delete-label">
+                        Check to Delete
+                        <input className="delete-checkbox"
+                            name="delete_lead" 
+                            type="checkbox"
+                            id="deleteCheckbox"
+                            checked={isChecked}
+                            onChange={toggleDeleteCheckbox}
+                        />
+                        <div className="custom-checkbox">
+                            <CheckBoxIcon className="custom-checkbox-before" width="16" height="16"/>
+                            <CheckedIcon className="custom-checkbox-after" width="16" height="16"/>
+                        </div>
+                    </label>
+                </div>
+            )}
         </LeadCreateUpdateCallBlockStyled>
     );
 };

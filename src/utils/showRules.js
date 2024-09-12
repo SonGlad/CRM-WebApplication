@@ -75,6 +75,17 @@ export const ShowRules = (values, touched, errors) => {
   };
 
 
+  const formatDateTimeFullMonth = (dateString, timeZone = 'Europe/Kiev') => {
+    const date = new Date(dateString);
+    const zonedDate = toZonedTime(date, timeZone);
+
+    const formattedDate = format(zonedDate, 'dd MMMM yyyy', { timeZone });
+    const formattedTime = format(zonedDate, 'HH:mm', { timeZone });
+
+    return `${formattedDate}, ${formattedTime}`;
+  };
+
+
   const formatBranchName = (branch) => {
     if (branch) {
       return branch.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
@@ -98,6 +109,7 @@ export const ShowRules = (values, touched, errors) => {
     getHidePasswordNew,
     formatDateTime,
     formatBranchName,
-    formatOfficeName,  
+    formatOfficeName,
+    formatDateTimeFullMonth,  
   };
 };

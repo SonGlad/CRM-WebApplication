@@ -36,7 +36,14 @@ export const selectSelectedAssignLeadsCheckedCheckbox = state => state.lead.sele
 
 export const selectLeadDetailByIdLocation = state => state.lead.leadDetailByIdLocation;
 
-export const selectIsSuccess = state => state.lead.isSuccess
+export const selectIsSuccess = state => state.lead.isSuccess;
+
+export const selectAllComments = state => state.lead.allComments;
+
+export const selectIsAllCommentsLoading = state => state.lead.isAllCommentsLoading;
+
+export const selectIsAllCommentsError = state => state.lead.isAllCommentsError;
+
 
 
 
