@@ -44,6 +44,7 @@ const leadPersistConfig = {
   whitelist: [
     'officeState',
     'selectedExternalLeadsCheckedCheckbox',
+    'selectedOfficeLeadsCheckedCheckbox',
   ],
 };
 

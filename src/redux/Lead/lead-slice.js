@@ -42,7 +42,7 @@ const initialState = {
   isTimeZoneError: null,
   leadDetailById: null,
   selectedExternalLeadsCheckedCheckbox: [],
-  selectedAssignLeadsCheckedCheckbox: [],
+  selectedOfficeLeadsCheckedCheckbox: [],
   isLeadDetailsModal: false,
   leadDetailByIdLocation: '',
   isSuccess: false,
@@ -95,25 +95,25 @@ const leadSlice = createSlice({
     setLeadsAmountPerPage: (state, action) => {
       state.leadsAmountPerPage = action.payload;
     },
-    toggleAssignLeadsCheckboxState: (state, action) => {
+    toggleOfficeLeadsCheckboxState: (state, action) => {
       const { _id } = action.payload;
-      const isSelected = state.selectedAssignLeadsCheckedCheckbox.includes(_id);
+      const isSelected = state.selectedOfficeLeadsCheckedCheckbox.includes(_id);
       if (isSelected) {
-        state.selectedAssignLeadsCheckedCheckbox = state.selectedAssignLeadsCheckedCheckbox.filter(id => id !== _id);
+        state.selectedOfficeLeadsCheckedCheckbox = state.selectedOfficeLeadsCheckedCheckbox.filter(id => id !== _id);
       } else {
-        state.selectedAssignLeadsCheckedCheckbox.push(_id);
+        state.selectedOfficeLeadsCheckedCheckbox.push(_id);
       }
     },
-    toggleAssignLeadsSelectAllCheckbox: (state) => {
+    toggleOfficeLeadsSelectAllCheckbox: (state) => {
       const leadIds = state.leadsData.leads.map(lead => lead._id);
-      if (state.selectedAssignLeadsCheckedCheckbox.length === leadIds.length) {
-        state.selectedAssignLeadsCheckedCheckbox = [];
+      if (state.selectedOfficeLeadsCheckedCheckbox.length === leadIds.length) {
+        state.selectedOfficeLeadsCheckedCheckbox = [];
       } else {
-        state.selectedAssignLeadsCheckedCheckbox = [...leadIds];
+        state.selectedOfficeLeadsCheckedCheckbox = [...leadIds];
       }
     },
-    resetAssignLeadsSelectedCheckbox: (state) => {
-      state.selectedAssignLeadsCheckedCheckbox = [];
+    resetOfficeLeadsSelectedCheckbox: (state) => {
+      state.selectedOfficeLeadsCheckedCheckbox = [];
     },
     setLeadDetailsModalTrue: (state, {payload}) => {
       state.isLeadDetailsModal = true;
@@ -155,7 +155,7 @@ const leadSlice = createSlice({
       state.isStatusLoading = false;
       state.leadDetailById = null;
       state.selectedExternalLeadsCheckedCheckbox = [];
-      state.selectedAssignLeadsCheckedCheckbox = [];
+      state.selectedOfficeLeadsCheckedCheckbox = [];
       state.isLeadDetailsModal = false;
       state.leadDetailByIdLocation = '';
       state.allComments = [];
@@ -220,10 +220,10 @@ const leadSlice = createSlice({
     .addCase(deleteLead.fulfilled, (state, { payload }) => {
       state.isLeadLoading = false;
       state.isLeadError = null;
-      state.leadsData.leads = state.leadsData.leads.filter(lead => lead._id !== payload.id);
-      state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== payload.id);
+      state.leadsData.leads = state.leadsData.leads.filter(lead => lead._id !== payload._id);
+      state.selectedExternalLeadsCheckedCheckbox = state.selectedExternalLeadsCheckedCheckbox.filter(id => id !== payload._id);
+      state.selectedOfficeLeadsCheckedCheckbox = state.selectedOfficeLeadsCheckedCheckbox.filter(id => id !== payload._id);
       state.leadsData.totalLeads = state.leadsData.totalLeads - 1;
-      state.selectedAssignLeadsCheckedCheckbox = state.selectedAssignLeadsCheckedCheckbox.filter(id => id !== payload.id);
     })
     .addCase(deleteLead.rejected, (state, { payload }) => {
       state.isLeadLoading = false;
@@ -620,9 +620,9 @@ export const {
   toggleExternalLeadsSelectAllCheckbox,
   resetExternalLeadsSelectedCheckbox,
   setLeadsAmountPerPage,
-  toggleAssignLeadsCheckboxState,
-  toggleAssignLeadsSelectAllCheckbox,
-  resetAssignLeadsSelectedCheckbox,
+  toggleOfficeLeadsCheckboxState,
+  toggleOfficeLeadsSelectAllCheckbox,
+  resetOfficeLeadsSelectedCheckbox,
   setLeadDetailsModalTrue,
   setLeadDetailsModalFalse,
   setSuccessToFalse,

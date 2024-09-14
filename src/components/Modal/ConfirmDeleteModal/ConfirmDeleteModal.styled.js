@@ -5,7 +5,7 @@ export const StyledConfirmDeleteModal = styled.div`
     display: flex;
     flex-direction: column;
     width: 95%;
-    max-width: ${props => props.component === 'ExternalLeads' ? '50rem' : '31.25rem'};
+    max-width: ${props => props.component === 'Users' ? '31.25rem' : '50rem'};
     height: auto;
     padding-top: 1rem;
     padding-left: 1rem;

@@ -167,7 +167,7 @@ export const Users = () => {
                                         <td>
                                             <button className="check-btn" type='button'
                                                 onClick={() => openUserDetail(_id)}
-                                            >Click
+                                            >Open
                                             </button>
                                         </td>
                                         {isAdmin && (

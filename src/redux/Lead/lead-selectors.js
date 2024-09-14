@@ -32,7 +32,7 @@ export const selectLeadDetailById = state => state.lead.leadDetailById;
 
 export const selectSelectedExternalLeadsCheckedCheckbox = state => state.lead.selectedExternalLeadsCheckedCheckbox;
 
-export const selectSelectedAssignLeadsCheckedCheckbox = state => state.lead.selectedAssignLeadsCheckedCheckbox;
+export const selectSelectedOfficeLeadsCheckedCheckbox = state => state.lead.selectedOfficeLeadsCheckedCheckbox;
 
 export const selectLeadDetailByIdLocation = state => state.lead.leadDetailByIdLocation;
 

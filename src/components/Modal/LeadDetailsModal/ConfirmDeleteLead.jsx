@@ -1,5 +1,5 @@
 import { ConfirmDeleteLeadStyled } from "./ConfirmDeleteLead.styled";
-// import { deleteLead } from "../../../redux/Lead/lead-operation";
+import { deleteLead } from "../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
 import { closeModaLeadDetail } from "../../../redux/Modal/modal-slice";
 
@@ -9,11 +9,8 @@ export const ConfirmDeleteLead = ({setDeleteComponentFalse, leadDetailById, lead
     const dispatch = useDispatch();
 
 
-    const deleteLead = () => {
-        // dispatch(deleteLead({
-        //     leadId: leadDetailById._id
-        // }))
-        console.log({leadId: leadDetailById._id});
+    const deleteSelectedLeadLead = () => {
+        dispatch(deleteLead(leadDetailById._id));
         dispatch(closeModaLeadDetail());
     }
 
@@ -31,7 +28,7 @@ export const ConfirmDeleteLead = ({setDeleteComponentFalse, leadDetailById, lead
                 </div>
             )}
             <div className="button-block">
-                <button className="submit-button" type="button" onClick={deleteLead}>Confirm</button>
+                <button className="submit-button" type="button" onClick={deleteSelectedLeadLead}>Confirm</button>
                 <button className="reset-button" type="button" onClick={setDeleteComponentFalse}>Cancel</button>
             </div>
         </ConfirmDeleteLeadStyled>

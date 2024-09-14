@@ -1,7 +1,6 @@
 import { LeadDetailsStyled } from "./LeadDetails.styled";
 import { ReactComponent as CloseIcon } from "../../../images/svg-icons/close.svg";
 import { useLead } from "../../../hooks/useLead";
-import { useModal } from "../../../hooks/useModal";
 import { useAuth } from "../../../hooks/useAuth";
 import { DataLoading } from "../../CustomLoaders/CustomLoaders";
 import { ExternalLeadComponent } from "./ExernalLeadComponent/ExternalLead";
@@ -13,11 +12,9 @@ import { useState } from "react";
 
 export const LeadDetails = ({handleClickClose}) => {
     const { leadDetailById, isLeadLoading, leadOffice, leadDetailByIdLocation } = useLead();
-    const { isSuccess } = useModal();
     const { isAdmin } = useAuth();
     const [isDeleteComponent, setDeleteComponent] = useState(false);
-    console.log("Is Success", isSuccess);
-     
+        
 
     const formatLeadOffice = () => {
         return leadOffice.replace(/([a-zA-Z]+)(\d+)/, '$1 $2');
@@ -73,10 +70,14 @@ export const LeadDetails = ({handleClickClose}) => {
                 return <div>Error: Invalid lead type</div>;
         }
     };
+    
 
     
     return(
-        <LeadDetailsStyled $leadDetailByIdLocation={leadDetailByIdLocation}>
+        <LeadDetailsStyled 
+            $leadDetailByIdLocation={leadDetailByIdLocation}
+            $isDeleteComponent={isDeleteComponent}
+        >
             <button className="close-btn" type="button" onClick={handleClickClose}>
                 <CloseIcon className="close-icon" width={12} height={12}/>
             </button>

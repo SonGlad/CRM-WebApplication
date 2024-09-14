@@ -3,12 +3,11 @@ import styled from "styled-components";
 export const TableListStyled = styled.div`
   border-radius: 0.625rem;
   width: 100%;
-  margin-top: 2rem;
   position: relative;
   overflow-y: auto;
 
   .TableContainer{
-border: 1px solid ${(p) => p.theme.color.primary_green_lite};
+    border: 1px solid ${(p) => p.theme.color.primary_green_lite};
   }
 
   .Table {

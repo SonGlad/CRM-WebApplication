@@ -24,8 +24,6 @@ export const LeadCommentBlock = ({leadDetailById}) => {
     const dispatch = useDispatch();
     const { allComments, isAllCommentsLoadding, isAllCommentsError} = useLead();
     const [allCommentsFiltered, setAllCommentsFiltered] = useState();
-    console.log(leadDetailById);
-    
 
     
     useEffect(() => {

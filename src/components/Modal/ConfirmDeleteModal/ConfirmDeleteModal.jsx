@@ -5,9 +5,9 @@ import { useUser } from "../../../hooks/useUser";
 import { useAuth} from "../../../hooks/useAuth";
 import { closeModaConfirm } from "../../../redux/Modal/modal-slice";
 import { resetUsersSelectedCheckbox } from "../../../redux/User/user-slice";
-import { resetExternalLeadsSelectedCheckbox } from "../../../redux/Lead/lead-slice";
+import { resetExternalLeadsSelectedCheckbox, resetOfficeLeadsSelectedCheckbox } from "../../../redux/Lead/lead-slice";
 import { deleteUser } from "../../../redux/User/user-operation";
-// import { deleteLead } from "../../../redux/Lead/lead-operation";
+import { deleteLead } from "../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
 
 
@@ -24,7 +24,8 @@ export const ConfirmDeleteModal = ({handleClickClose}) => {
         if (dataForDeleteId.component === 'Users') {
             dataToDelete = dataForDeleteId.idToDelete.map(id => ({id, branch: userOffice}));
         }
-        if (dataForDeleteId.component === 'ExternalLeads') {
+        if (dataForDeleteId.component === 'ExternalLeads' ||
+            dataForDeleteId.component === 'Leads') {
             dataToDelete = dataForDeleteId.idToDelete.map(id => ({id}));
         }
 
@@ -38,11 +39,9 @@ export const ConfirmDeleteModal = ({handleClickClose}) => {
             });
         }
 
-        if(isAdmin && dataForDeleteId.component === 'ExternalLeads'){
+        if(isAdmin && (dataForDeleteId.component === 'ExternalLeads' || dataForDeleteId.component === 'Leads')){
             dataToDelete.forEach((id) => {
-                // dispatch(deleteLead({
-                //     leadId: id.id,
-                // }));
+                dispatch(deleteLead(id.id));
                 dispatch(closeModaConfirm());
             });
         }
@@ -50,31 +49,49 @@ export const ConfirmDeleteModal = ({handleClickClose}) => {
 
 
     const textForModal = () => {
-        let text;
         if(dataForDeleteId.component === 'Users'){
-            text = 'Delete Users';
+            return 'Delete Users';
         };
         if(dataForDeleteId.component === 'ExternalLeads'){
-            text = 'Delete External Leads';
+            return 'Delete External Leads';
         };
-        return text;
+        if(dataForDeleteId.component === 'Leads'){
+            if(isAdmin){
+                return 'Delete Office Leads';
+            } else {
+                return 'Delete Lead';
+            }
+        };
     };
 
 
     const amountToDelete = () => {
         let text;
         if(dataForDeleteId.component === 'Users'){
-            if(dataForDeleteId.idToDelete.length === 1){
-                text = 'selected user?'
-            } else {
-                text = `all ${dataForDeleteId.idToDelete.length} selected users?`
+            if (isAdmin){
+                if(dataForDeleteId.idToDelete.length === 1){
+                    text = 'selected user?'
+                } else {
+                    text = `all ${dataForDeleteId.idToDelete.length} selected users?`
+                }
             }
         }
         if(dataForDeleteId.component === 'ExternalLeads'){
-            if(dataForDeleteId.idToDelete.length === 1){
-                text = 'selected External Lead?'
-            } else {
-                text = `all ${dataForDeleteId.idToDelete.length} selected External Leads?`
+            if (isAdmin) {
+                if(dataForDeleteId.idToDelete.length === 1){
+                    text = 'selected External Lead?'
+                } else {
+                    text = `all ${dataForDeleteId.idToDelete.length} selected External Leads?`
+                }
+            }
+        }
+        if(dataForDeleteId.component === 'Leads'){
+            if (isAdmin) {
+                if(dataForDeleteId.idToDelete.length === 1){
+                    text = 'selected Office Lead?'
+                } else {
+                    text = `all ${dataForDeleteId.idToDelete.length} selected Office Leads?`
+                }
             }
         }
         return text;
@@ -88,13 +105,15 @@ export const ConfirmDeleteModal = ({handleClickClose}) => {
         if(dataForDeleteId.component === 'ExternalLeads'){
             dispatch(resetExternalLeadsSelectedCheckbox());
         }
+        if(dataForDeleteId.component === 'Leads'){
+            dispatch(resetOfficeLeadsSelectedCheckbox());
+        }
         handleClickClose();
     };
 
 
-
     return(
-        <StyledConfirmDeleteModal component={dataForDeleteId.component}>
+        <StyledConfirmDeleteModal $component={dataForDeleteId.component}>
             <button className="close-btn" type="button" onClick={handleClickClose}>
                 <CloseIcon className="close-icon" width={12} height={12}/>
             </button>

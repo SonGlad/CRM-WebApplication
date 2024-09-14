@@ -17,7 +17,7 @@ import {
   selectTimeZoneError,
   selectLeadDetailById,
   selectSelectedExternalLeadsCheckedCheckbox,
-  selectSelectedAssignLeadsCheckedCheckbox,
+  selectSelectedOfficeLeadsCheckedCheckbox,
   selectLeadDetailByIdLocation,
   selectIsSuccess,
   selectAllComments,
@@ -44,7 +44,7 @@ export const useLead = () => {
   const isTimeZoneError = useSelector(selectTimeZoneError);
   const selectedExternalLeadsCheckedCheckbox = useSelector(selectSelectedExternalLeadsCheckedCheckbox);
   const leadDetailById = useSelector(selectLeadDetailById);
-  const selectedAssignLeadsCheckedCheckbox = useSelector(selectSelectedAssignLeadsCheckedCheckbox);
+  const selectedOfficeLeadsCheckedCheckbox= useSelector(selectSelectedOfficeLeadsCheckedCheckbox);
   const leadDetailByIdLocation = useSelector(selectLeadDetailByIdLocation);
   const isSuccess = useSelector(selectIsSuccess);
   const allComments = useSelector(selectAllComments);
@@ -71,7 +71,7 @@ export const useLead = () => {
     isTimeZoneError,
     selectedExternalLeadsCheckedCheckbox,
     leadDetailById,
-    selectedAssignLeadsCheckedCheckbox,
+    selectedOfficeLeadsCheckedCheckbox,
     leadDetailByIdLocation,
     isSuccess,
     allComments,

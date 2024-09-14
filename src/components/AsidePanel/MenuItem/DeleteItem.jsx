@@ -24,16 +24,23 @@ export const DeleteItem = forwardRef(({
     toggleExternalLeadDeleteDropCont,
     toggleExternalLeadDeleteDropArrow,
     selectedExternalLeadsCheckedCheckbox,
+    selectedOfficeLeadsCheckedCheckbox,
+    toggleOfficeLeadsSelectAllCheckbox,
+    toggleOfficeLeadDeleteMenuDrop,
+    toggleOfficeLeadDeleteDropCont,
+    toggleOfficeLeadDeleteDropArrow,
 }, ref) => {
     const dispatch = useDispatch();
     const [isUserDeleteButtonValue, setUserDeleteButtonValue] = useState(false);
     const [isExternalLeadDeleteButtonValue, setExternalLeadDeleteButtonValue] = useState(false);
+    const [isOfficeLeadDeleteButtonValue, setOfficeLeadDeleteButtonValue] = useState(false);
     const [usersButtonValue, setUsersButtonValue] = useState('Delete');
     const [externalLeadButtonValue, setExternalLeadButtonValue] = useState('Delete');
+    const [officeLeadButtonValue, setOfficeLeadButtonValue] = useState('Delete');
     const [isUsersChecked, setUsersChecked] = useState(false);
     const [isExternalLeadsChecked, setExternalLeadsChecked] = useState(false);
-
-
+    const [isOfficeLeadsChecked, setOfficeLeadsChecked] = useState(false);
+    
 
     useEffect(() => {
         if(usersCheckedCheckbox.length === 0 || !isUsersChecked){
@@ -62,21 +69,43 @@ export const DeleteItem = forwardRef(({
 
 
     useEffect(() => {
+        if(selectedOfficeLeadsCheckedCheckbox.length === 0 || !isOfficeLeadsChecked){
+            setOfficeLeadButtonValue('Delete');
+        }
+        if (selectedOfficeLeadsCheckedCheckbox.length >= 1) {
+            setOfficeLeadButtonValue('Delete Selected');
+        }
+        if (isOfficeLeadsChecked) {
+            setOfficeLeadButtonValue('Delete All');
+        } 
+    },[isOfficeLeadsChecked, selectedOfficeLeadsCheckedCheckbox.length]);
+
+
+    useEffect(() => {
         if (isUsersChecked || usersCheckedCheckbox.length >= 1) {
-            setUserDeleteButtonValue(true)
+            setUserDeleteButtonValue(true);
         } else {
-            setUserDeleteButtonValue(false)
+            setUserDeleteButtonValue(false);
         }
     },[isUsersChecked, usersCheckedCheckbox.length]);
 
 
     useEffect(() => {
         if (isExternalLeadsChecked || selectedExternalLeadsCheckedCheckbox.length >= 1) {
-            setExternalLeadDeleteButtonValue(true)
+            setExternalLeadDeleteButtonValue(true);
         } else {
-            setExternalLeadDeleteButtonValue(false)
+            setExternalLeadDeleteButtonValue(false);
         }
     },[isExternalLeadsChecked, selectedExternalLeadsCheckedCheckbox.length]);
+
+
+    useEffect(() => {
+        if (isOfficeLeadsChecked || selectedOfficeLeadsCheckedCheckbox.length >= 1) {
+            setOfficeLeadDeleteButtonValue(true);
+        } else {
+            setOfficeLeadDeleteButtonValue(false);
+        }
+    },[isOfficeLeadsChecked, selectedOfficeLeadsCheckedCheckbox.length]);
 
 
 
@@ -86,6 +115,10 @@ export const DeleteItem = forwardRef(({
 
     const handleExternalLeadSelectAllChange = () => {
         dispatch(toggleExternalLeadsSelectAllCheckbox());
+    };
+
+    const handleOfficeLeadSelectAllChange = () => {
+        dispatch(toggleOfficeLeadsSelectAllCheckbox());
     };
      
 
@@ -97,16 +130,16 @@ export const DeleteItem = forwardRef(({
     }, [filteredUsers, usersCheckedCheckbox]);
  
 
-
     useEffect(() => {
         if (isLeads) {
-            const allSelectedInFiltered = isLeads.every(lead => selectedExternalLeadsCheckedCheckbox.includes(lead._id));
-            setExternalLeadsChecked(allSelectedInFiltered);
+            const allSelectedInExternalLeadsFiltered = isLeads.every(lead => selectedExternalLeadsCheckedCheckbox.includes(lead._id));
+            setExternalLeadsChecked(allSelectedInExternalLeadsFiltered);
+            const allSelectedInOfficeLeadsFiltered = isLeads.every(lead => selectedOfficeLeadsCheckedCheckbox.includes(lead._id));
+            setOfficeLeadsChecked(allSelectedInOfficeLeadsFiltered);
         }
-    }, [isLeads, selectedExternalLeadsCheckedCheckbox]);
+    }, [isLeads, selectedExternalLeadsCheckedCheckbox, selectedOfficeLeadsCheckedCheckbox]);
 
-
-
+   
     const openDeleteModal = () => {
         if(isAdmin){
             if(isLocation === 'UsersPage'){
@@ -120,6 +153,13 @@ export const DeleteItem = forwardRef(({
                 const data = {
                     idToDelete: selectedExternalLeadsCheckedCheckbox,
                     component: 'ExternalLeads',
+                }
+                dispatch(openModalConfirm(data))
+            }
+            if(isLocation === 'LeadsPage'){
+                const data = {
+                    idToDelete: selectedOfficeLeadsCheckedCheckbox,
+                    component: 'Leads',
                 }
                 dispatch(openModalConfirm(data))
             }
@@ -200,8 +240,41 @@ export const DeleteItem = forwardRef(({
                     </ul>
                 </>
             )}
-                {(isLocation === 'LeadsPage' && isAdmin) && (
-                <p>Delete Selected Lead</p>
+            {(isLocation === 'LeadsPage' && isAdmin) && (
+                <>
+                    <button type="button" className="side-panel-button"
+                        onClick={toggleOfficeLeadDeleteMenuDrop}
+                    >Delete Lead
+                        <ArrowDown className={`arrow-svg ${toggleOfficeLeadDeleteDropArrow()}`}/>
+                    </button>
+                    <ul className={`delete-dropdown-list ${toggleOfficeLeadDeleteDropCont()}`}>
+                        <li className="users-drop-item delete-item">
+                            <label htmlFor="selectAllCheckbox" className="delete-label">
+                                <input className="delete-checkbox"
+                                    name="delete_all_users" 
+                                    type="checkbox"
+                                    id="selectAllCheckbox"
+                                    checked={isOfficeLeadsChecked}
+                                    onChange={handleOfficeLeadSelectAllChange}
+                                />
+                                Select All
+                                <div className="custom-checkbox">
+                                    <CheckBoxIcon className="custom-checkbox-before" width="16" height="16"/>
+                                    <CheckedIcon className="custom-checkbox-after" width="16" height="16"/>
+                                </div>
+                            </label>
+                        </li>
+                        <li className="users-drop-item delete-item">
+                            <button type='button' 
+                                className="delete-button"
+                                disabled={!isOfficeLeadDeleteButtonValue}
+                                onClick={openDeleteModal}
+                            >
+                                {officeLeadButtonValue}
+                            </button>
+                        </li>
+                    </ul>
+                </>
             )}
         </MenuItemStyled>
     );

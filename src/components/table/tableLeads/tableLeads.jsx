@@ -24,7 +24,7 @@ import { ShowRules } from "../../../utils/showRules.js";
 
 
 export const TableLeads = () => {
-  const { isLeads, selectedAssignLeadsCheckedCheckbox, leadOffice } = useLead();
+  const { isLeads, selectedOfficeLeadsCheckedCheckbox, leadOffice } = useLead();
   const { formatDateTime } = ShowRules();
   const {
     userBranch,
@@ -199,8 +199,8 @@ export const TableLeads = () => {
                   <td className="TableHeaderItem">
                     <CustomAssignLeadCheckbox
                       lead={lead}
-                      selectedAssignLeadsCheckedCheckbox={
-                        selectedAssignLeadsCheckedCheckbox
+                      selectedOfficeLeadsCheckedCheckbox={
+                        selectedOfficeLeadsCheckedCheckbox
                       }
                     />
                   </td>

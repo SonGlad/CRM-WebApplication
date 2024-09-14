@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getOfficeList, getRoleList } from "../../redux/User/user-operation";
 import { toggleUsersSelectAllCheckbox} from "../../redux/User/user-slice";
-import { toggleExternalLeadsSelectAllCheckbox } from "../../redux/Lead/lead-slice";
+import { toggleExternalLeadsSelectAllCheckbox, toggleOfficeLeadsSelectAllCheckbox } from "../../redux/Lead/lead-slice";
 import { useUser } from "../../hooks/useUser";
 import { useAuth } from "../../hooks/useAuth";
 import { useLead } from "../../hooks/useLead";
@@ -20,13 +20,14 @@ export const AsidePanel = ({userLocation}) => {
     const dispatch = useDispatch();
     const { isAdmin } = useAuth();
     const { userSelectOffice, usersCheckedCheckbox, filteredUsers, userLeadsComponent} = useUser();
-    const { selectedExternalLeadsCheckedCheckbox, isLeads } = useLead();
+    const { selectedExternalLeadsCheckedCheckbox, selectedOfficeLeadsCheckedCheckbox, isLeads } = useLead();
     const [ isAmountPerPageBox, setAmountPerPageBox] = useState(false);
     const [ isUserBox, setUserBox ] = useState(false);
     const [ isLeadBox, setLeadBox ] = useState(false);
-    const [ isUserDeleteBox, setUserDeleteBox ] = useState(false);
-    const [ isExternalLeadDeleteBox, setExternalLeadDeleteBox ] = useState(false);
     const [ isStatisticBox, setStatisticBox ] = useState(false);
+    const [ isExternalLeadDeleteBox, setExternalLeadDeleteBox ] = useState(false);
+    const [ isUserDeleteBox, setUserDeleteBox ] = useState(false);
+    const [ isOfficeLeadDeleteBox, setOfficeLeadDeleteBox ] = useState(false);
     const [ isLocation, setLocation ] = useState('');
     const userBlock = useRef(null);
     const leadBlock = useRef(null);
@@ -73,30 +74,39 @@ export const AsidePanel = ({userLocation}) => {
     const toggleStatisticMenuDrop = () => {
         setStatisticBox(prevState => !prevState)
     };
+    const toggleAmountPerPageBlock = () => {
+        setAmountPerPageBox(prevState => !prevState)
+    };
     const toggleUserDeleteMenuDrop = () => {
         setUserDeleteBox(prevState => !prevState)
     };
     const toggleExternalLeadDeleteMenuDrop = () => {
         setExternalLeadDeleteBox(prevState => !prevState)
     };
-    const toggleAmountPerPageBlock = () => {
-        setAmountPerPageBox(prevState => !prevState)
+    const toggleOfficeLeadDeleteMenuDrop = () => {
+        setOfficeLeadDeleteBox(prevState => !prevState)
     };
 
 
     useEffect(() => {
         if (usersCheckedCheckbox.length > 0) {
-            setUserDeleteBox(true)
+            setUserDeleteBox(true);
         } else {
-            setUserDeleteBox(false)
+            setUserDeleteBox(false);
         };
 
         if (selectedExternalLeadsCheckedCheckbox.length > 0){
-            setExternalLeadDeleteBox(true)
+            setExternalLeadDeleteBox(true);
         } else {
-            setExternalLeadDeleteBox(false)
+            setExternalLeadDeleteBox(false);
         }
-    },[selectedExternalLeadsCheckedCheckbox.length, usersCheckedCheckbox.length]);
+
+        if (selectedOfficeLeadsCheckedCheckbox.length > 0){
+            setOfficeLeadDeleteBox(true);
+        } else {
+            setOfficeLeadDeleteBox(false);
+        }
+    },[selectedExternalLeadsCheckedCheckbox.length, selectedOfficeLeadsCheckedCheckbox.length, usersCheckedCheckbox.length]);
 
 
 
@@ -118,6 +128,12 @@ export const AsidePanel = ({userLocation}) => {
     const toggleStatisticDropArrow = () => {
         return isStatisticBox ? 'arrow-svg-close' : '';
     };
+    const toggleAmountPerPageDropCont = () => {
+        return isAmountPerPageBox ? 'amount-dropdown-list-visible' : '';
+    };
+    const toggleAmountPerPageDropArrow = () => {
+        return isAmountPerPageBox ? 'arrow-svg-close' : '';
+    };
     const toggleUserDeleteDropCont = () => {
         return isUserDeleteBox ? 'delete-dropdown-list-visible' : '';
     };
@@ -130,11 +146,11 @@ export const AsidePanel = ({userLocation}) => {
     const toggleExternalLeadDeleteDropArrow = () => {
         return isExternalLeadDeleteBox ? 'arrow-svg-close' : '';
     };
-    const toggleAmountPerPageDropCont = () => {
-        return isAmountPerPageBox ? 'amount-dropdown-list-visible' : '';
+    const toggleOfficeLeadDeleteDropCont = () => {
+        return isOfficeLeadDeleteBox ? 'delete-office-dropdown-list-visible' : '';
     };
-    const toggleAmountPerPageDropArrow = () => {
-        return isAmountPerPageBox ? 'arrow-svg-close' : '';
+    const toggleOfficeLeadDeleteDropArrow = () => {
+        return isOfficeLeadDeleteBox ? 'arrow-svg-close' : '';
     };
 
 
@@ -149,17 +165,28 @@ export const AsidePanel = ({userLocation}) => {
             if (isStatisticBox) {
                 setStatisticBox(false);
             }
+            if (isAmountPerPageBox) {
+                setAmountPerPageBox(false);
+            }
             if (isUserDeleteBox) {
                 setUserDeleteBox(false);
             }
             if (isExternalLeadDeleteBox) {
                 setExternalLeadDeleteBox(false);
             }
-            if (isAmountPerPageBox) {
-                setAmountPerPageBox(false);
+            if (isOfficeLeadDeleteBox) {
+                setOfficeLeadDeleteBox(false);
             }
         }
-    },[isUserBox, isLeadBox, isStatisticBox, isUserDeleteBox, isExternalLeadDeleteBox, isAmountPerPageBox]);
+    },[
+        isUserBox, 
+        isLeadBox, 
+        isStatisticBox, 
+        isAmountPerPageBox, 
+        isUserDeleteBox, 
+        isExternalLeadDeleteBox, 
+        isOfficeLeadDeleteBox
+    ]);
 
 
     const handleBackgroundClick = useCallback(event => {
@@ -236,12 +263,17 @@ export const AsidePanel = ({userLocation}) => {
                         toggleUsersSelectAllCheckbox={toggleUsersSelectAllCheckbox}
                         isAdmin={isAdmin}
                         openModalConfirm={openModalConfirm}
-                        toggleExternalLeadsSelectAllCheckbox={toggleExternalLeadsSelectAllCheckbox}
                         isLeads={isLeads}
+                        selectedExternalLeadsCheckedCheckbox={selectedExternalLeadsCheckedCheckbox}
+                        toggleExternalLeadsSelectAllCheckbox={toggleExternalLeadsSelectAllCheckbox}
                         toggleExternalLeadDeleteMenuDrop={toggleExternalLeadDeleteMenuDrop}
                         toggleExternalLeadDeleteDropCont={toggleExternalLeadDeleteDropCont}
                         toggleExternalLeadDeleteDropArrow={toggleExternalLeadDeleteDropArrow}
-                        selectedExternalLeadsCheckedCheckbox={selectedExternalLeadsCheckedCheckbox}
+                        selectedOfficeLeadsCheckedCheckbox={selectedOfficeLeadsCheckedCheckbox}
+                        toggleOfficeLeadsSelectAllCheckbox={toggleOfficeLeadsSelectAllCheckbox}
+                        toggleOfficeLeadDeleteMenuDrop={toggleOfficeLeadDeleteMenuDrop}
+                        toggleOfficeLeadDeleteDropCont={toggleOfficeLeadDeleteDropCont}
+                        toggleOfficeLeadDeleteDropArrow={toggleOfficeLeadDeleteDropArrow}
                     />
                 </ul>
             </div>

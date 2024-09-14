@@ -5,7 +5,11 @@ export const LeadDetailsStyled = styled.div`
     display: flex;
     flex-direction: column;
     width: 95%;
-    max-width: ${props => props.$leadDetailByIdLocation === "External" ? '48rem' : '78rem'};
+    max-width: ${props => props.$leadDetailByIdLocation === "External" 
+    ? '48rem'
+    : props.$isDeleteComponent
+    ? '48rem'   
+    : '78rem'};
     height: auto;
     padding-top: 1rem;
     padding-left: 1rem;

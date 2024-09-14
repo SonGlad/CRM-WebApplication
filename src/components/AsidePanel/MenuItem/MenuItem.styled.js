@@ -188,6 +188,14 @@ export const MenuItemStyled = styled.li`
             margin-top: 0.25rem;
             height: 4.5rem;
         }
+
+        &.delete-office-dropdown-list-visible{
+            opacity: 1;
+            visibility: visible;
+            padding: 0.5rem;
+            margin-top: 0.25rem;
+            height: 4.5rem;
+        }
     }
 
     .delete-label{
