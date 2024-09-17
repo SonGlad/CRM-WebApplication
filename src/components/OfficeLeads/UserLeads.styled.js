@@ -83,5 +83,25 @@ export const UserLeadsStyled = styled.div`
         font-weight: 700;
         font-size: 1.5rem;
         text-align: center;
+        margin-bottom: 2rem;
+    }
+
+
+    .small-table{
+        border-right: 1px solid ${p => p.theme.color.primary_green_lite};
+
+        & tbody{
+            & tr{
+                & td:last-child{
+                    border-right: none;
+                }
+            }
+
+            & tr:last-child{
+                & td{
+                    border-bottom: 1px solid ${p => p.theme.color.primary_green_lite};
+                }
+            }
+        }
     }
 `

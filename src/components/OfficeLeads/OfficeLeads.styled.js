@@ -79,4 +79,22 @@ export const StyledOfficeLeads = styled.div`
         font-weight: 500;
         line-height: 1.25rem;
     }
+
+    .small-table{
+        border-right: 1px solid ${p => p.theme.color.primary_green_lite};
+
+        & tbody{
+            & tr{
+                & td:last-child{
+                    border-right: none;
+                }
+            }
+
+            & tr:last-child{
+                & td{
+                    border-bottom: 1px solid ${p => p.theme.color.primary_green_lite};
+                }
+            }
+        }
+    }
 `

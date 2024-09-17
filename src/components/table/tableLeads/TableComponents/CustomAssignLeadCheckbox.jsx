@@ -1,7 +1,7 @@
-import { CustomCheckboxStyled } from "../tableExternalLeads/tableExternalLeads.styled";
-import { ReactComponent as CheckedIcon } from "../../../images/svg-icons/check.svg";
-import { ReactComponent as CheckBoxIcon } from "../../../images/svg-icons/rectangle.svg";
-import { toggleOfficeLeadsCheckboxState } from "../../../redux/Lead/lead-slice";
+import { CustomCheckboxStyled } from "../tableLeads.styled";
+import { ReactComponent as CheckedIcon } from "../../../../images/svg-icons/check.svg";
+import { ReactComponent as CheckBoxIcon } from "../../../../images/svg-icons/rectangle.svg";
+import { toggleOfficeLeadsCheckboxState } from "../../../../redux/Lead/lead-slice";
 import { useDispatch } from "react-redux";
 
 

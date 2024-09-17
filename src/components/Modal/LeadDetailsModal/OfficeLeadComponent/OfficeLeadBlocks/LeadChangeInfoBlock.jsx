@@ -232,7 +232,7 @@ export const LeadChangeInfoBlock = ({leadDetailById}) => {
             }
 
             dispatch(patchCityLead(dataCityLead));
-            setRegionEnable(false);
+            setCityEnable(false);
         }
     };
 
@@ -337,7 +337,7 @@ export const LeadChangeInfoBlock = ({leadDetailById}) => {
                             onChange={onCityValueChange}
                             id='city'
                             name="city"
-                            placeholder="Enter Region"
+                            placeholder="Enter City"
                             required
                         />
                     </label>

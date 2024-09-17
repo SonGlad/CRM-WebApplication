@@ -7,6 +7,7 @@ import { ShowRules } from "../../../utils/showRules";
 export const UserResponce = ({
     isSuccess, 
     authNewUserName, 
+    authNewUserEmail,
     authNewUserPassword, 
     authNewUserRole,
     isAdmin,
@@ -33,7 +34,7 @@ export const UserResponce = ({
                         </p>
                     <div className="content-cont">
                         <p className="content-text-item"><span>Name:</span> {authNewUserName}</p>
-                        <p className="content-text-item"><span>Email:</span> {authNewUserName}</p>
+                        <p className="content-text-item"><span>Email:</span> {authNewUserEmail}</p>
                         <p className="content-text-item"><span>Password:</span> {authNewUserPassword}</p>
                         <p className="content-text-item"><span>Role:</span> {authNewUserRole}</p>
                         {isAdmin && (

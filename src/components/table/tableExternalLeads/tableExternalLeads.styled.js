@@ -18,7 +18,6 @@ export const TableExternalList = styled.div`
     height: 68.93dvh;
   }
 
-
   &::-webkit-scrollbar {
     width: 0.5rem;
     background-color: ${p => p.theme.color.primary_grey};
@@ -28,7 +27,6 @@ export const TableExternalList = styled.div`
     border-radius: 5px;
     background-color: ${p => p.theme.color.primary_green_lite};
   }
-
 
   & table {
     width: 100%;
@@ -52,13 +50,11 @@ export const TableExternalList = styled.div`
     }
   }
 
-
   .back-color{
     background-color: #369469;
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px 10px inset;
   }
   
-
   & tr, td, th{
     text-align: center;
     padding: 1rem 0;
@@ -149,6 +145,10 @@ export const TableExternalList = styled.div`
 
 
 
+
+
+
+
 export const CustomCheckboxStyled = styled.div`
 
   .custom-checkbox{
@@ -201,6 +201,11 @@ export const CustomCheckboxStyled = styled.div`
 
 
 
+
+
+
+
+
 export const AssignDropContStyled = styled.div`
   position: relative;
 
@@ -248,7 +253,6 @@ export const AssignDropContStyled = styled.div`
       }
     }
   }
-
 
   .assign-btn{
     margin-left: 2px;

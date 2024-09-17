@@ -1,39 +1,27 @@
 import { TableListStyled } from "./tableLeads.styled";
-import { ReactComponent as ArrowDown } from "../../../images/svg-icons/arrow-down.svg";
-import { DropdownTimeZone } from "../tableComponents/dropdownTimeZone";
-import { DropdownStatus } from "../tableComponents/dropdownStatus";
-import { InputWindow } from "../tableComponents/inputWindow";
-import { NextCall } from "../tableComponents/nextCall";
-import { TimeZone } from "../tableComponents/timeZone";
-import { City } from "../tableComponents/city";
-import { Region } from "../tableComponents/region";
-import { Country } from "../tableComponents/country";
-import { Status } from "../tableComponents/status";
-import { useTableHook } from "../tableHook.jsx/tableHook";
-import { useLead } from "../../../hooks/useLead.js";
+import { ClientTime } from "./TableComponents/clientTime.jsx";
+import { NextCall } from "./TableComponents/nextCall.jsx";
+import { Status } from "./TableComponents/Status.jsx";
+import { TimeZone } from "./TableComponents/TimeZone.jsx";
+import { Country } from "./TableComponents/Country.jsx";
+import { Region } from "./TableComponents/Region.jsx";
+import { City } from "./TableComponents/City.jsx";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getLeadById } from "../../../redux/Lead/lead-operation.js";
-import { ClientTime } from "../tableComponents/clientTime.jsx";
+import { useLead } from "../../../hooks/useLead.js";
 import { useUser } from "../../../hooks/useUser.js";
 import { useAuth } from "../../../hooks/useAuth.js";
 import { openModalLeadDetail } from "../../../redux/Modal/modal-slice.js";
-import { CustomAssignLeadCheckbox } from "./CustomAssignLeadCheckbox.jsx";
+import { CustomAssignLeadCheckbox } from "./TableComponents/CustomAssignLeadCheckbox.jsx";
+import { getLeadById } from "../../../redux/Lead/lead-operation.js";
 import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice.js";
 import { ShowRules } from "../../../utils/showRules.js";
 
 
 export const TableLeads = () => {
-  const { isLeads, selectedOfficeLeadsCheckedCheckbox, leadOffice } = useLead();
+  const { isLeads, selectedOfficeLeadsCheckedCheckbox, leadOffice, status, timeZone } = useLead();
   const { formatDateTime } = ShowRules();
-  const {
-    userBranch,
-    userRole,
-    isAdmin,
-    isConversion,
-    isManager,
-    isLoggedIn,
-  } = useAuth();
+  const {isAdmin, isConversion, isManager, isConversionManager, isLoggedIn} = useAuth();
   const { userLeads, userLeadsComponent } = useUser();
   const [leads, setLeads] = useState();
   const dispatch = useDispatch();
@@ -46,20 +34,9 @@ export const TableLeads = () => {
       setLeads(isLeads)
     }
   }, [isLeads, userLeads, userLeadsComponent]);
-
-
-  const {
-    inputVisible,
-    inputRef,
-    dropdownRef,
-    setInputVisible,
-    handleTextareaChange,
-    toggleUserMenuDropArrow,
-    toggleInputVisibility,
-  } = useTableHook();
   
-
-  const openExternalLeadDetail = (_id) => {
+  
+  const openOfficeLeadDetail = (_id) => {
     dispatch(openModalLeadDetail());
     dispatch(setLeadDetailsModalTrue("Office"));
     if (isLoggedIn && isAdmin) {
@@ -74,10 +51,17 @@ export const TableLeads = () => {
     }
   };
 
+
+  // For style 'small-table' - check styles on OfficeLeads.styled.js
+  const chnageTableStyle = () => {
+    if(leads){
+      return leads.length < 16 ? 'small-table' : '';
+    }
+  };
+  
+
   return (
-   
-    <TableListStyled>
-       <div className="TableContainer">
+    <TableListStyled className={chnageTableStyle()} $userLeadsComponent={userLeadsComponent}>
       <table className="Table">
         <thead className="TableHeader">
           <tr className="TableHeaderList">
@@ -96,137 +80,152 @@ export const TableLeads = () => {
             <th className="TableHeaderItem">Self created</th>
             <th className="TableHeaderItem">Last update</th>
             <th className="TableHeaderItem">Created At</th>
-            {userRole !== "Conversion Agent" && (
-              <th className="TableHeaderItem">Assign / Reassign Agent</th>
-            )}
-            {userRole !== "Conversion Manager" &&
-              userRole !== "Conversion Agent" && (
+            {(isAdmin || isManager) && (
+              isManager ? (
                 <th className="TableHeaderItem">Assign / Reassign Manager</th>
+              ) : (
+                <th className="TableHeaderItem">Assigned Manager</th>
+              )
+            )}
+            {(isAdmin || isManager || isConversionManager) && (
+              isConversionManager ? (
+                <th className="TableHeaderItem">Assign / Reassign Agent</th>
+              ) : (
+                <th className="TableHeaderItem">Assigned Agent</th>
+              )
               )}
             <th className="TableHeaderItem">Next call</th>
             <th className="TableHeaderItem">Details</th>
-            {userBranch === "Main" && (
+            {isAdmin && (
               <th className="TableHeaderItem">Check</th>
             )}
           </tr>
         </thead>
         <tbody>
-          {leads &&
-            leads.map((lead, index) => (
-              <tr className="WordList" key={lead._id}>
-                <td className="TableHeaderItem">{lead.clientId}</td>
-                <td className="TableHeaderItem">{lead.name}</td>
-                <td className="TableHeaderItem">{lead.lastName}</td>
-                <td className="TableHeaderItem">{lead.email}</td>
-                <td className="TableHeaderItem">{lead.phone}</td>
+          {leads && leads.map((lead, index) => (
+            <tr className={lead.status === 'New' ? 'back-color' : ''} key={lead._id}>
+              <td className="TableHeaderItem">{lead.clientId}</td>
+              <td className="TableHeaderItem">{lead.name}</td>
+              <td className="TableHeaderItem">{lead.lastName}</td>
+              <td className="TableHeaderItem">{lead.email}</td>
+              <td className="TableHeaderItem">{lead.phone}</td>
+              <td className="TableHeaderItem">
                 <Status
-                  index={index}
+                  leads={leads}
                   lead={lead}
-                  ArrowDown={ArrowDown}
-                  toggleInputVisibility={toggleInputVisibility}
-                  toggleUserMenuDropArrow={toggleUserMenuDropArrow}
+                  index={index}
+                  status={status}
+                  isAdmin={isAdmin}
+                  isConversion={isConversion}
+                  isManager={isManager}
                 />
-                <td className="TableHeaderItem">{lead.resource}</td>
+              </td>
+              <td className="TableHeaderItem">{lead.resource}</td>
+              <td id="countryColumn" className="TableHeaderItem">
                 <Country
-                  index={index}
+                  leads={leads}
                   lead={lead}
-                  ArrowDown={ArrowDown}
-                  toggleInputVisibility={toggleInputVisibility}
-                  toggleUserMenuDropArrow={toggleUserMenuDropArrow}
+                  index={index}
+                  isAdmin={isAdmin}
+                  isConversion={isConversion}
+                  isManager={isManager}
                 />
+              </td>
+              <td id="regionColumn" className="TableHeaderItem">
                 <Region
-                  index={index}
+                  leads={leads}
                   lead={lead}
-                  ArrowDown={ArrowDown}
-                  toggleInputVisibility={toggleInputVisibility}
-                  toggleUserMenuDropArrow={toggleUserMenuDropArrow}
+                  index={index}
+                  isAdmin={isAdmin}
+                  isConversion={isConversion}
+                  isManager={isManager}
                 />
+              </td>
+              <td id="cityColumn" className="TableHeaderItem">
                 <City
-                  index={index}
+                  leads={leads}
                   lead={lead}
-                  ArrowDown={ArrowDown}
-                  toggleInputVisibility={toggleInputVisibility}
-                  toggleUserMenuDropArrow={toggleUserMenuDropArrow}
+                  index={index}
+                  isAdmin={isAdmin}
+                  isConversion={isConversion}
+                  isManager={isManager}
                 />
+              </td>
+              <td className="TableHeaderItem">
                 <TimeZone
+                  leads={leads}
                   lead={lead}
-                  ArrowDown={ArrowDown}
-                  toggleInputVisibility={toggleInputVisibility}
                   index={index}
-                  toggleUserMenuDropArrow={toggleUserMenuDropArrow}
+                  timeZone={timeZone}
+                  isAdmin={isAdmin}
+                  isConversion={isConversion}
+                  isManager={isManager}
                 />
+              </td>
+              <td className="TableHeaderItem" style={{ maxWidth: "60px", textWrap: "unset"}}>
                 <ClientTime lead={lead} />
-                <td className="TableHeaderItem">
-                  {lead.selfCreated ? "Yes" : "No"}
-                </td>
-                <td className="TableHeaderItem">
-                  {lead.updatedAt && formatDateTime(lead.updatedAt)}
-                </td>
-                <td className="TableHeaderItem">
-                  {lead.createdAt && formatDateTime(lead.createdAt)}
-                </td>
-                {userRole !== "Conversion Agent" && 
-                <td
-                  className="TableHeaderItem"
-                  style={{ background: !lead.conAgentId ? "#ff000082" : "" }}
+              </td>
+              <td className="TableHeaderItem">
+                {lead.selfCreated ? "Yes" : "No"}
+              </td>
+              <td className="TableHeaderItem">
+                {lead.updatedAt && formatDateTime(lead.updatedAt)}
+              </td>
+              <td className="TableHeaderItem">
+                {lead.createdAt && formatDateTime(lead.createdAt)}
+              </td>
+              {(isAdmin || isManager) &&
+                <td className="TableHeaderItem"
+                  style={{ background: !lead.conManagerId ? "#ff000082" : "" }}
                 >
-                  {!lead.conAgentId ? (
-                    'Not Assigned'
+                  {!isManager ? (
+                    lead.conManagerId ? (
+                      lead.conManagerId.username
+                    ) : (
+                      'Not Assigned'
+                    )
                   ) : (
-                    lead.conAgentId.username
+                    <>
+                      <p>REASSINGN MANAGER</p>
+                    </>
                   )}
                 </td>}
-                {userRole !== "Conversion Manager" && userRole !== "Conversion Agent" && (
-                  <td
-                    className="TableHeaderItem"
-                    style={{ background: !lead.conManagerId ? "#ff000082" : "" }}
-                    >
-                    {!lead.conManagerId ? (
-                      'Not Assigned'
+              {(isAdmin || isManager || isConversionManager) && (
+                <td className="TableHeaderItem"
+                  style={{ background: !lead.conAgentId ? "#ff000082" : "" }}
+                >
+                  {!isConversionManager ? (
+                    lead.conAgentId ? (
+                      lead.conAgentId.username
                     ) : (
-                      lead.conManagerId.username
-                    )}
-                  </td>
-                )}
-                <NextCall lead={lead} />
-                <td className="TableHeaderItem">
-                  <button className="check-btn" type='button'
-                    onClick={() => openExternalLeadDetail(lead._id, lead.branch)}
-                  >Open
-                  </button>
+                      'Not Assigned'
+                    )
+                  ) : (
+                    <>
+                      <p>REASSINGN AGENT</p>
+                    </>
+                  )}
                 </td>
-                {userBranch === "Main" && (
-                  <td className="TableHeaderItem">
-                    <CustomAssignLeadCheckbox
-                      lead={lead}
-                      selectedOfficeLeadsCheckedCheckbox={
-                        selectedOfficeLeadsCheckedCheckbox
-                      }
-                    />
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>    
-      <InputWindow
-        inputVisible={inputVisible}
-        inputRef={inputRef}
-        handleTextareaChange={handleTextareaChange}
-        setInputVisible={setInputVisible}
-      />
-      <DropdownStatus
-        inputVisible={inputVisible}
-        dropdownRef={dropdownRef}
-        setInputVisible={setInputVisible}
-      />
-      <DropdownTimeZone
-        inputVisible={inputVisible}
-        dropdownRef={dropdownRef}
-        setInputVisible={setInputVisible}
-        />
-        </div>
-      </TableListStyled>
-      
+              )}
+              <NextCall lead={lead} />
+              <td className="TableHeaderItem">
+                <button className="check-btn" type='button'
+                  onClick={() => openOfficeLeadDetail(lead._id, lead.branch)}
+                >Open
+                </button>
+              </td>
+              {isAdmin && (
+                <td className="TableHeaderItem">
+                  <CustomAssignLeadCheckbox
+                    lead={lead}
+                    selectedOfficeLeadsCheckedCheckbox={selectedOfficeLeadsCheckedCheckbox}
+                  />
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>    
+    </TableListStyled>
   );
 };

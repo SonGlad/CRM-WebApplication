@@ -22,9 +22,8 @@ export const UserLeads = () => {
     const backToUsers = () => {
         dispatch(resetUserLeadsComponent());
     };
-    
-    
-    
+
+     
     return(
         <UserLeadsStyled>
             <div className="wraper">

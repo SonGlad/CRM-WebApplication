@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+
+
 export const ClientTime = ({ lead }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   
@@ -31,10 +33,11 @@ export const ClientTime = ({ lead }) => {
       second: undefined 
     });
   };
+  
 
   return (
-    <td className="TableHeaderItem" style={{ maxWidth: "60px", textWrap: "unset"}}>
+    <>
       {calculateClientTime(lead.timeZone)}
-    </td>
+    </>
   );
 };

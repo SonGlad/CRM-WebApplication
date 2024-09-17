@@ -264,6 +264,7 @@ export const NewUser = ({handleClickClose}) => {
                 <UserResponce
                     isSuccess={isSuccess}
                     authNewUserName={authNewUserName}
+                    authNewUserEmail={authNewUserEmail}
                     authNewUserPassword={authNewUserPassword}
                     authNewUserRole={authNewUserRole}
                     isAdmin={isAdmin}

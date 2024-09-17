@@ -56,6 +56,12 @@ export const StyledMainPage = styled.div`
         border-right: 1px solid ${p => p.theme.color.primary_green_lite};
 
         & tbody{
+            & tr{
+                & td:last-child{
+                    border-right: none;
+                }
+            }
+
             & tr:last-child{
                 & td{
                     border-bottom: 1px solid ${p => p.theme.color.primary_green_lite};
