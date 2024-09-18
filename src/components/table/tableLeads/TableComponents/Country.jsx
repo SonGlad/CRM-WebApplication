@@ -3,6 +3,7 @@ import { ReactComponent as ArrowDown } from "../../../../images/svg-icons/arrow-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { patchCountryLead } from "../../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
+import { UpdateLoading } from "../../../CustomLoaders/CustomLoaders";
 
 
 
@@ -11,6 +12,7 @@ export const Country = ({index, leads, lead, isAdmin, isManager, isConversion}) 
     const [openCountry, setOpenCountry] = useState(new Map());
     const [countryValue, setCountryValue] = useState('');
     const [isCountryEnable, setCountryEnable] = useState(false);
+    const [updatingLeadId, setUpdatingLeadId] = useState(null);
     const countryRefs = useRef(new Map());
     const dispatch = useDispatch();
 
@@ -113,7 +115,10 @@ export const Country = ({index, leads, lead, isAdmin, isManager, isConversion}) 
                 id: lead._id,
                 leadCountry: formattedCountryValue
             }
-            dispatch(patchCountryLead(dataCountryLead));
+            setUpdatingLeadId(lead._id);
+            dispatch(patchCountryLead(dataCountryLead)).finally(() => {
+                setUpdatingLeadId(null);
+            });
             setCountryEnable(false);
             setCountryValue('');
             setOpenCountry(new Map());
@@ -127,31 +132,37 @@ export const Country = ({index, leads, lead, isAdmin, isManager, isConversion}) 
             countryRefs.current.set(lead._id, el);
         }}}
         $isCountry={isCountry}
-      >
-        <button className="data-btn" type='button'
-            onClick={() => toggleCountryMenuDrop(lead._id)}
-        >
-            {isCountry ? lead.country : 'Enter Country'}
-        </button>
-        <ArrowDown className={`arrow-icon ${toggleCountryDropArrow(lead._id, leads)}`}/>
-        <form className={`input-form ${toggleCountryDropCont(lead._id, leads)}`} onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="country">
-                <input type="text"
-                    value={countryValue}
-                    onChange={onCountryValueChange}
-                    id='country'
-                    name="country"
-                    placeholder="Enter Country"
-                    required
-                />
-            </label>
-            <button type="submit" 
-                className="submit-button"
-                disabled={!isCountryEnable}
-                onClick={saveCountryValue}
-                >Save
-            </button>
-        </form>
+      > 
+        {updatingLeadId === lead._id ? (
+            <UpdateLoading/>
+        ) : (
+            <>
+                <button className="data-btn" type='button'
+                    onClick={() => toggleCountryMenuDrop(lead._id)}
+                >
+                    {isCountry ? lead.country : 'Enter Country'}
+                </button>
+                <ArrowDown className={`arrow-icon ${toggleCountryDropArrow(lead._id, leads)}`}/>
+                <form className={`input-form ${toggleCountryDropCont(lead._id, leads)}`} onSubmit={(e) => e.preventDefault()}>
+                    <label htmlFor="country">
+                        <input type="text"
+                            value={countryValue}
+                            onChange={onCountryValueChange}
+                            id='country'
+                            name="country"
+                            placeholder="Enter Country"
+                            required
+                        />
+                    </label>
+                    <button type="submit" 
+                        className="submit-button"
+                        disabled={!isCountryEnable}
+                        onClick={saveCountryValue}
+                        >Save
+                    </button>
+                </form>
+            </>
+        )}
       </CountryStyled>
     );
 };

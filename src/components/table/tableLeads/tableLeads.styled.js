@@ -93,7 +93,9 @@ export const TableListStyled = styled.div`
 
   #cityColumn,
   #regionColumn,
-  #countryColumn {
+  #countryColumn,
+  #managerColumn,
+  #agentColumn {
     padding: 0.5rem 0rem;
   }
 

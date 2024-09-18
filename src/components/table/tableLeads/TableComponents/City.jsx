@@ -3,6 +3,7 @@ import { ReactComponent as ArrowDown } from "../../../../images/svg-icons/arrow-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { patchCityLead } from "../../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
+import { UpdateLoading } from "../../../CustomLoaders/CustomLoaders";
 
 
 
@@ -11,6 +12,7 @@ export const City = ({index, leads, lead, isAdmin, isManager, isConversion}) => 
     const [openCity, setOpenCity] = useState(new Map());
     const [cityValue, setCityValue] = useState('');
     const [isCityEnable, setCityEnable] = useState(false);
+    const [updatingLeadId, setUpdatingLeadId] = useState(null);
     const cityRefs = useRef(new Map());
     const dispatch = useDispatch();
 
@@ -108,7 +110,10 @@ export const City = ({index, leads, lead, isAdmin, isManager, isConversion}) => 
                 id: lead._id,
                 leadCity: formattedCityValue
             }
-            dispatch(patchCityLead(dataCityLead));
+            setUpdatingLeadId(lead._id);
+            dispatch(patchCityLead(dataCityLead)).finally(() => {
+                setUpdatingLeadId(null);
+            });
             setCityEnable(false);
             setCityValue('');
             setOpenCity(new Map());
@@ -123,30 +128,36 @@ export const City = ({index, leads, lead, isAdmin, isManager, isConversion}) => 
             }}}
             $isCity={isCity}
         >
-        <button className="data-btn" type='button'
-            onClick={() => toggleCityMenuDrop(lead._id)}
-        >
-            {isCity ? lead.city : 'Enter City'}
-        </button>
-        <ArrowDown className={`arrow-icon ${toggleCityDropArrow(lead._id, leads)}`}/>
-        <form className={`input-form ${toggleCityDropCont(lead._id, leads)}`} onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="city">
-                <input type="text"
-                    value={cityValue}
-                    onChange={onCityValueChange}
-                    id='city'
-                    name="city"
-                    placeholder="Enter City"
-                    required
-                />
-            </label>
-            <button type="submit" 
-                className="submit-button"
-                disabled={!isCityEnable}
-                onClick={saveCityValue}
-                >Save
-            </button>
-        </form>
+            {updatingLeadId === lead._id ? (
+                <UpdateLoading/>
+            ) : (
+                <>
+                    <button className="data-btn" type='button'
+                        onClick={() => toggleCityMenuDrop(lead._id)}
+                    >
+                        {isCity ? lead.city : 'Enter City'}
+                    </button>
+                    <ArrowDown className={`arrow-icon ${toggleCityDropArrow(lead._id, leads)}`}/>
+                    <form className={`input-form ${toggleCityDropCont(lead._id, leads)}`} onSubmit={(e) => e.preventDefault()}>
+                        <label htmlFor="city">
+                            <input type="text"
+                                value={cityValue}
+                                onChange={onCityValueChange}
+                                id='city'
+                                name="city"
+                                placeholder="Enter City"
+                                required
+                            />
+                        </label>
+                        <button type="submit" 
+                            className="submit-button"
+                            disabled={!isCityEnable}
+                            onClick={saveCityValue}
+                            >Save
+                        </button>
+                    </form>
+                </>
+            )}
         </CountryStyled>
     );
 };

@@ -1,12 +1,12 @@
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/dark.css";
-import { useState, useEffect ,useMemo, useRef } from "react";
+import React, { useState, useEffect ,useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { patchNextCall } from "../../../../redux/Lead/lead-operation";
 
 
 
-export const NextCall = ({ lead }) => {
+export const NextCall = React.memo(({ lead }) => {
   const [date, setDate] = useState(null);
   const dateNow = useRef(new Date());
   const dispatch = useDispatch();
@@ -79,4 +79,4 @@ export const NextCall = ({ lead }) => {
       </div>
     </td>
   );
-};
+});

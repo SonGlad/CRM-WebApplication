@@ -1,13 +1,23 @@
 import { ReactComponent as ArrowDown } from "../../../../images/svg-icons/arrow-down.svg";
 import { StatusesStyled } from "./TableComponets.Styled";
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { patchStatus } from "../../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
+import { UpdateLoading } from "../../../CustomLoaders/CustomLoaders";
 
 
-export const Status = ({index, leads, lead, status, isAdmin, isManager, isConversion}) => {
+export const Status = React.memo(({
+    index, 
+    leads, 
+    lead, 
+    status, 
+    isAdmin, 
+    isManager, 
+    isConversion, 
+}) => {
     const [isStatus, setStatus] = useState(false);
     const [openStatus, setOpenStatus] = useState(new Map());
+    const [updatingLeadId, setUpdatingLeadId] = useState(null);
     const statusRefs = useRef(new Map());
     const dispatch = useDispatch();
     
@@ -82,13 +92,16 @@ export const Status = ({index, leads, lead, status, isAdmin, isManager, isConver
     }, [handleBackgroundClick, handleKeyPress]);
 
 
-    const submitStatus = (status) => {
+    const submitStatus = (newStatus) => {
         if (isAdmin || isManager || isConversion) {
             const dataStatus = {
                 id: lead._id,
-                leadStatus: status
-            }
-            dispatch(patchStatus(dataStatus));
+                leadStatus: newStatus
+            };
+            setUpdatingLeadId(lead._id);
+            dispatch(patchStatus(dataStatus)).finally(() => {
+                setUpdatingLeadId(null);
+            });
             setOpenStatus(new Map());
         }
     };
@@ -100,21 +113,28 @@ export const Status = ({index, leads, lead, status, isAdmin, isManager, isConver
                 statusRefs.current.set(lead._id, el);
             }
         }}>
-            <button className="status-btn" type='button'
-                onClick={() => toggleStatusMenuDrop(lead._id)}
-            >
-                {isStatus ? lead.status : 'N/A'}
-            </button>
-            <ArrowDown className={`arrow-svg ${toggleStatusDropArrow(lead._id)}`}/>
-            <ul className={`status-list ${toggleStatusDropCont(lead._id, leads)}`}>
-                {status.map((status, index) => (
-                    <li className="status-item" key={index}>
-                        <p className="drop-cont-text"
-                            onClick={() => submitStatus(status)}
-                        >{status}</p>
-                    </li>
-                ))}
-            </ul>
+            {updatingLeadId === lead._id ? (
+                <UpdateLoading /> 
+            ) : (
+                <>
+                    <button className="status-btn" type='button'
+                        onClick={() => toggleStatusMenuDrop(lead._id)}
+                    >
+                        {isStatus ? lead.status : 'N/A'}
+                    </button>
+                    <ArrowDown className={`arrow-svg ${toggleStatusDropArrow(lead._id)}`}/>
+                    <ul className={`status-list ${toggleStatusDropCont(lead._id, leads)}`}>
+                        {status.map((status, index) => (
+                            <li className="status-item" key={index}>
+                                <p className="drop-cont-text"
+                                    onClick={() => submitStatus(status)}
+                                >{status}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </>
+                )
+            }
         </StatusesStyled>
     );
-};
+});

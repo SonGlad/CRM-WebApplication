@@ -3,11 +3,12 @@ import { ReactComponent as CheckedIcon } from "../../../../images/svg-icons/chec
 import { ReactComponent as CheckBoxIcon } from "../../../../images/svg-icons/rectangle.svg";
 import { toggleOfficeLeadsCheckboxState } from "../../../../redux/Lead/lead-slice";
 import { useDispatch } from "react-redux";
+import React from "react";
 
 
 
 
-export const CustomAssignLeadCheckbox = ({selectedOfficeLeadsCheckedCheckbox, lead}) => {
+export const CustomAssignLeadCheckbox = React.memo(({selectedOfficeLeadsCheckedCheckbox, lead}) => {
     const dispatch = useDispatch();
 
 
@@ -34,4 +35,4 @@ export const CustomAssignLeadCheckbox = ({selectedOfficeLeadsCheckedCheckbox, le
             </div>
         </CustomCheckboxStyled>
     );
-};
+});

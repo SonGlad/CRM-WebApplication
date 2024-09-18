@@ -68,7 +68,7 @@ export const StatusesStyled = styled.div`
     }
 
     .status-list-visible{
-        height: 11.8rem;
+        height: 11.7rem;
         width: ${props => props.$isTimeZone ? '4rem' : '7rem'};
         opacity: 1;
         visibility: visible;
@@ -79,7 +79,7 @@ export const StatusesStyled = styled.div`
 
     .status-list-visible-adjusted{
         top: -10.1rem;
-        height: 11.8rem;
+        height: 11.7rem;
         width: ${props => props.$isTimeZone ? '4rem' : '7rem'};
         opacity: 1;
         visibility: visible;
@@ -224,5 +224,123 @@ export const CountryStyled = styled.div`
         opacity: 1;
         transform: scale(1);
         transform-origin: left top;
+    }
+`
+
+
+
+
+
+
+
+
+
+
+export const AssignReassignBlockStyled = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .manager-btn{
+        color: ${p => p.theme.color.primary_white};
+        padding: 0;
+        width: 100%;
+        min-height: 1.3rem;
+        background-color: transparent;
+        pointer-events: ${props => props.$isSelfCreated && 'none'};
+    }
+
+    .arrow-svg {
+        position: absolute;
+        width: 0.5rem;
+        height: 0.5rem;
+        stroke: black;
+        stroke: ${p => p.theme.color.primary_green_lite};
+        transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        top: -4px;
+        right: 2px;
+        transform: rotate(-90deg);
+    } 
+    
+    .arrow-svg-open {
+        transform: rotate(90deg);
+    } 
+
+    .users-list{
+        height: 0rem;
+        position: absolute;
+        overflow-y: auto;
+        z-index: 1;
+        top: -0.5rem;
+        left: ${props => props.$isConversionManager ? '102%' : '106%'};
+        border-radius: 0.5rem;
+        padding: 0.25rem;
+        gap: 0.75rem;
+        background-color: ${p => p.theme.color.background2};
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        visibility: hidden;
+        opacity: 0;
+        font-size: 0.25rem;
+        border: 0.25rem solid ${p => p.theme.color.background3};
+        transform: scale(0.5);
+        transform-origin: left top;
+        transition: all ${p => p.theme.transition.main_transition};
+
+
+        &::-webkit-scrollbar {
+            width: 0.25rem;
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background-color: ${p => p.theme.color.primary_grey};
+            border-radius: 5px;
+        }
+    }
+
+    .users-list-visible{
+        height: 11.7rem;
+        width: 8.7rem;
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        transform-origin: left top;
+        font-size: 0.7rem;
+    }
+
+    .users-list-visible-adjusted{
+        top: -9.9rem;
+        height: 11.7rem;
+        width: 8.7rem;
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        transform-origin: left top;
+        font-size: 0.7rem;
+    }
+
+    .user-item{
+        cursor: pointer;
+
+        & .drop-cont-text{
+            transition: color ${p => p.theme.transition.main_transition};
+            color: ${p => p.theme.color.primary_white};
+            text-align: left;
+
+            &:hover{
+                color: ${p => p.theme.color.primary_green_lite}
+            }
+        }
+    }
+
+    .initial-item{
+        pointer-events: none;
+        font-weight: 500;
+        font-size: 1rem;
+        color: ${p => p.theme.color.primary_green_lite};
     }
 `

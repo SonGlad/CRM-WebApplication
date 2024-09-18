@@ -1,13 +1,24 @@
 import { ReactComponent as ArrowDown } from "../../../../images/svg-icons/arrow-down.svg";
 import { StatusesStyled } from "./TableComponets.Styled";
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { patchTimeZone } from "../../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
+import { UpdateLoading } from "../../../CustomLoaders/CustomLoaders";
 
 
-export const TimeZone = ({index, leads, lead, timeZone, isAdmin, isManager, isConversion}) => {
+
+export const TimeZone = React.memo(({
+    index, 
+    leads, 
+    lead, 
+    timeZone, 
+    isAdmin, 
+    isManager, 
+    isConversion
+}) => {
     const [isTimeZone, setTimeZone] = useState(false);
     const [openTimeZone, setOpenTimeZone] = useState(new Map());
+    const [updatingLeadId, setUpdatingLeadId] = useState(null);
     const timeZoneRefs = useRef(new Map());
     const dispatch = useDispatch();
 
@@ -88,7 +99,10 @@ export const TimeZone = ({index, leads, lead, timeZone, isAdmin, isManager, isCo
                 id: lead._id,
                 leadTimeZone: timeZone
             }
-            dispatch(patchTimeZone(dataTimeZone));
+            setUpdatingLeadId(lead._id);
+            dispatch(patchTimeZone(dataTimeZone)).finally(() => {
+                setUpdatingLeadId(null);
+            });
             setOpenTimeZone(new Map());
         }
     };
@@ -100,22 +114,28 @@ export const TimeZone = ({index, leads, lead, timeZone, isAdmin, isManager, isCo
                 timeZoneRefs.current.set(lead._id, el);
             }}}
             $isTimeZone={isTimeZone}
-        >
-            <button className="status-btn" type='button'
-                onClick={() => toggleTimeZoneMenuDrop(lead._id)}
-            >
-                {isTimeZone ? lead.timeZone : 'N/A'}
-            </button>
-            <ArrowDown className={`arrow-svg ${toggleTimeZoneDropArrow(lead._id)}`}/>
-            <ul className={`status-list ${toggleTimeZoneDropCont(lead._id, leads)}`}>
-                {timeZone.map((zone, index) => (
-                    <li className="status-item" key={index}>
-                        <p className="drop-cont-text"
-                            onClick={() => submitTimeZone(zone)}
-                        >{zone}</p>
-                    </li>
-                ))}
-            </ul>
+        >   
+            {updatingLeadId === lead._id ? (
+                <UpdateLoading/>
+            ) : (
+                <>
+                    <button className="status-btn" type='button'
+                        onClick={() => toggleTimeZoneMenuDrop(lead._id)}
+                    >
+                        {isTimeZone ? lead.timeZone : 'N/A'}
+                    </button>
+                    <ArrowDown className={`arrow-svg ${toggleTimeZoneDropArrow(lead._id)}`}/>
+                    <ul className={`status-list ${toggleTimeZoneDropCont(lead._id, leads)}`}>
+                        {timeZone.map((zone, index) => (
+                            <li className="status-item" key={index}>
+                                <p className="drop-cont-text"
+                                    onClick={() => submitTimeZone(zone)}
+                                >{zone}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
         </StatusesStyled>
     );
-};
+});

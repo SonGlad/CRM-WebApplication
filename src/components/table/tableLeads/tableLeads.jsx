@@ -6,6 +6,8 @@ import { TimeZone } from "./TableComponents/TimeZone.jsx";
 import { Country } from "./TableComponents/Country.jsx";
 import { Region } from "./TableComponents/Region.jsx";
 import { City } from "./TableComponents/City.jsx";
+import { ManagerAssignReAssignBlock } from "./TableComponents/ManagerAssignReassign.jsx";
+import { AgentAssignReAssignBlock } from "./TableComponents/AgentAssignReAssignBlock.jsx";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLead } from "../../../hooks/useLead.js";
@@ -18,15 +20,22 @@ import { setLeadDetailsModalTrue } from "../../../redux/Lead/lead-slice.js";
 import { ShowRules } from "../../../utils/showRules.js";
 
 
+
 export const TableLeads = () => {
-  const { isLeads, selectedOfficeLeadsCheckedCheckbox, leadOffice, status, timeZone } = useLead();
+  const { 
+    isLeads, 
+    selectedOfficeLeadsCheckedCheckbox, 
+    leadOffice, 
+    status, 
+    timeZone,
+  } = useLead();
   const { formatDateTime } = ShowRules();
   const {isAdmin, isConversion, isManager, isConversionManager, isLoggedIn} = useAuth();
-  const { userLeads, userLeadsComponent } = useUser();
+  const { userLeads, userLeadsComponent, availableUsersForAssign } = useUser();
   const [leads, setLeads] = useState();
   const dispatch = useDispatch();
+
    
- 
   useEffect(() => {
     if (userLeadsComponent && userLeads) {
       setLeads(userLeads)
@@ -58,6 +67,20 @@ export const TableLeads = () => {
       return leads.length < 16 ? 'small-table' : '';
     }
   };
+
+
+  let filteredLeads;
+  if (leads) {
+    filteredLeads = [...isLeads].sort((a, b) => {
+      if (a.status === "New" && b.status !== "New") {
+        return -1;
+      } 
+      if (a.status !== "New" && b.status === "New") {
+        return 1;
+      }
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
+    });
+  }
   
 
   return (
@@ -102,7 +125,7 @@ export const TableLeads = () => {
           </tr>
         </thead>
         <tbody>
-          {leads && leads.map((lead, index) => (
+          {leads && filteredLeads.map((lead, index) => (
             <tr className={lead.status === 'New' ? 'back-color' : ''} key={lead._id}>
               <td className="TableHeaderItem">{lead.clientId}</td>
               <td className="TableHeaderItem">{lead.name}</td>
@@ -175,35 +198,56 @@ export const TableLeads = () => {
                 {lead.createdAt && formatDateTime(lead.createdAt)}
               </td>
               {(isAdmin || isManager) &&
-                <td className="TableHeaderItem"
-                  style={{ background: !lead.conManagerId ? "#ff000082" : "" }}
+                <td id="mangerColumn" className="TableHeaderItem"
+                  style={{ background: lead.selfCreated 
+                    ? "transparent" 
+                    : !lead.conManagerId 
+                    && "#ff000082" 
+                  }}
                 >
                   {!isManager ? (
-                    lead.conManagerId ? (
-                      lead.conManagerId.username
-                    ) : (
-                      'Not Assigned'
+                    lead.selfCreated ? ("N/A") : (
+                      lead.conManagerId ? (
+                        lead.conManagerId.username
+                      ) : (
+                        'Not Assigned Yet'
+                      )
                     )
                   ) : (
-                    <>
-                      <p>REASSINGN MANAGER</p>
-                    </>
+                    <ManagerAssignReAssignBlock
+                      availableUsersForAssign={availableUsersForAssign}
+                      leads={leads}
+                      lead={lead}
+                      index={index}
+                      isManager={isManager}
+                    />
                   )}
-                </td>}
+                </td>
+              }
               {(isAdmin || isManager || isConversionManager) && (
-                <td className="TableHeaderItem"
-                  style={{ background: !lead.conAgentId ? "#ff000082" : "" }}
+                <td id="agentColumn" className="TableHeaderItem"
+                  style={{ background: lead.selfCreated 
+                    ? "transparent" 
+                    : !lead.conAgentId 
+                    && "#ff000082"
+                  }}
                 >
                   {!isConversionManager ? (
-                    lead.conAgentId ? (
-                      lead.conAgentId.username
-                    ) : (
-                      'Not Assigned'
+                    lead.selfCreated ? ('N/A') : (
+                      lead.conAgentId ? (
+                        lead.conAgentId.username
+                      ) : (
+                        'Not Assigned Yet'
+                      )
                     )
                   ) : (
-                    <>
-                      <p>REASSINGN AGENT</p>
-                    </>
+                    <AgentAssignReAssignBlock
+                      availableUsersForAssign={availableUsersForAssign}
+                      leads={leads}
+                      lead={lead}
+                      index={index}
+                      isConversionManager={isConversionManager}
+                    />
                   )}
                 </td>
               )}

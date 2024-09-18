@@ -3,6 +3,7 @@ import { ReactComponent as ArrowDown } from "../../../../images/svg-icons/arrow-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { patchRegionLead } from "../../../../redux/Lead/lead-operation";
 import { useDispatch } from "react-redux";
+import { UpdateLoading } from "../../../CustomLoaders/CustomLoaders";
 
 
 
@@ -11,6 +12,7 @@ export const Region = ({index, leads, lead, isAdmin, isManager, isConversion}) =
     const [openRegion, setOpenRegion] = useState(new Map());
     const [regionValue, setRegionValue] = useState('');
     const [isRegionEnable, setRegionEnable] = useState(false);
+    const [updatingLeadId, setUpdatingLeadId] = useState(null);
     const regionRefs = useRef(new Map());
     const dispatch = useDispatch();
 
@@ -108,7 +110,10 @@ export const Region = ({index, leads, lead, isAdmin, isManager, isConversion}) =
                 id: lead._id,
                 leadRegion: formattedRegionValue
             };
-            dispatch(patchRegionLead(dataRegionLead));
+            setUpdatingLeadId(lead._id);
+            dispatch(patchRegionLead(dataRegionLead)).finally(() => {
+                setUpdatingLeadId(null);
+            });
             setRegionEnable(false);
             setRegionValue('');
             setOpenRegion(new Map());
@@ -123,30 +128,36 @@ export const Region = ({index, leads, lead, isAdmin, isManager, isConversion}) =
             }}}
             $isRegion={isRegion}
         >
-        <button className="data-btn" type='button'
-            onClick={() => toggleRegionMenuDrop(lead._id)}
-        >
-            {isRegion ? lead.region : 'Enter Region'}
-        </button>
-        <ArrowDown className={`arrow-icon ${toggleRegionDropArrow(lead._id, leads)}`}/>
-        <form className={`input-form ${toggleRegionDropCont(lead._id, leads)}`} onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="region">
-                <input type="text"
-                    value={regionValue}
-                    onChange={onRegionValueChange}
-                    id='region'
-                    name="region"
-                    placeholder="Enter Region"
-                    required
-                />
-            </label>
-            <button type="submit" 
-                className="submit-button"
-                disabled={!isRegionEnable}
-                onClick={saveRegionValue}
-                >Save
-            </button>
-        </form>
+            {updatingLeadId === lead._id ? (
+                <UpdateLoading/>
+            ) : (
+                <>
+                    <button className="data-btn" type='button'
+                        onClick={() => toggleRegionMenuDrop(lead._id)}
+                    >
+                        {isRegion ? lead.region : 'Enter Region'}
+                    </button>
+                    <ArrowDown className={`arrow-icon ${toggleRegionDropArrow(lead._id, leads)}`}/>
+                    <form className={`input-form ${toggleRegionDropCont(lead._id, leads)}`} onSubmit={(e) => e.preventDefault()}>
+                        <label htmlFor="region">
+                            <input type="text"
+                                value={regionValue}
+                                onChange={onRegionValueChange}
+                                id='region'
+                                name="region"
+                                placeholder="Enter Region"
+                                required
+                            />
+                        </label>
+                        <button type="submit" 
+                            className="submit-button"
+                            disabled={!isRegionEnable}
+                            onClick={saveRegionValue}
+                            >Save
+                        </button>
+                    </form>
+                </>
+            )}
         </CountryStyled>
     );
 };

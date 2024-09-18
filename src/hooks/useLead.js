@@ -76,6 +76,6 @@ export const useLead = () => {
     isSuccess,
     allComments,
     isAllCommentsLoadding,
-    isAllCommentsError 
+    isAllCommentsError,
   };
 };
