@@ -157,6 +157,7 @@ export const PaginationMapStyled = styled.div`
         background-color: ${p => p.theme.color.for_modal_color};
         color: ${p => p.theme.color.primary_white};
         transition: all ${p => p.theme.transition.main_transition};
+        line-height: 0.5;
 
         &:hover{
             background-color: ${p => p.theme.color.primary_green_lite};

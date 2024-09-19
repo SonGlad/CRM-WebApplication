@@ -71,7 +71,7 @@ export const TableLeads = () => {
 
   let filteredLeads;
   if (leads) {
-    filteredLeads = [...isLeads].sort((a, b) => {
+    filteredLeads = [...leads].sort((a, b) => {
       if (a.status === "New" && b.status !== "New") {
         return -1;
       } 
@@ -103,14 +103,14 @@ export const TableLeads = () => {
             <th className="TableHeaderItem">Self created</th>
             <th className="TableHeaderItem">Last update</th>
             <th className="TableHeaderItem">Created At</th>
-            {(isAdmin || isManager) && (
+            {(!userLeadsComponent && (isAdmin || isManager)) && (
               isManager ? (
                 <th className="TableHeaderItem">Assign / Reassign Manager</th>
               ) : (
                 <th className="TableHeaderItem">Assigned Manager</th>
               )
             )}
-            {(isAdmin || isManager || isConversionManager) && (
+            {(!userLeadsComponent && (isAdmin || isManager || isConversionManager)) && (
               isConversionManager ? (
                 <th className="TableHeaderItem">Assign / Reassign Agent</th>
               ) : (
@@ -197,7 +197,7 @@ export const TableLeads = () => {
               <td className="TableHeaderItem">
                 {lead.createdAt && formatDateTime(lead.createdAt)}
               </td>
-              {(isAdmin || isManager) &&
+              {(!userLeadsComponent && (isAdmin || isManager)) &&
                 <td id="mangerColumn" className="TableHeaderItem"
                   style={{ background: lead.selfCreated 
                     ? "transparent" 
@@ -224,7 +224,7 @@ export const TableLeads = () => {
                   )}
                 </td>
               }
-              {(isAdmin || isManager || isConversionManager) && (
+              {(!userLeadsComponent && (isAdmin || isManager || isConversionManager)) && (
                 <td id="agentColumn" className="TableHeaderItem"
                   style={{ background: lead.selfCreated 
                     ? "transparent" 

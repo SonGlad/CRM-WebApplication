@@ -315,9 +315,9 @@ export const MenuItemStyled = styled.li`
         }
 
         & p{
-            font-size: 11px;
+            font-size: 0.69rem;
             font-weight: 500;
-            margin-bottom: 16px;
+            margin-bottom: 1rem;
             text-align: justify;
         }
 

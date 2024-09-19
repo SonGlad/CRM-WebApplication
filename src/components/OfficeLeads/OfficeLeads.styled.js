@@ -65,21 +65,6 @@ export const StyledOfficeLeads = styled.div`
         font-size: 1.5rem
     }
 
-
-    .filter-block{
-        margin-bottom: 2rem;
-    }
-
-    
-    .filter-list{
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        justify-content: center;
-        font-weight: 500;
-        line-height: 1.25rem;
-    }
-
     .small-table{
         border-right: 1px solid ${p => p.theme.color.primary_green_lite};
 

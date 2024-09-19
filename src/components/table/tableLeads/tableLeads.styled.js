@@ -15,7 +15,7 @@ export const TableListStyled = styled.div`
   }
 
   @media screen and (min-width: 1236px){
-    height: ${props => props.$userLeadsComponent ? '73dvh' : '69.1dvh'};
+    height: ${props => props.$userLeadsComponent ? '73dvh' : '66.2dvh'};
   }
 
   &::-webkit-scrollbar {
@@ -98,19 +98,6 @@ export const TableListStyled = styled.div`
   #agentColumn {
     padding: 0.5rem 0rem;
   }
-
-
-  /* td[id^="status-"],
-  td[id^="timeZone-"],
-  td[id^="country-"],
-  td[id^="region-"],
-  td[id^="city-"] {
-    max-width: 70px;
-    max-height: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  } */
 
   .calendar-cont{
     width: 100%;

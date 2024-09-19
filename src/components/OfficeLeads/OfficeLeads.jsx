@@ -12,6 +12,7 @@ import { Pagination } from "../Pagination/Pagination";
 import { RotatingLoader } from "../CustomLoaders/CustomLoaders";
 import { useModal } from "../../hooks/useModal";
 import { ShowRules } from "../../utils/showRules";
+import { FilterBlock } from "../FilterBlock/FilterBlock";
 
 
 
@@ -50,13 +51,7 @@ export const OfficeLeads = () => {
                         <h2 className="titles">All Office Leads List & Management</h2>
                     )}
                 </div>
-                <div className="filter-block">
-                    <ul className="filter-list">
-                    <li className="filter-item">
-                        <p>FILTER BLOCK</p>
-                    </li>
-                    </ul>
-                </div>
+                <FilterBlock/>
                 <div className="content-container">
                     {(isLeadLoading && !isLeadDetails) ? (
                         <RotatingLoader/>
