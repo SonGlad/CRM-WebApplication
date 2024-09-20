@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { 
-    // register, 
+    getAllSource,
+    getFilterStatus, 
+    getFilterTimeZone,
+    getAllCountries,
+    getAllRegions,
+    getAllCities, 
+    getAllAgents,
+    getAllNextCall,
+    getAllLastUpdated,
+    getAllCreatedDate
 } from "./filter-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -136,6 +145,9 @@ const filterSlice = createSlice({
         resetOpenFilterState:(state) => {
             state.openFilter = '';
         },
+        resetFilterListState:(state) => {
+            state.filterList = null;
+        },
     },
 
     extraReducers: builder => {
@@ -162,6 +174,156 @@ const filterSlice = createSlice({
             state.filterError = null;
         })
         .addCase(logOut.rejected, (state, {payload}) => {
+            state.filterError = payload;
+        })
+
+
+        //GET ALL TIME ZONES///////////
+        .addCase(getFilterTimeZone.pending, state =>{
+            state.timeZone.timeZoneLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getFilterTimeZone.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.timeZone.timeZoneLoading = false;
+        })
+        .addCase(getFilterTimeZone.rejected, (state, {payload}) => {
+            state.timeZone.timeZoneLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL STATUS///////////
+        .addCase(getFilterStatus.pending, state =>{
+            state.status.statusLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getFilterStatus.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.status.statusLoading = false;
+        })
+        .addCase(getFilterStatus.rejected, (state, {payload}) => {
+            state.status.statusLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL SOURCE///////////
+        .addCase(getAllSource.pending, state =>{
+            state.source.sourceLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllSource.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.source.sourceLoading = false;
+        })
+        .addCase(getAllSource.rejected, (state, {payload}) => {
+            state.source.sourceLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL COUNTRIES///////////
+        .addCase(getAllCountries.pending, state =>{
+            state.country.countryLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllCountries.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.country.countryLoading = false;
+        })
+        .addCase(getAllCountries.rejected, (state, {payload}) => {
+            state.country.countryLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL REGIONS///////////
+        .addCase(getAllRegions.pending, state =>{
+            state.region.regionLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllRegions.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.region.regionLoading = false;
+        })
+        .addCase(getAllRegions.rejected, (state, {payload}) => {
+            state.region.regionLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL CITIES///////////
+        .addCase(getAllCities.pending, state =>{
+            state.city.cityLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllCities.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.city.cityLoading = false;
+        })
+        .addCase(getAllCities.rejected, (state, {payload}) => {
+            state.city.cityLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL AGENTS///////////
+        .addCase(getAllAgents.pending, state =>{
+            state.agent.agentLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllAgents.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.agent.agentLoading = false;
+        })
+        .addCase(getAllAgents.rejected, (state, {payload}) => {
+            state.agent.agentLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL NEXT CALL///////////
+        .addCase(getAllNextCall.pending, state =>{
+            state.nextCallDate.nextCallDateLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllNextCall.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.nextCallDate.nextCallDateLoading = false;
+        })
+        .addCase(getAllNextCall.rejected, (state, {payload}) => {
+            state.nextCallDate.nextCallDateLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL LAST UPDATED///////////
+        .addCase(getAllLastUpdated.pending, state =>{
+            state.lastUpdateDate.lastUpdateDateLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllLastUpdated.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.lastUpdateDate.lastUpdateDateLoading = false;
+        })
+        .addCase(getAllLastUpdated.rejected, (state, {payload}) => {
+            state.lastUpdateDate.lastUpdateDateLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL CREATED DATES///////////
+        .addCase(getAllCreatedDate.pending, state =>{
+            state.createdDate.createdDateLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllCreatedDate.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.createdDate.createdDateLoading = false;
+        })
+        .addCase(getAllCreatedDate.rejected, (state, {payload}) => {
+            state.createdDate.createdDateLoading = false;
             state.filterError = payload;
         })
     }
@@ -194,5 +356,6 @@ export const {
     resetAgentState,
     resetTimeZoneState,
     resetStatusState,
-    resetOpenFilterState
+    resetOpenFilterState,
+    resetFilterListState,
 } = filterSlice.actions;

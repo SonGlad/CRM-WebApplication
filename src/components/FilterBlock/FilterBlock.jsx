@@ -25,8 +25,24 @@ import {
     resetTimeZoneState,
     resetStatusState,
     resetOpenFilterState,
+    resetFilterListState,
 } from "../../redux/Filter/filter-slice";
+import { 
+    getAllSource, 
+    getFilterStatus, 
+    getFilterTimeZone, 
+    getAllCountries,
+    getAllRegions,
+    getAllCities,
+    getAllAgents,
+    getAllNextCall,
+    getAllLastUpdated,
+    getAllCreatedDate
+} from "../../redux/Filter/filter-operation";
 import { useFilter } from "../../hooks/useFilter";
+import { useLead } from "../../hooks/useLead";
+import { useAuth } from "../../hooks/useAuth";
+
 
 
 export const FilterBlock = () => {
@@ -42,12 +58,32 @@ export const FilterBlock = () => {
         agentState,
         timeZoneState,
         statusState,
+        filterList,
     } = useFilter();
+    const { leadOffice } = useLead();
+    const { isAdmin } = useAuth();
     const [searchValue, setSearchValue] = useState('');
     const [isFormCancelButton, setFormCancelButton] = useState(false);
     const [openFilterList, setOpenFilterList] = useState(new Map());
+    const [selectedButton, setSelectedButton] = useState('');
     const filterRefs = useRef(new Map());
-    const dispatch = useDispatch();    
+    const dispatch = useDispatch();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    console.log(filterList);    
     useEffect(() => {
         console.log("REDUX:", openFilter);
     },[openFilter])
@@ -83,6 +119,20 @@ export const FilterBlock = () => {
     },[statusState])
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const buttonsName = [
         {buttonName: 'Select Source', state: sourceState},
         {buttonName: 'Select Country', state: countryState},
@@ -94,18 +144,6 @@ export const FilterBlock = () => {
         {buttonName: 'Select Agent', state: agentState},
         {buttonName: 'Select Status', state: statusState},
         {buttonName: 'Select Time-Zone', state: timeZoneState},
-    ];
-    const filterListItemName = [
-        {name: '1'},
-        {name: '2'},
-        {name: '3'},
-        {name: '4'},
-        {name: '5'},
-        {name: '6'},
-        {name: '7'},
-        {name: '8'},
-        {name: '9'},
-        {name: '10'},
     ];
 
 
@@ -139,11 +177,118 @@ export const FilterBlock = () => {
 
     const toggleFilterDrop = (buttonName) => {
         setOpenFilterList(prevState => {
-          const newMap = new Map(prevState);
-          newMap.set(buttonName, !newMap.get(buttonName));
-          return newMap;
+            const newMap = new Map(prevState);
+            const isOpen = !newMap.get(buttonName);
+            newMap.set(buttonName, isOpen);
+
+            if (isOpen) {
+                setSelectedButton(buttonName);
+            }
+            return newMap;
         });
     };
+
+
+    useEffect(() => {
+        if (!selectedButton) return;
+
+        dispatch(resetFilterListState());
+
+        switch (selectedButton) {
+            case 'Select Source':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllSource(leadOffice));
+                } else {
+                    dispatch(getAllSource());
+                }
+            break;
+
+            case 'Select Country':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllCountries(leadOffice));
+                } else {
+                    dispatch(getAllCountries());
+                }
+            break;
+
+            case 'Select Region':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllRegions(leadOffice));
+                } else {
+                    dispatch(getAllRegions());
+                }
+            break;
+
+            case 'Select City':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllCities(leadOffice));
+                } else {
+                    dispatch(getAllCities());
+                }
+            break;
+
+            case 'Last Update':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllLastUpdated(leadOffice));
+                } else {
+                    dispatch(getAllLastUpdated());
+                }
+            break;
+
+            case 'Create Date':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllCreatedDate(leadOffice));
+                } else {
+                    dispatch(getAllCreatedDate());
+                }
+            break;
+
+            case 'Next Call':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllNextCall(leadOffice));
+                } else {
+                    dispatch(getAllNextCall());
+                }
+            break;
+
+            case 'Select Agent':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getAllAgents(leadOffice));
+                } else {
+                    dispatch(getAllAgents());
+                }
+            break;
+
+            case 'Select Status':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getFilterStatus(leadOffice));
+                } else {
+                    dispatch(getFilterStatus());
+                }
+            break;
+
+            case 'Select Time-Zone':
+                dispatch(resetFilterListState());
+                if (isAdmin) {
+                    dispatch(getFilterTimeZone(leadOffice));
+                } else {
+                    dispatch(getFilterTimeZone());
+                }
+            break;
+
+            default:
+            break;
+        }
+    },[dispatch, isAdmin, leadOffice, selectedButton])
 
 
     const toggleFiltersDropCont = (buttonName) => {
@@ -153,9 +298,12 @@ export const FilterBlock = () => {
 
     const handleKeyPress = useCallback(event => {
         if (event.key === 'Escape') {
+            if (filterList) {
+                dispatch(resetFilterListState())
+            }
             setOpenFilterList(new Map());
         }
-    },[]);
+    },[dispatch, filterList]);
 
 
     const handleBackgroundClick = useCallback(event => {
@@ -172,7 +320,10 @@ export const FilterBlock = () => {
         if (shouldUpdate) {
             setOpenFilterList(newOpenMenus);
         }
-    }, [openFilterList]);
+        if(filterList){
+            dispatch(resetFilterListState());
+        }
+    }, [dispatch, filterList, openFilterList]);
 
 
     useEffect(() => {
@@ -348,17 +499,19 @@ export const FilterBlock = () => {
                                     <CloseIcon className="close-filter-icon" width={8} height={8}/>
                                 </button>
                             )}
-                            <ul className={`filter-item-list ${toggleFiltersDropCont(buttonName)}`}>
-                                {filterListItemName.map(({name}, index) => (
-                                    <li className="filter-list-item" key={index}>
-                                        <p className="drop-cont-text"
-                                            onClick={() => saveFilterValue(buttonName, name)}
-                                        >
-                                            {name}
-                                        </p>
-                                    </li>
-                                ))}
-                            </ul>
+                            {filterList && (
+                                <ul className={`filter-item-list ${toggleFiltersDropCont(buttonName)}`}>
+                                    {filterList.map((name, index) => (
+                                        <li className="filter-list-item" key={index}>
+                                            <p className="drop-cont-text"
+                                                onClick={() => saveFilterValue(buttonName, name)}
+                                            >
+                                                {name}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </li>
                     ))}
                 </ul>

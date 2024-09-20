@@ -146,6 +146,7 @@ export const Users = () => {
                                     <th>User Role</th>
                                     <th>User Name</th>
                                     <th>User Email</th>
+                                    <th>Verification</th>
                                     <th>User Branch</th>
                                     <th>Total Leads</th>
                                     <th>Created At</th>
@@ -156,11 +157,14 @@ export const Users = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredUsers.map(({_id, role, username, email, branch, createdAt, totalLeads}) => (
+                                {filteredUsers.map(({_id, role, username, email, branch, createdAt, totalLeads, verify}) => (
                                     <tr key={_id}>
                                         <td>{role}</td>
                                         <td>{username}</td>
                                         <td>{email}</td>
+                                        <td style={{ background: verify ? "#3cbc81" : "#ff000082"}}>
+                                            {verify ? 'Verified' : 'Not Verified'}
+                                        </td>
                                         <td>{formatBranchName(branch)}</td>
                                         <td>{totalLeads || 0}</td>
                                         <td>{formatDateTime(createdAt)}</td>
