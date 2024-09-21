@@ -1,6 +1,7 @@
 import RingLoader from "react-spinners/RingLoader";
 import PulseLoader from "react-spinners/PulseLoader";
-import PuffLoader from 'react-spinners/PuffLoader'
+import PuffLoader from 'react-spinners/PuffLoader';
+import BeatLoader from 'react-spinners/BeatLoader'
 
 import {
     RingLoaderStyled, 
@@ -8,6 +9,7 @@ import {
     RotatingStyled, 
     AllCommentsLoaderStyled,
     UpdateTableLoaderStyled,
+    FilterButtonLoaderStyled,
 } from "./CustomLoaders.styled";
 
 
@@ -108,5 +110,23 @@ export const UpdateLoading = () => {
                 data-testid="loader" 
             />
         </UpdateTableLoaderStyled>
+    );
+};
+
+
+
+export const FilterButtonLoader = () => {
+    return (
+        <FilterButtonLoaderStyled>
+            <BeatLoader
+                color={'#369469'}
+                loading = {true} 
+                size={10}
+                margin={5}
+                speedMultiplier={1}
+                aria-label="Loading Spinner"
+                data-testid="loader" 
+            />
+        </FilterButtonLoaderStyled>
     );
 };

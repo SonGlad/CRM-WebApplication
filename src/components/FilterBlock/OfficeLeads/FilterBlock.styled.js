@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const FilterBlockStyled = styled.div`
     margin-bottom: 1rem;
     display: flex;
-    /* align-items: center; */
 
 
     .open-filter-cont {
@@ -12,7 +11,6 @@ export const FilterBlockStyled = styled.div`
         height: 100%;
         padding: 0.5rem;
         flex-grow: 1;
-        /* background-color: orange; */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -71,20 +69,8 @@ export const FilterBlockStyled = styled.div`
     }
 
 
-
-
-
-
-
-
-
-
-
-
     .select-filter-cont{
         width: 80%;
-        /* background-color: pink; */
-        /* height: 86px; */
         padding: 0.5rem;
     }
 
@@ -106,7 +92,6 @@ export const FilterBlockStyled = styled.div`
 
     .filter-btn{
         width: 100%;
-        padding: 0.25rem;
         padding: 0.25rem 0.5rem;
         color: ${p => p.theme.color.primary_black};
         background-color: ${p => p.theme.color.primary_green_lite};
@@ -117,7 +102,6 @@ export const FilterBlockStyled = styled.div`
         border-radius: 0.75rem;
         transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-        
         &:hover {
             color: ${(props) => props.theme.color.primary_grey};
         }
@@ -151,7 +135,7 @@ export const FilterBlockStyled = styled.div`
 
 
     .filter-item-list{
-        height: 0rem;
+        max-height: 11.7rem;
         position: absolute;
         overflow-y: auto;
         z-index: 20;
@@ -185,7 +169,6 @@ export const FilterBlockStyled = styled.div`
     }
 
     .filter-item-list-visible{
-        height: 11.7rem;
         opacity: 1;
         visibility: visible;
         transform-origin: top;

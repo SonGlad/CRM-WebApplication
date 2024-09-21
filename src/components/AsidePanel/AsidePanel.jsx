@@ -18,7 +18,7 @@ import { AmountPerPage } from "./MenuItem/AmountPerPage";
 
 export const AsidePanel = ({userLocation}) => {
     const dispatch = useDispatch();
-    const { isAdmin } = useAuth();
+    const { isAdmin, isManager, isConversionManager } = useAuth();
     const { userSelectOffice, usersCheckedCheckbox, filteredUsers, userLeadsComponent} = useUser();
     const { selectedExternalLeadsCheckedCheckbox, selectedOfficeLeadsCheckedCheckbox, isLeads } = useLead();
     const [ isAmountPerPageBox, setAmountPerPageBox] = useState(false);
@@ -229,13 +229,15 @@ export const AsidePanel = ({userLocation}) => {
                             toggleAmountPerPageDropArrow={toggleAmountPerPageDropArrow}
                         />
                     )}
-                    <UserItem
-                        userBlock={userBlock}
-                        toggleUserMenuDrop={toggleUserMenuDrop}
-                        toggleUserDropCont={toggleUserDropCont}
-                        toggleUserDropArrow={toggleUserDropArrow}
-                        userSelectOffice={userSelectOffice}
-                    />
+                    {(isAdmin || isManager || isConversionManager) && (
+                        <UserItem
+                            userBlock={userBlock}
+                            toggleUserMenuDrop={toggleUserMenuDrop}
+                            toggleUserDropCont={toggleUserDropCont}
+                            toggleUserDropArrow={toggleUserDropArrow}
+                            userSelectOffice={userSelectOffice}
+                        />
+                    )}
                     <LeadItem
                         leadBlock={leadBlock}
                         toggleLeadMenuDrop={toggleLeadMenuDrop}
@@ -243,13 +245,15 @@ export const AsidePanel = ({userLocation}) => {
                         toggleLeadDropArrow={toggleLeadDropArrow}
                         userSelectOffice={userSelectOffice}
                     />
-                    <StatisticItem
-                        statisticBlock={statisticBlock}
-                        toggleStatisticMenuDrop={toggleStatisticMenuDrop}
-                        toggleStatisticDropCont={toggleStatisticDropCont}
-                        toggleStatisticDropArrow={toggleStatisticDropArrow}
-                        userSelectOffice={userSelectOffice}
-                    />
+                    {(isAdmin || isManager) && (
+                        <StatisticItem
+                            statisticBlock={statisticBlock}
+                            toggleStatisticMenuDrop={toggleStatisticMenuDrop}
+                            toggleStatisticDropCont={toggleStatisticDropCont}
+                            toggleStatisticDropArrow={toggleStatisticDropArrow}
+                            userSelectOffice={userSelectOffice}
+                        />
+                    )}
                 </ul>
                 <ul className="side-panel-list delete-list">
                     <DeleteItem

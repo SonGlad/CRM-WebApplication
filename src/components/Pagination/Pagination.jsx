@@ -9,6 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useUser } from "../../hooks/useUser";
 import { useLead } from "../../hooks/useLead";
 import { useDispatch } from "react-redux";
+import { useFilter } from "../../hooks/useFilter";
 
 
 
@@ -17,6 +18,19 @@ export const Pagination = () => {
     const { isAdmin, isManager, isConversion } = useAuth();
     const { totalPages, leadOffice, leadsAmountPerPage } = useLead();
     const { userLeadsComponent } = useUser();
+    const { 
+        openFilter, 
+        sourceState, 
+        countryState, 
+        regionState, 
+        cityState,
+        lastUpdateDateState,
+        createdDateState,
+        nextCallDateState,
+        agentState,
+        timeZoneState,
+        statusState
+    } = useFilter();
     const [count, setCount] = useState(1);
     const [firstVisible, setFirstVisible] = useState(false);
     const [lastVisible, setLastVisible] = useState(false);
@@ -25,7 +39,17 @@ export const Pagination = () => {
     const [decreaseEnable, setDecreaseEnable] = useState(false);
     const [increaseEnable, setIncreaseEnable] = useState(false);
     const listRef = useRef(null);  
-    
+      
+
+    useEffect(() => {
+        if (leadsAmountPerPage) {
+            setCount(1);
+            setFirstVisibleValue(0);
+            setDecreaseEnable(false);
+            setFirstVisible(false);
+        }
+    }, [leadsAmountPerPage]);
+
     
     let amount;
     if (totalPages) {
@@ -39,18 +63,6 @@ export const Pagination = () => {
     const page = count.toString();
     const limit = leadsAmountPerPage.toString();
     
-
-    useEffect(() => {
-        if ((isAdmin || isManager || isConversion) && !userLeadsComponent) {
-            dispatch(getAllLeads({
-                page: page,
-                limit: limit,
-                branch: leadOffice,
-            }));
-        }
-    },[dispatch, isAdmin, isConversion, isManager, leadOffice, limit, page, userLeadsComponent]);
-       
-     
 
     useEffect(() => {
         if (listRef.current) {
@@ -232,6 +244,69 @@ export const Pagination = () => {
         const newFirstVisibleValue = Math.min(calculatedFirstValue, limitFirstValue);
         setFirstVisibleValue(newFirstVisibleValue);
     };
+
+
+    useEffect(() => {
+        if ((isAdmin || isManager || isConversion) && !userLeadsComponent) {
+            dispatch(getAllLeads({
+                page: page,
+                limit: limit,
+                branch: leadOffice,
+            }));
+        }
+    },[dispatch, isAdmin, isConversion, isManager, leadOffice, limit, page, userLeadsComponent]);
+
+
+
+
+
+
+
+
+
+
+  
+    useEffect(() => {
+        console.log("Pagination Open Filter:", openFilter);
+    },[openFilter])
+    useEffect(() => {
+        console.log("Pagination sourceState:", sourceState);
+    },[sourceState]);
+    useEffect(() => {
+        console.log("Pagination countryState:", countryState);
+    },[countryState]);
+    useEffect(() => {
+        console.log("Pagination regionState:", regionState);
+    },[regionState])
+    useEffect(() => {
+        console.log("Pagination cityState:", cityState);
+    },[cityState])
+    useEffect(() => {
+        console.log("Pagination lastUpdateDateState:", lastUpdateDateState);
+    },[lastUpdateDateState])
+    useEffect(() => {
+        console.log("Pagination createdDateState:", createdDateState);
+    },[createdDateState])
+    useEffect(() => {
+    console.log("Pagination nextCallDateState:", nextCallDateState);  
+    },[nextCallDateState])
+    useEffect(() => {
+        console.log("Pagination agentState:", agentState);
+    },[agentState])
+    useEffect(() => {
+        console.log("Pagination timeZoneState:", timeZoneState);
+    },[timeZoneState])
+    useEffect(() => {
+        console.log("Pagination statusState:", statusState);
+    },[statusState])
+
+
+
+
+
+
+
+
 
    
     

@@ -12,17 +12,27 @@ import { Pagination } from "../Pagination/Pagination";
 import { RotatingLoader } from "../CustomLoaders/CustomLoaders";
 import { useModal } from "../../hooks/useModal";
 import { ShowRules } from "../../utils/showRules";
-import { FilterBlock } from "../FilterBlock/FilterBlock";
+import { FilterBlock } from "../FilterBlock/OfficeLeads/FilterBlock";
+import {ReactComponent as NothingFoundIcon} from "../../images/svg-icons/No_results_1.svg"
+import { useEffect, useState } from "react";
 
 
 
 export const OfficeLeads = () => {
     const { formatOfficeName } = ShowRules();
     const { isAdmin } = useAuth();
-    const { isLeadLoading, leadOffice } = useLead();
+    const { isLeadLoading, leadOffice, isLeads } = useLead();
     const { isLeadDetails } = useModal();
-    const { userLeadsComponent } = useUser()
+    const { userLeadsComponent } = useUser();
+    const [ leadLength, setLeadLength ] = useState(false);
     const dispatch = useDispatch();
+
+    
+    useEffect(() => {
+        if (isLeads.length > 0) {
+            setLeadLength(true);
+        }
+    },[isLeads.length, setLeadLength])
     
 
     const resetStateForLeads = () => {
@@ -56,7 +66,13 @@ export const OfficeLeads = () => {
                     {(isLeadLoading && !isLeadDetails) ? (
                         <RotatingLoader/>
                     ):(
-                        <TableLeads/>
+                        (isLeads && leadLength) ? (
+                            <TableLeads/>
+                        ) : (
+                            <NothingFoundIcon
+                                style={{margin: "0 auto"}} 
+                            />
+                        ) 
                     )}
                     <Pagination/>
                 </div>

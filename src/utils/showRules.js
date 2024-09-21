@@ -110,6 +110,6 @@ export const ShowRules = (values, touched, errors) => {
     formatDateTime,
     formatBranchName,
     formatOfficeName,
-    formatDateTimeFullMonth,  
+    formatDateTimeFullMonth,
   };
 };

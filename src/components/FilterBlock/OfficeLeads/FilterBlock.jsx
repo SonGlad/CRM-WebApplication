@@ -1,5 +1,4 @@
 import { FilterBlockStyled } from "./FilterBlock.styled";
-import {ReactComponent as CloseIcon} from "../../images/svg-icons/close.svg";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { 
@@ -26,7 +25,7 @@ import {
     resetStatusState,
     resetOpenFilterState,
     resetFilterListState,
-} from "../../redux/Filter/filter-slice";
+} from "../../../redux/Filter/filter-slice";
 import { 
     getAllSource, 
     getFilterStatus, 
@@ -38,16 +37,18 @@ import {
     getAllNextCall,
     getAllLastUpdated,
     getAllCreatedDate
-} from "../../redux/Filter/filter-operation";
-import { useFilter } from "../../hooks/useFilter";
-import { useLead } from "../../hooks/useLead";
-import { useAuth } from "../../hooks/useAuth";
+} from "../../../redux/Filter/filter-operation";
+import { useFilter } from "../../../hooks/useFilter";
+import { useLead } from "../../../hooks/useLead";
+import { useAuth } from "../../../hooks/useAuth";
+import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
+import { FilterBlockMap } from "./FilterBlockMap";
 
 
 
 export const FilterBlock = () => {
-    const { 
-        openFilter, 
+    const {
         sourceState, 
         countryState, 
         regionState, 
@@ -59,6 +60,7 @@ export const FilterBlock = () => {
         timeZoneState,
         statusState,
         filterList,
+        isFilterError,
     } = useFilter();
     const { leadOffice } = useLead();
     const { isAdmin } = useAuth();
@@ -66,73 +68,11 @@ export const FilterBlock = () => {
     const [isFormCancelButton, setFormCancelButton] = useState(false);
     const [openFilterList, setOpenFilterList] = useState(new Map());
     const [selectedButton, setSelectedButton] = useState('');
+    const [updatingLoader, setUpdatingLoader] = useState(null);
     const filterRefs = useRef(new Map());
     const dispatch = useDispatch();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    console.log(filterList);    
-    useEffect(() => {
-        console.log("REDUX:", openFilter);
-    },[openFilter])
-    useEffect(() => {
-        console.log("Redux sourceState:", sourceState);
-    },[sourceState]);
-    useEffect(() => {
-        console.log("Redux countryState:", countryState);
-    },[countryState]);
-    useEffect(() => {
-        console.log("Redux regionState:", regionState);
-    },[regionState])
-    useEffect(() => {
-        console.log("Redux cityState:", cityState);
-    },[cityState])
-    useEffect(() => {
-        console.log("Redux lastUpdateDateState:", lastUpdateDateState);
-    },[lastUpdateDateState])
-    useEffect(() => {
-        console.log("Redux createdDateState:", createdDateState);
-    },[createdDateState])
-    useEffect(() => {
-    console.log("Redux nextCallDateState:", nextCallDateState);  
-    },[nextCallDateState])
-    useEffect(() => {
-        console.log("Redux agentState:", agentState);
-    },[agentState])
-    useEffect(() => {
-        console.log("Redux timeZoneState:", timeZoneState);
-    },[timeZoneState])
-    useEffect(() => {
-        console.log("Redux statusState:", statusState);
-    },[statusState])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     const buttonsName = [
         {buttonName: 'Select Source', state: sourceState},
         {buttonName: 'Select Country', state: countryState},
@@ -143,7 +83,7 @@ export const FilterBlock = () => {
         {buttonName: 'Next Call', state: nextCallDateState},
         {buttonName: 'Select Agent', state: agentState},
         {buttonName: 'Select Status', state: statusState},
-        {buttonName: 'Select Time-Zone', state: timeZoneState},
+        {buttonName: 'Select Time-Zone', state: String(timeZoneState)},
     ];
 
 
@@ -182,7 +122,9 @@ export const FilterBlock = () => {
             newMap.set(buttonName, isOpen);
 
             if (isOpen) {
-                setSelectedButton(buttonName);
+                setSelectedButton(buttonName); 
+            } else {
+                setSelectedButton('');  
             }
             return newMap;
         });
@@ -196,93 +138,123 @@ export const FilterBlock = () => {
 
         switch (selectedButton) {
             case 'Select Source':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllSource(leadOffice));
-                } else {
-                    dispatch(getAllSource());
-                }
+                setUpdatingLoader(selectedButton);
+    
+                const sourceDispatch = isAdmin 
+                ? dispatch(getAllSource(leadOffice)) 
+                : dispatch(getAllSource());
+                
+                sourceDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Select Country':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllCountries(leadOffice));
-                } else {
-                    dispatch(getAllCountries());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const countryDispatch = isAdmin 
+                ? dispatch(getAllCountries(leadOffice)) 
+                : dispatch(getAllCountries());
+                
+                countryDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Select Region':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllRegions(leadOffice));
-                } else {
-                    dispatch(getAllRegions());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const regionDispatch = isAdmin 
+                ? dispatch(getAllRegions(leadOffice)) 
+                : dispatch(getAllRegions());
+                
+                regionDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Select City':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllCities(leadOffice));
-                } else {
-                    dispatch(getAllCities());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const cityDispatch = isAdmin 
+                ? dispatch(getAllCities(leadOffice)) 
+                : dispatch(getAllCities());
+                
+                cityDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Last Update':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllLastUpdated(leadOffice));
-                } else {
-                    dispatch(getAllLastUpdated());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const lastUpdateDispatch = isAdmin 
+                ? dispatch(getAllLastUpdated(leadOffice)) 
+                : dispatch(getAllLastUpdated());
+                
+                lastUpdateDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Create Date':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllCreatedDate(leadOffice));
-                } else {
-                    dispatch(getAllCreatedDate());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const createDateDispatch = isAdmin 
+                ? dispatch(getAllCreatedDate(leadOffice)) 
+                : dispatch(getAllCreatedDate());
+                
+                createDateDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Next Call':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllNextCall(leadOffice));
-                } else {
-                    dispatch(getAllNextCall());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const nextCallDispatch = isAdmin 
+                ? dispatch(getAllNextCall(leadOffice)) 
+                : dispatch(getAllNextCall());
+                
+                nextCallDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Select Agent':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getAllAgents(leadOffice));
-                } else {
-                    dispatch(getAllAgents());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const agentDispatch = isAdmin 
+                ? dispatch(getAllAgents(leadOffice)) 
+                : dispatch(getAllAgents());
+                
+                agentDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Select Status':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getFilterStatus(leadOffice));
-                } else {
-                    dispatch(getFilterStatus());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const statusDispatch = isAdmin 
+                ? dispatch(getFilterStatus(leadOffice)) 
+                : dispatch(getFilterStatus());
+                
+                statusDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             case 'Select Time-Zone':
-                dispatch(resetFilterListState());
-                if (isAdmin) {
-                    dispatch(getFilterTimeZone(leadOffice));
-                } else {
-                    dispatch(getFilterTimeZone());
-                }
+                setUpdatingLoader(selectedButton);
+
+                const timeZoneDispatch = isAdmin 
+                ? dispatch(getFilterTimeZone(leadOffice)) 
+                : dispatch(getFilterTimeZone());
+                
+                timeZoneDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
             break;
 
             default:
@@ -301,6 +273,7 @@ export const FilterBlock = () => {
             if (filterList) {
                 dispatch(resetFilterListState())
             }
+            setSelectedButton('');  
             setOpenFilterList(new Map());
         }
     },[dispatch, filterList]);
@@ -323,6 +296,7 @@ export const FilterBlock = () => {
         if(filterList){
             dispatch(resetFilterListState());
         }
+        setSelectedButton('');
     }, [dispatch, filterList, openFilterList]);
 
 
@@ -340,61 +314,51 @@ export const FilterBlock = () => {
     const saveFilterValue = (buttonName, name) => {
         switch (buttonName){
             case "Select Source":
-                console.log("Select Source Button:",name);
                 dispatch(setSourceState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Select Country":
-                console.log("Select Country Button:",name);
                 dispatch(setCountryState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Select Region":
-                console.log("Select Region Button:",name);
                 dispatch(setRegionState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Select City":
-                console.log("Select City Button:",name);
                 dispatch(setCityState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Last Update":
-                console.log("Last Update Button:",name);
                 dispatch(setLastUpdateDateState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Create Date":
-                console.log("Create Date Button:",name);
                 dispatch(setCreatedDateState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Next Call":
-                console.log("Next Call Button:",name);
                 dispatch(setNextCallDateState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Select Agent":
-                console.log("Select Agent Button:",name);
                 dispatch(setAgentState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Select Status":
-                console.log("Select Status Button:",name);
                 dispatch(setStatusState(name));
                 setOpenFilterList(new Map());
             break;
 
             case "Select Time-Zone":
-                console.log("Select Time-Zone Button:",name);
                 dispatch(setTimeZoneState(name));
                 setOpenFilterList(new Map());
             break;
@@ -451,71 +415,34 @@ export const FilterBlock = () => {
                 return;
         }
     };
-    
+
+
+    const formatDateFullMonth = (dateString, timeZone = 'Europe/Kiev') => {
+        const date = new Date(dateString);
+        const zonedDate = toZonedTime(date, timeZone);
+        const formattedDate = format(zonedDate, 'dd MMMM yyyy', { timeZone });
+        return `${formattedDate}`;
+    };
+
 
     return(
         <FilterBlockStyled>
-            <div className="open-filter-cont">
-                <p className="search-text">For SEARCH, enter one of the following values: Client ID, Name, Last Name, Email, or Phone</p>
-                <form className="search-form">
-                    <label className="search-label" htmlFor="searchValue">
-                        <input className="search-input" 
-                            type="text"
-                            value={searchValue}
-                            onChange={onValueChange}
-                            id='searchValue'
-                            name="searchValue"
-                            placeholder="Search"
-                            required
-                        />
-                        {isFormCancelButton && (
-                            <button type="button" className="cancel-btn"
-                                onClick={resetFormValue}
-                            >
-                                <CloseIcon className="close-icon" width={8} height={8}/>
-                            </button>
-                        )}
-                    </label>
-                </form>
-            </div>
-            <div className="select-filter-cont">
-                <ul className="filter-list">
-                    {buttonsName.map(({buttonName, state}, index) => (
-                        <li className="filter-item" key={index}  ref={el => {
-                            if (el) {
-                                filterRefs.current.set(buttonName, el);
-                            }
-                            }}
-                        >
-                            <button type='button' className="filter-btn"
-                                onClick={() => toggleFilterDrop(buttonName)}
-                            >
-                                {state ? state : buttonName}
-                            </button>
-                            {state && (
-                                <button type="button" className="cancel-filter-btn"
-                                    onClick={() => resetFilterValue(buttonName)}
-                                >
-                                    <CloseIcon className="close-filter-icon" width={8} height={8}/>
-                                </button>
-                            )}
-                            {filterList && (
-                                <ul className={`filter-item-list ${toggleFiltersDropCont(buttonName)}`}>
-                                    {filterList.map((name, index) => (
-                                        <li className="filter-list-item" key={index}>
-                                            <p className="drop-cont-text"
-                                                onClick={() => saveFilterValue(buttonName, name)}
-                                            >
-                                                {name}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <FilterBlockMap
+                searchValue={searchValue}
+                onValueChange={onValueChange}
+                isFormCancelButton={isFormCancelButton}
+                resetFormValue={resetFormValue}
+                buttonsName={buttonsName}
+                filterRefs={filterRefs}
+                toggleFilterDrop={toggleFilterDrop}
+                updatingLoader={updatingLoader}
+                formatDateFullMonth={formatDateFullMonth}
+                resetFilterValue={resetFilterValue}
+                filterList={filterList}
+                toggleFiltersDropCont={toggleFiltersDropCont}
+                saveFilterValue={saveFilterValue}
+                isFilterError={isFilterError}
+            />
         </FilterBlockStyled>
     );
 };

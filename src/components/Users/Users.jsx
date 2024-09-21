@@ -159,15 +159,27 @@ export const Users = () => {
                             <tbody>
                                 {filteredUsers.map(({_id, role, username, email, branch, createdAt, totalLeads, verify}) => (
                                     <tr key={_id}>
-                                        <td>{role}</td>
-                                        <td>{username}</td>
-                                        <td>{email}</td>
+                                        <td>
+                                            {role ? (role) : ('N/A')}
+                                        </td>
+                                        <td>
+                                            {username ? (username) : ('N/A')}
+                                        </td>
+                                        <td>
+                                            {email ? (email) : ('N/A')}
+                                        </td>
                                         <td style={{ background: verify ? "#3cbc81" : "#ff000082"}}>
                                             {verify ? 'Verified' : 'Not Verified'}
                                         </td>
-                                        <td>{formatBranchName(branch)}</td>
-                                        <td>{totalLeads || 0}</td>
-                                        <td>{formatDateTime(createdAt)}</td>
+                                        <td>
+                                            {branch ? (formatBranchName(branch)) : ('N/A')}
+                                        </td>
+                                        <td>
+                                            {totalLeads ? (totalLeads) : (0)}
+                                        </td>
+                                        <td>
+                                            {createdAt? (formatDateTime(createdAt)): ('N/A')}
+                                        </td>
                                         <td>
                                             <button className="check-btn" type='button'
                                                 onClick={() => openUserDetail(_id)}
