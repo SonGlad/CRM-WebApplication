@@ -15,7 +15,7 @@ export const TableExternalList = styled.div`
   }
 
   @media screen and (min-width: 1236px){
-    height: 68.93dvh;
+    height: 65.5dvh;
   }
 
   &::-webkit-scrollbar {

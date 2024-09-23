@@ -13,6 +13,8 @@ import {
     setTimeZoneState,
     setStatusState,
     setOpenFilterState,
+    setOfficesState,
+    setManagerState,
     resetSourceState,
     resetCountryState,
     resetRegionState,
@@ -24,8 +26,11 @@ import {
     resetTimeZoneState,
     resetStatusState,
     resetOpenFilterState,
+    resetOfficeState,
+    resetManagerState,
     resetFilterListState,
-} from "../../../redux/Filter/filter-slice";
+    resetAllStates,
+} from "../../redux/Filter/filter-slice";
 import { 
     getAllSource, 
     getFilterStatus, 
@@ -36,11 +41,13 @@ import {
     getAllAgents,
     getAllNextCall,
     getAllLastUpdated,
-    getAllCreatedDate
-} from "../../../redux/Filter/filter-operation";
-import { useFilter } from "../../../hooks/useFilter";
-import { useLead } from "../../../hooks/useLead";
-import { useAuth } from "../../../hooks/useAuth";
+    getAllCreatedDate,
+    getAllOffice,
+    getAllManagers,
+} from "../../redux/Filter/filter-operation";
+import { useFilter } from "../../hooks/useFilter";
+import { useLead } from "../../hooks/useLead";
+import { useAuth } from "../../hooks/useAuth";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { FilterBlockMap } from "./FilterBlockMap";
@@ -59,32 +66,63 @@ export const FilterBlock = () => {
         agentState,
         timeZoneState,
         statusState,
+        officesState,
+        managerState,
         filterList,
         isFilterError,
     } = useFilter();
     const { leadOffice } = useLead();
-    const { isAdmin } = useAuth();
+    const { isAdmin, userLocation, isLoggedIn } = useAuth();
     const [searchValue, setSearchValue] = useState('');
     const [isFormCancelButton, setFormCancelButton] = useState(false);
     const [openFilterList, setOpenFilterList] = useState(new Map());
     const [selectedButton, setSelectedButton] = useState('');
     const [updatingLoader, setUpdatingLoader] = useState(null);
+    const [buttonsName, setButtonsName] = useState();
     const filterRefs = useRef(new Map());
     const dispatch = useDispatch();
-
     
-    const buttonsName = [
-        {buttonName: 'Select Source', state: sourceState},
-        {buttonName: 'Select Country', state: countryState},
-        {buttonName: 'Select Region', state: regionState},
-        {buttonName: 'Select City', state: cityState},
-        {buttonName: 'Last Update', state: lastUpdateDateState},
-        {buttonName: 'Create Date', state: createdDateState},
-        {buttonName: 'Next Call', state: nextCallDateState},
-        {buttonName: 'Select Agent', state: agentState},
-        {buttonName: 'Select Status', state: statusState},
-        {buttonName: 'Select Time-Zone', state: String(timeZoneState)},
-    ];
+    
+    useEffect(() => {
+        if (isLoggedIn && isAdmin && userLocation === '/') {
+            setButtonsName([
+                {buttonName: 'Select Source', state: sourceState},
+                {buttonName: 'Create Date', state: createdDateState},
+                {buttonName: 'Select Manager', state: managerState},
+                {buttonName: 'Select Agent', state: agentState},
+                {buttonName: 'Select Office', state: officesState},
+            ]);
+        } else {
+            setButtonsName([
+                {buttonName: 'Select Source', state: sourceState},
+                {buttonName: 'Select Country', state: countryState},
+                {buttonName: 'Select Region', state: regionState},
+                {buttonName: 'Select City', state: cityState},
+                {buttonName: 'Last Update', state: lastUpdateDateState},
+                {buttonName: 'Create Date', state: createdDateState},
+                {buttonName: 'Next Call', state: nextCallDateState},
+                {buttonName: 'Select Agent', state: agentState},
+                {buttonName: 'Select Status', state: statusState},
+                {buttonName: 'Select Time-Zone', state: String(timeZoneState)},
+            ]);
+        }
+    },[
+        agentState, 
+        cityState, 
+        countryState, 
+        createdDateState, 
+        isAdmin, 
+        isLoggedIn, 
+        lastUpdateDateState, 
+        nextCallDateState, 
+        regionState, 
+        sourceState, 
+        statusState, 
+        timeZoneState,
+        officesState,
+        managerState, 
+        userLocation
+    ]);
 
 
     const onValueChange = (e) => {
@@ -257,6 +295,28 @@ export const FilterBlock = () => {
                 });
             break;
 
+            case 'Select Manager':
+                setUpdatingLoader(selectedButton);
+
+                const managerDispatch = isAdmin 
+                && dispatch(getAllManagers());
+                
+                managerDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
+            break;
+
+            case 'Select Office':
+                setUpdatingLoader(selectedButton);
+
+                const officeDispatch = isAdmin 
+                && dispatch(getAllOffice());
+                
+                officeDispatch.finally(() => {
+                    setUpdatingLoader(null);
+                });
+            break;
+
             default:
             break;
         }
@@ -363,6 +423,16 @@ export const FilterBlock = () => {
                 setOpenFilterList(new Map());
             break;
 
+            case "Select Manager":
+                dispatch(setManagerState(name));
+                setOpenFilterList(new Map());
+            break;
+
+            case "Select Office":
+                dispatch(setOfficesState(name));
+                setOpenFilterList(new Map());
+            break;
+
             default:
                 return;
         }
@@ -411,6 +481,14 @@ export const FilterBlock = () => {
                 dispatch(resetTimeZoneState());
             break;
 
+            case "Select Manager":
+                dispatch(resetManagerState());
+            break;
+
+            case "Select Office":
+                dispatch(resetOfficeState());
+            break;
+
             default:
                 return;
         }
@@ -418,10 +496,22 @@ export const FilterBlock = () => {
 
 
     const formatDateFullMonth = (dateString, timeZone = 'Europe/Kiev') => {
-        const date = new Date(dateString);
-        const zonedDate = toZonedTime(date, timeZone);
-        const formattedDate = format(zonedDate, 'dd MMMM yyyy', { timeZone });
-        return `${formattedDate}`;
+        if (dateString) {
+            const date = new Date(dateString);
+            if (isNaN(date)) {
+                return dateString;
+            }
+            const zonedDate = toZonedTime(date, timeZone);
+            const formattedDate = format(zonedDate, 'dd MMMM yyyy', { timeZone });
+            return `${formattedDate}`;
+        }
+        return '';
+    };
+
+
+    const clearAllFilters = () => {
+        dispatch(resetAllStates());
+        setSearchValue('');
     };
 
 
@@ -442,6 +532,7 @@ export const FilterBlock = () => {
                 toggleFiltersDropCont={toggleFiltersDropCont}
                 saveFilterValue={saveFilterValue}
                 isFilterError={isFilterError}
+                clearAllFilters={clearAllFilters}
             />
         </FilterBlockStyled>
     );

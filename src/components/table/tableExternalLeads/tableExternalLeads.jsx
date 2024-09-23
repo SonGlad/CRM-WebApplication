@@ -83,7 +83,12 @@ export function TableExternalLeads() {
                 <td className="TableHeaderItem">{capitalizeSource(lead.resource)}</td>
                 <td className="TableHeaderItem">{formatDateTime(lead.createdAt)}</td>
                 <td className="TableHeaderItem">{formatBranchName(lead.assignedOffice)}</td>
-                <td className="TableHeaderItem">
+                <td className="TableHeaderItem"
+                  style={{background: lead.crmManager
+                    && ((!lead.crmManager.name || !lead.crmManager.email) 
+                    && "#ff000082")
+                  }}
+                >
                   {lead.crmManager && (
                     (lead.crmManager.name || lead.crmManager.email) ? (
                     <ul>
@@ -99,7 +104,12 @@ export function TableExternalLeads() {
                     )
                   )}
                 </td>
-                <td className="TableHeaderItem">
+                <td className="TableHeaderItem"
+                  style={{background: lead.conManager 
+                    && ((!lead.conManager.name || !lead.conManager.email) 
+                    && "#ff000082")
+                  }}
+                >
                   {lead.conManager && (
                     (lead.conManager.name || lead.conManager.email) ? (
                       <ul>
@@ -115,7 +125,12 @@ export function TableExternalLeads() {
                     )
                   )}
                 </td>
-                <td className="TableHeaderItem">
+                <td className="TableHeaderItem"
+                  style={{background: lead.conAgent 
+                    && ((!lead.conAgent.name || !lead.conAgent.email) 
+                    && "#ff000082")
+                  }}
+                >
                   {lead.conAgent && (
                     (lead.conAgent.name || lead.conAgent.email) ? (
                       <ul>

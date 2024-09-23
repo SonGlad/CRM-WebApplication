@@ -40,6 +40,14 @@ export const selectStatusState = state => state.filter.status.statusState;
 
 export const selectStatusLoading = state => state.filter.status.statusLoading;
 
+export const selectOfficesState = state => state.filter.office.officeState;
+
+export const selectOfficesLoading = state => state.filter.office.officeLoading;
+
+export const selectManagerState = state => state.filter.manager.managerState;
+
+export const selectManagerLoading = state => state.filter.manager.managerLoading;
+
 export const selectFilterList = state => state.filter.filterList;
 
 export const selectOpenFilter = state => state.filter.openFilter;

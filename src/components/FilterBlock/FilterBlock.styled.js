@@ -18,14 +18,20 @@ export const FilterBlockStyled = styled.div`
     }
     
     .search-text{
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         font-weight: 500;
         text-align: justify;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .search-form{
         width: 100%;
         position: relative;
+        margin-bottom: 1rem;
     }
 
     .search-input{
@@ -74,7 +80,7 @@ export const FilterBlockStyled = styled.div`
         padding: 0.5rem;
     }
 
-    .filter-list{
+    .filter-btn-list{
         display: flex;
         gap: 1rem;
         align-items: center;
@@ -100,10 +106,34 @@ export const FilterBlockStyled = styled.div`
         line-height: 1.25rem;
         border: 1px solid ${p => p.theme.color.primary_green_lite};
         border-radius: 0.75rem;
-        transition: color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        transition: color ${p => p.theme.transition.main_transition};
 
         &:hover {
             color: ${(props) => props.theme.color.primary_grey};
+        }
+    }
+
+    .filter-btn-active{
+        padding-right: 1.5rem;
+        background-color: ${p => p.theme.color.background3};
+        color: ${p => p.theme.color.primary_white};
+        border: 1px solid ${p => p.theme.color.background3};
+    }
+
+    .reset-all-filter-btn{
+        width: 100%;
+        padding: 0.25rem 0.5rem;
+        color: ${p => p.theme.color.primary_grey};
+        background-color: ${p => p.theme.color.primary_black_2};
+        font-size: clamp(0.75rem, 0.5vw + 0.4rem, 1.5rem);
+        font-weight: 500;
+        line-height: 1.25rem;
+        border: 1px solid ${p => p.theme.color.primary_black_2};
+        border-radius: 0.75rem;
+        transition: color ${p => p.theme.transition.main_transition};
+
+        &:hover {
+            color: ${(props) => props.theme.color.primary_green_lite};
         }
     }
 
@@ -122,7 +152,7 @@ export const FilterBlockStyled = styled.div`
     }
         
     .close-filter-icon{
-        stroke: ${p => p.theme.color.primary_black_2};
+        stroke: ${p => p.theme.color.primary_grey};
         width: 0.9rem;
         height: 0.9rem;
         transition: transform ${p => p.theme.transition.main_transition};

@@ -7,6 +7,7 @@ import { useLead } from "../../../hooks/useLead";
 import { useDispatch } from "react-redux";
 import { resetOfficeUserState, resetUserLeadsComponent } from "../../../redux/User/user-slice";
 import { resetOfficeLeadState } from "../../../redux/Lead/lead-slice";
+import { resetAllStates } from "../../../redux/Filter/filter-slice"
 import { useEffect, useState } from "react";
 
 
@@ -24,6 +25,7 @@ export const Navigation = () => {
         }
         if (leadOffice) {
             dispatch(resetOfficeLeadState());
+            dispatch(resetAllStates());
         }
         if (userLeadsComponent) {
             dispatch(resetUserLeadsComponent());

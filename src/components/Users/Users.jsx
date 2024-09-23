@@ -2,6 +2,7 @@ import { StyledUsersPage } from "./Users.styled";
 import {ReactComponent as ArrowSVG} from "../../images/svg-icons/arrow-left.svg";
 import {ReactComponent as CheckedIcon} from "../../images/svg-icons/check.svg";
 import {ReactComponent as CheckBoxIcon} from "../../images/svg-icons/rectangle.svg";
+import {ReactComponent as NothingFoundIcon} from "../../images/svg-icons/No_results_1.svg";
 import { RotatingLoader } from "../CustomLoaders/CustomLoaders";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -20,10 +21,26 @@ import { ShowRules } from "../../utils/showRules";
 export const Users = () => {
     const { formatDateTime, formatBranchName, formatOfficeName } = ShowRules();
     const { isAdmin, isManager, isConversionManager } = useAuth();
-    const { userOffice, allUsers, userLoading, usersCheckedCheckbox, filteredUsers, userLeadsComponent } = useUser(); 
+    const { 
+        userOffice,
+        allUsers,
+        userLoading, 
+        usersCheckedCheckbox, 
+        filteredUsers, 
+        userLeadsComponent,
+        userError, 
+    } = useUser(); 
     const { isUserDetails } = useModal();
     const [filterType, setFilterType] = useState('');
+    const [ usersLength, setUsersLength ] = useState(false);
     const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        if (allUsers.length > 0) {
+            setUsersLength(true);
+        }
+    },[allUsers.length])
     
 
     const resetStateForOffice = () => {
@@ -139,73 +156,79 @@ export const Users = () => {
                 {(userLoading && !isUserDetails) ? (
                     <RotatingLoader/>
                 ) : (
-                    <div className="users-block">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>User Role</th>
-                                    <th>User Name</th>
-                                    <th>User Email</th>
-                                    <th>Verification</th>
-                                    <th>User Branch</th>
-                                    <th>Total Leads</th>
-                                    <th>Created At</th>
-                                    <th>Details</th>
-                                    {isAdmin &&(
-                                        <th>Delete</th>
-                                    )}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredUsers.map(({_id, role, username, email, branch, createdAt, totalLeads, verify}) => (
-                                    <tr key={_id}>
-                                        <td>
-                                            {role ? (role) : ('N/A')}
-                                        </td>
-                                        <td>
-                                            {username ? (username) : ('N/A')}
-                                        </td>
-                                        <td>
-                                            {email ? (email) : ('N/A')}
-                                        </td>
-                                        <td style={{ background: verify ? "#3cbc81" : "#ff000082"}}>
-                                            {verify ? 'Verified' : 'Not Verified'}
-                                        </td>
-                                        <td>
-                                            {branch ? (formatBranchName(branch)) : ('N/A')}
-                                        </td>
-                                        <td>
-                                            {totalLeads ? (totalLeads) : (0)}
-                                        </td>
-                                        <td>
-                                            {createdAt? (formatDateTime(createdAt)): ('N/A')}
-                                        </td>
-                                        <td>
-                                            <button className="check-btn" type='button'
-                                                onClick={() => openUserDetail(_id)}
-                                            >Open
-                                            </button>
-                                        </td>
-                                        {isAdmin && (
-                                            <td>
-                                                <input className="checkbox"
-                                                    type="checkbox"
-                                                    name="delete user" 
-                                                    id={_id}
-                                                    checked={usersCheckedCheckbox.includes(_id)}
-                                                    onChange={() => handleCheckboxChange(_id)}
-                                                />
-                                                <div className="custom-checkbox">
-                                                    <CheckBoxIcon className="custom-checkbox-before" width="16" height="16"/>
-                                                    <CheckedIcon className="custom-checkbox-after" width="16" height="16"/>
-                                                </div>
-                                            </td>
+                    (!userError && (allUsers || usersLength)) ? (
+                        <div className="users-block">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>User Role</th>
+                                        <th>User Name</th>
+                                        <th>User Email</th>
+                                        <th>Verification</th>
+                                        <th>User Branch</th>
+                                        <th>Total Leads</th>
+                                        <th>Created At</th>
+                                        <th>Details</th>
+                                        {isAdmin &&(
+                                            <th>Delete</th>
                                         )}
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    {filteredUsers.map(({_id, role, username, email, branch, createdAt, totalLeads, verify}) => (
+                                        <tr key={_id}>
+                                            <td>
+                                                {role ? (role) : ('N/A')}
+                                            </td>
+                                            <td>
+                                                {username ? (username) : ('N/A')}
+                                            </td>
+                                            <td>
+                                                {email ? (email) : ('N/A')}
+                                            </td>
+                                            <td style={{ background: verify ? "#3cbc81" : "#ff000082"}}>
+                                                {verify ? 'Verified' : 'Not Verified'}
+                                            </td>
+                                            <td>
+                                                {branch ? (formatBranchName(branch)) : ('N/A')}
+                                            </td>
+                                            <td>
+                                                {totalLeads ? (totalLeads) : (0)}
+                                            </td>
+                                            <td>
+                                                {createdAt? (formatDateTime(createdAt)): ('N/A')}
+                                            </td>
+                                            <td>
+                                                <button className="check-btn" type='button'
+                                                    onClick={() => openUserDetail(_id)}
+                                                >Open
+                                                </button>
+                                            </td>
+                                            {isAdmin && (
+                                                <td>
+                                                    <input className="checkbox"
+                                                        type="checkbox"
+                                                        name="delete user" 
+                                                        id={_id}
+                                                        checked={usersCheckedCheckbox.includes(_id)}
+                                                        onChange={() => handleCheckboxChange(_id)}
+                                                    />
+                                                    <div className="custom-checkbox">
+                                                        <CheckBoxIcon className="custom-checkbox-before" width="16" height="16"/>
+                                                        <CheckedIcon className="custom-checkbox-after" width="16" height="16"/>
+                                                    </div>
+                                                </td>
+                                            )}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <NothingFoundIcon
+                            style={{margin: "0 auto"}} 
+                        />
+                    )
                 )}
             </div>
         </StyledUsersPage>

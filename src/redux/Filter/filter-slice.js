@@ -9,7 +9,9 @@ import {
     getAllAgents,
     getAllNextCall,
     getAllLastUpdated,
-    getAllCreatedDate
+    getAllCreatedDate,
+    getAllOffice,
+    getAllManagers
 } from "./filter-operation";
 import { logOut } from "../Auth/auth-operation";
 
@@ -55,6 +57,14 @@ const initialState = {
     statusState: '',
     statusLoading: false,
   },
+  manager: {
+    managerState: '',
+    managerLoading: false,
+  },
+  office: {
+    officeState: '',
+    officeLoading: false,
+  },
   openFilter: '',
   filterList: null,
   filterError: null,
@@ -96,6 +106,12 @@ const filterSlice = createSlice({
         setStatusState:(state, action) => {
             state.status.statusState = action.payload;
         },
+        setOfficesState:(state, action) => {
+            state.office.officeState = action.payload;
+        },
+        setManagerState:(state, action) => {
+            state.manager.managerState = action.payload;
+        },
         setOpenFilterState:(state, action) => {
             state.openFilter = action.payload;
         },
@@ -110,7 +126,9 @@ const filterSlice = createSlice({
             state.country.countryState  = '';
             state.source.sourceState = '';
             state.status.statusState = '';
-            state.timeZoneState.timeZoneState = '';
+            state.timeZone.timeZoneState = '';
+            state.manager.managerState = '';
+            state.office.officeState = '';
         },
         resetSourceState:(state) => {
             state.source.sourceState = '';
@@ -142,6 +160,12 @@ const filterSlice = createSlice({
         resetStatusState:(state) => {
             state.status.statusState = '';
         },
+        resetOfficeState:(state) => {
+            state.office.officeState = '';
+        },
+        resetManagerState:(state) => {
+            state.manager.managerState = '';
+        },
         resetOpenFilterState:(state) => {
             state.openFilter = '';
         },
@@ -169,6 +193,8 @@ const filterSlice = createSlice({
             state.agent.agentState = '';
             state.timeZone.timeZoneState = '';
             state.status.statusState = '';
+            state.office.officeState ='';
+            state.manager.managerState ='';
             state.openFilter = '';
             state.filterList = null;
             state.filterError = null;
@@ -326,6 +352,36 @@ const filterSlice = createSlice({
             state.createdDate.createdDateLoading = false;
             state.filterError = payload;
         })
+
+
+        //GET ALL AVAILABLE OFFICES///////////
+        .addCase(getAllOffice.pending, state =>{
+            state.office.officeLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllOffice.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.office.officeLoading = false;
+        })
+        .addCase(getAllOffice.rejected, (state, {payload}) => {
+            state.office.officeLoading = false;
+            state.filterError = payload;
+        })
+
+
+        //GET ALL AVAILABLE OFFICES///////////
+        .addCase(getAllManagers.pending, state =>{
+            state.manager.managerLoading = true;
+            state.filterError = null;
+        })
+        .addCase(getAllManagers.fulfilled, (state, { payload }) => {
+            state.filterList = payload;
+            state.manager.managerLoading = false;
+        })
+        .addCase(getAllManagers.rejected, (state, {payload}) => {
+            state.manager.managerLoading = false;
+            state.filterError = payload;
+        })
     }
 });
 
@@ -345,6 +401,8 @@ export const {
     setTimeZoneState,
     setStatusState,
     setOpenFilterState,
+    setOfficesState,
+    setManagerState,
     resetAllStates,
     resetSourceState,
     resetCountryState,
@@ -358,4 +416,6 @@ export const {
     resetStatusState,
     resetOpenFilterState,
     resetFilterListState,
+    resetOfficeState,
+    resetManagerState,
 } = filterSlice.actions;

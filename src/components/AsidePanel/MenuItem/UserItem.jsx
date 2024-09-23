@@ -7,6 +7,8 @@ import { NavLink } from "react-router-dom";
 import { isOfficeState } from "../../../redux/User/user-slice";
 import { useAuth } from "../../../hooks/useAuth";
 import { ShowRules } from "../../../utils/showRules";
+import { resetAllStates } from "../../../redux/Filter/filter-slice";
+
 
 
 export const UserItem = forwardRef(({
@@ -72,6 +74,7 @@ export const UserItem = forwardRef(({
         openOfficeMenu();
         if (isAdmin) {
             dispatch(isOfficeState(office));
+            dispatch(resetAllStates());
         }
     };
 

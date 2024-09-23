@@ -21,6 +21,10 @@ import {
     selectTimeZoneLoading,
     selectStatusState,
     selectStatusLoading,
+    selectOfficesState,
+    selectOfficesLoading,
+    selectManagerState,
+    selectManagerLoading,
     selectFilterList,
     selectOpenFilter,
 } from "../redux/Filter/filter-selectors";
@@ -48,6 +52,10 @@ export const useFilter = () => {
     const timeZoneLoading = useSelector(selectTimeZoneLoading);
     const statusState = useSelector(selectStatusState);
     const statusLoading = useSelector(selectStatusLoading);
+    const officesState = useSelector(selectOfficesState);
+    const officesLoading = useSelector(selectOfficesLoading);
+    const managerState = useSelector(selectManagerState);
+    const managerLoading = useSelector(selectManagerLoading);
     const filterList = useSelector(selectFilterList);
     const openFilter = useSelector(selectOpenFilter);
 
@@ -74,6 +82,10 @@ export const useFilter = () => {
         timeZoneLoading,
         statusState,
         statusLoading,
+        officesState,
+        officesLoading,
+        managerState,
+        managerLoading,
         filterList,
         openFilter,
     }

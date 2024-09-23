@@ -9,6 +9,7 @@ import { resetUserLeadsComponent } from "../../../redux/User/user-slice";
 import { useAuth } from "../../../hooks/useAuth";
 import { useUser } from "../../../hooks/useUser";
 import { ShowRules } from "../../../utils/showRules";
+import { resetAllStates } from "../../../redux/Filter/filter-slice";
 
 
 export const LeadItem = forwardRef(({
@@ -75,6 +76,7 @@ export const LeadItem = forwardRef(({
         openOfficeMenu();
         if (isAdmin) {
             dispatch(isOfficeState(office));
+            dispatch(resetAllStates());
         }
         if (userLeadsComponent) {
             dispatch(resetUserLeadsComponent());

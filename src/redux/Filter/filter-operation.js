@@ -172,3 +172,35 @@ export const getAllCreatedDate = createAsyncThunk(
         }
     }
 );
+
+
+export const getAllOffice = createAsyncThunk(
+    'finds/offices',
+    async (_, thunkApi) => {
+        try{
+            const response = await axios.get(`finds/offices`);
+            toast.success(`All Available Offices load successful`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);
+
+
+export const getAllManagers = createAsyncThunk(
+    'finds/managers',
+    async (_, thunkApi) => {
+        try{
+            const response = await axios.get(`finds/managers`);
+            toast.success(`All Available Managers load successful`);
+            return response.data;
+        }
+        catch(error) {
+            toast.error(`${error.response.data.message}`);
+            return thunkApi.rejectWithValue(error.response.data.message);
+        }
+    }
+);

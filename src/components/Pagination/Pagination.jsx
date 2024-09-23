@@ -29,7 +29,9 @@ export const Pagination = () => {
         nextCallDateState,
         agentState,
         timeZoneState,
-        statusState
+        statusState,
+        officesState,
+        managerState,
     } = useFilter();
     const [count, setCount] = useState(1);
     const [firstVisible, setFirstVisible] = useState(false);
@@ -299,6 +301,12 @@ export const Pagination = () => {
     useEffect(() => {
         console.log("Pagination statusState:", statusState);
     },[statusState])
+    useEffect(() => {
+        console.log("Pagination officesState:", officesState);
+    },[officesState])
+    useEffect(() => {
+        console.log("Pagination managerState:", managerState);
+    },[managerState])
 
 
 

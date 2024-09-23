@@ -1,7 +1,9 @@
 import { StyledOfficeLeads } from "./OfficeLeads.styled";
 import {ReactComponent as ArrowSVG} from "../../images/svg-icons/arrow-left.svg";
+import {ReactComponent as NothingFoundIcon} from "../../images/svg-icons/No_results_1.svg";
 import { NavLink } from "react-router-dom";
 import { resetOfficeLeadState } from "../../redux/Lead/lead-slice";
+import { resetAllStates } from "../../redux/Filter/filter-slice";
 import { resetUserLeadsComponent } from "../../redux/User/user-slice";
 import { useDispatch } from "react-redux";
 import { useAuth } from "../../hooks/useAuth";
@@ -12,8 +14,7 @@ import { Pagination } from "../Pagination/Pagination";
 import { RotatingLoader } from "../CustomLoaders/CustomLoaders";
 import { useModal } from "../../hooks/useModal";
 import { ShowRules } from "../../utils/showRules";
-import { FilterBlock } from "../FilterBlock/OfficeLeads/FilterBlock";
-import {ReactComponent as NothingFoundIcon} from "../../images/svg-icons/No_results_1.svg"
+import { FilterBlock } from "../FilterBlock/FilterBlock";
 import { useEffect, useState } from "react";
 
 
@@ -21,7 +22,7 @@ import { useEffect, useState } from "react";
 export const OfficeLeads = () => {
     const { formatOfficeName } = ShowRules();
     const { isAdmin } = useAuth();
-    const { isLeadLoading, leadOffice, isLeads } = useLead();
+    const { isLeadLoading, leadOffice, isLeads, isLeadsError } = useLead();
     const { isLeadDetails } = useModal();
     const { userLeadsComponent } = useUser();
     const [ leadLength, setLeadLength ] = useState(false);
@@ -38,6 +39,7 @@ export const OfficeLeads = () => {
     const resetStateForLeads = () => {
         if (leadOffice) {
             dispatch(resetOfficeLeadState());
+            dispatch(resetAllStates());
         }
         if (userLeadsComponent) {
             dispatch(resetUserLeadsComponent());
@@ -65,8 +67,8 @@ export const OfficeLeads = () => {
                 <div className="content-container">
                     {(isLeadLoading && !isLeadDetails) ? (
                         <RotatingLoader/>
-                    ):(
-                        (isLeads && leadLength) ? (
+                    ) : (
+                        (!isLeadsError && (isLeads || leadLength)) ? (
                             <TableLeads/>
                         ) : (
                             <NothingFoundIcon
