@@ -254,69 +254,45 @@ export const Pagination = () => {
                 page: page,
                 limit: limit,
                 branch: leadOffice,
+                resource: sourceState,
+                createdAt: createdDateState,
+                conManager: managerState,
+                conAgent: agentState,
+                office: officesState,
+                openFilter: openFilter,
+                country: countryState,
+                region: regionState,
+                city: cityState,
+                lastUpdate: lastUpdateDateState,
+                nextCall: nextCallDateState,
+                status: statusState,
+                timeZone: timeZoneState,
             }));
         }
-    },[dispatch, isAdmin, isConversion, isManager, leadOffice, limit, page, userLeadsComponent]);
-
-
-
-
-
-
-
-
-
-
+    },[
+        dispatch, 
+        isAdmin, 
+        leadOffice,
+        page, 
+        limit, 
+        agentState, 
+        createdDateState, 
+        isConversion, 
+        isManager, 
+        managerState, 
+        officesState, 
+        openFilter, 
+        sourceState, 
+        userLeadsComponent, 
+        countryState, 
+        regionState, 
+        cityState, 
+        lastUpdateDateState, 
+        nextCallDateState, 
+        statusState, 
+        timeZoneState
+    ]);
   
-    useEffect(() => {
-        console.log("Pagination Open Filter:", openFilter);
-    },[openFilter])
-    useEffect(() => {
-        console.log("Pagination sourceState:", sourceState);
-    },[sourceState]);
-    useEffect(() => {
-        console.log("Pagination countryState:", countryState);
-    },[countryState]);
-    useEffect(() => {
-        console.log("Pagination regionState:", regionState);
-    },[regionState])
-    useEffect(() => {
-        console.log("Pagination cityState:", cityState);
-    },[cityState])
-    useEffect(() => {
-        console.log("Pagination lastUpdateDateState:", lastUpdateDateState);
-    },[lastUpdateDateState])
-    useEffect(() => {
-        console.log("Pagination createdDateState:", createdDateState);
-    },[createdDateState])
-    useEffect(() => {
-    console.log("Pagination nextCallDateState:", nextCallDateState);  
-    },[nextCallDateState])
-    useEffect(() => {
-        console.log("Pagination agentState:", agentState);
-    },[agentState])
-    useEffect(() => {
-        console.log("Pagination timeZoneState:", timeZoneState);
-    },[timeZoneState])
-    useEffect(() => {
-        console.log("Pagination statusState:", statusState);
-    },[statusState])
-    useEffect(() => {
-        console.log("Pagination officesState:", officesState);
-    },[officesState])
-    useEffect(() => {
-        console.log("Pagination managerState:", managerState);
-    },[managerState])
-
-
-
-
-
-
-
-
-
-   
     
     return(
         <PaginationStyled>

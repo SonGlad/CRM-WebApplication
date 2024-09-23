@@ -21,13 +21,45 @@ export const createNewLead = createAsyncThunk(
 
 
 export const getAllLeads = createAsyncThunk(
-    'leads/all?branch=Office1',
-    async ({page, limit, branch}, thunkApi) => {
-        const params1 = `?page=${page}&limit=${limit}&branch=${branch}`;
-        const params2 = `?page=${page}&limit=${limit}`;       
-        const params = branch ? params1 : params2;
+    'leads/all?page=&limit=&source=&branch=&resource=&createdAt=&conManager=&conAgent=&office=&openFilter=&country=&region=&city=&lastUpdate=&nextCall=&status=&timeZone=',
+    async ({
+        page, 
+        limit, 
+        branch, 
+        resource, 
+        createdAt, 
+        conManager, 
+        conAgent, 
+        office, 
+        openFilter,
+        country,
+        region,
+        city,
+        lastUpdate,
+        nextCall,
+        status,
+        timeZone,
+    }, thunkApi) => {
+        const params = new URLSearchParams({
+            page,
+            limit,
+            ...(branch && { branch }),
+            ...(resource && { resource }),
+            ...(createdAt && { createdAt }),
+            ...(conManager && { conManager }),
+            ...(conAgent && { conAgent }),
+            ...(office && { office }),
+            ...(openFilter && { openFilter }),
+            ...(country && { country }),
+            ...(region && { region }),
+            ...(city && { city }),
+            ...(lastUpdate && { lastUpdate }),
+            ...(nextCall && { nextCall }),
+            ...(status && { status }),
+            ...(timeZone && { timeZone }),
+        }).toString();
         try{
-            const response = await axios.get(`leads/all${params}`);
+            const response = await axios.get(`leads/all?${params}`);
             toast.success(`All Leads load successful`);
             return response.data; 
         }

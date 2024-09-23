@@ -27,7 +27,9 @@ export const Main = () => {
 
   useEffect(() => {
     if (isLeads.length > 0) {
-        setLeadLength(true);
+      setLeadLength(true);
+    } else {
+      setLeadLength(false);
     }
 },[isLeads.length, setLeadLength])
 
