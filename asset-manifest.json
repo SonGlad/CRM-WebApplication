@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/CRM-WebApplication/static/css/main.b9ff39c7.css",
-    "main.js": "/CRM-WebApplication/static/js/main.fb176cd1.js",
-    "static/js/394.336f7831.chunk.js": "/CRM-WebApplication/static/js/394.336f7831.chunk.js",
-    "static/js/992.af0a1c83.chunk.js": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js",
-    "static/js/524.3db5a56a.chunk.js": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js",
-    "static/js/769.bb96bd5b.chunk.js": "/CRM-WebApplication/static/js/769.bb96bd5b.chunk.js",
-    "static/js/152.485ec078.chunk.js": "/CRM-WebApplication/static/js/152.485ec078.chunk.js",
-    "static/js/314.58bda4a7.chunk.js": "/CRM-WebApplication/static/js/314.58bda4a7.chunk.js",
-    "static/js/571.f043dc71.chunk.js": "/CRM-WebApplication/static/js/571.f043dc71.chunk.js",
+    "main.css": "/CRM-WebApplication/static/css/main.e94e3e29.css",
+    "main.js": "/CRM-WebApplication/static/js/main.435033ee.js",
+    "static/js/837.456168ab.chunk.js": "/CRM-WebApplication/static/js/837.456168ab.chunk.js",
+    "static/js/812.07d2e822.chunk.js": "/CRM-WebApplication/static/js/812.07d2e822.chunk.js",
+    "static/js/508.7dae4d48.chunk.js": "/CRM-WebApplication/static/js/508.7dae4d48.chunk.js",
+    "static/js/505.ec599bed.chunk.js": "/CRM-WebApplication/static/js/505.ec599bed.chunk.js",
+    "static/js/932.674f0a9b.chunk.js": "/CRM-WebApplication/static/js/932.674f0a9b.chunk.js",
+    "static/js/638.f6e1b2c1.chunk.js": "/CRM-WebApplication/static/js/638.f6e1b2c1.chunk.js",
+    "static/js/612.4413d3ca.chunk.js": "/CRM-WebApplication/static/js/612.4413d3ca.chunk.js",
     "static/media/iReX_logo.png": "/CRM-WebApplication/static/media/iReX_logo.bb7640ae2d9d84190796.png",
     "static/media/welcome.jpg": "/CRM-WebApplication/static/media/welcome.b907e6f055a9be3133fe.jpg",
     "static/media/register.jpg": "/CRM-WebApplication/static/media/register.de1789afbcb5698ada48.jpg",
@@ -38,18 +38,18 @@
     "static/media/correct.svg": "/CRM-WebApplication/static/media/correct.b5b7505624f3a38a8b7994508d630e79.svg",
     "static/media/arrow-down.svg": "/CRM-WebApplication/static/media/arrow-down.e3ed7849216bb46de413bbb56a4a7bcf.svg",
     "static/media/rectangle.svg": "/CRM-WebApplication/static/media/rectangle.87ad7b1ba8cdb017b1733cd21909939f.svg",
-    "main.b9ff39c7.css.map": "/CRM-WebApplication/static/css/main.b9ff39c7.css.map",
-    "main.fb176cd1.js.map": "/CRM-WebApplication/static/js/main.fb176cd1.js.map",
-    "394.336f7831.chunk.js.map": "/CRM-WebApplication/static/js/394.336f7831.chunk.js.map",
-    "992.af0a1c83.chunk.js.map": "/CRM-WebApplication/static/js/992.af0a1c83.chunk.js.map",
-    "524.3db5a56a.chunk.js.map": "/CRM-WebApplication/static/js/524.3db5a56a.chunk.js.map",
-    "769.bb96bd5b.chunk.js.map": "/CRM-WebApplication/static/js/769.bb96bd5b.chunk.js.map",
-    "152.485ec078.chunk.js.map": "/CRM-WebApplication/static/js/152.485ec078.chunk.js.map",
-    "314.58bda4a7.chunk.js.map": "/CRM-WebApplication/static/js/314.58bda4a7.chunk.js.map",
-    "571.f043dc71.chunk.js.map": "/CRM-WebApplication/static/js/571.f043dc71.chunk.js.map"
+    "main.e94e3e29.css.map": "/CRM-WebApplication/static/css/main.e94e3e29.css.map",
+    "main.435033ee.js.map": "/CRM-WebApplication/static/js/main.435033ee.js.map",
+    "837.456168ab.chunk.js.map": "/CRM-WebApplication/static/js/837.456168ab.chunk.js.map",
+    "812.07d2e822.chunk.js.map": "/CRM-WebApplication/static/js/812.07d2e822.chunk.js.map",
+    "508.7dae4d48.chunk.js.map": "/CRM-WebApplication/static/js/508.7dae4d48.chunk.js.map",
+    "505.ec599bed.chunk.js.map": "/CRM-WebApplication/static/js/505.ec599bed.chunk.js.map",
+    "932.674f0a9b.chunk.js.map": "/CRM-WebApplication/static/js/932.674f0a9b.chunk.js.map",
+    "638.f6e1b2c1.chunk.js.map": "/CRM-WebApplication/static/js/638.f6e1b2c1.chunk.js.map",
+    "612.4413d3ca.chunk.js.map": "/CRM-WebApplication/static/js/612.4413d3ca.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b9ff39c7.css",
-    "static/js/main.fb176cd1.js"
+    "static/css/main.e94e3e29.css",
+    "static/js/main.435033ee.js"
   ]
 }
