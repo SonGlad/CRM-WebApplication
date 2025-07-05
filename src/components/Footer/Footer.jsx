@@ -34,7 +34,8 @@ export const Footer = () => {
                 <div className="footer-link-cont">
                     <ul className="footer-social-list">
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="https://github.com/SonGlad"
+                            <NavLink className="footer-social-link" to="#"
+                            // https://github.com/SonGlad
                                 aria-label="Github link"
                                 target="_blank"
                                 rel="noreferrer noopener">
@@ -42,7 +43,8 @@ export const Footer = () => {
                             </NavLink>
                         </li>
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="https://www.facebook.com/profile.php?id=100024930558745"
+                            <NavLink className="footer-social-link" to="#"
+                            // https://www.facebook.com/profile.php?id=100024930558745
                                 aria-label="Facebook link"
                                 target="_blank"
                                 rel="noreferrer noopener">
@@ -50,7 +52,8 @@ export const Footer = () => {
                             </NavLink>
                         </li>
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="https://www.linkedin.com/in/oleg-koshevy/"
+                            <NavLink className="footer-social-link" to="#"
+                            // https://www.linkedin.com/in/oleg-koshevy/
                                 aria-label="Linkedin link"
                                 target="_blank"
                                 rel="noreferrer noopener">
@@ -58,7 +61,8 @@ export const Footer = () => {
                             </NavLink>
                         </li>
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="https://t.me/SonGlad"
+                            <NavLink className="footer-social-link" to="#"
+                            // https://t.me/SonGlad
                                 aria-label="Telegram link"
                                 target="_blank"
                                 rel="noreferrer noopener">
@@ -68,7 +72,8 @@ export const Footer = () => {
                     </ul>
                     <ul className="footer-social-list">
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="https://github.com/gritchin-artur"
+                            <NavLink className="footer-social-link" to="#"
+                            // https://github.com/gritchin-artur
                                 aria-label="Github link"
                                 target="_blank"
                                 rel="noreferrer noopener">
@@ -76,7 +81,7 @@ export const Footer = () => {
                             </NavLink>
                         </li>
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="/"
+                            <NavLink className="footer-social-link" to="#"
                                 aria-label="Facebook link"
                                 target="_blank"
                                 rel="noreferrer noopener">
@@ -84,7 +89,8 @@ export const Footer = () => {
                             </NavLink>
                         </li>
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="https://www.linkedin.com/in/artur-hrytchyn/"
+                            <NavLink className="footer-social-link" to="#"
+                            // https://www.linkedin.com/in/artur-hrytchyn/
                                 aria-label="Linkedin link"
                                 target="_blank"
                                 rel="noreferrer noopener">
@@ -92,7 +98,8 @@ export const Footer = () => {
                             </NavLink>
                         </li>
                         <li className="footer-social-item">
-                            <NavLink className="footer-social-link" to="https://t.me/grit4inartur"
+                            <NavLink className="footer-social-link" to="#"
+                            // https://t.me/grit4inartur
                                 aria-label="Telegram link"
                                 target="_blank"
                                 rel="noreferrer noopener">
