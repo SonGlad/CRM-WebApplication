@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/CRM-WebApplication/static/css/main.e94e3e29.css",
-    "main.js": "/CRM-WebApplication/static/js/main.435033ee.js",
+    "main.js": "/CRM-WebApplication/static/js/main.1719e9a8.js",
     "static/js/837.456168ab.chunk.js": "/CRM-WebApplication/static/js/837.456168ab.chunk.js",
     "static/js/812.07d2e822.chunk.js": "/CRM-WebApplication/static/js/812.07d2e822.chunk.js",
     "static/js/508.7dae4d48.chunk.js": "/CRM-WebApplication/static/js/508.7dae4d48.chunk.js",
@@ -39,7 +39,7 @@
     "static/media/arrow-down.svg": "/CRM-WebApplication/static/media/arrow-down.e3ed7849216bb46de413bbb56a4a7bcf.svg",
     "static/media/rectangle.svg": "/CRM-WebApplication/static/media/rectangle.87ad7b1ba8cdb017b1733cd21909939f.svg",
     "main.e94e3e29.css.map": "/CRM-WebApplication/static/css/main.e94e3e29.css.map",
-    "main.435033ee.js.map": "/CRM-WebApplication/static/js/main.435033ee.js.map",
+    "main.1719e9a8.js.map": "/CRM-WebApplication/static/js/main.1719e9a8.js.map",
     "837.456168ab.chunk.js.map": "/CRM-WebApplication/static/js/837.456168ab.chunk.js.map",
     "812.07d2e822.chunk.js.map": "/CRM-WebApplication/static/js/812.07d2e822.chunk.js.map",
     "508.7dae4d48.chunk.js.map": "/CRM-WebApplication/static/js/508.7dae4d48.chunk.js.map",
@@ -50,6 +50,6 @@
   },
   "entrypoints": [
     "static/css/main.e94e3e29.css",
-    "static/js/main.435033ee.js"
+    "static/js/main.1719e9a8.js"
   ]
 }
